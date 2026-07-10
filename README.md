@@ -7,6 +7,21 @@ factorial vignettes.
 
 **No model training.** Everything is forward-pass inference + lightweight linear probes.
 
+## Repo sync (node ↔ GitHub ↔ local)
+GitHub is the single source of truth: `https://github.com/MisssAimeee/moral-judge-agents-tom-llm` (branch `main`).
+There are **two working copies** that must stay in sync through GitHub:
+- **Cluster node** (`node3402:/home/aimeeyu/tom_project`) — where GPU/API runs execute (Slurm).
+- **Local Mac** (`/Users/Aimee/Desktop/Summer/ToM Project`) — where scripts are authored/edited.
+
+**Golden rules (both copies):**
+1. `git pull origin main` **before** you start editing or running.
+2. `git add -A && git commit && git push origin main` **after** a unit of work.
+3. **Never** `git push --force` or `git reset --hard` against `origin` — it deletes the other copy's work. Merge instead (`git merge origin/main`).
+4. Secrets/large files stay local: `.env_agents` (API keys), `.venv/`, and `outputs/` are gitignored — never commit them.
+5. **A GPU/API run can only use scripts that are on `main`.** Author a script locally → push → the node pulls → *then* launch. Don't `sbatch` a script that hasn't landed on the node.
+
+Initial sync (done 2026-07-10): node baseline + GitHub init merged into `main` as `37840c4`.
+
 ## Repo layout
 ```
 code/                     # pipeline (run in numeric order)

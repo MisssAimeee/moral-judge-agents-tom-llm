@@ -1,0 +1,30 @@
+# --- Stimuli (do NOT redistribute Saxelab materials; keep local) ---
+*.pdf
+*.mp3
+*.docx
+my stories/
+dataset/raw_text/
+Koster-Hale_Richardson_stimuli Folder/
+tomloc/
+*.m
+
+# --- Derived data (regenerate with build_dataset.py) ---
+dataset/master/*.csv
+
+# --- Experiment outputs (large / regenerable) ---
+outputs/
+*.npz
+*.png
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# --- Editor / OS ---
+.DS_Store
+.vscode/
+.idea/
+.env_agents

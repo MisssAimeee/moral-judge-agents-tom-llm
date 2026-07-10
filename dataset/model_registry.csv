@@ -1,0 +1,14 @@
+tag,display,provider,backend,model_id,params_B,active_params_B,params_estimated,architecture,context_k,released,access,class,notes
+gemini-2_5-flash,Gemini-2.5-Flash,Google,google,gemini-2.5-flash,32,32,yes,MoE(est),1000,2025-05,closed,instruct,Thinking model; fast tier; param count not disclosed
+gemini-2_5-pro,Gemini-2.5-Pro,Google,google,gemini-2.5-pro,600,600,yes,MoE(est),2000,2025-05,closed,instruct,Thinking model; pro tier; param count not disclosed
+gpt-4o-mini,GPT-4o-mini,OpenAI,openai,gpt-4o-mini,8,8,yes,undisclosed,128,2024-07,closed,instruct,QUOTA EXCEEDED on current key
+gpt-4o,GPT-4o,OpenAI,openai,gpt-4o,200,200,yes,MoE(est),128,2024-05,closed,instruct,QUOTA EXCEEDED on current key
+meta-llama_Meta-Llama-3_1-8B-Instruct-Turbo,Llama-3.1-8B,Meta,together,meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo,8,8,no,dense,128,2024-07,open,instruct,Needs paid Together plan
+meta-llama_Meta-Llama-3_1-70B-Instruct-Turbo,Llama-3.1-70B,Meta,together,meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo,70,70,no,dense,128,2024-07,open,instruct,Needs paid Together plan
+meta-llama_Meta-Llama-3_1-405B-Instruct-Turbo,Llama-3.1-405B,Meta,together,meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo,405,405,no,dense,128,2024-07,open,instruct,Needs paid Together plan
+claude-3-5-haiku-20241022,Claude-3.5-Haiku,Anthropic,anthropic,claude-3-5-haiku-20241022,40,40,yes,undisclosed,200,2024-10,closed,instruct,Deprecated Feb 2026
+claude-3-5-sonnet-20241022,Claude-3.5-Sonnet,Anthropic,anthropic,claude-3-5-sonnet-20241022,175,175,yes,undisclosed,200,2024-10,closed,instruct,Deprecated Feb 2026
+claude-3-opus-20240229,Claude-3-Opus,Anthropic,anthropic,claude-3-opus-20240229,2000,2000,yes,undisclosed,200,2024-02,closed,instruct,Deprecated Feb 2026
+claude-haiku-4-5-20251001,Claude-Haiku-4.5,Anthropic,anthropic,claude-haiku-4-5-20251001,20,20,yes,undisclosed,200,2025-10,closed,instruct,Param count not disclosed; community estimate
+claude-sonnet-4-6,Claude-Sonnet-4.6,Anthropic,anthropic,claude-sonnet-4-6,175,175,yes,undisclosed,1000,2026-01,closed,instruct,Param count not disclosed; community estimate
+claude-opus-4-6,Claude-Opus-4.6,Anthropic,anthropic,claude-opus-4-6,500,500,yes,undisclosed,1000,2026-01,closed,instruct,Param count not disclosed; community estimate

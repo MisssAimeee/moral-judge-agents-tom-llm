@@ -55,6 +55,9 @@ DEFAULT_MODELS = [
     "Qwen/Qwen2.5-3B-Instruct",
     "Qwen/Qwen2.5-7B-Instruct",
     "mistralai/Mistral-7B-Instruct-v0.3",
+    "allenai/OLMo-2-1124-7B-Instruct",   # ungated; EV computed in-run (not pre-cached)
+    # add "meta-llama/Llama-3.1-8B-Instruct" (GATED) once HF_TOKEN with access is set:
+    #   python code/analysis/15_scoring_parity.py --run --models meta-llama/Llama-3.1-8B-Instruct
 ]
 
 
@@ -153,6 +156,25 @@ def verify_scoring_code(beh, tok=None, scale=(1, 7)):
                   "would be truncated by the EV path. Confirmed at --run with the tokenizer.")
 
 
+def compute_ev(beh, model_name, rows, template):
+    """Load the model with logprob scoring and compute per-item EV (for models whose
+    EV isn't pre-cached in outputs/behavior/). Returns {story_id:(condition,norm)}."""
+    backend = beh.HFBackend(model_name, scoring="logprob")
+    story_map, saved = {}, []
+    for row in rows:
+        prompt, s_min, s_max = beh.build_prompt(row["text"], template, row["source"])
+        _, norm = backend.rate(prompt, s_min, s_max, 1, 0.0)
+        story_map[row["story_id"]] = (row["condition"], float(norm))
+        saved.append(dict(story_id=row["story_id"], condition=row["condition"],
+                          source=row["source"], ev_norm=round(float(norm), 4)))
+    try:
+        import torch, gc
+        del backend; gc.collect(); torch.cuda.empty_cache()
+    except Exception:
+        pass
+    return story_map, saved
+
+
 def run_sampling(beh, model_name, rows, template, n_samples, temperature):
     """Load model on GPU, sample per item, return {story_id:(condition,norm)}."""
     backend = beh.HFBackend(model_name, scoring="sampling")
@@ -206,10 +228,31 @@ def main():
     for model_name in a.models:
         safe = beh.model_safe(model_name)
         ev_map = cached_ev_by_story(model_name, a.template, ev_index)
+        ev_source = "cached"
         if ev_map is None:
-            print(f"  [skip] {model_name}: no cached logprob item_means for "
-                  f"template '{a.template}' (expected outputs/behavior/item_means_{safe}.csv)")
-            continue
+            # EV not pre-cached. In --run we compute it on the GPU (cached to disk for
+            # reuse); in dry-run we can't, so skip.
+            ev_cache = os.path.join(SAMPLED_DIR, f"ev_{safe}.csv")
+            if os.path.exists(ev_cache) and sum(1 for _ in open(ev_cache)) - 1 >= len(rows):
+                ev_map = {r["story_id"]: (r["condition"], float(r["ev_norm"]))
+                          for r in csv.DictReader(open(ev_cache))}
+                ev_source = "computed(cached)"
+                print(f"  [cached-EV] {model_name}: reusing {os.path.basename(ev_cache)}")
+            elif a.run:
+                print(f"\n{'='*56}\n {model_name}  (computing EV; not pre-cached)\n{'='*56}")
+                try:
+                    ev_map, ev_saved = compute_ev(beh, model_name, rows, a.template)
+                except Exception as e:
+                    print(f"  [skip] {model_name}: EV compute failed "
+                          f"({type(e).__name__}: {str(e)[:120]})")
+                    continue
+                with open(ev_cache, "w", newline="") as f:
+                    w = csv.DictWriter(f, fieldnames=["story_id", "condition", "source", "ev_norm"])
+                    w.writeheader(); w.writerows(ev_saved)
+                ev_source = "computed"
+            else:
+                print(f"  [dry] {model_name}: no cached EV; pass --run to compute it on a GPU.")
+                continue
 
         sampled_path = os.path.join(SAMPLED_DIR, f"sampled_{safe}.csv")
         have_sampled = (os.path.exists(sampled_path)
@@ -251,7 +294,7 @@ def main():
                             ba_loa_lo=round(lo, 4), ba_loa_hi=round(hi, 4),
                             ev_contrast=round(ev_c, 4), sampled_contrast=round(sm_c, 4),
                             contrast_diff=round(sm_c - ev_c, 4),
-                            passes_r_gt_0p95=passed))
+                            passes_r_gt_0p95=passed, ev_source=ev_source))
         scatter.append((tc.pretty(safe), ev, sm))
         print(f"    r={r:.4f}  BA diff={md:+.4f} [{lo:+.3f},{hi:+.3f}]  "
               f"EV contrast={ev_c:+.3f}  sampled={sm_c:+.3f}  "
@@ -261,7 +304,7 @@ def main():
         out_csv = os.path.join(OUT_DIR, "scoring_parity.csv")
         cols = ["model", "n_items", "pearson_r", "ba_mean_diff", "ba_loa_lo",
                 "ba_loa_hi", "ev_contrast", "sampled_contrast", "contrast_diff",
-                "passes_r_gt_0p95"]
+                "passes_r_gt_0p95", "ev_source"]
         with open(out_csv, "w", newline="") as f:
             w = csv.DictWriter(f, fieldnames=cols)
             w.writeheader(); w.writerows(results)

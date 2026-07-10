@@ -38,7 +38,8 @@ if [[ -n "$SCRIPT" && ! -f "$PROJ/$SCRIPT" ]]; then
 fi
 
 PART="${PART:-mit_normal_gpu}"      # GPU partition (see: sinfo -h -o '%R %G' | grep gpu)
-TIME="${TIME:-08:00:00}"
+# mit_normal_gpu MaxTime = 6h. For longer jobs use PART=mit_preemptable TIME=1-00:00:00.
+TIME="${TIME:-06:00:00}"
 MEM="${MEM:-64G}"
 CPUS="${CPUS:-8}"
 GPUS="${GPUS:-1}"

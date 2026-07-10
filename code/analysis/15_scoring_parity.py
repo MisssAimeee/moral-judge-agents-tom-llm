@@ -44,12 +44,17 @@ OUT_DIR = os.path.join(tc.ROOT, "outputs", "analysis")
 SAMPLED_DIR = os.path.join(OUT_DIR, "scoring_parity")
 
 # Open-weight models already scored by logprob-EV (see outputs/behavior/).
+# INSTRUCT models: parity must be tested on models that actually ANSWER the rating
+# question, because the closed APIs we compare against are all instruct/chat models.
+# (Base models don't reliably follow the format, so EV vs sampled diverge at the item
+# level even though both give a ~0 contrast -- see sampled_Qwen_Qwen2_5-*B base files.)
+# All UNGATED so the sampling pass needs no HF access token.
 DEFAULT_MODELS = [
-    "Qwen/Qwen2.5-0.5B",
-    "Qwen/Qwen2.5-1.5B",
-    "Qwen/Qwen2.5-3B",
-    "Qwen/Qwen2.5-7B",
-    "meta-llama/Llama-3.1-8B",
+    "Qwen/Qwen2.5-0.5B-Instruct",
+    "Qwen/Qwen2.5-1.5B-Instruct",
+    "Qwen/Qwen2.5-3B-Instruct",
+    "Qwen/Qwen2.5-7B-Instruct",
+    "mistralai/Mistral-7B-Instruct-v0.3",
 ]
 
 
@@ -207,19 +212,27 @@ def main():
             continue
 
         sampled_path = os.path.join(SAMPLED_DIR, f"sampled_{safe}.csv")
-        if a.run:
+        have_sampled = (os.path.exists(sampled_path)
+                        and sum(1 for _ in open(sampled_path)) - 1 >= len(rows))
+        if have_sampled:
+            sm_map = {}
+            for r in csv.DictReader(open(sampled_path)):
+                sm_map[r["story_id"]] = (r["condition"], float(r["sampled_norm"]))
+            print(f"  [cached] {model_name}: reusing {os.path.basename(sampled_path)}")
+        elif a.run:
             print(f"\n{'='*56}\n {model_name}\n{'='*56}")
-            sm_map, saved = run_sampling(beh, model_name, rows, a.template,
-                                         a.n_samples, a.temperature)
+            try:
+                sm_map, saved = run_sampling(beh, model_name, rows, a.template,
+                                             a.n_samples, a.temperature)
+            except Exception as e:
+                # gated repo / OOM / download error: skip this model, keep the rest
+                print(f"  [skip] {model_name}: sampling failed "
+                      f"({type(e).__name__}: {str(e)[:120]})")
+                continue
             with open(sampled_path, "w", newline="") as f:
                 w = csv.DictWriter(f, fieldnames=["story_id", "condition", "source", "sampled_norm"])
                 w.writeheader(); w.writerows(saved)
             print(f"  -> {os.path.relpath(sampled_path, tc.ROOT)}")
-        elif os.path.exists(sampled_path):
-            sm_map = {}
-            for r in csv.DictReader(open(sampled_path)):
-                sm_map[r["story_id"]] = (r["condition"], float(r["sampled_norm"]))
-            print(f"  [dry] {model_name}: using existing {os.path.basename(sampled_path)}")
         else:
             print(f"  [dry] {model_name}: EV cached OK; sampled file missing "
                   "-> pass --run on a GPU to generate it.")

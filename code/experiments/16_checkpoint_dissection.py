@@ -132,6 +132,8 @@ def main():
     ap.add_argument("--templates", nargs="+", default=["human_verbatim"])
     ap.add_argument("--run", action="store_true",
                     help="download + run checkpoints (default: dry-run plan only)")
+    ap.add_argument("--force", action="store_true",
+                    help="rescore checkpoints even if already present in the output CSV")
     a = ap.parse_args()
 
     families = {k: v for k, v in FAMILIES.items() if k in a.models}
@@ -147,9 +149,30 @@ def main():
     beh = _load("03_behavioral.py", "behavioral")
     reg11 = _load("11_interaction_regression.py", "interaction_reg")
 
-    results = []
+    out_csv = os.path.join(OUT_DIR, "checkpoint_dissection.csv")
+    done = {}
+    if os.path.exists(out_csv) and not a.force:
+        for r in csv.DictReader(open(out_csv)):
+            rec = dict(r)
+            for k in ("stage_idx",):
+                rec[k] = int(r[k])
+            for k in ("n_items",):
+                rec[k] = int(r[k])
+            for k in ("contrast", "b_intent", "b_outcome", "b_interaction", "rating_std"):
+                rec[k] = float(r[k]) if r[k] != "" else float("nan")
+            rec["degenerate"] = (r["degenerate"] == "True")
+            done[(r["family"], r["stage"])] = rec
+        if done:
+            print(f"[resume] {len(done)} checkpoint(s) already scored in {out_csv} "
+                  "-> will skip and reuse (pass --force to rescore everything).")
+
+    results = list(done.values())
     for fam, spec in families.items():
         for i, (stage, mid) in enumerate(spec["stages"]):
+            if (fam, stage) in done:
+                print(f"[skip] {fam} / {stage}: already scored "
+                      f"(contrast={done[(fam, stage)]['contrast']:+.4f})")
+                continue
             print(f"\n{'='*60}\n {fam} / {stage} : {mid}\n{'='*60}")
             try:
                 met = score_checkpoint(beh, reg11, mid, rows, a.templates)
@@ -169,7 +192,6 @@ def main():
 
     cols = ["family", "stage", "stage_idx", "model_id", "n_items", "contrast",
             "b_intent", "b_outcome", "b_interaction", "rating_std", "degenerate"]
-    out_csv = os.path.join(OUT_DIR, "checkpoint_dissection.csv")
     with open(out_csv, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=cols)
         w.writeheader()

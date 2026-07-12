@@ -1,0 +1,7 @@
+model,n_items,pearson_r,ba_mean_diff,ba_loa_lo,ba_loa_hi,ev_contrast,sampled_contrast,contrast_diff,passes_r_gt_0p95,ev_source
+Qwen2.5-0-5B-Instruct,298,0.1124,-0.1106,-0.3749,0.1538,-0.1014,-0.0586,0.0428,False,cached
+Qwen2.5-1-5B-Instruct,298,-0.2097,-0.0916,-0.6726,0.4894,-0.1837,-0.0175,0.1662,False,cached
+Qwen2.5-3B-Instruct,298,0.3413,-0.3171,-0.8589,0.2247,-0.1487,-0.164,-0.0153,False,cached
+Qwen2.5-7B-Instruct,298,0.9591,-0.0216,-0.2164,0.1731,-0.2755,-0.2977,-0.0222,True,cached
+Mistral-7B-Instruct-v0-3,298,nan,0.0269,-0.7999,0.8536,0.0,-0.3472,-0.3472,False,cached
+OLMo-2-1124-7B-Instruct,298,0.9742,0.0,-0.124,0.1241,-0.2728,-0.2782,-0.0054,True,computed

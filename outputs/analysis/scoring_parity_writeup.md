@@ -22,21 +22,36 @@ Source: `outputs/analysis/scoring_parity.csv` (Slurm job 17627327; code commits
 | Qwen2.5-3B-Instruct | 0.34 | −0.15 | −0.16 | fail |
 | **Qwen2.5-7B-Instruct** | **0.96** | −0.28 | −0.30 | **PASS** |
 | Mistral-7B-Instruct-v0.3 | nan | 0.00 | −0.35 | degenerate |
+| **OLMo-2-7B-Instruct** | **0.97** | −0.27 | −0.28 | **PASS** |
 
-## Interpretation (nuanced)
+Source: `outputs/analysis/scoring_parity.csv` (`ev_source=computed` for OLMo — EV was
+computed in-run, not from a cached logprob pass).
 
-1. **The flagship model passes cleanly.** Qwen2.5-7B-Instruct shows tight item-level
-   agreement (`r = 0.96`) *and* matching contrasts (−0.28 EV vs −0.30 sampled, Bland–Altman
-   mean diff −0.02). For a capable instruct model the two scoring methods are effectively
-   interchangeable — which is the case that matters, since the cross-model comparison pits
-   cloud instruct models (sampling) against local instruct models (EV).
+## Interpretation (nuanced — read this carefully before citing)
 
-2. **Agreement scales with capability.** The smaller Qwen instruct models (0.5–3B) have
-   weak/negative *item-level* `r` even though their aggregate contrasts are in the same
-   ballpark. At small scale the per-item rating is noisier and less consistent between a
-   one-shot EV and a 30-sample mean, so item-level correlation is weak while the aggregate
-   statistic is more stable. Read this as "scoring-method agreement is itself a function of
-   model competence," not as a failure of the EV method.
+**What is validated:** the intent/outcome **contrast statistic** (attempted − accidental)
+agrees closely across scoring methods for capable instruct models, and this per-item
+agreement is not a fluke of one model family — it holds for **two independent 7B-class
+families** (Qwen2.5, Alibaba; OLMo-2, AI2). **What is *not* validated:** a universal claim
+that "EV and sampling always agree." They agree specifically **at 7B+ scale, in
+instruction-tuned chat models** — smaller and base models do not clear the bar (see below).
+Keep the claim scoped to that regime; don't generalize past the data.
+
+1. **Two independent families pass cleanly, not just one.** Qwen2.5-7B-Instruct
+   (`r = 0.96`, EV −0.28 vs sampled −0.30) and OLMo-2-7B-Instruct (`r = 0.97`, EV −0.27 vs
+   sampled −0.28, Bland–Altman mean diff = 0.00) both clear `r > 0.95` with near-identical
+   aggregate contrasts. Two unrelated training pipelines converging on the same result is a
+   meaningfully stronger basis than one model alone — it supports "EV and sampling are
+   interchangeable **for the aggregate contrast** in instruction-following models," which is
+   the specific comparison the cross-model (cloud-vs-local) analysis actually needs.
+
+2. **Agreement scales with capability, it isn't binary.** The smaller Qwen instruct models
+   (0.5–3B) have weak/negative *item-level* `r` even though their aggregate contrasts land in
+   the same ballpark as the 7B models. At small scale the per-item rating is noisier and less
+   consistent between a one-shot EV and a 30-sample mean, so item-level correlation is weak
+   while the aggregate statistic is comparatively stable. Read this as "scoring-method
+   agreement is itself a function of model competence," not as a failure of the EV method —
+   and not as license to claim parity holds at all scales.
 
 3. **Mistral is degenerate, not disagreeing.** `r = nan` because its EV contrast is exactly
    0.000 — Mistral returns near-constant ratings (zero variance ⇒ Pearson undefined). This
@@ -51,15 +66,22 @@ Source: `outputs/analysis/scoring_parity.csv` (Slurm job 17627327; code commits
 
 ## Bottom line
 
-**Partial but encouraging validation.** The most capable open instruct model tested passes
-the `r > 0.95` bar with matching contrasts, supporting the defensibility of comparing
-sampling-scored cloud models against EV-scored local models. Weaker models and the
-degenerate Mistral do not clear the bar, which is informative about *where* the two methods
-converge rather than a refutation of the method.
+**Validated, with a clearly scoped claim.** Two 7B-class instruct models from independent
+families (Qwen2.5, OLMo-2) pass the `r > 0.95` bar with matching aggregate contrasts
+(Bland–Altman mean diff ≈ 0). The defensible statement is: *for capable instruction-tuned
+models, EV and sampling are interchangeable for the aggregate intent/outcome contrast* — not
+a blanket claim that the two methods always agree. Small models, base models, and
+degenerate models (Mistral) do not clear the bar and should be reported as the boundary of
+where the equivalence holds, not swept under "capability scaling" as a single monotonic
+story.
 
 ## Next
-- Extend to **OLMo-2-7B-Instruct** (EV computed in-run) and **Llama-3.1-8B-Instruct**
-  (needs an HF token with gated access) to test whether the 7–8B pass generalizes across
-  families. Command: `python code/analysis/15_scoring_parity.py --run`.
+- ~~Extend to OLMo-2-7B-Instruct~~ — done, PASS (`r = 0.97`).
+- Extend to **Llama-3.1-8B-Instruct** (needs Llama gate access approved on the HF account)
+  as a third independent family, and — more importantly — because the same
+  `meta-llama/Llama-3.1-8B` base checkpoint is the missing 11th checkpoint blocking the
+  Tülu-3-8B base→SFT step in the checkpoint-dissection analysis (see
+  `outputs/experiments/checkpoint_dissection_writeup.md`). Command:
+  `python code/analysis/15_scoring_parity.py --run`.
 - Optionally report parity at the **scenario-contrast** level (correlate per-scenario
   contrasts EV vs sampled) as a second, aggregate-level agreement check.

@@ -92,12 +92,65 @@ metadata). If official gate access clears later, this checkpoint can be re-score
 `meta-llama/Llama-3.1-8B` directly as a sanity check via
 `python code/experiments/16_checkpoint_dissection.py --models Tulu-3-8B --force`.
 
+## Extension to all open families (mini-dissection, `18_mini_dissection.py`)
+
+**Honest resolution limit.** Only **OLMo-2, Tülu-3 and Zephyr** publish the intermediate
+pipeline checkpoints (base → SFT → DPO → …) needed to localize *where* the shift happens.
+**Qwen, Gemma, Mistral and Llama release only `base` and `instruct`** — no SFT/DPO
+checkpoints exist on the Hub, so for those families we can only measure the **2-point
+base→instruct** delta, not the per-stage trajectory. We do **not** fabricate intermediate
+checkpoints. The combined figure (`mini_dissection.png`) draws the three full pipelines as
+solid multi-stage lines and the other families as dashed base→instruct segments (middle
+stages explicitly marked unresolved). All contrasts here use the single `human_verbatim`
+template with logprob-EV, identical to the full-pipeline method above, with a paired
+scenario bootstrap CI on each delta (`mini_dissection.csv`).
+
+**Are the 2-point deltas consistent with the SFT-driven shift?** Mostly yes — with one
+informative exception:
+
+| Family | base→instruct Δcontrast | 95% CI | Δb_outcome | consistent? |
+|---|---|---|---|---|
+| Qwen2.5-0.5B | −0.103 | [−0.123, −0.084] | +0.135 | yes |
+| Qwen2.5-1.5B | −0.172 | [−0.212, −0.132] | +0.375 | yes |
+| Qwen2.5-3B | −0.111 | [−0.173, −0.052] | +0.338 | yes |
+| Qwen2.5-7B | −0.400 | [−0.465, −0.336] | +0.550 | yes |
+| Qwen2.5-14B | −0.561 | [−0.636, −0.483] | +0.765 | yes |
+| Gemma-2-9B | −0.251 | [−0.312, −0.191] | +0.485 | yes |
+| Mistral-7B-v0.3 | 0.000 | [0.000, 0.000] | 0.000 | degenerate (excluded) |
+| **Llama-3.1-8B** | **+0.126** | **[+0.079, +0.178]** | **−0.003** | **NO (exception)** |
+
+1. **Sign consistency (6/7 non-degenerate families).** Every Qwen size and Gemma-2-9B shift
+   in the **same negative direction** as the full pipelines' base→instruct endpoints
+   (OLMo-2 −0.30, Tülu-3 −0.27), and in every case the shift is driven by `b_outcome` rising
+   far more than `b_intent` — the identical mechanistic signature seen stage-by-stage in the
+   full pipelines. So the SFT-onward outcome-bias shift is **not an artifact of the three
+   families that happen to publish checkpoints**; it reproduces across Qwen and Gemma too.
+2. **Rough magnitude.** The instruct-endpoint deltas span roughly −0.10 to −0.56, bracketing
+   the full-pipeline endpoints (−0.27 to −0.30). For Qwen the magnitude **scales with model
+   size** (0.5B −0.10 → 14B −0.56), consistent with the scoring-parity finding that larger
+   instruct models express the effect more strongly.
+3. **The Llama-3.1-8B exception is real and worth reporting.** Llama-3.1-8B-Instruct is the
+   only non-degenerate family that moves the *other* way (Δ = +0.126, toward intent) with
+   `b_outcome` essentially flat. Its base sits near zero (−0.042) like the others, but its
+   instruct checkpoint does **not** acquire the outcome bias. (The instruct weights are the
+   ungated `unsloth/Meta-Llama-3.1-8B-Instruct` re-upload of Meta's official release, so this
+   is a property of the model, not a mirror artifact; the master-ladder 7-template score
+   agrees, placing it at ≈0.) This is a genuine counterexample to "instruction tuning always
+   induces the outcome bias," and it means the effect — while robust across most families —
+   is **recipe-dependent, not universal**. Llama-3.1's post-training (heavy RLHF with a
+   different data mix) evidently does not push toward outcome-weighting the way the Tülu/OLMo/
+   Qwen/Gemma recipes do.
+
 ## Bottom line
 
 **Instruction/alignment tuning robustly and disproportionately increases outcome-weighting
-relative to intent-weighting, in both families tested — and, now that the full pipeline is
-scored, the largest single contributor in both cases is plain SFT (base→SFT), not
-preference optimization.** DPO/RLVR adds a further, comparable-sized contribution later,
-so the effect is distributed across the alignment pipeline rather than caused by one stage
-alone. This is a stronger and more mechanistically precise claim than either the original
-"capability scaling" framing or the earlier (pre-backfill) "family-dependent locus" framing.
+relative to intent-weighting — the largest single contributor is plain SFT (base→SFT), not
+preference optimization, and the shift reproduces across 6 of 7 non-degenerate open families
+(both full pipelines plus the Qwen ladder and Gemma-2-9B), always via `b_outcome` rising more
+than `b_intent`.** DPO/RLVR adds a further, comparable-sized contribution, so the effect is
+distributed across the alignment pipeline rather than caused by one stage alone. Two honest
+caveats keep the claim defensible: (a) only three families publish the intermediate
+checkpoints needed to localize the shift, so the stage-level story rests on OLMo-2 + Tülu-3;
+and (b) **Llama-3.1-8B is a clear exception** whose instruct checkpoint does not acquire the
+bias, showing the effect is a common-but-not-universal, recipe-dependent property of
+instruction tuning rather than an inevitability.

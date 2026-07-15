@@ -27,7 +27,7 @@ Outputs (only with --run):
 Default (no --run): a dry-run that lists the inputs and reports which
 item_means files are present / missing, downloading nothing.
 """
-import os, sys, csv, glob, argparse
+import os, sys, csv, glob, re, argparse
 from collections import defaultdict
 
 CODE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -72,15 +72,20 @@ COLORS = {
 }
 
 
+def _loose(t):
+    """Collapse '.'/'_' to '-' so 2_5<->2.5 and 3_1<->3.1 tag variants match."""
+    return re.sub(r"[._]", "-", t).lower()
+
+
 def resolve_path(tag):
-    """Find item_means_<tag>.csv, tolerating the 2_5 <-> 2.5 naming variants."""
+    """Find item_means_<tag>.csv, tolerating the 2_5<->2.5 / 3_1<->3.1 variants."""
     cand = os.path.join(BEHAVIOR_DIR, f"item_means_{tag}.csv")
     if os.path.exists(cand):
         return cand
-    want = tc.norm_key(tag)
+    want = _loose(tag)
     for f in glob.glob(os.path.join(BEHAVIOR_DIR, "item_means_*.csv")):
         t = os.path.basename(f)[len("item_means_"):-4]
-        if tc.norm_key(t) == want:
+        if _loose(t) == want:
             return f
     return None
 

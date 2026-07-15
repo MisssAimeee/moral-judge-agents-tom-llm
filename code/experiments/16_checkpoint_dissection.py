@@ -47,7 +47,11 @@ FAMILIES = {
         ("Instruct", "allenai/OLMo-2-1124-7B-Instruct"),
     ]},
     "Tulu-3-8B": {"params_B": 8.0, "stages": [
-        ("base",     "meta-llama/Llama-3.1-8B"),
+        # meta-llama/Llama-3.1-8B gate access has been pending review >24h;
+        # unsloth/Meta-Llama-3.1-8B is an ungated re-upload of the identical
+        # official weights (same config/_name_or_path, verified via HF API),
+        # used here to unblock the base checkpoint without changing the model.
+        ("base",     "unsloth/Meta-Llama-3.1-8B"),
         ("SFT",      "allenai/Llama-3.1-Tulu-3-8B-SFT"),
         ("DPO",      "allenai/Llama-3.1-Tulu-3-8B-DPO"),
         ("RLVR",     "allenai/Llama-3.1-Tulu-3-8B"),

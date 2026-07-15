@@ -12,3 +12,11 @@ claude-3-opus-20240229,Claude-3-Opus,Anthropic,anthropic,claude-3-opus-20240229,
 claude-haiku-4-5-20251001,Claude-Haiku-4.5,Anthropic,anthropic,claude-haiku-4-5-20251001,20,20,yes,undisclosed,200,2025-10,closed,instruct,Param count not disclosed; community estimate
 claude-sonnet-4-6,Claude-Sonnet-4.6,Anthropic,anthropic,claude-sonnet-4-6,175,175,yes,undisclosed,1000,2026-01,closed,instruct,Param count not disclosed; community estimate
 claude-opus-4-6,Claude-Opus-4.6,Anthropic,anthropic,claude-opus-4-6,500,500,yes,undisclosed,1000,2026-01,closed,instruct,Param count not disclosed; community estimate
+allenai_OLMo-2-1124-7B,OLMo-2-7B-base,AllenAI,hf,allenai/OLMo-2-1124-7B,7.3,7.3,no,dense,4,2024-11,open,base,Checkpoint-dissection base stage
+allenai_OLMo-2-1124-7B-Instruct,OLMo-2-7B-Instruct,AllenAI,hf,allenai/OLMo-2-1124-7B-Instruct,7.3,7.3,no,dense,4,2024-11,open,instruct,Checkpoint-dissection final stage
+allenai_Llama-3_1-Tulu-3-8B,Tulu-3-8B,AllenAI,hf,allenai/Llama-3.1-Tulu-3-8B,8,8,no,dense,128,2024-11,open,instruct,Tulu-3 final RLVR stage (Llama-3.1-8B base)
+HuggingFaceH4_zephyr-7b-beta,Zephyr-7B-beta,HuggingFaceH4,hf,HuggingFaceH4/zephyr-7b-beta,7.2,7.2,no,dense,32,2023-10,open,instruct,Zephyr DPO final stage (Mistral-7B base); degenerate on this task
+unsloth_gemma-2-9b,Gemma-2-9B-base,Google,hf,unsloth/gemma-2-9b,9,9,no,dense,8,2024-06,open,base,Ungated re-upload of google/gemma-2-9b
+unsloth_gemma-2-9b-it,Gemma-2-9B-it,Google,hf,unsloth/gemma-2-9b-it,9,9,no,dense,8,2024-06,open,instruct,Ungated re-upload of google/gemma-2-9b-it
+meta-llama_Llama-3_1-8B,Llama-3.1-8B-base,Meta,hf,meta-llama/Llama-3.1-8B,8,8,no,dense,128,2024-07,open,base,Llama-3.1-8B base
+unsloth_Meta-Llama-3_1-8B-Instruct,Llama-3.1-8B-Instruct,Meta,hf,unsloth/Meta-Llama-3.1-8B-Instruct,8,8,no,dense,128,2024-07,open,instruct,Ungated re-upload of meta-llama/Llama-3.1-8B-Instruct

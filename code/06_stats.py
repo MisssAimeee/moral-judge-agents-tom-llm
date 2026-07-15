@@ -202,6 +202,13 @@ def main():
         cells = load_model(f)
         pooled = pooled_cells(cells)
 
+        # degeneracy QC: near-constant ratings (zero variance) -> no usable signal.
+        # Same 0.02 threshold as the checkpoint-dissection entropy filter, so a
+        # degenerate model's 0.000 contrast is never read as a real null.
+        all_vals = [v for conds in pooled.values() for v in conds.values()]
+        rating_std = float(np.std(all_vals)) if all_vals else 0.0
+        degenerate = rating_std < 0.02
+
         # pooled contrast + CI
         sdiff = scen_paired_diff(pooled)
         scen_diff_pooled[tag] = sdiff
@@ -240,7 +247,7 @@ def main():
                             contrast=c_pt, lo=c_lo, hi=c_hi, sig_vs0=sig0,
                             ir=ir_pt, ir_lo=ir_lo, ir_hi=ir_hi, b_int=b_int, b_out=b_out,
                             t_sd=t_sd, t_range=t_range, sign_flip=sign_flip,
-                            vs_adult=vs_adult,
+                            vs_adult=vs_adult, rating_std=rating_std, degenerate=degenerate,
                             nearest=nearest_group(c_pt, human_ladder)))
 
     summary.sort(key=lambda d: (-d["contrast"] if not math.isnan(d["contrast"]) else 1e9))
@@ -323,13 +330,14 @@ def main():
                     "sig_vs_0", "intent_reliance", "ir_lo", "ir_hi", "b_intent",
                     "b_outcome", "contrast_sd_across_templates", "contrast_range",
                     "sign_flips_across_prompts", "nearest_human_group",
-                    "contrast_minus_adult"])
+                    "contrast_minus_adult", "rating_std", "degenerate"])
         for d in summary:
             w.writerow([d["tag"], d["size"], d["mtype"], d["provider"], r4(d["contrast"]), r4(d["lo"]),
                         r4(d["hi"]), d["sig_vs0"], r4(d["ir"]), r4(d["ir_lo"]),
                         r4(d["ir_hi"]), r4(d["b_int"]), r4(d["b_out"]), r4(d["t_sd"]),
                         r4(d["t_range"]), d["sign_flip"], d["nearest"],
-                        r4(d["vs_adult"]) if d["vs_adult"] is not None else "NA"])
+                        r4(d["vs_adult"]) if d["vs_adult"] is not None else "NA",
+                        r4(d["rating_std"]), d["degenerate"]])
 
     with open(os.path.join(a.out, "prompt_invariance_contrast.csv"), "w", newline="") as g:
         w = csv.writer(g)

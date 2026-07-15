@@ -96,6 +96,7 @@ def load(path, study):
             "sig": r.get("sig_vs_0", ""),
             "nearest": r.get("nearest_human_group", ""),
             "family": family_of(r["model"]),
+            "degenerate": str(r.get("degenerate", "")).strip().lower() == "true",
         })
     return rows
 
@@ -117,14 +118,15 @@ def main():
     with open(OUT_CSV, "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["model", "family", "study", "type", "contrast",
-                    "ci_lo", "ci_hi", "sig_vs_0", "nearest_human_group"])
+                    "ci_lo", "ci_hi", "sig_vs_0", "nearest_human_group", "degenerate"])
         for g, c in HUMAN.items():
             w.writerow([f"HUMAN {g}", "human", "reference", "human",
-                        f"{c:+.3f}", "", "", "", g])
+                        f"{c:+.3f}", "", "", "", g, "False"])
         for r in rows:
             w.writerow([r["model"], r["family"], r["study"], r["type"],
                         f"{r['contrast']:+.3f}", f"{r['ci_lo']:+.3f}",
-                        f"{r['ci_hi']:+.3f}", r["sig"], r["nearest"]])
+                        f"{r['ci_hi']:+.3f}", r["sig"], r["nearest"],
+                        "True" if r["degenerate"] else "False"])
     print("wrote", os.path.relpath(OUT_CSV, ROOT), f"({len(rows)} models)")
 
     # ---- master figure ----
@@ -145,13 +147,21 @@ def main():
         lo = max(0, r["contrast"] - r["ci_lo"])
         hi = max(0, r["ci_hi"] - r["contrast"])
         marker = "o" if r["study"] == "cloud API" else "s"
-        ax.errorbar(r["contrast"], i, xerr=[[lo], [hi]], fmt=marker,
-                    color=col, ecolor=col, capsize=2.5, ms=7,
-                    elinewidth=1.6, alpha=0.9, zorder=3)
+        if r["degenerate"]:
+            # degenerate (near-constant ratings): hollow grey marker, no fill,
+            # so a QC-failed 0.000 is visibly NOT a real null.
+            ax.errorbar(r["contrast"], i, xerr=[[lo], [hi]], fmt=marker,
+                        mfc="none", mec="#999999", ecolor="#cccccc", capsize=2.5,
+                        ms=7, elinewidth=1.2, alpha=0.9, zorder=3)
+        else:
+            ax.errorbar(r["contrast"], i, xerr=[[lo], [hi]], fmt=marker,
+                        color=col, ecolor=col, capsize=2.5, ms=7,
+                        elinewidth=1.6, alpha=0.9, zorder=3)
 
     ax.set_yticks(range(n))
     ax.set_yticklabels(
         [f"{r['model']}  ({'cloud' if r['study']=='cloud API' else 'local'}/{r['type']})"
+         + ("  [degenerate]" if r["degenerate"] else "")
          for r in rows], fontsize=8.5)
     ax.set_ylim(-1, n + 1.5)
     ax.set_xlabel("intent-vs-outcome contrast   =   blame(attempted) − blame(accidental)\n"
@@ -164,6 +174,9 @@ def main():
     fam_present = list(dict.fromkeys(r["family"] for r in rows))
     handles = [Line2D([0], [0], marker="o", ls="", ms=8, color=FAMILY_COLORS[f], label=f)
                for f in fam_present]
+    if any(r["degenerate"] for r in rows):
+        handles.append(Line2D([0], [0], marker="s", ls="", ms=8, mfc="none",
+                              mec="#999999", label="degenerate (QC-failed)"))
     ax.legend(handles=handles, title="model family", fontsize=8.5,
               title_fontsize=9, loc="lower right", framealpha=0.95, ncol=2)
     ax.grid(axis="x", alpha=0.25)

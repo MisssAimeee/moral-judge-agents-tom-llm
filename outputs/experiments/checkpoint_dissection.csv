@@ -9,3 +9,4 @@ Tulu-3-8B,RLVR,3,allenai/Llama-3.1-Tulu-3-8B,298,-0.3038,0.1689,0.4728,-0.1772,0
 Zephyr-7B,base,0,mistralai/Mistral-7B-v0.1,298,0.0,0.0,0.0,0.0,0.0,True
 Zephyr-7B,SFT,1,alignment-handbook/zephyr-7b-sft-full,298,0.0,0.0,0.0,0.0,0.0,True
 Zephyr-7B,DPO,2,HuggingFaceH4/zephyr-7b-beta,298,0.0,0.0,0.0,0.0,0.0,True
+Tulu-3-8B,base,0,unsloth/Meta-Llama-3.1-8B,298,-0.0358,0.0036,0.0394,-0.0042,0.0404,False

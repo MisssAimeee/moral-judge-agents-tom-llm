@@ -41,7 +41,8 @@ HUMAN_COLORS = {"adult": "#1a9850", "child_8plus": "#66bd63",
 FAMILY_COLORS = {
     "Claude": "#cc785c", "Gemini": "#4285f4", "GPT": "#10a37f",
     "Llama": "#a259ff", "Qwen": "#00909e", "Mistral": "#ff7000",
-    "OLMo": "#7d3c98", "Gemma": "#e8710a", "Phi": "#c2185b", "other": "#888888",
+    "OLMo": "#7d3c98", "Gemma": "#e8710a", "Phi": "#c2185b",
+    "Kimi": "#0d9488", "DeepSeek": "#4f46e5", "other": "#888888",
 }
 
 
@@ -61,6 +62,8 @@ def family_of(name):
     if "olmo" in n:   return "OLMo"
     if "gemma" in n:  return "Gemma"
     if "phi" in n:    return "Phi"
+    if "kimi" in n or "moonshot" in n: return "Kimi"
+    if "deepseek" in n: return "DeepSeek"
     return "other"
 
 

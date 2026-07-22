@@ -20,3 +20,4 @@ unsloth_gemma-2-9b,Gemma-2-9B-base,Google,hf,unsloth/gemma-2-9b,9,9,no,dense,8,2
 unsloth_gemma-2-9b-it,Gemma-2-9B-it,Google,hf,unsloth/gemma-2-9b-it,9,9,no,dense,8,2024-06,open,instruct,Ungated re-upload of google/gemma-2-9b-it
 meta-llama_Llama-3_1-8B,Llama-3.1-8B-base,Meta,hf,meta-llama/Llama-3.1-8B,8,8,no,dense,128,2024-07,open,base,Llama-3.1-8B base
 unsloth_Meta-Llama-3_1-8B-Instruct,Llama-3.1-8B-Instruct,Meta,hf,unsloth/Meta-Llama-3.1-8B-Instruct,8,8,no,dense,128,2024-07,open,instruct,Ungated re-upload of meta-llama/Llama-3.1-8B-Instruct
+kimi-k3,Kimi-K3,Moonshot,moonshot,kimi-k3,,,yes,undisclosed,128,2026,closed,instruct,Kimi K3 via Moonshot OpenAI-compatible API; flagship, may require platform top-up

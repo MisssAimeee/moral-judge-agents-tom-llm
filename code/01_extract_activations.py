@@ -74,7 +74,22 @@ if __name__ == "__main__":
     ap.add_argument("--csv", default=os.path.join(here, "..", "dataset", "master", "moral_2x2_master.csv"))
     ap.add_argument("--out", default=os.path.join(here, "..", "outputs", "acts"))
     ap.add_argument("--models", nargs="*", default=DEFAULT_MODELS)
+    ap.add_argument("--dry-run", action="store_true",
+                    help="print plan only (no weight download / no GPU)")
     a = ap.parse_args()
     rows = load_stimuli(a.csv)
-    for m in a.models:
-        extract_for_model(m, rows, a.out)
+    if a.dry_run:
+        print(f"=== ACTIVATION EXTRACTION PLAN (dry-run) ===")
+        print(f"stimuli={len(rows)}  out={a.out}")
+        print(f"{'model':42} {'~VRAM(bf16)':>12}")
+        for m in a.models:
+            # rough: params from name * 2 GB + overhead
+            import re
+            mm = re.search(r"(\d+\.?\d*)\s*[bB]\b", m)
+            gb = (float(mm.group(1)) * 2 + 2) if mm else float("nan")
+            print(f"{m:42} {gb:10.0f}GB" if mm else f"{m:42} {'?':>12}")
+        print(f"\nLaunch:\n  JOBNAME=acts PART=mit_preemptable bash engaging/submit_gpu.sh "
+              f"\"python code/01_extract_activations.py --models {' '.join(a.models)}\"")
+    else:
+        for m in a.models:
+            extract_for_model(m, rows, a.out)

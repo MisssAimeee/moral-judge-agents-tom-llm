@@ -10,6 +10,7 @@ Backends
   --backend google    Google Gemini API.                   Needs GOOGLE_API_KEY.
   --backend mistral   Mistral API (Mistral-Large ...).     Needs MISTRAL_API_KEY.
   --backend together  Together AI (Llama 70B/405B ...).   Needs TOGETHER_API_KEY.
+  --backend moonshot  Moonshot / Kimi API (kimi-k3 ...). Needs MOONSHOT_API_KEY or KIMI_API_KEY.
   --backend mock      Deterministic fake for smoke tests.
 
 Scoring modes
@@ -358,10 +359,46 @@ class TogetherBackend:
         return ratings, round(sum(normalize(r,s_min,s_max) for r in ratings)/len(ratings), 4)
 
 
+class MoonshotBackend:
+    """Moonshot / Kimi OpenAI-compatible API (https://api.moonshot.ai/v1)."""
+    def __init__(self, model_name, scoring, **_):
+        from openai import OpenAI
+        key = (os.environ.get("MOONSHOT_API_KEY")
+               or os.environ.get("KIMI_API_KEY"))
+        if not key:
+            raise EnvironmentError("Set MOONSHOT_API_KEY or KIMI_API_KEY")
+        self.client = OpenAI(api_key=key, base_url="https://api.moonshot.ai/v1")
+        self.model_name = model_name
+
+    def rate(self, prompt, s_min, s_max, n_samples=5, temperature=0.0):
+        ratings = []
+        for _ in range(n_samples):
+            for attempt in range(3):
+                try:
+                    resp = self.client.chat.completions.create(
+                        model=self.model_name,
+                        messages=[{"role": "user", "content": prompt}],
+                        max_tokens=32, temperature=temperature,
+                    )
+                    text = (resp.choices[0].message.content or "").strip()
+                    m = re.search(r'\b(\d+(?:\.\d+)?)\b', text)
+                    if m:
+                        ratings.append(max(s_min, min(s_max, float(m.group(1)))))
+                    break
+                except Exception as e:
+                    if attempt == 2:
+                        print(f"    Moonshot/Kimi error: {e}")
+                    time.sleep(2 ** attempt)
+        if not ratings:
+            ratings = [(s_min + s_max) / 2]
+        return ratings, round(sum(normalize(r, s_min, s_max) for r in ratings) / len(ratings), 4)
+
+
 BACKENDS = {
     "mock": MockBackend, "hf": HFBackend,
     "openai": OpenAIBackend, "anthropic": AnthropicBackend,
     "google": GoogleBackend, "mistral": MistralBackend, "together": TogetherBackend,
+    "moonshot": MoonshotBackend,
 }
 
 
@@ -537,7 +574,7 @@ def main():
     if args.out_dir:
         OUT_DIR = Path(args.out_dir)
 
-    if args.backend in ("openai","anthropic","google","mistral","together"):
+    if args.backend in ("openai","anthropic","google","mistral","together","moonshot"):
         if args.scoring == "logprob":
             print("  Note: API backend => switching to --scoring sampling")
             args.scoring = "sampling"

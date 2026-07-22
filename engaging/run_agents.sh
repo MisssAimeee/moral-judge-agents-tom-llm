@@ -12,10 +12,12 @@
 #   export ANTHROPIC_API_KEY="sk-ant-..."
 #   export GOOGLE_API_KEY="AIza..."            # or GEMINI_API_KEY
 #   export TOGETHER_API_KEY="..."              # runs all Llama sizes (8B/70B/405B/3B)
+#   export MOONSHOT_API_KEY="sk-..."           # or KIMI_API_KEY — Kimi K3 via Moonshot
 #
 # ── Run ──────────────────────────────────────────────────────────────────────
 #   bash engaging/run_agents.sh                # all providers with a key set
 #   bash engaging/run_agents.sh openai         # just one provider
+#   bash engaging/run_agents.sh kimi           # Kimi K3 only
 #
 # Safe to re-run: --skip_existing skips models already saved. Per-model failures
 # don't stop the batch. Estimated cost for the full set at n_samples=5 is a few $.
@@ -81,6 +83,15 @@ if [[ "$PROVIDER" == "all" || "$PROVIDER" == "google" || "$PROVIDER" == "gemini"
   fi
 fi
 
+# ── Moonshot / Kimi (K3 flagship; OpenAI-compatible API) ─────────────────────
+if [[ "$PROVIDER" == "all" || "$PROVIDER" == "moonshot" || "$PROVIDER" == "kimi" ]]; then
+  if [[ -z "${MOONSHOT_API_KEY:-}" && -z "${KIMI_API_KEY:-}" ]]; then
+    echo "[SKIP] Kimi/Moonshot — MOONSHOT_API_KEY (or KIMI_API_KEY) not set"
+  else
+    run moonshot "kimi-k3"
+  fi
+fi
+
 # ── Analysis + figures (pointed at the agents outputs) ───────────────────────
 echo ""
 echo "======================= analysis + figures ($(date +%H:%M:%S)) ======================="
@@ -91,6 +102,8 @@ python -u code/09_agent_figures.py --behavior "$OUT" --stats outputs/agents/stat
        --out outputs/agents/figures || true
 python -u code/08_report.py --behavior "$OUT" --stats outputs/agents/stats \
        --out outputs/agents/report || true
+# Merge agents + local open-weight into the master developmental ladder
+python -u code/10_master_figure.py || true
 
 echo ""
 echo "DONE ($(date +%H:%M:%S))"
@@ -98,3 +111,4 @@ echo "  ratings : $OUT/"
 echo "  stats   : outputs/agents/stats/"
 echo "  figures : outputs/agents/figures/  (agent_scale.png + 6 comparison figures)"
 echo "  report  : outputs/agents/report/summary_table.md"
+echo "  master  : outputs/master_developmental_ladder.png + master_all_models.csv"

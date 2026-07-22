@@ -71,7 +71,16 @@ echo ""
 # empty, so weights may need to download (requires network on the GPU node).
 export HF_HOME="\${HF_HOME:-/orcd/scratch/orcd/007/$USER/hf_cache}"
 mkdir -p "\$HF_HOME"
-[ -f "\$HOME/.cache/huggingface/token" ] && export HF_TOKEN="\${HF_TOKEN:-\$(cat "\$HOME/.cache/huggingface/token")}"
+# Prefer a classic HF PAT (hf_...). A stale oauth token in the cache file causes
+# "OAuth token signature verification failed" and breaks even public downloads.
+if [ -z "\${HF_TOKEN:-}" ] && [ -f "\$HOME/.cache/huggingface/token" ]; then
+  _tok=\$(tr -d '[:space:]' < "\$HOME/.cache/huggingface/token")
+  case "\$_tok" in
+    hf_*) export HF_TOKEN="\$_tok" ;;
+    *) echo "[warn] ignoring non-PAT HF token in ~/.cache/huggingface/token (use: hf auth login)" ;;
+  esac
+  unset _tok
+fi
 export TOKENIZERS_PARALLELISM=false
 export PYTHONUNBUFFERED=1
 

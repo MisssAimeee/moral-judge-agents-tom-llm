@@ -35,12 +35,14 @@ def load_stimuli(csv_path):
 def extract_for_model(model_name, rows, out_dir, batch_size=8, max_len=512):
     import torch
     from transformers import AutoTokenizer, AutoModel
-    tok = AutoTokenizer.from_pretrained(model_name)
+    tok = AutoTokenizer.from_pretrained(
+        model_name, trust_remote_code=True)
     if tok.pad_token is None:
         tok.pad_token = tok.eos_token
     model = AutoModel.from_pretrained(
         model_name, output_hidden_states=True,
-        torch_dtype=torch.float16, device_map="auto")
+        torch_dtype=torch.float16, device_map="auto",
+        trust_remote_code=True)
     model.eval()
 
     texts = [r["text"] for r in rows]

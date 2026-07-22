@@ -360,7 +360,14 @@ class TogetherBackend:
 
 
 class MoonshotBackend:
-    """Moonshot / Kimi OpenAI-compatible API (https://api.moonshot.ai/v1)."""
+    """Moonshot / Kimi OpenAI-compatible API (https://api.moonshot.ai/v1).
+
+    Kimi K3 (and some flagship Moonshot models) reject temperature != 1;
+    we force temperature=1 for those regardless of the CLI --temperature flag.
+    """
+    # Models that only accept temperature=1 (API returns 400 otherwise).
+    FORCE_TEMP_1 = ("kimi-k3", "kimi-k2", "moonshot-v1")
+
     def __init__(self, model_name, scoring, **_):
         from openai import OpenAI
         key = (os.environ.get("MOONSHOT_API_KEY")
@@ -369,8 +376,10 @@ class MoonshotBackend:
             raise EnvironmentError("Set MOONSHOT_API_KEY or KIMI_API_KEY")
         self.client = OpenAI(api_key=key, base_url="https://api.moonshot.ai/v1")
         self.model_name = model_name
+        self._force_temp1 = any(t in model_name.lower() for t in self.FORCE_TEMP_1)
 
     def rate(self, prompt, s_min, s_max, n_samples=5, temperature=0.0):
+        temp = 1.0 if self._force_temp1 else temperature
         ratings = []
         for _ in range(n_samples):
             for attempt in range(3):
@@ -378,7 +387,7 @@ class MoonshotBackend:
                     resp = self.client.chat.completions.create(
                         model=self.model_name,
                         messages=[{"role": "user", "content": prompt}],
-                        max_tokens=32, temperature=temperature,
+                        max_tokens=32, temperature=temp,
                     )
                     text = (resp.choices[0].message.content or "").strip()
                     m = re.search(r'\b(\d+(?:\.\d+)?)\b', text)

@@ -71,14 +71,21 @@ echo ""
 # empty, so weights may need to download (requires network on the GPU node).
 export HF_HOME="\${HF_HOME:-/orcd/scratch/orcd/007/$USER/hf_cache}"
 mkdir -p "\$HF_HOME"
-# Prefer a classic HF PAT (hf_...). A stale oauth token in the cache file causes
-# "OAuth token signature verification failed" and breaks even public downloads.
+# Only export a CLASSIC HF PAT (hf_ + ~34 chars). An oauth/JWT token also starts
+# with "hf_" but is hundreds of chars, and sending it makes the Hub reject even
+# PUBLIC repos with "OAuth token signature verification failed" (401). When the
+# cached token is not a usable PAT we send nothing and download anonymously,
+# which works for every ungated model used here.
 if [ -z "\${HF_TOKEN:-}" ] && [ -f "\$HOME/.cache/huggingface/token" ]; then
   _tok=\$(tr -d '[:space:]' < "\$HOME/.cache/huggingface/token")
-  case "\$_tok" in
-    hf_*) export HF_TOKEN="\$_tok" ;;
-    *) echo "[warn] ignoring non-PAT HF token in ~/.cache/huggingface/token (use: hf auth login)" ;;
-  esac
+  if [ "\${_tok#hf_}" != "\$_tok" ] && [ "\${#_tok}" -le 60 ]; then
+    export HF_TOKEN="\$_tok"
+  else
+    echo "[warn] cached HF token is not a classic PAT (len=\${#_tok}); proceeding ANONYMOUSLY."
+    echo "[warn] gated repos will fail -- fix with: hf auth login  (paste a token from"
+    echo "[warn] https://huggingface.co/settings/tokens -> 'Create new token' -> Read)"
+    unset HF_TOKEN
+  fi
   unset _tok
 fi
 export TOKENIZERS_PARALLELISM=false

@@ -36,8 +36,15 @@ if __name__ == "__main__":
     for p in glob.glob(os.path.join(a.probe,"*_probe.csv")):
         tag = os.path.basename(p).replace("_probe.csv","")
         L,acc = peak_intent(p); rep[tag]=(L,acc)
-    beh = {r["model"].split("/")[-1]: float(r["intent_reliance_index"])
-           for r in csv.DictReader(open(a.behavior))}
+    # Degenerate models carry an EMPTY index on purpose (see 23_build_intent_reliance_summary.py):
+    # a near-constant rater has no meaningful intent reliance, and giving it a number would put a
+    # fabricated point on this scatter. Skip them rather than coercing to 0.
+    beh = {}
+    for r in csv.DictReader(open(a.behavior)):
+        v = (r.get("intent_reliance_index") or "").strip()
+        if not v or str(r.get("degenerate", "")).lower() in ("true", "1"):
+            continue
+        beh[r["model"].split("/")[-1]] = float(v)
 
     rows=[]
     for tag,(L,acc) in rep.items():

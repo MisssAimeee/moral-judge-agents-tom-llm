@@ -1,0 +1,13 @@
+subset,feature_set,target,cv_acc,cv_std,chance,n_items,n_features
+all,tfidf_word_1_2,intent,0.5937,0.0541,0.5,298,6421
+all,tfidf_word_1_2,outcome,0.7548,0.0582,0.5168,298,6421
+all,tfidf_char_3_5,intent,0.5838,0.0649,0.5,298,12874
+all,tfidf_char_3_5,outcome,0.7522,0.0575,0.5168,298,12874
+intent_noharm,tfidf_word_1_2,intent,0.5943,0.1295,0.5,144,4687
+intent_noharm,tfidf_char_3_5,intent,0.5833,0.0482,0.5,144,10728
+intent_harm,tfidf_word_1_2,intent,0.5904,0.0464,0.5,154,4960
+intent_harm,tfidf_char_3_5,intent,0.6038,0.0642,0.5,154,11104
+outcome_innocent,tfidf_word_1_2,outcome,0.7382,0.0614,0.5168,149,4954
+outcome_innocent,tfidf_char_3_5,outcome,0.7584,0.0573,0.5168,149,11349
+outcome_guilty,tfidf_word_1_2,outcome,0.7379,0.1029,0.5168,149,4940
+outcome_guilty,tfidf_char_3_5,outcome,0.7995,0.1616,0.5168,149,11235

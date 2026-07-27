@@ -1,0 +1,12 @@
+template,b_intent,b_outcome,intent_reliance_index
+acceptable7,0.0011,0.0027,0.2884
+blame_w1,0.0014,-0.0014,0.4929
+blame_w2,0.0005,-0.0006,0.4241
+human_verbatim,0.0017,0.0,0.9915
+para_blame10,-0.0001,-0.0002,0.4846
+para_blame4,0.0026,0.0015,0.6348
+persona_adult7,0.0053,0.0077,0.4099
+punish_w1,0.002,0.0007,0.7555
+punish_w2,0.0018,-0.0016,0.5363
+wrong_w1,0.0003,0.0006,0.334
+wrong_w2,0.0009,-0.0017,0.3359

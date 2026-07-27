@@ -336,11 +336,11 @@ def main():
 
     with open(os.path.join(a.out, "prompt_invariance_contrast.csv"), "w", newline="") as g:
         w = csv.writer(g)
-        all_t = sorted({t for tc in per_template.values() for t in tc})
+        all_t = sorted({t for tmpl_c in per_template.values() for t in tmpl_c})
         w.writerow(["model"] + all_t + ["sd", "range", "sign_flips"])
         for d in summary:
-            tc = per_template[d["tag"]]
-            row = [d["tag"]] + [r4(tc.get(t)) if t in tc else "NA" for t in all_t]
+            tmpl_c = per_template[d["tag"]]
+            row = [d["tag"]] + [r4(tmpl_c.get(t)) if t in tmpl_c else "NA" for t in all_t]
             row += [r4(d["t_sd"]), r4(d["t_range"]), d["sign_flip"]]
             w.writerow(row)
 

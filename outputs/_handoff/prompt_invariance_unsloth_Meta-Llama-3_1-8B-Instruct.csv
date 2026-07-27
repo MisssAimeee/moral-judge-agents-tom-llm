@@ -1,0 +1,14 @@
+metric,value
+intent_reliance_max,0.2335
+intent_reliance_min,0.1142
+intent_reliance_range,0.1193
+iri_diff_human_verbatim__acceptable7,-0.0109
+iri_diff_human_verbatim__blame_w1,-0.0647
+iri_diff_human_verbatim__blame_w2,-0.0506
+iri_diff_human_verbatim__para_blame10,-0.1193
+iri_diff_human_verbatim__para_blame4,-0.0399
+iri_diff_human_verbatim__persona_adult7,-0.0522
+iri_diff_human_verbatim__punish_w1,-0.0684
+iri_diff_human_verbatim__punish_w2,-0.0623
+iri_diff_human_verbatim__wrong_w1,-0.0094
+iri_diff_human_verbatim__wrong_w2,-0.0389

@@ -1,0 +1,12 @@
+family,stage,stage_idx,model_id,n_items,contrast,b_intent,b_outcome,b_interaction,rating_std,degenerate
+OLMo-2-7B,base,0,allenai/OLMo-2-1124-7B,298,0.0139,0.007,-0.0069,-0.0019,0.0562,False
+OLMo-2-7B,SFT,1,allenai/OLMo-2-1124-7B-SFT,298,-0.243,0.1542,0.3972,-0.1708,0.2287,False
+OLMo-2-7B,DPO,2,allenai/OLMo-2-1124-7B-DPO,298,-0.259,0.1455,0.4045,-0.1673,0.263,False
+OLMo-2-7B,Instruct,3,allenai/OLMo-2-1124-7B-Instruct,298,-0.3645,0.206,0.5705,-0.2266,0.3093,False
+Tulu-3-8B,base,0,unsloth/Meta-Llama-3.1-8B,298,-0.001,0.002,0.003,-0.0018,0.018,True
+Tulu-3-8B,SFT,1,allenai/Llama-3.1-Tulu-3-8B-SFT,298,-0.2569,0.1536,0.4104,-0.1604,0.2227,False
+Tulu-3-8B,DPO,2,allenai/Llama-3.1-Tulu-3-8B-DPO,298,-0.3931,0.2146,0.6077,-0.2349,0.3014,False
+Tulu-3-8B,RLVR,3,allenai/Llama-3.1-Tulu-3-8B,298,-0.3895,0.2127,0.6022,-0.2278,0.2956,False
+Zephyr-7B,base,0,mistralai/Mistral-7B-v0.1,298,0.0,0.0,0.0,0.0,0.0,True
+Zephyr-7B,SFT,1,alignment-handbook/zephyr-7b-sft-full,298,0.0,0.0,0.0,0.0,0.0,True
+Zephyr-7B,DPO,2,HuggingFaceH4/zephyr-7b-beta,298,0.0,0.0,0.0,0.0,0.0,True

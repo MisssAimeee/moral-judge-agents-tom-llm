@@ -1,0 +1,299 @@
+story_id,belief_start,belief_end,action_start,action_end,outcome_start,outcome_end,method,n_sentences
+YS2008-COFFEE-neutral,349,476,477,525,526,567,belief_verb,7
+YS2008-COFFEE-accidental,329,456,457,505,506,544,belief_verb,7
+YS2008-COFFEE-attempted,349,469,470,518,519,560,belief_verb,7
+YS2008-COFFEE-intentional,329,449,450,498,499,537,belief_verb,7
+YS2008-LAB-neutral,396,532,533,581,582,636,belief_verb,8
+YS2008-LAB-accidental,378,514,515,563,564,614,belief_verb,8
+YS2008-LAB-attempted,396,537,538,586,587,641,belief_verb,8
+YS2008-LAB-intentional,378,519,520,568,569,619,belief_verb,8
+YS2008-JELLYFISH-neutral,240,371,372,414,415,468,belief_verb,6
+YS2008-JELLYFISH-accidental,231,362,363,405,406,459,belief_verb,6
+YS2008-JELLYFISH-attempted,240,367,368,410,411,464,belief_verb,6
+YS2008-JELLYFISH-intentional,231,358,359,401,402,455,belief_verb,6
+YS2008-BRIDGE-neutral,198,333,334,402,403,448,belief_verb,6
+YS2008-BRIDGE-accidental,203,338,339,407,408,464,belief_verb,6
+YS2008-BRIDGE-attempted,198,333,334,402,403,448,belief_verb,6
+YS2008-BRIDGE-intentional,203,338,339,407,408,464,belief_verb,6
+YS2008-POOL-neutral,178,309,310,362,363,394,belief_verb,5
+YS2008-POOL-accidental,199,330,331,383,384,423,belief_verb,5
+YS2008-POOL-attempted,178,313,314,366,367,398,belief_verb,5
+YS2008-POOL-intentional,199,334,335,387,388,427,belief_verb,5
+YS2008-MUSHROOMS-neutral,299,455,456,504,505,558,belief_verb,8
+YS2008-MUSHROOMS-accidental,302,458,459,507,508,574,belief_verb,8
+YS2008-MUSHROOMS-attempted,299,454,455,503,504,557,belief_verb,8
+YS2008-MUSHROOMS-intentional,302,457,458,506,507,573,belief_verb,8
+YS2008-LATEX-neutral,210,386,387,438,439,459,belief_verb,6
+YS2008-LATEX-accidental,216,392,393,444,445,473,belief_verb,6
+YS2008-LATEX-attempted,210,386,387,438,439,459,belief_verb,6
+YS2008-LATEX-intentional,216,392,393,444,445,473,belief_verb,6
+YS2008-MOTORBOAT-neutral,196,291,292,339,340,360,belief_verb,6
+YS2008-MOTORBOAT-accidental,179,274,275,322,323,342,belief_verb,6
+YS2008-MOTORBOAT-attempted,196,341,342,389,390,410,belief_verb,6
+YS2008-MOTORBOAT-intentional,179,324,325,372,373,392,belief_verb,6
+YS2008-ASTHMA-neutral,277,416,417,462,463,505,belief_verb,7
+YS2008-ASTHMA-accidental,288,427,428,473,474,504,belief_verb,7
+YS2008-ASTHMA-attempted,277,427,428,473,474,516,belief_verb,7
+YS2008-ASTHMA-intentional,288,438,439,484,485,515,belief_verb,7
+YS2008-VITAMIN-neutral,334,463,464,504,505,527,belief_verb,7
+YS2008-VITAMIN-accidental,333,462,463,503,504,535,belief_verb,7
+YS2008-VITAMIN-attempted,334,464,465,505,506,528,belief_verb,7
+YS2008-VITAMIN-intentional,333,463,464,504,505,536,belief_verb,7
+YS2008-SESAME-neutral,278,401,402,432,433,474,belief_verb,6
+YS2008-SESAME-accidental,276,399,400,430,431,467,belief_verb,6
+YS2008-SESAME-attempted,278,417,418,448,449,490,belief_verb,6
+YS2008-SESAME-intentional,276,415,416,446,447,483,belief_verb,6
+YS2008-BIKE-neutral,236,399,400,438,439,498,belief_verb,7
+YS2008-BIKE-accidental,248,411,412,450,451,540,belief_verb,7
+YS2008-BIKE-attempted,236,400,401,439,440,499,belief_verb,7
+YS2008-BIKE-intentional,248,412,413,451,452,541,belief_verb,7
+YS2008-IRON-neutral,324,437,438,493,564,605,belief_verb,8
+YS2008-IRON-accidental,322,435,436,491,551,605,belief_verb,8
+YS2008-IRON-attempted,324,448,449,504,575,616,belief_verb,8
+YS2008-IRON-intentional,322,446,447,502,562,616,belief_verb,8
+YS2008-MEATLOAF-neutral,287,407,408,484,534,565,belief_verb,9
+YS2008-MEATLOAF-accidental,282,402,403,479,480,563,belief_verb,8
+YS2008-MEATLOAF-attempted,287,400,401,477,527,558,belief_verb,9
+YS2008-MEATLOAF-intentional,282,395,396,472,473,556,belief_verb,8
+YS2008-RIVER-neutral,410,465,466,521,522,573,belief_verb,10
+YS2008-RIVER-accidental,426,481,482,537,538,604,belief_verb,10
+YS2008-RIVER-attempted,416,477,478,533,534,585,belief_verb,10
+YS2008-RIVER-intentional,432,493,494,549,550,616,belief_verb,10
+YS2008-LOGAN AIRPORT-neutral,384,431,432,468,522,563,belief_verb,10
+YS2008-LOGAN AIRPORT-accidental,379,426,427,463,529,557,belief_verb,10
+YS2008-LOGAN AIRPORT-attempted,380,434,435,471,525,566,belief_verb,10
+YS2008-LOGAN AIRPORT-intentional,375,429,430,466,532,560,belief_verb,10
+YS2008-TRACKS-neutral,347,514,515,560,561,668,belief_verb,7
+YS2008-TRACKS-accidental,353,520,521,566,567,681,belief_verb,7
+YS2008-TRACKS-attempted,347,506,507,552,553,660,belief_verb,7
+YS2008-TRACKS-intentional,353,512,513,558,559,673,belief_verb,7
+YS2008-HARNESS-neutral,258,388,389,431,432,506,belief_verb,6
+YS2008-HARNESS-accidental,265,395,396,438,439,521,belief_verb,6
+YS2008-HARNESS-attempted,258,397,398,440,441,515,belief_verb,6
+YS2008-HARNESS-intentional,265,404,405,447,448,530,belief_verb,6
+YS2008-IGLOO-neutral,269,410,411,457,458,537,belief_verb,7
+YS2008-IGLOO-accidental,275,416,417,463,464,548,belief_verb,6
+YS2008-IGLOO-attempted,269,405,406,452,453,532,belief_verb,7
+YS2008-IGLOO-intentional,275,411,412,458,459,543,belief_verb,6
+YS2008-HAM-neutral,284,416,417,458,459,530,belief_verb,7
+YS2008-HAM-accidental,276,408,409,450,451,524,belief_verb,6
+YS2008-HAM-attempted,284,420,421,462,463,534,belief_verb,7
+YS2008-HAM-intentional,276,412,413,454,455,528,belief_verb,6
+YS2008-POPCORN-neutral,459,541,542,602,603,720,belief_verb,10
+YS2008-POPCORN-accidental,438,520,521,581,582,696,belief_verb,11
+YS2008-POPCORN-attempted,479,576,577,637,638,755,belief_verb,10
+YS2008-POPCORN-intentional,458,555,556,616,617,731,belief_verb,11
+YS2008-VET-neutral,330,460,461,517,518,573,belief_verb,8
+YS2008-VET-accidental,327,457,458,514,515,586,belief_verb,8
+YS2008-VET-attempted,330,484,485,541,542,597,belief_verb,8
+YS2008-VET-intentional,327,481,482,538,539,610,belief_verb,8
+YS2008-CHAIRLIFT-neutral,318,411,412,492,542,662,belief_verb,9
+YS2008-CHAIRLIFT-accidental,317,410,411,491,541,658,belief_verb,9
+YS2008-CHAIRLIFT-attempted,318,480,481,529,530,650,belief_verb,8
+YS2008-CHAIRLIFT-intentional,317,479,480,528,529,646,belief_verb,8
+YS2008-SAFETY TOWN-neutral,446,518,519,577,578,656,belief_verb,8
+YS2008-SAFETY TOWN-accidental,455,527,528,586,587,657,belief_verb,8
+YS2008-SAFETY TOWN-attempted,459,537,538,596,597,675,belief_verb,8
+YS2008-SAFETY TOWN-intentional,468,546,547,605,606,676,belief_verb,8
+YS2008-MALARIA POND-neutral,311,443,444,492,493,563,belief_verb,9
+YS2008-MALARIA POND-accidental,293,425,426,474,475,540,belief_verb,8
+YS2008-MALARIA POND-attempted,311,452,453,501,502,572,belief_verb,9
+YS2008-MALARIA POND-intentional,293,434,435,483,484,549,belief_verb,8
+YS2008-HUNT-neutral,462,516,517,561,562,621,belief_verb,10
+YS2008-HUNT-accidental,457,511,512,556,557,619,belief_verb,9
+YS2008-HUNT-attempted,448,516,517,561,562,621,belief_verb,10
+YS2008-HUNT-intentional,443,511,512,556,557,619,belief_verb,9
+YS2008-SPINACH-neutral,369,470,471,512,565,599,belief_verb,11
+YS2008-SPINACH-accidental,391,492,493,534,535,629,belief_verb,9
+YS2008-SPINACH-attempted,369,476,477,518,571,605,belief_verb,11
+YS2008-SPINACH-intentional,391,498,499,540,541,635,belief_verb,9
+YS2008-PEANUT ALLERGY-neutral,452,500,501,575,576,663,belief_verb,9
+YS2008-PEANUT ALLERGY-accidental,460,508,509,583,584,677,belief_verb,9
+YS2008-PEANUT ALLERGY-attempted,452,507,508,582,583,670,belief_verb,9
+YS2008-PEANUT ALLERGY-intentional,460,515,516,590,591,684,belief_verb,9
+YS2008-ALARM-neutral,389,495,496,537,538,620,belief_verb,8
+YS2008-ALARM-accidental,375,481,482,523,524,614,belief_verb,8
+YS2008-ALARM-attempted,389,493,494,535,536,618,belief_verb,8
+YS2008-ALARM-intentional,375,479,480,521,522,612,belief_verb,8
+YS2008-SAFETY CORD-neutral,382,437,438,493,573,602,belief_verb,9
+YS2008-SAFETY CORD-accidental,373,428,429,484,560,589,belief_verb,9
+YS2008-SAFETY CORD-attempted,384,447,448,503,583,612,belief_verb,9
+YS2008-SAFETY CORD-intentional,375,438,439,494,570,599,belief_verb,9
+YS2008-ZOO-neutral,396,445,446,492,538,592,belief_verb,9
+YS2008-ZOO-accidental,380,429,430,476,477,565,belief_verb,8
+YS2008-ZOO-attempted,384,448,449,495,541,595,belief_verb,9
+YS2008-ZOO-intentional,368,432,433,479,480,568,belief_verb,8
+YS2008-BAR-neutral,288,421,422,491,532,588,belief_verb,7
+YS2008-BAR-accidental,286,419,420,489,530,584,belief_verb,7
+YS2008-BAR-attempted,288,431,432,501,542,598,belief_verb,7
+YS2008-BAR-intentional,286,429,430,499,540,594,belief_verb,7
+YS2008-SUSHI-neutral,404,466,467,524,525,597,belief_verb,9
+YS2008-SUSHI-accidental,404,466,467,524,525,611,belief_verb,8
+YS2008-SUSHI-attempted,405,470,471,528,529,601,belief_verb,9
+YS2008-SUSHI-intentional,405,470,471,528,529,615,belief_verb,8
+YS2008-CAYO-neutral,396,479,480,550,592,661,belief_verb,9
+YS2008-CAYO-accidental,375,458,459,529,571,642,belief_verb,9
+YS2008-CAYO-attempted,396,478,479,549,591,660,belief_verb,9
+YS2008-CAYO-intentional,375,457,458,528,570,641,belief_verb,9
+YS2008-FUMIGATION-neutral,317,493,494,540,610,680,belief_verb,8
+YS2008-FUMIGATION-accidental,316,492,493,539,609,671,belief_verb,8
+YS2008-FUMIGATION-attempted,317,493,494,540,610,680,belief_verb,8
+YS2008-FUMIGATION-intentional,316,492,493,539,609,671,belief_verb,8
+YS2008-PORRIDGE-neutral,372,470,471,510,533,622,belief_verb,11
+YS2008-PORRIDGE-accidental,364,462,463,502,525,610,belief_verb,10
+YS2008-PORRIDGE-attempted,372,469,470,509,532,621,belief_verb,11
+YS2008-PORRIDGE-intentional,364,461,462,501,524,609,belief_verb,10
+YS2008-BOUNCY BALL-neutral,312,462,463,506,507,563,belief_verb,6
+YS2008-BOUNCY BALL-accidental,317,467,468,511,512,577,belief_verb,6
+YS2008-BOUNCY BALL-attempted,312,453,454,497,498,554,belief_verb,6
+YS2008-BOUNCY BALL-intentional,317,458,459,502,503,568,belief_verb,6
+YS2008-PARACHUTES-neutral,261,413,414,466,530,558,belief_verb,9
+YS2008-PARACHUTES-accidental,266,418,419,471,530,571,belief_verb,9
+YS2008-PARACHUTES-attempted,261,416,417,469,533,561,belief_verb,9
+YS2008-PARACHUTES-intentional,266,421,422,474,533,574,belief_verb,9
+YS2008-RABIES-neutral,279,383,384,425,426,499,belief_verb,8
+YS2008-RABIES-accidental,277,381,382,423,424,504,belief_verb,8
+YS2008-RABIES-attempted,279,376,377,418,419,492,belief_verb,8
+YS2008-RABIES-intentional,277,374,375,416,417,497,belief_verb,8
+YS2008-FRAT-neutral,272,387,388,428,429,504,belief_verb,7
+YS2008-FRAT-accidental,272,387,388,428,429,519,belief_verb,7
+YS2008-FRAT-attempted,272,391,392,432,433,508,belief_verb,7
+YS2008-FRAT-intentional,272,391,392,432,433,523,belief_verb,7
+YS2008-TREE HOUSE-neutral,225,358,359,413,414,472,belief_verb,6
+YS2008-TREE HOUSE-accidental,221,354,355,409,410,482,belief_verb,6
+YS2008-TREE HOUSE-attempted,225,356,357,411,412,470,belief_verb,6
+YS2008-TREE HOUSE-intentional,221,352,353,407,408,480,belief_verb,6
+YS2008-SPRING BREAK-neutral,267,426,427,503,504,549,belief_verb,7
+YS2008-SPRING BREAK-accidental,286,445,446,522,523,574,belief_verb,7
+YS2008-SPRING BREAK-attempted,267,433,434,510,511,556,belief_verb,7
+YS2008-SPRING BREAK-intentional,286,452,453,529,530,581,belief_verb,7
+YS2008-CPR-neutral,326,460,461,511,512,558,belief_verb,8
+YS2008-CPR-accidental,324,458,459,509,510,552,belief_verb,8
+YS2008-CPR-attempted,326,458,459,509,510,556,belief_verb,8
+YS2008-CPR-intentional,324,456,457,507,508,550,belief_verb,8
+YS2008-MOTHER-neutral,291,469,470,533,534,616,belief_verb,8
+YS2008-MOTHER-accidental,294,472,473,536,537,597,belief_verb,8
+YS2008-MOTHER-attempted,291,447,448,511,512,594,belief_verb,8
+YS2008-MOTHER-intentional,294,450,451,514,515,575,belief_verb,8
+YS2008-SEATBELT-neutral,317,448,449,527,528,581,belief_verb,8
+YS2008-SEATBELT-accidental,298,429,430,508,509,582,belief_verb,7
+YS2008-SEATBELT-attempted,317,446,447,525,526,579,belief_verb,8
+YS2008-SEATBELT-intentional,298,427,428,506,507,580,belief_verb,7
+YS2008-WET FLOOR-neutral,364,438,439,492,493,549,belief_verb,8
+YS2008-WET FLOOR-accidental,365,439,440,493,494,558,belief_verb,8
+YS2008-WET FLOOR-attempted,396,436,437,490,491,547,belief_verb,8
+YS2008-WET FLOOR-intentional,397,437,438,491,492,556,belief_verb,8
+YS2008-TEENAGERS-neutral,259,421,422,478,479,537,belief_verb,6
+YS2008-TEENAGERS-accidental,258,420,421,477,478,542,belief_verb,6
+YS2008-TEENAGERS-attempted,259,414,415,471,472,530,belief_verb,6
+YS2008-TEENAGERS-intentional,258,413,414,470,471,535,belief_verb,6
+YS2008-LAPTOP-neutral,283,391,392,433,434,514,fallback_position,8
+YS2008-LAPTOP-accidental,387,428,429,484,485,524,fallback_position,9
+YS2008-LAPTOP-attempted,283,405,406,447,448,528,fallback_position,8
+YS2008-LAPTOP-intentional,401,442,443,498,499,538,fallback_position,9
+YS2009-YS2009_01-neutral,459,541,542,602,603,720,belief_verb,10
+YS2009-YS2009_01-accidental,438,520,521,581,582,696,belief_verb,11
+YS2009-YS2009_01-attempted,479,576,577,637,638,755,belief_verb,10
+YS2009-YS2009_01-intentional,458,555,556,616,617,731,belief_verb,11
+YS2009-YS2009_02-neutral,405,467,468,525,526,598,belief_verb,9
+YS2009-YS2009_02-accidental,404,466,467,524,525,611,belief_verb,8
+YS2009-YS2009_02-attempted,406,471,472,529,530,602,belief_verb,9
+YS2009-YS2009_02-intentional,405,470,471,528,529,615,belief_verb,8
+YS2009-YS2009_03-neutral,446,518,519,577,578,656,belief_verb,8
+YS2009-YS2009_03-accidental,455,527,528,586,587,657,belief_verb,8
+YS2009-YS2009_03-attempted,459,537,538,596,597,675,belief_verb,8
+YS2009-YS2009_03-intentional,468,546,547,605,606,676,belief_verb,8
+YS2009-YS2009_04-neutral,311,443,444,492,493,563,belief_verb,9
+YS2009-YS2009_04-accidental,293,425,426,474,475,540,belief_verb,8
+YS2009-YS2009_04-attempted,311,452,453,501,502,572,belief_verb,9
+YS2009-YS2009_04-intentional,293,434,435,483,484,549,belief_verb,8
+YS2009-YS2009_05-neutral,372,470,471,510,533,622,belief_verb,11
+YS2009-YS2009_05-accidental,364,462,463,502,525,610,belief_verb,10
+YS2009-YS2009_05-attempted,372,469,470,509,532,621,belief_verb,11
+YS2009-YS2009_05-intentional,364,461,462,501,524,609,belief_verb,10
+YS2009-YS2009_06-neutral,369,470,471,512,565,599,belief_verb,11
+YS2009-YS2009_06-accidental,391,492,493,534,535,629,belief_verb,9
+YS2009-YS2009_06-attempted,369,476,477,518,571,605,belief_verb,11
+YS2009-YS2009_06-intentional,391,498,499,540,541,635,belief_verb,9
+YS2009-YS2009_07-neutral,452,500,501,575,576,663,belief_verb,9
+YS2009-YS2009_07-accidental,460,508,509,583,584,677,belief_verb,9
+YS2009-YS2009_07-attempted,452,507,508,582,583,670,belief_verb,9
+YS2009-YS2009_07-intentional,460,515,516,590,591,684,belief_verb,9
+YS2009-YS2009_08-neutral,279,383,384,425,426,499,belief_verb,8
+YS2009-YS2009_08-accidental,277,381,382,423,424,504,belief_verb,8
+YS2009-YS2009_08-attempted,279,376,377,418,419,492,belief_verb,8
+YS2009-YS2009_08-intentional,277,374,375,416,417,497,belief_verb,8
+YS2009-YS2009_09-neutral,272,387,388,428,429,504,belief_verb,7
+YS2009-YS2009_09-accidental,272,387,388,428,429,519,belief_verb,7
+YS2009-YS2009_09-attempted,272,391,392,432,433,508,belief_verb,7
+YS2009-YS2009_09-intentional,272,391,392,432,433,523,belief_verb,7
+YS2009-YS2009_10-neutral,287,407,408,484,534,565,belief_verb,9
+YS2009-YS2009_10-accidental,282,402,403,479,480,563,belief_verb,8
+YS2009-YS2009_10-attempted,287,400,401,477,527,558,belief_verb,9
+YS2009-YS2009_10-intentional,282,395,396,472,473,556,belief_verb,8
+YS2009-YS2009_11-neutral,225,358,359,413,414,472,belief_verb,6
+YS2009-YS2009_11-accidental,221,354,355,409,410,482,belief_verb,6
+YS2009-YS2009_11-attempted,225,356,357,411,412,470,belief_verb,6
+YS2009-YS2009_11-intentional,221,352,353,407,408,480,belief_verb,6
+YS2009-YS2009_12-neutral,324,437,438,493,564,605,belief_verb,8
+YS2009-YS2009_12-accidental,322,435,436,491,551,605,belief_verb,8
+YS2009-YS2009_12-attempted,324,448,449,504,575,616,belief_verb,8
+YS2009-YS2009_12-intentional,322,446,447,502,562,616,belief_verb,8
+YS2009-YS2009_13-neutral,317,448,449,527,528,581,belief_verb,8
+YS2009-YS2009_13-accidental,298,429,430,508,509,582,belief_verb,7
+YS2009-YS2009_13-attempted,317,446,447,525,526,579,belief_verb,8
+YS2009-YS2009_13-intentional,298,427,428,506,507,580,belief_verb,7
+YS2009-YS2009_14-neutral,269,410,411,457,458,537,belief_verb,7
+YS2009-YS2009_14-accidental,275,416,417,463,464,548,belief_verb,6
+YS2009-YS2009_14-attempted,269,405,406,452,453,532,belief_verb,7
+YS2009-YS2009_14-intentional,275,411,412,458,459,543,belief_verb,6
+YS2009-YS2009_15-neutral,364,438,439,492,493,549,belief_verb,8
+YS2009-YS2009_15-accidental,365,439,440,493,494,558,belief_verb,8
+YS2009-YS2009_15-attempted,396,436,437,490,491,547,belief_verb,8
+YS2009-YS2009_15-intentional,397,437,438,491,492,556,belief_verb,8
+YS2009-YS2009_16-neutral,259,421,422,478,479,537,belief_verb,6
+YS2009-YS2009_16-accidental,258,420,421,477,478,542,belief_verb,6
+YS2009-YS2009_16-attempted,259,414,415,471,472,530,belief_verb,6
+YS2009-YS2009_16-intentional,258,413,414,470,471,535,belief_verb,6
+YS2009-YS2009_17-neutral,284,416,417,458,459,530,belief_verb,7
+YS2009-YS2009_17-accidental,276,408,409,450,451,524,belief_verb,6
+YS2009-YS2009_17-attempted,284,420,421,462,463,534,belief_verb,7
+YS2009-YS2009_17-intentional,276,412,413,454,455,528,belief_verb,6
+YS2009-YS2009_18-neutral,283,391,392,433,434,514,fallback_position,8
+YS2009-YS2009_18-accidental,387,428,429,484,485,524,fallback_position,9
+YS2009-YS2009_18-attempted,283,405,406,447,448,528,fallback_position,8
+YS2009-YS2009_18-intentional,401,442,443,498,499,538,fallback_position,9
+YS2009-YS2009_19-neutral,389,495,496,537,538,620,belief_verb,8
+YS2009-YS2009_19-accidental,375,481,482,523,524,614,belief_verb,8
+YS2009-YS2009_19-attempted,389,493,494,535,536,618,belief_verb,8
+YS2009-YS2009_19-intentional,375,479,480,521,522,612,belief_verb,8
+YS2009-YS2009_20-neutral,382,437,438,493,573,602,belief_verb,9
+YS2009-YS2009_20-accidental,373,428,429,484,560,589,belief_verb,9
+YS2009-YS2009_20-attempted,384,447,448,503,583,612,belief_verb,9
+YS2009-YS2009_20-intentional,375,438,439,494,570,599,belief_verb,9
+YS2009-YS2009_21-neutral,278,401,402,432,433,474,belief_verb,6
+YS2009-YS2009_21-accidental,276,399,400,430,431,467,belief_verb,6
+YS2009-YS2009_21-attempted,278,417,418,448,449,490,belief_verb,6
+YS2009-YS2009_21-intentional,276,415,416,446,447,483,belief_verb,6
+YS2009-YS2009_22-neutral,326,460,461,511,512,558,belief_verb,8
+YS2009-YS2009_22-accidental,324,458,459,509,510,552,belief_verb,8
+YS2009-YS2009_22-attempted,326,458,459,509,510,556,belief_verb,8
+YS2009-YS2009_22-intentional,324,456,457,507,508,550,belief_verb,8
+YS2009-YS2009_23-neutral,396,445,446,492,538,592,belief_verb,9
+YS2009-YS2009_23-accidental,380,429,430,476,477,565,belief_verb,8
+YS2009-YS2009_23-attempted,384,448,449,495,541,595,belief_verb,9
+YS2009-YS2009_23-intentional,368,432,433,479,480,568,belief_verb,8
+YS2009-YS2009_24-neutral,240,371,372,414,415,468,belief_verb,6
+YS2009-YS2009_24-accidental,231,362,363,405,406,459,belief_verb,6
+YS2009-YS2009_24-attempted,240,367,368,410,411,464,belief_verb,6
+YS2009-YS2009_24-intentional,231,358,359,401,402,455,belief_verb,6
+YS2011-Allergy-intentional,40,76,165,226,165,226,manual,4
+YS2011-Allergy-accidental,40,84,173,234,173,234,manual,4
+YS2011-Poison-intentional,237,298,185,236,237,298,manual,5
+YS2011-Poison-accidental,237,297,185,236,237,297,manual,5
+YS2011-Sibling-intentional,110,200,201,301,201,301,manual,4
+YS2011-Sibling-accidental,211,303,110,210,211,303,manual,4
+YS2011-Parent-intentional,180,245,246,364,246,364,manual,4
+YS2011-Parent-accidental,180,249,250,368,250,368,manual,4
+YS2011-Dog-intentional,239,269,270,308,270,308,manual,6
+YS2011-Dog-accidental,239,316,317,377,317,377,manual,6

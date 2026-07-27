@@ -1,0 +1,6 @@
+model,peak_intent_layer,peak_intent_acc,intent_reliance_index
+OLMo-2-1124-7B-Instruct,16,0.85,0.063
+Qwen2.5-0.5B-Instruct,21,0.695,0.036
+Qwen2.5-1.5B-Instruct,20,0.755,0.067
+Qwen2.5-7B,19,0.883,0.052
+Qwen2.5-7B-Instruct,19,0.879,0.122

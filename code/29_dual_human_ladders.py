@@ -176,22 +176,44 @@ def main():
         seen.add(r["key"])
         uniq.append(dict(r))  # copy — nearest will differ per anchor
 
-    summary = []
+    # Closed-API models were scored before the stimulus repair and have NOT been
+    # rescored (blocked on budget approval). Every ladder is therefore emitted twice:
+    # _openonly is the defensible artifact; _all carries the contaminated-era cloud
+    # rows and must never be shown without that marking.
+    open_rows = [r for r in uniq if r["study"] != "cloud API"]
+    SCOPES = OrderedDict([
+        ("openonly", dict(rows=open_rows,
+                          suffix="_openonly",
+                          note="open-weight only, post-repair rescore")),
+        ("all", dict(rows=uniq,
+                     suffix="_all",
+                     note="INCLUDES closed-API models marked "
+                          "PENDING RESCORE — contaminated-era")),
+    ])
+
+    summary = []          # openonly scope — drives the robustness note
+    summary_all = []      # full scope — reported alongside, explicitly marked
     print("=" * 72)
-    print("DUAL HUMAN ANCHORS — both ladders; primary choice is the USER's")
+    print("HUMAN ANCHOR LADDERS — every anchor × scope; primary choice is the USER's")
+    print(f"  open-weight models: {len(open_rows)}   "
+          f"closed-API (contaminated-era): {len(uniq) - len(open_rows)}")
     print("=" * 72)
     for key, spec in ANCHORS.items():
         print(f"\n--- anchor: {spec['label']} ---")
         for g, c in spec["bands"].items():
             print(f"  {g:12} contrast = {c:+.3f}")
-        rendered = render([dict(r) for r in uniq], spec["bands"],
-                          spec["out_png"], spec["out_csv"], key)
-        n_below = sum(1 for r in rendered
-                      if not r["degenerate"] and below_youngest(r["contrast"], spec["bands"]))
-        n_ok = sum(1 for r in rendered if not r["degenerate"])
-        print(f"  models at or below youngest band ({spec['bands']['child_4_5']:+.2f}): "
-              f"{n_below}/{n_ok} non-degenerate")
-        summary.append((key, spec, rendered, n_below, n_ok))
+        for scope, sc in SCOPES.items():
+            png = spec["out_png"].replace(".png", sc["suffix"] + ".png")
+            out_csv = spec["out_csv"].replace(".csv", sc["suffix"] + ".csv")
+            rendered = render([dict(r) for r in sc["rows"]], spec["bands"],
+                              png, out_csv, f"{key} [{sc['note']}]")
+            n_below = sum(1 for r in rendered
+                          if not r["degenerate"] and below_youngest(r["contrast"], spec["bands"]))
+            n_ok = sum(1 for r in rendered if not r["degenerate"])
+            print(f"  [{scope:9}] at/below youngest ({spec['bands']['child_4_5']:+.2f}): "
+                  f"{n_below}/{n_ok} non-degenerate")
+            (summary if scope == "openonly" else summary_all).append(
+                (key, spec, rendered, n_below, n_ok))
 
         # 05_human_comparison for each behavior tree that exists
         run_05(spec["human_csv"], spec["human_out"], [
@@ -255,8 +277,12 @@ def main():
         held = "holds" if n_below == n_ok else "does not hold"
         return (f"{spec['label']} (youngest band {spec['bands']['child_4_5']:+.2f}): "
                 f"{held} for {n_below}/{n_ok} non-degenerate models")
+    by_key_all = {k: (spec, n_below, n_ok) for k, spec, _, n_below, n_ok in summary_all}
     both_digitized_hold = all(by_key[k][1] == by_key[k][2] for k in ("digitized", "punish"))
     ROBUSTNESS_NOTE = (
+        "SCOPE: computed on open-weight models only (post-repair rescore). Closed-API "
+        "models have not been rescored since the stimulus repair; their ladders are "
+        "emitted separately as *_all and marked PENDING RESCORE — contaminated-era.\n\n"
         "ROBUSTNESS ACROSS MEASURES (not an anchor choice). The claim 'models fall "
         "at or below the youngest measured band' "
         + ("holds under BOTH digitized child ladders — naughtiness "
@@ -273,8 +299,16 @@ def main():
         "(2013)'s two-process prediction that intent constrains judgments of wrongness "
         "before judgments of deserved punishment. Two independent digitizations "
         "reproducing the predicted pattern is evidence the digitization is sound.\n\n"
-        "Per-ladder outcome:\n"
+        "Per-ladder outcome (open-weight only):\n"
         + "\n".join(f"  - {_frag(k)}" for k in by_key)
+        + "\n\nSame ladders WITH contaminated-era closed-API models included "
+          "(marked, not for headline use):\n"
+        + "\n".join(
+            f"  - {by_key_all[k][0]['label']} (youngest band "
+            f"{by_key_all[k][0]['bands']['child_4_5']:+.2f}): "
+            f"{'holds' if by_key_all[k][1] == by_key_all[k][2] else 'does not hold'} "
+            f"for {by_key_all[k][1]}/{by_key_all[k][2]} non-degenerate models"
+            for k in by_key_all)
     )
     notes = os.path.join(ROOT, "outputs", "human_anchor_comparison.NOTES.md")
     with open(notes, "w") as nf:

@@ -1,0 +1,21 @@
+model,study,n_factorial,c_blame_w1,c_blame_w2,c_wrong_w1,c_wrong_w2,c_punish_w1,c_punish_w2,contrast_mean_all,contrast_mean_included,sign_stable,include_in_pooled,verdict
+HuggingFaceH4-zephyr-7b-beta,local open-weight,6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,,True,False,degenerate/zero
+Qwen2.5-0-5B-Instruct,local open-weight,6,-0.0285,-0.0238,-0.0241,-0.0021,-0.0865,-0.0119,-0.0295,-0.0295,True,True,sign-stable
+Qwen2.5-0-5B,local open-weight,6,0.0043,0.0086,0.0064,0.0195,-0.0113,0.007,0.0057,,False,False,FRAGILE (sign flip)
+Qwen2.5-14B-Instruct,local open-weight,6,-0.3577,-0.3873,-0.4129,-0.3386,-0.4216,-0.3737,-0.382,-0.382,True,True,sign-stable
+Qwen2.5-14B,local open-weight,6,-0.0931,-0.1818,-0.2911,-0.2387,-0.0882,-0.0512,-0.1573,-0.1573,True,True,sign-stable
+Qwen2.5-1-5B-Instruct,local open-weight,6,-0.2123,-0.2545,-0.2336,-0.1824,-0.1908,-0.1968,-0.2117,-0.2117,True,True,sign-stable
+Qwen2.5-1-5B,local open-weight,6,-0.0014,-0.0164,-0.0213,-0.0164,-0.0164,-0.0013,-0.0122,-0.0122,True,True,sign-stable
+Qwen2.5-3B-Instruct,local open-weight,6,-0.2097,-0.4597,-0.328,-0.2746,-0.1017,-0.2267,-0.2667,-0.2667,True,True,sign-stable
+Qwen2.5-3B,local open-weight,6,-0.0284,-0.062,-0.0838,-0.079,-0.0249,-0.0514,-0.0549,-0.0549,True,True,sign-stable
+Qwen2.5-7B-Instruct,local open-weight,6,-0.1544,-0.2746,-0.278,-0.3558,-0.0965,-0.1698,-0.2215,-0.2215,True,True,sign-stable
+Qwen2.5-7B,local open-weight,6,-0.0362,-0.0728,-0.0739,-0.0753,-0.0227,-0.0575,-0.0564,-0.0564,True,True,sign-stable
+Llama-3-1-Tulu-3-8B,local open-weight,6,-0.3096,-0.4141,-0.4851,-0.4252,-0.4629,-0.4205,-0.4196,-0.4196,True,True,sign-stable
+OLMo-2-1124-7B-Instruct,local open-weight,6,-0.8627,-0.7074,-0.7344,-0.6077,-0.7683,-0.8187,-0.7499,-0.7499,True,True,sign-stable
+OLMo-2-1124-7B,local open-weight,6,-0.0025,-0.0077,-0.0022,0.0153,-0.0127,0.0022,-0.0013,,False,False,FRAGILE (sign flip)
+Mistral-7B-Instruct-v0-3,local open-weight,6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,,True,False,degenerate/zero
+Mistral-7B-v0-3,local open-weight,6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,,True,False,degenerate/zero
+unsloth-Meta-Llama-3-1-8B-Instruct,local open-weight,6,-0.1779,-0.2287,-0.2458,-0.2145,-0.1759,-0.2006,-0.2072,-0.2072,True,True,sign-stable
+unsloth-Meta-Llama-3-1-8B,local open-weight,6,0.0058,-0.0011,0.0035,-0.0007,0.0027,0.0028,0.0022,,False,False,FRAGILE (sign flip)
+unsloth-gemma-2-9b-it,local open-weight,6,-0.4093,-0.3799,-0.434,-0.2861,-0.5303,-0.427,-0.4111,-0.4111,True,True,sign-stable
+unsloth-gemma-2-9b,local open-weight,6,0.0017,0.0001,-0.0012,0.002,0.0001,0.0033,0.001,,False,False,FRAGILE (sign flip)

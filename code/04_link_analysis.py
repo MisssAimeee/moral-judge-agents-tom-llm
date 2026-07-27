@@ -13,7 +13,7 @@ their judgments? A positive correlation = representation->behavior link. A null 
 
 Outputs: outputs/link/representation_vs_behavior.csv  + a scatter plot.
 """
-import os, csv, glob, argparse
+import os, csv, glob, argparse, re
 
 def peak_intent(probe_csv):
     best = None
@@ -32,6 +32,11 @@ if __name__ == "__main__":
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
 
+    # Probe filenames spell versions with dots (Qwen2.5-0.5B) while behavior model ids
+    # spell them with underscores (Qwen/Qwen2_5-0_5B); join on a separator-free key.
+    def joinkey(s):
+        return re.sub(r"[^a-z0-9]", "", s.lower())
+
     rep = {}
     for p in glob.glob(os.path.join(a.probe,"*_probe.csv")):
         tag = os.path.basename(p).replace("_probe.csv","")
@@ -44,12 +49,19 @@ if __name__ == "__main__":
         v = (r.get("intent_reliance_index") or "").strip()
         if not v or str(r.get("degenerate", "")).lower() in ("true", "1"):
             continue
-        beh[r["model"].split("/")[-1]] = float(v)
+        beh[joinkey(r["model"].split("/")[-1])] = float(v)
 
-    rows=[]
+    rows, unmatched = [], []
     for tag,(L,acc) in rep.items():
-        if tag in beh:
-            rows.append([tag,L,round(acc,3),round(beh[tag],3)])
+        k = joinkey(tag)
+        if k in beh:
+            rows.append([tag,L,round(acc,3),round(beh[k],3)])
+        else:
+            unmatched.append(tag)
+    rows.sort()
+    print(f"joined {len(rows)} models ({len(rep)} probed, {len(beh)} with a usable index)")
+    if unmatched:
+        print("  probed but no usable behavioral index: " + ", ".join(sorted(unmatched)))
     outp=os.path.join(a.out,"representation_vs_behavior.csv")
     with open(outp,"w",newline="") as f:
         w=csv.writer(f); w.writerow(["model","peak_intent_layer","peak_intent_acc","intent_reliance_index"]); w.writerows(rows)

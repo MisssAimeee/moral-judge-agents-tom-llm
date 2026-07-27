@@ -1,0 +1,25 @@
+analysis,key,value
+primary_all_models,sign_stable_only,False
+primary_all_models,estimable,True
+primary_all_models,n_obs,120
+primary_all_models,n_models,20
+primary_all_models,n_templates,6
+primary_all_models,note_scale,"All factorial paraphrases are 1–7; scale factor has no within-factorial variance. Scale effects are assessed via legacy para_blame10 (1–10) / para_blame4 (1–4) separately. Scale replication (YS2008↔YS2009 human_verbatim): pooled r≈0.71, Bland–Altman bias ≈ −0.06 — see outputs/SCALE_REPLICATION.md. Not recomputed here."
+primary_all_models,anova_typeII,"{'sum_sq': {'C(wording)': 0.0, 'C(construct)': 0.0061, 'C(wording):C(construct)': 0.0171, 'Residual': 4.9964}, 'df': {'C(wording)': 1.0, 'C(construct)': 2.0, 'C(wording):C(construct)': 2.0, 'Residual': 114.0}, 'F': {'C(wording)': 0.0, 'C(construct)': 0.07, 'C(wording):C(construct)': 0.1955, 'Residual': nan}, 'PR(>F)': {'C(wording)': 0.9986, 'C(construct)': 0.9324, 'C(wording):C(construct)': 0.8227, 'Residual': nan}}"
+primary_all_models,variance_share,"{'C(wording)': 0.0, 'C(construct)': 0.0012, 'C(wording):C(construct)': 0.0034, 'Residual': 0.9954}"
+primary_all_models,mixedlm_converged,True
+primary_all_models,mixedlm_params,"{'Intercept': -0.1436, 'C(wording)[T.2]': -0.0296, 'C(construct)[T.punishment]': -0.0068, 'C(construct)[T.wrongness]': -0.0384, 'C(wording)[T.2]:C(construct)[T.punishment]': 0.0304, 'C(wording)[T.2]:C(construct)[T.wrongness]': 0.0585, 'Group Var': 1.0}"
+primary_all_models,mixedlm_template_var,0.043828
+primary_all_models,mixedlm_resid_var,0.043828
+sensitivity_sign_stable_only,sign_stable_only,True
+sensitivity_sign_stable_only,estimable,True
+sensitivity_sign_stable_only,n_obs,78
+sensitivity_sign_stable_only,n_models,13
+sensitivity_sign_stable_only,n_templates,6
+sensitivity_sign_stable_only,note_scale,"All factorial paraphrases are 1–7; scale factor has no within-factorial variance. Scale effects are assessed via legacy para_blame10 (1–10) / para_blame4 (1–4) separately. Scale replication (YS2008↔YS2009 human_verbatim): pooled r≈0.71, Bland–Altman bias ≈ −0.06 — see outputs/SCALE_REPLICATION.md. Not recomputed here."
+sensitivity_sign_stable_only,anova_typeII,"{'sum_sq': {'C(wording)': 0.0, 'C(construct)': 0.0108, 'C(wording):C(construct)': 0.0246, 'Residual': 3.3348}, 'df': {'C(wording)': 1.0, 'C(construct)': 2.0, 'C(wording):C(construct)': 2.0, 'Residual': 72.0}, 'F': {'C(wording)': 0.0008, 'C(construct)': 0.1166, 'C(wording):C(construct)': 0.2658, 'Residual': nan}, 'PR(>F)': {'C(wording)': 0.9779, 'C(construct)': 0.8901, 'C(wording):C(construct)': 0.7673, 'Residual': nan}}"
+sensitivity_sign_stable_only,variance_share,"{'C(wording)': 0.0, 'C(construct)': 0.0032, 'C(wording):C(construct)': 0.0073, 'Residual': 0.9895}"
+sensitivity_sign_stable_only,mixedlm_converged,True
+sensitivity_sign_stable_only,mixedlm_params,"{'Intercept': -0.2216, 'C(wording)[T.2]': -0.0448, 'C(construct)[T.punishment]': -0.0081, 'C(construct)[T.wrongness]': -0.0588, 'C(wording)[T.2]:C(construct)[T.punishment]': 0.0432, 'C(wording)[T.2]:C(construct)[T.wrongness]': 0.087, 'Group Var': 1.0}"
+sensitivity_sign_stable_only,mixedlm_template_var,0.046316
+sensitivity_sign_stable_only,mixedlm_resid_var,0.046316

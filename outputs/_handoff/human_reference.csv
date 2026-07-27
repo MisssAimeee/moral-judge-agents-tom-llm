@@ -1,0 +1,17 @@
+group,condition,raw_value,scale_min,scale_max,direction,norm_blame,source,notes
+adult,neutral,3.9,1,4,permissible,0.033,Young Cushman Hauser & Saxe 2007 PNAS Exp1 Fig2,"n=10 fMRI; scale 1=forbidden 4=permissible; norm_blame=1-(3.9-1)/3=0.033"
+adult,accidental,3.2,1,4,permissible,0.267,Young Cushman Hauser & Saxe 2007 PNAS Exp1 Fig2,"neutral belief / negative outcome (unknowing harm); norm_blame=1-(3.2-1)/3=0.267"
+adult,attempted,1.2,1,4,permissible,0.933,Young Cushman Hauser & Saxe 2007 PNAS Exp1 Fig2,"negative belief / neutral outcome (attempted harm); norm_blame=1-(1.2-1)/3=0.933"
+adult,intentional,1.1,1,4,permissible,0.967,Young Cushman Hauser & Saxe 2007 PNAS Exp1 Fig2,"negative belief / negative outcome (intentional harm); norm_blame=1-(1.1-1)/3=0.967"
+child_4_5,neutral,,0,1,blame,,Cushman Sheketoff Wharton & Carey 2013 Cognition,"NOT MEASURED in Cushman 2013 — paper only tests accidental and attempted conditions; leave blank"
+child_4_5,accidental,0.59,0,1,blame,0.59,Cushman Sheketoff Wharton & Carey 2013 Cognition,"n=126 ages 4-5; binary naughty+punishable proportion from text (4yo: 59% condemned accidental); scale already 0-1"
+child_4_5,attempted,0.45,0,1,blame,0.45,Cushman Sheketoff Wharton & Carey 2013 Cognition,"4yo: 45% condemned attempted harm (outcome-biased; lower attempted than accidental at this age)"
+child_4_5,intentional,,0,1,blame,,Cushman Sheketoff Wharton & Carey 2013 Cognition,"NOT MEASURED in Cushman 2013 — leave blank; method-check showed 90% condemnation for unambiguous intentional"
+child_6_7,neutral,,0,1,blame,,Cushman Sheketoff Wharton & Carey 2013 Cognition,NOT MEASURED — leave blank
+child_6_7,accidental,0.40,0,1,blame,0.40,Cushman Sheketoff Wharton & Carey 2013 Cognition,"ages 6-7 approximate from Fig3; ~40pp decrease across ages 4-8 so midpoint ~40%"
+child_6_7,attempted,0.55,0,1,blame,0.55,Cushman Sheketoff Wharton & Carey 2013 Cognition,"ages 6-7 approximate from Fig3; ~20pp increase across ages 4-8 so midpoint ~55%"
+child_6_7,intentional,,0,1,blame,,Cushman Sheketoff Wharton & Carey 2013 Cognition,NOT MEASURED — leave blank
+child_8plus,neutral,,0,1,blame,,Cushman Sheketoff Wharton & Carey 2013 Cognition,NOT MEASURED — leave blank
+child_8plus,accidental,0.19,0,1,blame,0.19,Cushman Sheketoff Wharton & Carey 2013 Cognition,"ages 8+; text states ~40pp decrease from age 4 (59%-40pp=~19%); also paper states r=-.40 age-accidental correlation"
+child_8plus,attempted,0.65,0,1,blame,0.65,Cushman Sheketoff Wharton & Carey 2013 Cognition,"ages 8+; text states ~20pp increase from age 4 (45%+20pp=~65%); text: ~70% stable across ages for first story"
+child_8plus,intentional,,0,1,blame,,Cushman Sheketoff Wharton & Carey 2013 Cognition,NOT MEASURED — leave blank

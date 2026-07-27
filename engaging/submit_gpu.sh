@@ -119,6 +119,9 @@ exit \$RC
 EOF
 
 echo ""
+# to stderr, so PARSABLE=1 leaves only the bare job id on stdout for chaining
+{
 echo "Submitted. Monitor with:"
 echo "  squeue -u \$USER"
 echo "  tail -f $PROJ/outputs/logs/gpu_<JOBID>.log"
+} >&2

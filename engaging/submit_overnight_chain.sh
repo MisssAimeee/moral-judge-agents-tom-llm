@@ -62,21 +62,23 @@ submit() {  # submit <runner> <jobname> <dep> <env-assignments...> -- <command>
 
 echo "=== overnight chain $STAMP ==="
 
+# B1/B2/B6 have no dependencies. Set B1_ID/B2_ID/B6_ID in the environment to adopt jobs that
+# are already queued instead of submitting duplicates.
 # --- B1: activations, 8 models x 4 pooling variants -------------------------------------
-B1=$(submit "$GPU" acts "" PART=$GPU_PART TIME=08:00:00 MEM=96G GPUS=1 -- \
+B1="${B1_ID:-$(submit "$GPU" acts "" PART=$GPU_PART TIME=08:00:00 MEM=96G GPUS=1 -- \
   python -u code/01_extract_activations.py --csv "$CSV" --clause-offsets "$OFFS" \
-  --out outputs/acts --models $ACT_MODELS)
+  --out outputs/acts --models $ACT_MODELS)}"
 echo "B1 activations          = $B1"
 
 # --- B2: behavioural rescore, independent of B1 so they run in parallel -----------------
-B2=$(submit "$GPU" rescore "" PART=$GPU_PART TIME=12:00:00 MEM=96G GPUS=1 -- \
+B2="${B2_ID:-$(submit "$GPU" rescore "" PART=$GPU_PART TIME=12:00:00 MEM=96G GPUS=1 -- \
   python -u code/03_behavioral.py --backend hf --scoring logprob --csv "$CSV" \
-  --out_dir outputs/behavior --skip_existing --models $BEH_MODELS)
+  --out_dir outputs/behavior --skip_existing --models $BEH_MODELS)}"
 echo "B2 behavioural rescore  = $B2"
 
 # --- B6: TF-IDF surface baseline, needs only the repaired dataset -----------------------
-B6=$(submit "$CPU" surface "" PART=$CPU_PART TIME=02:00:00 MEM=32G CPUS=8 -- \
-  python -u code/experiments/21_surface_baseline.py --csv "$CSV")
+B6="${B6_ID:-$(submit "$CPU" surface "" PART=$CPU_PART TIME=02:00:00 MEM=32G CPUS=8 -- \
+  python -u code/experiments/21_surface_baseline.py --csv "$CSV")}"
 echo "B6 surface baseline     = $B6"
 
 # --- B4/B8: layer-wise probes, one job per pooling variant, all after B1 ----------------

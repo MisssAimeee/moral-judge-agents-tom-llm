@@ -170,19 +170,95 @@ def model_safe(name):
     return re.sub(r'[^\w\-]', '_', name)
 
 
+# --- planted ground truth for the mock backend --------------------------------
+# The mock is not a language model; it is a generator with KNOWN effects so the
+# analysis code can be validated against answers we already know. Everything is
+# defined in normalized [0,1] blame space and then mapped onto each template's
+# own (s_min, s_max, direction).
+#
+# Because the headline statistic is a CONTRAST (attempted − accidental), any term
+# that shifts both conditions equally cancels out. So the wording effect is planted
+# as a modulation of the intent term, not as an additive offset — otherwise it
+# would be invisible to the variance decomposition by construction.
+MOCK_BASE = 0.35            # neutral / innocent + no_harm floor
+MOCK_OUTCOME_EFFECT = 0.10  # added when outcome_label == "harm"
+MOCK_WORDING_DELTA = 0.06   # added to the intent term for wording 2
+MOCK_INTENT_BY_CONSTRUCT = {   # two-process pattern: punishment least intent-driven
+    "blame": 0.30,
+    "wrongness": 0.30,
+    "punishment": 0.15,
+    "acceptability": 0.22,
+    "verbatim_anchor": 0.25,
+}
+
+
+def mock_expected_contrast(construct, wording, model_offset=0.0):
+    """Ground-truth attempted − accidental contrast the mock will produce."""
+    intent = MOCK_INTENT_BY_CONSTRUCT.get(construct, 0.25) + model_offset
+    if wording == 2:
+        intent += MOCK_WORDING_DELTA
+    return intent - MOCK_OUTCOME_EFFECT
+
+
+def _mock_model_offset(model_name):
+    """Small deterministic per-model shift so models are not identical clones."""
+    return ((abs(hash(("tom-mock", model_name))) % 7) - 3) * 0.005  # -0.015..+0.015
+
+
 class MockBackend:
+    """Deterministic planted-effect generator for validating the analysis code.
+
+    NOT a language model and NOT a smoke test of model behaviour. Ratings are a
+    closed-form function of the row's intent_label / outcome_label and the
+    template's construct and wording, so downstream statistics have a known
+    correct answer (see mock_expected_contrast and code/tests/).
+
+    Reads the stimulus row directly (wants_row) because the planted effect is
+    defined on the labels, not on the prompt string. Inferring guilt from prompt
+    keywords would recover the world state rather than the agent's belief and
+    would make the mock outcome-weighted.
+    """
+
+    wants_row = True
+
     def __init__(self, model_name, scoring, **_):
         self.model_name = model_name
         self.scoring = scoring
+        self.offset = _mock_model_offset(model_name)
 
-    def rate(self, prompt, s_min, s_max, n_samples=1, temperature=0.7):
-        random.seed(abs(hash(prompt)) % (2**31))
-        if self.scoring == "logprob":
+    def rate(self, prompt, s_min, s_max, n_samples=1, temperature=0.7,
+             row=None, template=None):
+        if row is None:  # no context: fall back to the old random behaviour
+            random.seed(abs(hash(prompt)) % (2**31))
             val = random.uniform(s_min, s_max)
             return [round(val, 4)], round(normalize(val, s_min, s_max), 4)
-        ratings = [random.randint(s_min, s_max) for _ in range(n_samples)]
-        avg = sum(normalize(r, s_min, s_max) for r in ratings) / len(ratings)
-        return ratings, round(avg, 4)
+
+        meta = TEMPLATE_META.get(template, {})
+        construct = meta.get("construct", "blame")
+        wording = int(meta.get("wording", 1) or 1)
+
+        intent = MOCK_INTENT_BY_CONSTRUCT.get(construct, 0.25) + self.offset
+        if wording == 2:
+            intent += MOCK_WORDING_DELTA
+
+        norm = MOCK_BASE
+        if row.get("intent_label") == "guilty":
+            norm += intent
+        if row.get("outcome_label") == "harm":
+            norm += MOCK_OUTCOME_EFFECT
+        norm = min(1.0, max(0.0, norm))
+
+        # Map back onto this template's own scale, honouring its direction.
+        # Every template currently defined is direction="blame" (higher = more
+        # condemnatory), including the 1–3 permissibility anchor, whose question
+        # is phrased 1=permissible → 3=impermissible. The reversal branch exists
+        # so a future permissive-ascending template cannot silently invert.
+        span = s_max - s_min
+        if meta.get("direction") == "permissible":
+            raw = s_max - norm * span
+        else:
+            raw = s_min + norm * span
+        return [round(raw, 4)], round(norm, 4)
 
 
 class HFBackend:
@@ -616,7 +692,12 @@ def run_model(backend, rows, templates, n_samples, temperature, raw_path=None):
                 if key in done_keys:
                     continue
                 prompt, s_min, s_max = build_prompt(row["text"], tmpl, row["source"])
-                ratings, norm_avg = backend.rate(prompt, s_min, s_max, n_samples, temperature)
+                if getattr(backend, "wants_row", False):
+                    ratings, norm_avg = backend.rate(
+                        prompt, s_min, s_max, n_samples, temperature,
+                        row=row, template=tmpl)
+                else:
+                    ratings, norm_avg = backend.rate(prompt, s_min, s_max, n_samples, temperature)
                 for i, raw_r in enumerate(ratings):
                     rec = {
                         "model": backend.model_name, "template": tmpl, "sample": i,

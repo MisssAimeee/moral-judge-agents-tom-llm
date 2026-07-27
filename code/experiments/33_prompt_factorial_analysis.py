@@ -43,6 +43,20 @@ beh = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(beh)
 
 FACTORIAL_1_7 = [t for t in beh.FACTORIAL_TEMPLATES if t != "human_verbatim"]
+
+# ---- PRE-REGISTERED 2026-07-27, before the W0 rescore (job 19000403) landed ----
+# The design has 2 wordings × 3 constructs = 6 cells, and the saturated model
+# (wording + construct + interaction) costs 6 parameters. Each model contributes
+# one observation per cell, so n_obs = 6 × n_models and residual df = 6 × (n_models − 1).
+# Fitting at n_models = 2 leaves 6 residual df, which is too thin to interpret a
+# variance share; 3 models (12 residual df) is the floor we will report.
+MIN_MODELS_FOR_VARIANCE = 3
+MIN_OBS_FOR_VARIANCE = MIN_MODELS_FOR_VARIANCE * len(FACTORIAL_1_7)
+# If the sign-stable subset falls below the floor, the SENSITIVITY fit is declared
+# not estimable and reported as such — it is not silently relaxed, and the primary
+# all-models fit is not substituted for it. If the full set is also below the floor,
+# only the descriptive per-model contrast table is reported and no variance claim
+# is made. Under-powered fits are the failure mode this floor exists to prevent.
 OUT = os.path.join(tc.ROOT, "outputs", "analysis")
 SCALE_REP_NOTE = (
     "Scale replication (YS2008↔YS2009 human_verbatim): pooled r≈0.71, "
@@ -165,14 +179,26 @@ def variance_decomposition(sign_rows, sign_stable_only=False):
                 wording=int(meta["wording"]), construct=meta["construct"],
                 scale=meta["scale"],
             ))
-    if len(long) < 6:
-        return long, {"error": f"too few observations ({len(long)})",
-                      "sign_stable_only": sign_stable_only}
+    n_models = len({r["model"] for r in long})
+    if n_models < MIN_MODELS_FOR_VARIANCE or len(long) < MIN_OBS_FOR_VARIANCE:
+        return long, {
+            "sign_stable_only": sign_stable_only,
+            "estimable": False,
+            "n_obs": len(long),
+            "n_models": n_models,
+            "error": (
+                f"NOT ESTIMABLE — {n_models} model(s) / {len(long)} observations is below "
+                f"the pre-registered floor of {MIN_MODELS_FOR_VARIANCE} models "
+                f"({MIN_OBS_FOR_VARIANCE} observations). Reported as not estimable rather "
+                f"than fitted under-powered; see the pre-registration block in this script."
+            ),
+        }
 
     import pandas as pd
     df = pd.DataFrame(long)
     summary = {
         "sign_stable_only": sign_stable_only,
+        "estimable": True,
         "n_obs": len(df),
         "n_models": df["model"].nunique(),
         "n_templates": df["template"].nunique(),
@@ -237,9 +263,26 @@ def write_report(sign_rows, var_summary, out_dir, var_summary_filtered=None):
 
     n_in = sum(1 for r in sign_rows if r["include_in_pooled"])
     n_flip = sum(1 for r in sign_rows if r["verdict"].startswith("FRAGILE"))
+    n_tot = len(sign_rows)
+    flip_rate = (n_flip / n_tot) if n_tot else 0.0
     md = os.path.join(out_dir, "prompt_factorial_report.md")
     lines = [
         "# Prompt factorial analysis (W5 / roadmap #3)",
+        "",
+        "## Headline result — cross-prompt sign stability",
+        "",
+        f"**{n_flip} of {n_tot} models change sign across construct-matched prompts "
+        f"on a common 1–7 scale** (flip rate {flip_rate:.0%}).",
+        "",
+        "This is a primary finding, not merely an exclusion filter. The prompts differ "
+        "only in wording and construct (blame / wrongness / punishment) on one shared "
+        "response scale, so a sign change means the model does not merely shift "
+        "magnitude — it reverses which of intent and outcome it weights more. That "
+        "speaks directly to the prompt-fragility literature (NEXT_PHASE_PLAN §2c) and "
+        "is reportable whichever way it comes out: a high rate is evidence that "
+        "single-prompt moral-judgment results are unsafe to generalize, and a low rate "
+        "is positive evidence that the intent-vs-outcome contrast is a stable property "
+        "of the model rather than of the prompt.",
         "",
         "## Template set",
         "",
@@ -251,11 +294,17 @@ def write_report(sign_rows, var_summary, out_dir, var_summary_filtered=None):
         "(never replaced). `wrong_w1`/`punish_w1` alias to overnight "
         "`para_wrong7`/`punish7` (identical wording).",
         "",
-        f"## Sign stability (pre-registered inclusion)",
+        "## Sign stability (pre-registered inclusion)",
         "",
-        f"- Models scored on factorial 1–7 prompts: **{len(sign_rows)}**",
+        f"- Models scored on factorial 1–7 prompts: **{n_tot}**",
         f"- Included in pooled factorial mean (sign-stable): **{n_in}**",
         f"- Sign-flippers (reported separately, not averaged in): **{n_flip}**",
+        f"- Flip rate: **{flip_rate:.0%}**",
+        "",
+        f"Pre-registered floor for fitting the variance model: "
+        f"**{MIN_MODELS_FOR_VARIANCE} models / {MIN_OBS_FOR_VARIANCE} observations**. "
+        f"If the sign-stable subset falls below it, the sensitivity fit is reported as "
+        f"not estimable rather than fitted under-powered.",
         "",
         "## Variance decomposition",
         "",

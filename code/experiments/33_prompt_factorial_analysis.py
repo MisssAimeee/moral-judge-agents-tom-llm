@@ -105,15 +105,10 @@ def template_contrast(cells, tmpl: str) -> float | None:
     return float(np.mean(diffs)) if diffs else None
 
 
-def sign_stability_table(behavior_dirs=None):
+def sign_stability_table(studies=None):
     """Per model: contrasts on factorial 1–7 prompts; include only sign-stable."""
     rows = []
-    # Prefer local open-weight behavior; also scan agents if present.
-    studies = {"local open-weight": os.path.join(tc.ROOT, "outputs", "behavior")}
-    if behavior_dirs:
-        studies = {f"dir{i}": d for i, d in enumerate(behavior_dirs)}
-    else:
-        studies = tc.STUDIES
+    studies = studies or tc.STUDIES
 
     for study, tag, path in tc.iter_item_means(studies):
         cells = tc.load_cells(path)
@@ -128,7 +123,7 @@ def sign_stability_table(behavior_dirs=None):
         # Pre-registered inclusion: all non-zero factorial prompts share a sign.
         include = (not flip) and any(abs(v) > 1e-9 for v in vals)
         rows.append(dict(
-            model=tc.pretty(tag), study=study, tag=tag,
+            model=tc.pretty(tag), study=study, tag=tag, path=path,
             n_factorial=len(tcs),
             **{f"c_{t}": round(tcs[t], 4) for t in FACTORIAL_1_7 if t in tcs},
             contrast_mean_all=round(float(np.mean(vals)), 4),
@@ -141,27 +136,25 @@ def sign_stability_table(behavior_dirs=None):
     return rows
 
 
-def variance_decomposition(sign_rows):
+def variance_decomposition(sign_rows, sign_stable_only=False):
     """
     Long-format observations = model × factorial template contrast.
     Fixed: C(wording) * C(construct); random: template (prompt).
+
+    sign_stable_only=False is the PRIMARY analysis. The pre-registered inclusion
+    criterion governs the pooled *mean contrast* (flippers are not averaged in);
+    applying it here too would discard exactly the prompt-driven variance this
+    model exists to quantify, biasing the decomposition toward stability. The
+    filtered version is reported alongside as a sensitivity check.
+
     Scale has no variance inside the 1–7 factorial — report that explicitly and
     optionally add para_blame10 / para_blame4 as a scale check (separate block).
     """
     long = []
     for r in sign_rows:
-        if not r["include_in_pooled"]:
-            continue  # pre-registered: flippers out of the variance model
-        tag = r["tag"]
-        # reload cells for this tag
-        path = None
-        for study, t, p in tc.iter_item_means():
-            if t == tag:
-                path = p
-                break
-        if not path:
+        if sign_stable_only and not r["include_in_pooled"]:
             continue
-        cells = tc.load_cells(path)
+        cells = tc.load_cells(r["path"])
         for tmpl in FACTORIAL_1_7:
             c = template_contrast(cells, tmpl)
             if c is None:
@@ -173,11 +166,13 @@ def variance_decomposition(sign_rows):
                 scale=meta["scale"],
             ))
     if len(long) < 6:
-        return long, {"error": f"too few observations ({len(long)}) after inclusion filter"}
+        return long, {"error": f"too few observations ({len(long)})",
+                      "sign_stable_only": sign_stable_only}
 
     import pandas as pd
     df = pd.DataFrame(long)
     summary = {
+        "sign_stable_only": sign_stable_only,
         "n_obs": len(df),
         "n_models": df["model"].nunique(),
         "n_templates": df["template"].nunique(),
@@ -193,6 +188,12 @@ def variance_decomposition(sign_rows):
         ols = smf.ols("contrast ~ C(wording) * C(construct)", data=df).fit()
         aov = anova_lm(ols, typ=2)
         summary["anova_typeII"] = aov.round(4).to_dict()
+        # Share of total SS per term (terms are the ROWS of the ANOVA table).
+        ss = aov["sum_sq"].to_dict()
+        total = sum(v for v in ss.values() if v == v)  # skip NaN
+        if total > 0:
+            summary["variance_share"] = {k: round(v / total, 4)
+                                         for k, v in ss.items() if v == v}
         # MixedLM: contrast ~ wording * construct + (1|template)
         try:
             md = smf.mixedlm("contrast ~ C(wording) * C(construct)", df,
@@ -208,16 +209,10 @@ def variance_decomposition(sign_rows):
     except Exception as e:
         summary["anova_error"] = str(e)
 
-    # Partial eta-style variance shares from sums of squares when ANOVA available
-    if "anova_typeII" in summary:
-        ss = {k: v.get("sum_sq", 0.0) for k, v in summary["anova_typeII"].items()}
-        total = sum(ss.values()) or 1.0
-        summary["variance_share"] = {k: round(v / total, 4) for k, v in ss.items()}
-
     return long, summary
 
 
-def write_report(sign_rows, var_summary, out_dir):
+def write_report(sign_rows, var_summary, out_dir, var_summary_filtered=None):
     os.makedirs(out_dir, exist_ok=True)
     # sign stability csv
     keys = ["model", "study", "n_factorial"] + [f"c_{t}" for t in FACTORIAL_1_7] + [
@@ -234,9 +229,11 @@ def write_report(sign_rows, var_summary, out_dir):
     vp = os.path.join(out_dir, "prompt_factorial_variance.csv")
     with open(vp, "w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["key", "value"])
+        w.writerow(["analysis", "key", "value"])
         for k, v in var_summary.items():
-            w.writerow([k, v])
+            w.writerow(["primary_all_models", k, v])
+        for k, v in (var_summary_filtered or {}).items():
+            w.writerow(["sensitivity_sign_stable_only", k, v])
 
     n_in = sum(1 for r in sign_rows if r["include_in_pooled"])
     n_flip = sum(1 for r in sign_rows if r["verdict"].startswith("FRAGILE"))
@@ -265,9 +262,22 @@ def write_report(sign_rows, var_summary, out_dir):
         "Fixed effects: `C(wording) * C(construct)` on contrast; "
         "random intercept: template/prompt (MixedLM when available).",
         "",
-        f"```",
+        "The pre-registered sign-stability rule governs the pooled **mean contrast**, "
+        "not this model: filtering flippers out of a variance decomposition would "
+        "discard the prompt-driven variance it exists to quantify. Primary = all "
+        "models; sign-stable-only is reported as a sensitivity check.",
+        "",
+        "### Primary (all models)",
+        "",
+        "```",
         f"{var_summary}",
-        f"```",
+        "```",
+        "",
+        "### Sensitivity (sign-stable models only)",
+        "",
+        "```",
+        f"{var_summary_filtered}",
+        "```",
         "",
         f"## Scale replication (cited, not recomputed)",
         "",
@@ -291,15 +301,20 @@ def main():
     ap.add_argument("--out", default=OUT)
     ap.add_argument("--analyze", action="store_true",
                     help="sign-stability + variance decomposition")
+    ap.add_argument("--studies-dir", nargs="*", default=None,
+                    help="override behavior dirs scanned for item_means (default: tom_common.STUDIES)")
     a = ap.parse_args()
     if not a.alias_legacy and not a.analyze:
         a.alias_legacy = a.analyze = True
     if a.alias_legacy:
         alias_legacy(a.behavior)
     if a.analyze:
-        rows = sign_stability_table()
-        _, summary = variance_decomposition(rows)
-        write_report(rows, summary, a.out)
+        studies = ({os.path.basename(d.rstrip("/")) or d: d for d in a.studies_dir}
+                   if a.studies_dir else None)
+        rows = sign_stability_table(studies)
+        _, summary = variance_decomposition(rows, sign_stable_only=False)
+        _, summary_filt = variance_decomposition(rows, sign_stable_only=True)
+        write_report(rows, summary, a.out, summary_filt)
 
 
 if __name__ == "__main__":

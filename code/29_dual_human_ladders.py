@@ -192,13 +192,20 @@ def main():
                  for k, _, rendered, _, _ in summary}
     keys = sorted({k for d in by_anchor.values() for k in d},
                   key=lambda k: by_anchor["text_reported"].get(k, by_anchor["digitized"][k])["contrast"])
+    METHODS_NOTE = (
+        "METHODS PRE-SPEC (2026-07-10): methods_child_measure.md chose Naughty/wrongness, "
+        "presented-first as primary — sixteen days before this comparison. "
+        "human_reference.csv used naughty+punishable text inconsistent with that spec. "
+        "Anchor decision must trace to that prior methods choice, not to 9/24 vs 24/24. "
+        "Both ladders remain as a permanent robustness table."
+    )
     with open(out_cmp, "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["model", "contrast",
                     "nearest_text_reported", "below_youngest_text_reported",
                     "nearest_digitized", "below_youngest_digitized",
-                    "degenerate"])
-        for k in keys:
+                    "degenerate", "methods_prespec_note"])
+        for i, k in enumerate(keys):
             rt = by_anchor["text_reported"].get(k)
             rd = by_anchor["digitized"].get(k)
             r = rt or rd
@@ -211,8 +218,14 @@ def main():
                 "yes" if rd and not rd["degenerate"] and below_youngest(
                     rd["contrast"], ANCHORS["digitized"]["bands"]) else "no",
                 "True" if r["degenerate"] else "False",
+                METHODS_NOTE if i == 0 else "",
             ])
     print(f"\nwrote {os.path.relpath(out_cmp, ROOT)}")
+    notes = os.path.join(ROOT, "outputs", "human_anchor_comparison.NOTES.md")
+    with open(notes, "w") as nf:
+        nf.write("# Human anchor comparison — methods provenance\n\n")
+        nf.write(METHODS_NOTE + "\n")
+    print(f"wrote {os.path.relpath(notes, ROOT)}")
 
     print("\n=== HEADLINE CLAIM CHECK ===")
     for key, spec, rendered, n_below, n_ok in summary:
@@ -220,7 +233,9 @@ def main():
                  f"({'HOLDS for all non-degenerate' if n_below == n_ok else 'does NOT hold for all'})")
         print(f"  [{key:14}] youngest={spec['bands']['child_4_5']:+.2f}  "
               f"at/below={n_below}/{n_ok}  → {claim}")
-    print("\nNo primary anchor chosen. That decision changes the paper's headline claim.")
+    print("\nNo primary anchor chosen here. Digitized Naughty/presented-first was "
+          "pre-specified in methods_child_measure.md (2026-07-10); keep both ladders "
+          "as robustness.")
 
 
 if __name__ == "__main__":

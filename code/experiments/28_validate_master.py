@@ -136,17 +136,35 @@ def main():
         absent = sorted(set(byid) - set(offs))
         R.check(not absent, "8a. clause offsets cover every master row",
                 f"{len(absent)} missing: {absent[:6]}")
-        far = []
-        for sid, o in offs.items():
-            if o.get("method") == "unannotated":
-                continue          # sentinel offsets, excluded from the clause probes anyway
-            if sid in byid:
-                d = len(byid[sid]["text"].rstrip()) - int(o["outcome_end"])
-                if abs(d) > 5:
-                    far.append((sid, d))
+        # Report against the master denominator (298), naming every excluded row.
+        # Iterating only belief_verb rows and printing "281/281" hides the 17 non-standard
+        # annotations — the same filtered-iteration blind spot as omitting unannotated rows.
+        far, checked, excluded = [], [], []
+        for sid in sorted(byid):
+            o = offs.get(sid)
+            if o is None:
+                excluded.append((sid, "ABSENT_FROM_OFFSETS"))
+                continue
+            method = o.get("method", "")
+            # Clause-position probes keep only belief_verb / manual. Everything else is
+            # named here so a green check cannot hide wrong-span fallbacks.
+            if method in ("unannotated",) or int(o.get("outcome_end", -1)) < 0:
+                excluded.append((sid, method or "unannotated"))
+                continue
+            if method.startswith("fallback") or "fallback" in method:
+                excluded.append((sid, method))
+                continue
+            # belief_verb, belief_verb+..., manual — still require outcome_end ≈ len(text)
+            d = len(byid[sid]["text"].rstrip()) - int(o["outcome_end"])
+            checked.append(sid)
+            if abs(d) > 5:
+                far.append((sid, d, method))
         R.check(not far, "8. outcome_end within 5 chars of text end",
-                f"{len(far)} rows, e.g. {far[:5]}")
-        print(f"  [INFO] 8b. clause method distribution: "
+                f"{len(far)} of {len(byid)} fail, e.g. {far[:5]}")
+        print(f"  [INFO] 8b. outcome_end checked {len(checked)}/{len(byid)}; "
+              f"excluded {len(excluded)}/{len(byid)}: "
+              + ", ".join(f"{sid}[{why}]" for sid, why in excluded))
+        print(f"  [INFO] 8c. clause method distribution: "
               f"{dict(Counter(o['method'] for o in offs.values()))}")
     else:
         R.warn("8. clause offsets missing", a.offsets)

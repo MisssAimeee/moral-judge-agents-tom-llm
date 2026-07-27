@@ -123,8 +123,14 @@ def load_clause_mask(offsets_csv):
     if not offsets_csv or not os.path.exists(offsets_csv):
         return None
     import csv as _csv
-    return {r["story_id"] for r in _csv.DictReader(open(offsets_csv))
-            if r.get("method") == "belief_verb"}
+    # Keep only trustworthy spans. fallback_position is excluded (wrong-span risk);
+    # unannotated sentinels are excluded; manual (hand-verified) is allowed.
+    ok = set()
+    for r in _csv.DictReader(open(offsets_csv)):
+        m = r.get("method", "")
+        if m == "manual" or m.startswith("belief_verb"):
+            ok.add(r["story_id"])
+    return ok
 
 
 def run(model_npz, lab, pooling="last", clause_ok=None):

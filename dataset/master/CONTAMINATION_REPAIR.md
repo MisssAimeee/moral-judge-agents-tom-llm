@@ -61,7 +61,7 @@ This is **accuracy**, not AUC. There is no trained classifier and no cross-valid
 
 | | n_flag | agree | accuracy | majority-class rate |
 |---|---|---|---|---|
-| **before** | 144 (all in harm cells: 72 accidental + 72 intentional) | 0.9664 | **0.9664** | 0.5168 (154/298) |
+| **before** | 144 (all in harm cells; 10/154 harm cells unflagged) | 0.9664 | **0.9664** | 0.5168 (154/298) |
 | **after** | 0 | 0.4832 | **0.5168** | 0.5168 (154/298) |
 
 After repair the flag is constant (`False` for every row), so `agree` equals the no-harm rate
@@ -69,6 +69,26 @@ After repair the flag is constant (`False` for every row), so `agree` equals the
 exactly the accuracy of the best constant predictor of `outcome_label`. It is **not** 0.5 by
 chance — the class balance is 154:144, and 0.5168 = 154/298. Confirmed: post-repair
 `n_flag == 0` and `accuracy == majority-class rate` to machine precision.
+
+**What 0.517 does *not* show.** With zero flags the contamination detector is a constant
+predictor, so accuracy collapsing to the majority rate demonstrates only that the
+contamination *signal is gone* — not that harm and no-harm cells are surface-matched.
+Residual surface predictability of outcome is measured by the TF-IDF baseline on the
+repaired master: **word 1–2gram outcome = 0.755** (see `outputs/probe/surface_baseline.csv`;
+overnight text sometimes rounds to 0.748). Report both: 0.517 = contamination gone;
+0.755 = surface signal that remains.
+
+### 1.2 Reconciling “144 flags” vs “99 visible” vs “96 / 154”
+
+These are **three different counters**, not one bug counted three ways:
+
+| count | what it measures | where |
+|---|---|---|
+| **144** | `STUB+BLAME` detector (`27_clean_stimuli.contaminated`) fired on the pre-repair master. Required for the 0.966 figure: TP=144, TN=144 → agree=288/298. | §1.1; `27_clean_stimuli.py` docstring |
+| **96 / 154 (62%)** | Harm cells with the act_B glue pattern in the per-condition repair table (48 accidental + 48 intentional). Same bug, condition-stratified rate. | §1 table above |
+| **~99** | Overnight report’s “visible trailing artefact” count — a hand/approx visible-junk tally during repair, **not** re-run from a saved contaminated CSV (that file was never committed; only `_clean` was). Treat as ≈ the visible subset of the detector hits, not a third formal detector. | `OVERNIGHT_REPORT_20260726.md` §0 |
+
+So: **144 = regex detector; 96 = condition-table harm rate; 99 ≈ unreproduced visible estimate.** The 0.966 confound is tied to the 144-flag detector. The 48-row gap (144−96) is residual detector hits that were not counted in the 48+48 act_B table (e.g. rating-prompt-only tails, YS2009 blame-prompt matches, or false-positive `was:`/`is:` colons inside story text). Without the contaminated master blob we cannot re-attribute those 48 row-by-row; do not silently equate the three numbers.
 
 **Defect 2 — the following scenario lost its name and background.** Because those lines were
 consumed into the previous item, they never reached the next scenario. 33 of 48 YS2008 scenarios
@@ -196,13 +216,17 @@ outcome.
 
 ## 5. Clause offsets (Task A6)
 
-`clause_offsets.csv` regenerated against the repaired master. Method distribution over 298 rows:
+`clause_offsets.csv` regenerated against the repaired master; YS2011 hand-annotated
+(`method=manual`, `32_ys2011_manual_clauses.py`). Method distribution over 298 rows:
 
 | method | n |
 |---|---|
-| `belief_verb` (pattern matched) | 281 |
-| `fallback_position` (guessed from sentence position) | 14 |
-| `belief_verb+action_eq_outcome` | 1 |
+| `belief_verb` (pattern matched) | 280 |
+| `manual` (YS2011, eye-verified) | 10 |
+| `fallback_position` (guessed; **excluded from clause probes**) | 8 |
+
+`02_probe.py::load_clause_mask` keeps only `belief_verb*` and `manual`. Fallback and
+unannotated rows never enter belief_last / action_last.
 
 The 15 non-standard rows, by scenario: `LAPTOP` (4), `YS2009_18` (4), `Parent` (2), `Sibling` (2),
 `Allergy` (1), `Poison` (1), `Dog` (1). They do **not** cluster by condition — the two factorial

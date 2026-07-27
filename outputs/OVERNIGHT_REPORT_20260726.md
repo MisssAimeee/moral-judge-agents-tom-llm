@@ -1,13 +1,35 @@
 # Overnight report — 2026-07-26
 
+## Morning lead (2026-07-27) — gap over surface baseline, not raw accuracy
+
+TF-IDF word 1–2gram (`outputs/probe/surface_baseline.csv`, repaired + `scenario_group`):
+**intent 0.594 · outcome 0.755.**
+
+| target | pooling (headline) | peak probe (best open model) | TF-IDF | **gap** |
+|---|---|---|---:|---:|
+| **intent** | action_last | **0.914** (OLMo-Instruct L16) / 0.922 (Qwen2.5-7B-Instruct L18) | 0.594 | **+0.32 / +0.33** |
+| **outcome** | last | **1.000** (several 7B) | 0.755 | **+0.245** |
+| outcome | mean | 0.997 (OLMo-Instruct) | 0.755 | +0.242 |
+
+**Intent’s gap exceeds outcome’s** (+0.32 vs +0.245). Flag: models **represent** intent in
+action-clause states well above surface features, yet behavioural contrasts remain
+child-like / outcome-weighted — a stronger thesis than “models don’t represent intent.”
+Do not lead with raw 0.914 or 1.000.
+
+Contamination post-repair accuracy **0.517** is only the majority-class rate with zero
+flags (signal gone), **not** surface-matched cells; residual surface = TF-IDF 0.755.
+See `CONTAMINATION_REPAIR.md` §1.1–1.2.
+
+---
+
 ## Lead questions for the morning (answer these first)
 
 1. **Does the checkpoint-dissection `b_outcome` / `b_intent` ratio survive** repaired text +
    correct `scenario_group` bootstrap + corrected CPR labels? State plainly whether the
    2.5–3.9× finding holds, weakens, or reverses — per checkpoint, old vs new.
-2. **What is the probe's gap over the 0.748 TF-IDF outcome baseline?** Absolute accuracy is
-   no longer the headline number. Report `(probe_outcome − 0.748)` and
-   `(probe_outcome − layer0)` per model; ceiling drop from the contaminated 0.99 is secondary.
+2. **What is the probe's gap over the TF-IDF surface baseline?** Absolute accuracy is
+   no longer the headline number. Intent gap ≈ **+0.32** (0.914 − 0.594); outcome gap ≈
+   **+0.245** (1.000 − 0.755). Intent gap > outcome gap — see morning lead above.
 
 Phase A is complete on local `main` (push still needs credentials). Phase B was re-queued after
 a CPR act-only polarity fix invalidated 16 rows mid-chain. Fill sections 2–6 from the new run.
@@ -24,10 +46,11 @@ doing.
 built during the previous session. Its output was superseded by the repair, not thrown away for
 being contaminated.
 
-**The contamination count was 99 rows; the actual damage was larger and of a different kind.**
-99 is the count of rows with a visible trailing artefact. The same parser bug also *deleted* text:
-the swallowed lines never reached the following scenario, so 33 of 48 YS2008 scenarios lost their
-entire background and their name. 260 of 298 rows changed in the repair, and most no-harm rows
+**Contamination counts are not one number.** Detector **144** (STUB+BLAME, drives 0.966) ≠
+condition-table **96/154** ≠ overnight “visible” **~99** (unreproduced). See
+`CONTAMINATION_REPAIR.md` §1.2. The same parser bug also *deleted* text: the swallowed lines
+never reached the following scenario, so 33 of 48 YS2008 scenarios lost their entire background
+and their name. 260 of 298 rows changed in the repair, and most no-harm rows
 *gained* around 160 characters rather than losing any. A truncation-only fix would have left that
 half of the bug in place, which is why the repair is in `build_dataset.py`.
 
@@ -167,29 +190,16 @@ adopted rather than resubmitted.
 
 ## 7. Estimated API cost for closed-model rescoring — needs your approval
 
-8 closed models (`claude-opus-4-6`, `claude-sonnet-4-6`, `claude-haiku-4-5`, `gpt-4o`,
-`gpt-4o-mini`, `gemini-2.5-pro`, `gemini-2.5-flash`, `kimi-k3`) × 3 templates × 298 items ×
-20 samples = **143,040 completions**, ~200 input tokens and ~5 output tokens each.
+**Superseded by `outputs/API_COST_ESTIMATE.md` (2026-07-27).** Per-provider with real batching:
 
-Worst case, one request per sample (~3.6M input + 0.09M output tokens per model):
+| | without batching | with available batching |
+|---|---:|---:|
+| **total (8 models × 3 tmpl × 20 samp)** | **~$56** | **~$40** |
+| Anthropic alone (no `n=`) | ~$36 | ~$36 (unchanged) |
 
-| model | approx. cost |
-|---|---|
-| claude-opus-4-6 | ~$60 |
-| claude-sonnet-4-6 | ~$12 |
-| gpt-4o | ~$10 |
-| gemini-2.5-pro | ~$5 |
-| claude-haiku-4-5 | ~$4 |
-| kimi-k3 | ~$2 |
-| gemini-2.5-flash | ~$1 |
-| gpt-4o-mini | ~$1 |
-| **total** | **~$95** |
-
-Prices are list rates and should be confirmed before running. Two ways to cut it sharply: request
-20 samples in a single call where the provider supports it, which bills the prompt once and brings
-the total to roughly $10–15; and drop Opus, which alone is about 60% of the bill. Recommend
-deciding after §3 — if the checkpoint-dissection finding does not survive on open models, the
-closed-model ladder may not be worth rescoring at full sample depth.
+Prior ~$95 used legacy Opus $15/$75 (~$60 of the bill). Prior “batching → $10–15”
+assumed **universal** prompt-once batching — **invalid for Anthropic**. Full table with
+batchable y/n per model in the estimate file.
 
 ---
 

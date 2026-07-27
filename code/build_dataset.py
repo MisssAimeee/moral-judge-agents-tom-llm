@@ -169,8 +169,9 @@ def parse_2011(text):
         body = clean(body)
         # The next scenario's bare title ("Incest", "Ingestion") sits between this body and the
         # next "Name - Intentional:" marker, so it survives the split. Drop a trailing
-        # capitalised word that follows terminal punctuation.
-        body = re.sub(r"(?<=[.!?)])\s+[A-Z][a-z]{2,}\s*$", "", body).strip()
+        # capitalised word (optional period) that follows terminal punctuation.
+        # Previous pattern missed "Incest." / "Ingestion." because of the trailing period.
+        body = re.sub(r"(?<=[.!?)])\s+[A-Z][a-z]{2,}\.?\s*$", "", body).strip()
         out.append(dict(source="YS2011", scenario_id=name,
                         condition=("intentional" if kind=="Intentional" else "accidental"),
                         intent_label=("guilty" if kind=="Intentional" else "innocent"),

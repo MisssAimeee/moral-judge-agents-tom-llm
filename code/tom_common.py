@@ -119,20 +119,47 @@ def iter_item_means(studies=STUDIES):
 def load_cells(item_means_csv):
     """-> cells[template][scenario_group][condition] = mean_norm_blame
 
-    Reprints (YS2008-HAM and YS2009_17, etc.) are averaged into one cell rather than
-    counted twice. Averaging is preferred over dropping one source because the two
-    wordings differ slightly and both were rated; the bootstrap then resamples the
-    collapsed group once, so effective n is n_scenario_groups (53), not n_items (298).
+    Reprints collapse to one cell per scenario_group for effective-n. For
+    `human_verbatim`, YS2008 (permissibility 1–3) and YS2009 (blame 1–4) are
+    *different instruments* — see outputs/SCALE_REPLICATION.md (pooled r≈0.71,
+    non-trivial Bland–Altman bias). Mixing them after 0–1 normalization is not
+    a scale replication. Policy: prefer YS2008 when both sources exist under
+    human_verbatim; paraphrase templates still average reprints (shared wording
+    instrument). Bootstrap keys remain the 53 scenario_groups.
     """
     groups = load_scenario_groups()
+    # story_id -> source
+    src = {}
+    try:
+        for r in csv.DictReader(open(MASTER_CSV)):
+            src[r["story_id"]] = r.get("source", "")
+    except FileNotFoundError:
+        pass
+
     acc = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
     for r in csv.DictReader(open(item_means_csv)):
         g = scenario_group_of(r["story_id"], groups)
-        acc[r["template"]][g][r["condition"]].append(float(r["mean_norm_blame"]))
+        source = src.get(r["story_id"], "")
+        if not source and "-" in r["story_id"]:
+            source = r["story_id"].split("-", 1)[0]
+        acc[r["template"]][g][r["condition"]].append(
+            (source, float(r["mean_norm_blame"])))
     cells = defaultdict(lambda: defaultdict(dict))
     for tmpl, scen in acc.items():
         for g, conds in scen.items():
-            for c, vs in conds.items():
+            for c, pairs in conds.items():
+                if tmpl == "human_verbatim":
+                    ys08 = [v for s, v in pairs if s == "YS2008"]
+                    ys09 = [v for s, v in pairs if s == "YS2009"]
+                    other = [v for s, v in pairs if s not in ("YS2008", "YS2009")]
+                    if ys08:
+                        vs = ys08
+                    elif ys09:
+                        vs = ys09
+                    else:
+                        vs = other or [v for _, v in pairs]
+                else:
+                    vs = [v for _, v in pairs]
                 cells[tmpl][g][c] = sum(vs) / len(vs)
     return cells
 

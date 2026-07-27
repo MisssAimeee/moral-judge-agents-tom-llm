@@ -132,7 +132,25 @@ they were running against activations from the contaminated text.
 
 **Not queued, by instruction:** permutation null (C4), closed-API rescoring (§7), Phases 5–7.
 
-**Issues hit:** the submit scripts printed a "Monitor with" footer to stdout, so `PARSABLE=1`
+**Progress at 23:30.** B1 activations completed in 8m10s (all 8 models, all 4 pooling variants,
+298 × layers × hidden). B6 surface done. Probes for `last`, `mean` and `belief_last` all completed
+in under 3 minutes each — the row-space projection makes these far cheaper than the ~16 min/model
+budgeted.
+
+`probe_action_last` (18959978) **failed** after 4s, and the `afterok` gate correctly cancelled
+`layer0` and `withincell` rather than running them on three-quarters of the input. Cause:
+`LogisticRegression` raised *"Found array with 0 feature(s)"*. OLMo's `action_last` layer 0 has
+only **3 unique vectors across 298 stories** — layer 0 is the raw token embedding and the pooled
+clause-end position is nearly always the same token, a sentence-final period. A GroupKFold fold
+that drew a single unique row had no variance left after standardisation, so the row-space
+projection returned 0 columns. Such a layer genuinely carries no information, so it now scores the
+majority-class rate instead of crashing. Verified on the failing model: peak intent 0.914 @ layer
+16. Resubmitted as 18961409 → layer0 18961410, withincell 18961411.
+
+This is worth noting for §2: it is direct evidence that layer-0 read-off is degenerate for the
+clause-pooled variants, which is exactly what the B5 diagnostic is meant to establish.
+
+**Earlier issue:** the submit scripts printed a "Monitor with" footer to stdout, so `PARSABLE=1`
 captured it along with the job id and the first attempt at the dependent stages failed with
 "Job dependency problem". Footer moved to stderr; B1/B2/B6 had already queued cleanly and were
 adopted rather than resubmitted.

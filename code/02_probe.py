@@ -53,6 +53,14 @@ def group_cv_acc(X, y, groups, n_splits=5, seed=0):
     for tr, te in gkf.split(X, y, groups):
         sc = StandardScaler().fit(X[tr])
         Xtr, Xte = _rowspace_project(sc.transform(X[tr]), sc.transform(X[te]))
+        # Layer 0 is the raw token embedding, and the clause-pooled position is nearly always the
+        # same token (a sentence-final period), so a fold can contain a single unique row. With no
+        # variance there is nothing to project onto and no classifier to fit. That layer genuinely
+        # carries no information, so score it at the majority-class rate rather than crashing --
+        # which is the honest answer and is what the layer-0 diagnostic is looking for.
+        if Xtr.shape[1] == 0 or len(np.unique(y[tr])) < 2:
+            accs.append(max(y[te].mean(), 1 - y[te].mean()) if len(te) else 0.5)
+            continue
         clf = LogisticRegression(max_iter=2000, C=1.0)
         clf.fit(Xtr, y[tr])
         accs.append(clf.score(Xte, y[te]))

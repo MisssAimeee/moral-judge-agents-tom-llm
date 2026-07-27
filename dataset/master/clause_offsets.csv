@@ -289,9 +289,11 @@ YS2009-YS2009_24-attempted,240,367,368,410,411,464,belief_verb,6
 YS2009-YS2009_24-intentional,231,358,359,401,402,455,belief_verb,6
 YS2011-Allergy-intentional,40,76,77,164,165,226,belief_verb,4
 YS2011-Allergy-accidental,40,84,85,172,173,234,fallback_position,4
+YS2011-Poison-intentional,-1,-1,-1,-1,-1,-1,unannotated,
 YS2011-Poison-accidental,237,297,298,305,298,305,belief_verb+action_eq_outcome,6
 YS2011-Sibling-intentional,68,109,110,200,201,301,fallback_position,4
 YS2011-Sibling-accidental,68,109,110,210,211,303,fallback_position,4
 YS2011-Parent-intentional,75,179,180,245,246,364,fallback_position,4
 YS2011-Parent-accidental,180,249,250,368,369,379,fallback_position,5
 YS2011-Dog-intentional,205,238,239,269,270,308,fallback_position,6
+YS2011-Dog-accidental,-1,-1,-1,-1,-1,-1,unannotated,

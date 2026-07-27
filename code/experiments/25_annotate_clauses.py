@@ -106,7 +106,15 @@ def main():
     for r in rows:
         ann = annotate(r["text"])
         if ann is None:
+            # Emit the row with out-of-range offsets and an explicit method rather than omitting
+            # it. A row that is simply absent is invisible to any check that iterates this file,
+            # and 01_extract_activations.py would silently pool the final token for it. -1 never
+            # matches a token span, so the consumer's own fallback path handles it, and the
+            # method value keeps it out of the clause-position probes.
             failed.append(r["story_id"])
+            out.append({"story_id": r["story_id"], "belief_start": -1, "belief_end": -1,
+                        "action_start": -1, "action_end": -1,
+                        "outcome_start": -1, "outcome_end": -1, "method": "unannotated"})
             continue
         out.append({"story_id": r["story_id"], **ann})
 

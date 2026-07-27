@@ -130,8 +130,16 @@ def main():
     if os.path.exists(a.offsets):
         offs = {r["story_id"]: r for r in csv.DictReader(open(a.offsets))}
         byid = {r["story_id"]: r for r in rows}
+        # Iterating over the offsets file alone cannot see a row that is absent from it, and an
+        # absent row is the worst case: 01_extract_activations.py silently pools the final token
+        # for it. Check coverage against the master instead.
+        absent = sorted(set(byid) - set(offs))
+        R.check(not absent, "8a. clause offsets cover every master row",
+                f"{len(absent)} missing: {absent[:6]}")
         far = []
         for sid, o in offs.items():
+            if o.get("method") == "unannotated":
+                continue          # sentinel offsets, excluded from the clause probes anyway
             if sid in byid:
                 d = len(byid[sid]["text"].rstrip()) - int(o["outcome_end"])
                 if abs(d) > 5:

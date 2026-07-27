@@ -161,8 +161,13 @@ def main():
                 far.append((sid, d, method))
         R.check(not far, "8. outcome_end within 5 chars of text end",
                 f"{len(far)} of {len(byid)} fail, e.g. {far[:5]}")
+        excl_groups = sorted({
+            (byid[sid].get("scenario_group") or byid[sid].get("scenario_id") or sid)
+            for sid, _ in excluded if sid in byid
+        })
         print(f"  [INFO] 8b. outcome_end checked {len(checked)}/{len(byid)}; "
-              f"excluded {len(excluded)}/{len(byid)}: "
+              f"excluded {len(excluded)}/{len(byid)} rows "
+              f"= {len(excl_groups)} of 53 scenario_groups ({', '.join(excl_groups)}): "
               + ", ".join(f"{sid}[{why}]" for sid, why in excluded))
         print(f"  [INFO] 8c. clause method distribution: "
               f"{dict(Counter(o['method'] for o in offs.values()))}")

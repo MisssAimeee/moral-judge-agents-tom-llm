@@ -1,24 +1,35 @@
 # Overnight report — 2026-07-26
 
-## Morning lead (2026-07-27) — gap over surface baseline, not raw accuracy
+## Morning lead (2026-07-27) — gap over surface, **within-model** first
 
-TF-IDF word 1–2gram (`outputs/probe/surface_baseline.csv`, repaired + `scenario_group`):
-**intent 0.594 · outcome 0.755.**
+TF-IDF word 1–2gram: **intent 0.594 · outcome 0.755.**
+Full matrix: `outputs/probe/gap_over_surface_by_pooling.csv`.
+Figure: `outputs/probe/gap_over_surface_dissociation.png`.
 
-| target | pooling (headline) | peak probe (best open model) | TF-IDF | **gap** |
-|---|---|---|---:|---:|
-| **intent** | action_last | **0.914** (OLMo-Instruct L16) / 0.922 (Qwen2.5-7B-Instruct L18) | 0.594 | **+0.32 / +0.33** |
-| **outcome** | last | **1.000** (several 7B) | 0.755 | **+0.245** |
-| outcome | mean | 0.997 (OLMo-Instruct) | 0.755 | +0.242 |
+### Headline — within-model paired comparison
 
-**Intent’s gap exceeds outcome’s** (+0.32 vs +0.245). Flag: models **represent** intent in
-action-clause states well above surface features, yet behavioural contrasts remain
-child-like / outcome-weighted — a stronger thesis than “models don’t represent intent.”
-Do not lead with raw 0.914 or 1.000.
+Same model, same pooling, gap = peak_probe − TF-IDF:
 
-Contamination post-repair accuracy **0.517** is only the majority-class rate with zero
-flags (signal gone), **not** surface-matched cells; residual surface = TF-IDF 0.755.
-See `CONTAMINATION_REPAIR.md` §1.1–1.2.
+| pooling | models with intent-gap > outcome-gap |
+|---|---|
+| **belief_last** | **8/8** |
+| **action_last** | **8/8** |
+| last | 4/8 |
+| mean | 4/8 |
+
+**Lead with this.** Intent outpaces outcome as a representational surplus over surface
+features at pre-outcome positions in every model. At whole-story poolings the ordering
+is mixed (4/8). Peak-across-models is weaker and must not carry the headline.
+
+### Dissociation (anti-lexical)
+
+Intent gap **peaks at belief_last (+0.392)** where harm is not yet stated; outcome gap
+**peaks at whole-story (+0.245, ≥0.995)** and collapses to +0.149/+0.110 at pre-outcome
+positions. Outcome ceilings = perfect fold separation.
+
+**B3 skipped cache — see `MORNING_B3_B9_C3_C5.md`.** Llama instruct counterexample
+survives on B9. Jobs 18962383–93 = pre-strip; re-extract YS2011 Poison/Parent-accidental.
+Clause exclusions: **1/53 groups (LAPTOP)**. Scale replication r=0.71 is roadmap item 1.
 
 ---
 
@@ -28,8 +39,9 @@ See `CONTAMINATION_REPAIR.md` §1.1–1.2.
    correct `scenario_group` bootstrap + corrected CPR labels? State plainly whether the
    2.5–3.9× finding holds, weakens, or reverses — per checkpoint, old vs new.
 2. **What is the probe's gap over the TF-IDF surface baseline?** Absolute accuracy is
-   no longer the headline number. Intent gap ≈ **+0.32** (0.914 − 0.594); outcome gap ≈
-   **+0.245** (1.000 − 0.755). Intent gap > outcome gap — see morning lead above.
+   no longer the headline number. Compare **matched poolings** (see morning lead table).
+   Peak-across-models: intent-gap > outcome-gap at **all four** poolings. Outcome last/
+   mean ceilings are **≥0.995** (perfect fold separation), not plain 1.000.
 
 Phase A is complete on local `main` (push still needs credentials). Phase B was re-queued after
 a CPR act-only polarity fix invalidated 16 rows mid-chain. Fill sections 2–6 from the new run.
@@ -47,7 +59,10 @@ built during the previous session. Its output was superseded by the repair, not 
 being contaminated.
 
 **Contamination counts are not one number.** Detector **144** (STUB+BLAME, drives 0.966) ≠
-condition-table **96/154** ≠ overnight “visible” **~99** (unreproduced). See
+condition-table **96/154** ≠ visible-artefact **99** (accidental 48 / intentional 49 /
+attempted 2) on recovered
+`dataset/master/_prerepair_backup/moral_2x2_master_CONTAMINATED_20260619.csv`
+(md5 `5dd904a7609628553319da4acab02f25`) — **99 is reproducible**. See
 `CONTAMINATION_REPAIR.md` §1.2. The same parser bug also *deleted* text: the swallowed lines
 never reached the following scenario, so 33 of 48 YS2008 scenarios lost their entire background
 and their name. 260 of 298 rows changed in the repair, and most no-harm rows

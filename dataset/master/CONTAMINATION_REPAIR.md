@@ -84,11 +84,11 @@ These are **three different counters**, not one bug counted three ways:
 
 | count | what it measures | where |
 |---|---|---|
-| **144** | `STUB+BLAME` detector (`27_clean_stimuli.contaminated`) fired on the pre-repair master. Required for the 0.966 figure: TP=144, TN=144 → agree=288/298. | §1.1; `27_clean_stimuli.py` docstring |
-| **96 / 154 (62%)** | Harm cells with the act_B glue pattern in the per-condition repair table (48 accidental + 48 intentional). Same bug, condition-stratified rate. | §1 table above |
-| **~99** | Overnight report’s “visible trailing artefact” count — a hand/approx visible-junk tally during repair, **not** re-run from a saved contaminated CSV (that file was never committed; only `_clean` was). Treat as ≈ the visible subset of the detector hits, not a third formal detector. | `OVERNIGHT_REPORT_20260726.md` §0 |
+| **144** | `STUB+BLAME` detector (`27_clean_stimuli.contaminated`) on the pre-repair master. Required for 0.966: TP=144, TN=144 → agree=288/298. | §1.1; `27_clean_stimuli.py` |
+| **96 / 154 (62%)** | Harm cells in the per-condition repair table (48 accidental + 48 intentional) under the act_B glue pattern. | §1 table above |
+| **99** | **Reproducible** visible trailing-artefact count on the recovered pre-repair master. Breakdown: **accidental 48 / intentional 49 / attempted 2**. File: `dataset/master/_prerepair_backup/moral_2x2_master_CONTAMINATED_20260619.csv` (md5 `5dd904a7609628553319da4acab02f25`). | this section; overnight §0 |
 
-So: **144 = regex detector; 96 = condition-table harm rate; 99 ≈ unreproduced visible estimate.** The 0.966 confound is tied to the 144-flag detector. The 48-row gap (144−96) is residual detector hits that were not counted in the 48+48 act_B table (e.g. rating-prompt-only tails, YS2009 blame-prompt matches, or false-positive `was:`/`is:` colons inside story text). Without the contaminated master blob we cannot re-attribute those 48 row-by-row; do not silently equate the three numbers.
+So: **144 = regex detector; 96 = condition-table harm rate; 99 = visible-artefact tally on the archived contaminated CSV (reproducible).** The 0.966 confound is tied to the 144-flag detector. The gap between 144 and 99 is detector hits that are not (or not all) “visible” trailing junk under the artefact definition used for the 99 count — do not silently equate them. The overnight report’s earlier wording that 99 was unreproduced is **superseded**; the backup survived locally and is the provenance source of truth for that tally.
 
 **Defect 2 — the following scenario lost its name and background.** Because those lines were
 consumed into the previous item, they never reached the next scenario. 33 of 48 YS2008 scenarios
@@ -224,6 +224,11 @@ outcome.
 | `belief_verb` (pattern matched) | 280 |
 | `manual` (YS2011, eye-verified) | 10 |
 | `fallback_position` (guessed; **excluded from clause probes**) | 8 |
+
+**Clause-position exclusions:** **1 of 53 `scenario_group`s — LAPTOP** (YS2008-LAPTOP +
+reprint YS2009_18; 8 `fallback_position` cells). Naming both source ids without collapsing
+would read as “2 vignettes,” but CV grouping merges them. YS2011 is `manual` (10/10), not
+excluded.
 
 `02_probe.py::load_clause_mask` keeps only `belief_verb*` and `manual`. Fallback and
 unannotated rows never enter belief_last / action_last.

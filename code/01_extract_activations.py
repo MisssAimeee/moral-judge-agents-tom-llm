@@ -65,7 +65,7 @@ def _token_at_char(offsets, char_end):
 
 
 def extract_for_model(model_name, rows, out_dir, batch_size=8, max_len=512,
-                      clause_offsets=None):
+                      clause_offsets=None, merge_existing=False):
     import torch
     from transformers import AutoTokenizer, AutoModel
     tok = AutoTokenizer.from_pretrained(
@@ -125,9 +125,30 @@ def extract_for_model(model_name, rows, out_dir, batch_size=8, max_len=512,
     if want_clause:
         arrays["belief_last"] = np.concatenate(belief_all)
         arrays["action_last"] = np.concatenate(action_all)
-    np.savez_compressed(os.path.join(out_dir, f"{tag}.npz"), **arrays)
-    extra = f" +belief_last/action_last (fallbacks: {n_missing})" if want_clause else ""
-    print(f"{tag}: saved {last_all.shape} (n,layers,hidden){extra}", flush=True)
+
+    out_path = os.path.join(out_dir, f"{tag}.npz")
+    if merge_existing and os.path.exists(out_path):
+        old = np.load(out_path, allow_pickle=True)
+        old_ids = [str(s) for s in old["story_id"]]
+        new_ids = [r["story_id"] for r in rows]
+        id_to_new = {sid: i for i, sid in enumerate(new_ids)}
+        merged = {}
+        for key in old.files:
+            if key == "story_id":
+                merged[key] = old[key]
+                continue
+            arr = np.array(old[key], copy=True)
+            for sid, j in id_to_new.items():
+                if sid not in old_ids:
+                    raise SystemExit(f"{tag}: {sid} not in existing npz — cannot merge")
+                arr[old_ids.index(sid)] = arrays[key][j]
+            merged[key] = arr
+        np.savez_compressed(out_path, **merged)
+        print(f"{tag}: MERGED {len(new_ids)} stories into {out_path}", flush=True)
+    else:
+        np.savez_compressed(out_path, **arrays)
+        extra = f" +belief_last/action_last (fallbacks: {n_missing})" if want_clause else ""
+        print(f"{tag}: saved {last_all.shape} (n,layers,hidden){extra}", flush=True)
 
 if __name__ == "__main__":
     here = os.path.dirname(__file__)
@@ -141,8 +162,19 @@ if __name__ == "__main__":
                          "the belief clause, BEFORE the harm is mentioned in the text")
     ap.add_argument("--dry-run", action="store_true",
                     help="print plan only (no weight download / no GPU)")
+    ap.add_argument("--story-ids", nargs="*", default=None,
+                    help="restrict extraction to these story_ids (surgical re-extract)")
+    ap.add_argument("--merge-existing", action="store_true",
+                    help="with --story-ids, patch rows into the existing npz")
     a = ap.parse_args()
     rows = load_stimuli(a.csv)
+    if a.story_ids:
+        want = set(a.story_ids)
+        rows = [r for r in rows if r["story_id"] in want]
+        missing = want - {r["story_id"] for r in rows}
+        if missing:
+            raise SystemExit(f"story-ids not in master: {sorted(missing)}")
+        print(f"restricted to {len(rows)} stories: {sorted(want)}")
     clause = load_clause_offsets(a.clause_offsets)
     if a.clause_offsets:
         print(f"clause offsets: {len(clause)} stories from {a.clause_offsets}")
@@ -160,4 +192,5 @@ if __name__ == "__main__":
               f"\"python code/01_extract_activations.py --models {' '.join(a.models)}\"")
     else:
         for m in a.models:
-            extract_for_model(m, rows, a.out, clause_offsets=clause)
+            extract_for_model(m, rows, a.out, clause_offsets=clause,
+                              merge_existing=bool(a.merge_existing))

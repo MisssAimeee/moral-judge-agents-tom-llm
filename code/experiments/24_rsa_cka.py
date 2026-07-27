@@ -151,9 +151,9 @@ def main():
     ap.add_argument("--acts", default=os.path.join(ROOT, "outputs", "acts"))
     ap.add_argument("--probe", default=os.path.join(ROOT, "outputs", "probe"))
     ap.add_argument("--out", default=RSA_DIR)
-    ap.add_argument("--pooling", default="mean", choices=["last", "mean"],
-                    help="mean is the default: last-token pooling badly understates intent "
-                         "(OLMo-Instruct 0.77 last vs 0.94 mean)")
+    ap.add_argument("--pooling", default="mean",
+                    choices=["last", "mean", "belief_last", "action_last"],
+                    help="mean default for geometry; belief_last/action_last need clause acts")
     ap.add_argument("--perm", type=int, default=1000)
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()

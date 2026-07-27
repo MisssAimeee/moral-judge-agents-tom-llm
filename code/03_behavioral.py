@@ -577,11 +577,17 @@ def main():
     ap.add_argument("--out_dir",     default=None,
                     help="Where to save results. Default outputs/behavior. "
                          "Use e.g. outputs/agents/behavior to keep API/agent runs separate.")
+    ap.add_argument("--csv",         default=None,
+                    help="Stimulus CSV. Default dataset/master/moral_2x2_master.csv. Use "
+                         "moral_2x2_master_clean.csv to re-score without the rating-prompt "
+                         "bleed that contaminates 144 of the 298 original stories.")
     args = ap.parse_args()
 
-    global OUT_DIR
+    global OUT_DIR, MASTER_CSV
     if args.out_dir:
         OUT_DIR = Path(args.out_dir)
+    if args.csv:
+        MASTER_CSV = args.csv
 
     if args.backend in ("openai","anthropic","google","mistral","together","moonshot"):
         if args.scoring == "logprob":

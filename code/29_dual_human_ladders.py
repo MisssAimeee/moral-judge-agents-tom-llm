@@ -57,6 +57,20 @@ ANCHORS = OrderedDict([
         "human_out": os.path.join(ROOT, "outputs", "human_digitized"),
         "label": "digitized Naughty presented-first",
     }),
+    # Secondary construct-matched ladder: punishment series (Cushman 2013 Fig.3).
+    # Does NOT replace Naughty; shown alongside. Cell means pending fig3 PUNISH
+    # digitization — bands are the PHASE2 pre-specified contrasts.
+    ("punish", {
+        "human_csv": os.path.join(ROOT, "dataset", "human_reference", "human_reference_punish.csv"),
+        "bands": OrderedDict([
+            ("adult", 0.666), ("child_8plus", 0.19),
+            ("child_6_7", 0.12), ("child_4_5", 0.09),
+        ]),
+        "out_png": os.path.join(ROOT, "outputs", "master_developmental_ladder_punish.png"),
+        "out_csv": os.path.join(ROOT, "outputs", "master_all_models_punish.csv"),
+        "human_out": os.path.join(ROOT, "outputs", "human_punish"),
+        "label": "Punish presented-first (secondary; construct-matched to punish_* prompts)",
+    }),
 ])
 
 
@@ -190,25 +204,32 @@ def main():
     out_cmp = os.path.join(ROOT, "outputs", "human_anchor_comparison.csv")
     by_anchor = {k: {r["key"]: r for r in rendered}
                  for k, _, rendered, _, _ in summary}
-    keys = sorted({k for d in by_anchor.values() for k in d},
-                  key=lambda k: by_anchor["text_reported"].get(k, by_anchor["digitized"][k])["contrast"])
+    def _sort_contrast(k):
+        for ak in ("text_reported", "digitized", "punish"):
+            if k in by_anchor.get(ak, {}):
+                return by_anchor[ak][k]["contrast"]
+        return 0.0
+    keys = sorted({k for d in by_anchor.values() for k in d}, key=_sort_contrast)
     METHODS_NOTE = (
         "METHODS PRE-SPEC (2026-07-10): methods_child_measure.md chose Naughty/wrongness, "
         "presented-first as primary — sixteen days before this comparison. "
         "human_reference.csv used naughty+punishable text inconsistent with that spec. "
         "Anchor decision must trace to that prior methods choice, not to 9/24 vs 24/24. "
-        "Both ladders remain as a permanent robustness table."
+        "Naughty + Punish ladders both remain as a permanent robustness table; "
+        "do not choose the anchor here."
     )
     with open(out_cmp, "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["model", "contrast",
                     "nearest_text_reported", "below_youngest_text_reported",
-                    "nearest_digitized", "below_youngest_digitized",
+                    "nearest_digitized_naughty", "below_youngest_digitized_naughty",
+                    "nearest_punish", "below_youngest_punish",
                     "degenerate", "methods_prespec_note"])
         for i, k in enumerate(keys):
             rt = by_anchor["text_reported"].get(k)
             rd = by_anchor["digitized"].get(k)
-            r = rt or rd
+            rp = by_anchor["punish"].get(k)
+            r = rt or rd or rp
             w.writerow([
                 r["model"], f"{r['contrast']:+.3f}",
                 rt["nearest"] if rt else "",
@@ -217,6 +238,9 @@ def main():
                 rd["nearest"] if rd else "",
                 "yes" if rd and not rd["degenerate"] and below_youngest(
                     rd["contrast"], ANCHORS["digitized"]["bands"]) else "no",
+                rp["nearest"] if rp else "",
+                "yes" if rp and not rp["degenerate"] and below_youngest(
+                    rp["contrast"], ANCHORS["punish"]["bands"]) else "no",
                 "True" if r["degenerate"] else "False",
                 METHODS_NOTE if i == 0 else "",
             ])

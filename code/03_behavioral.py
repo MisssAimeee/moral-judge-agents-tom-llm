@@ -55,7 +55,33 @@ SCALE_QUESTIONS = {
     ),
 }
 
+# Designed prompt factorial (W5 / roadmap #3):
+#   2 wordings × 3 constructs on a common 1–7 scale + human_verbatim anchor = 7.
+# All six factorial paraphrases use direction="blame" (higher = more condemnatory)
+# so normalized scores are comparable. Legacy templates below are kept ADDITIVE —
+# never replace them when adding new prompts (before/after IRI comparisons must
+# share template keys).
 PARA_TEMPLATES = {
+    # --- designed factorial (common 1–7) ---
+    "blame_w1": (
+        "How much moral blame does the agent deserve? "
+        "Rate 1 (none) to 7 (full blame). Single integer only.", 1, 7),
+    "blame_w2": (
+        "How blameworthy was the agent's action? "
+        "Rate from 1 (not blameworthy) to 7 (extremely blameworthy). Single integer only.", 1, 7),
+    "wrong_w1": (
+        "How morally wrong was the agent's action? "
+        "Rate 1 (not wrong) to 7 (extremely wrong). Single integer only.", 1, 7),
+    "wrong_w2": (
+        "How wrong was what the agent did? "
+        "Rate from 1 (not at all wrong) to 7 (completely wrong). Single integer only.", 1, 7),
+    "punish_w1": (
+        "How severely should the agent be punished? "
+        "Rate 1-7. Single integer only.", 1, 7),
+    "punish_w2": (
+        "How much punishment does the agent deserve? "
+        "Rate from 1 (none) to 7 (maximum). Single integer only.", 1, 7),
+    # --- legacy (additive continuity with overnight / prior IRI tables) ---
     "para_blame10":  ("How much moral blame does the agent deserve? Rate 1-10. Single integer only.", 1, 10),
     "para_wrong7":   ("How morally wrong was the agent's action? Rate 1 (not wrong) to 7 (extremely wrong). Single integer only.", 1, 7),
     "para_blame4":   ("How much blame? 1=none 2=slight 3=moderate 4=full. Single integer only.", 1, 4),
@@ -63,6 +89,41 @@ PARA_TEMPLATES = {
     "acceptable7":   ("How acceptable was the action? 1=acceptable to 7=unacceptable. Single integer only.", 1, 7),
     "persona_adult7":("As a thoughtful adult: how morally wrong was the agent's action? Rate 1-7. Single integer only.", 1, 7),
 }
+
+# Metadata for variance decomposition (wording × construct × scale).
+# human_verbatim is the anchor; scale varies by source (see SOURCE_SCALES).
+TEMPLATE_META = {
+    "human_verbatim": dict(construct="verbatim_anchor", wording=0, scale="source_native", direction="blame"),
+    "blame_w1":       dict(construct="blame",      wording=1, scale="1-7", direction="blame"),
+    "blame_w2":       dict(construct="blame",      wording=2, scale="1-7", direction="blame"),
+    "wrong_w1":       dict(construct="wrongness",  wording=1, scale="1-7", direction="blame"),
+    "wrong_w2":       dict(construct="wrongness",  wording=2, scale="1-7", direction="blame"),
+    "punish_w1":      dict(construct="punishment", wording=1, scale="1-7", direction="blame"),
+    "punish_w2":      dict(construct="punishment", wording=2, scale="1-7", direction="blame"),
+    "para_blame10":   dict(construct="blame",      wording=1, scale="1-10", direction="blame"),
+    "para_wrong7":    dict(construct="wrongness",  wording=1, scale="1-7", direction="blame"),
+    "para_blame4":    dict(construct="blame",      wording=1, scale="1-4", direction="blame"),
+    "punish7":        dict(construct="punishment", wording=1, scale="1-7", direction="blame"),
+    "acceptable7":    dict(construct="acceptability", wording=1, scale="1-7", direction="blame"),
+    "persona_adult7": dict(construct="wrongness",  wording=1, scale="1-7", direction="blame"),
+}
+
+# Designed 7 = verbatim + 2×3 factorial. Legacy keys remain in PARA_TEMPLATES.
+FACTORIAL_TEMPLATES = [
+    "human_verbatim",
+    "blame_w1", "blame_w2",
+    "wrong_w1", "wrong_w2",
+    "punish_w1", "punish_w2",
+]
+# Option B run set: designed 7 + para_blame10 (required) + non-duplicate legacy.
+# para_wrong7 / punish7 share wording with wrong_w1 / punish_w1 — do NOT double-score;
+# after the run, alias-copy those keys into the CSVs for overnight IRI continuity
+# (see code/experiments/33_prompt_factorial_analysis.py --alias-legacy).
+W0_TEMPLATES = FACTORIAL_TEMPLATES + [
+    "para_blame10", "para_blame4", "acceptable7", "persona_adult7",
+]
+# Map designed name -> overnight legacy key (identical prompt text).
+LEGACY_ALIASES = {"wrong_w1": "para_wrong7", "punish_w1": "punish7"}
 
 ALL_TEMPLATES = ["human_verbatim"] + list(PARA_TEMPLATES.keys())
 

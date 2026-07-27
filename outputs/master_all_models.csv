@@ -22,6 +22,7 @@ OLMo-2-1124-7B,OLMo,local open-weight,base,-0.016,-0.026,-0.005,yes,child_4_5,Fa
 claude-sonnet-4-6,Claude,cloud API,instruct,-0.006,-0.093,+0.083,no,child_4_5,False
 unsloth-Meta-Llama-3-1-8B-Instruct,Llama,local open-weight,instruct,-0.001,-0.042,+0.043,no,child_4_5,False
 Qwen2.5-0.5B,Qwen,local open-weight,base,-0.000,-0.004,+0.003,no,child_4_5,False
+kimi-k3,Kimi,cloud API,instruct,+0.000,+0.000,+0.000,no,child_4_5,True
 gemini-2-5-pro,Gemini,cloud API,instruct,-0.000,-0.021,+0.023,no,child_4_5,False
 HuggingFaceH4-zephyr-7b-beta,other,local open-weight,instruct,+0.000,+0.000,+0.000,no,child_4_5,True
 Mistral-7B-Instruct-v0-3,Mistral,local open-weight,instruct,+0.000,+0.000,+0.000,no,child_4_5,True

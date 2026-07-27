@@ -12,6 +12,14 @@ upper bound on what a bag-of-embeddings (i.e. surface lexis) affords:
   intent  ~chance at layer 0, rising in mid/late layers
                              -> intent is COMPUTED, which is the shape we want
 
+RESTRICTION — the "at chance at L0, rising later → computed, not lexical" inference is
+valid ONLY for last/mean pooling. Clause-position poolings (belief_last / action_last)
+often land on the same token across stories (a sentence-final period), so layer 0 has
+structurally near-zero variance; the probe CSV marks those cells degenerate=True and
+the accuracy is a majority-class fallback, not a fitted chance-level representation.
+This script therefore reads only *_probe.csv and *_probe_mean.csv, and refuses to draw
+the lexical-vs-computed conclusion from clause-pooled files.
+
 Outputs
   outputs/probe/layer0_diagnostic.csv
   outputs/probe/layerwise_curves.png
@@ -33,11 +41,12 @@ ORDER = [
 
 
 def load_probe(path):
-    """-> {target: [(layer, acc, chance), ...]} sorted by layer."""
+    """-> {target: [(layer, acc, chance, degenerate), ...]} sorted by layer."""
     by_t = defaultdict(list)
     for r in csv.DictReader(open(path)):
+        deg = str(r.get("degenerate", "")).lower() in ("true", "1")
         by_t[r["target"]].append(
-            (int(r["layer"]), float(r["cv_acc"]), float(r["chance"]))
+            (int(r["layer"]), float(r["cv_acc"]), float(r["chance"]), deg)
         )
     for t in by_t:
         by_t[t].sort()
@@ -74,11 +83,13 @@ def layer0_both_poolings(acts_dir, master_csv):
         for pooling in ("last", "mean"):
             X = d[pooling][keep][:, 0, :]        # layer 0 == embedding output
             for target, y in (("intent", intent), ("outcome", outcome)):
-                acc, sd = group_cv_acc(X, y, groups)
+                acc, sd, deg = group_cv_acc(X, y, groups)
                 out.append({"model": tag, "pooling": pooling, "target": target,
                             "acc_layer0": round(acc, 4), "sd": round(sd, 4),
-                            "chance": round(max(y.mean(), 1 - y.mean()), 4)})
-                print(f"  {tag:26} {pooling:5} {target:8} L0 acc={acc:.3f}")
+                            "chance": round(max(y.mean(), 1 - y.mean()), 4),
+                            "degenerate": bool(deg)})
+                print(f"  {tag:26} {pooling:5} {target:8} L0 acc={acc:.3f}"
+                      f"{'  DEGENERATE' if deg else ''}")
     return out
 
 
@@ -102,23 +113,49 @@ def main():
     ap.add_argument("--skip-pooling-check", action="store_true")
     a = ap.parse_args()
 
-    files = sorted(glob.glob(os.path.join(a.probe, "*_probe.csv")))
-    # exclude derived files from other tasks
-    files = [f for f in files if "withincell" not in f and "clause" not in f]
+    # Lexical-vs-computed inference is restricted to last/mean pooling. Clause-position
+    # files (*_probe_belief_last.csv / *_probe_action_last.csv) are deliberately excluded:
+    # their layer 0 is often structurally degenerate (see module docstring).
+    candidates = sorted(glob.glob(os.path.join(a.probe, "*_probe.csv"))
+                        + glob.glob(os.path.join(a.probe, "*_probe_mean.csv")))
+    files = []
+    skipped_clause = []
+    for f in candidates:
+        base = os.path.basename(f)
+        if "withincell" in base or "clause" in base:
+            continue
+        if base.endswith("_probe_belief_last.csv") or base.endswith("_probe_action_last.csv"):
+            skipped_clause.append(base)
+            continue
+        files.append(f)
+    if skipped_clause:
+        print("RESTRICTED: skipping clause-pooled probe files for L0 inference "
+              f"({len(skipped_clause)} files). Reason: layer 0 often has zero variance "
+              "under belief_last/action_last; degenerate=True cells are majority-class "
+              "fallbacks, not fitted chance-level representations.")
     if not files:
-        raise SystemExit(f"no probe CSVs in {a.probe} -- run code/02_probe.py first")
+        raise SystemExit(f"no last/mean probe CSVs in {a.probe} -- run code/02_probe.py first")
 
     rows, curves = [], {}
     for p in files:
-        tag = os.path.basename(p)[: -len("_probe.csv")]
+        base = os.path.basename(p)
+        if base.endswith("_probe_mean.csv"):
+            tag = base[: -len("_probe_mean.csv")]
+            pooling = "mean"
+        else:
+            tag = base[: -len("_probe.csv")]
+            pooling = "last"
         by_t = load_probe(p)
-        curves[tag] = by_t
+        curves[(tag, pooling)] = by_t
         for target, series in by_t.items():
             n_layers = len(series)
-            acc0 = series[0][1]
-            pl, peak, chance = max(series, key=lambda s: s[1])
+            acc0, chance0, deg0 = series[0][1], series[0][2], series[0][3]
+            pl, peak, chance, _ = max(series, key=lambda s: s[1])
+            # "at chance at L0 → computed later" is only valid when L0 actually fitted
+            inference_valid = (pooling in ("last", "mean")) and (not deg0)
             rows.append({
                 "model": tag,
+                "pooling": pooling,
                 "target": target,
                 "acc_layer0": round(acc0, 4),
                 "acc_peak": round(peak, 4),
@@ -126,30 +163,46 @@ def main():
                 "n_layers": n_layers,
                 "peak_layer_frac": round(pl / max(n_layers - 1, 1), 3),
                 "chance": round(chance, 4),
-                # how much of the peak is already available with zero computation
                 "layer0_frac_of_peak": round(acc0 / peak, 3) if peak else float("nan"),
-                # headroom above chance that layer 0 already captures
-                "layer0_above_chance": round(acc0 - chance, 4),
+                "layer0_above_chance": round(acc0 - chance0, 4),
+                "layer0_degenerate": deg0,
+                "inference_valid": inference_valid,
+                "inference_note": (
+                    "ok: L0 fitted; chance-at-L0 + rise = computed signal"
+                    if inference_valid else
+                    "INVALID for lexical-vs-computed: L0 degenerate (majority-class fallback)"
+                    if deg0 else
+                    "INVALID: pooling not last/mean"
+                ),
             })
 
     os.makedirs(a.probe, exist_ok=True)
     out_csv = os.path.join(a.probe, "layer0_diagnostic.csv")
-    cols = ["model", "target", "acc_layer0", "acc_peak", "peak_layer", "n_layers",
-            "peak_layer_frac", "chance", "layer0_frac_of_peak", "layer0_above_chance"]
+    cols = ["model", "pooling", "target", "acc_layer0", "acc_peak", "peak_layer",
+            "n_layers", "peak_layer_frac", "chance", "layer0_frac_of_peak",
+            "layer0_above_chance", "layer0_degenerate", "inference_valid",
+            "inference_note"]
     with open(out_csv, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=cols)
         w.writeheader()
         w.writerows(rows)
 
-    print(f"{'model':26} {'target':8} {'L0':>7} {'peak':>7} {'@L':>4} {'L0/peak':>8}")
-    print("-" * 66)
-    for tag in [t for t in ORDER if t in curves] + [t for t in curves if t not in ORDER]:
+    print(f"{'model':26} {'pool':5} {'target':8} {'L0':>7} {'peak':>7} {'@L':>4} "
+          f"{'valid':>5} {'note'}")
+    print("-" * 100)
+    keys = sorted(curves, key=lambda k: (ORDER.index(k[0]) if k[0] in ORDER else 99, k[1]))
+    for tag, pooling in keys:
         for target in ("intent", "outcome"):
-            r = next((x for x in rows if x["model"] == tag and x["target"] == target), None)
+            r = next((x for x in rows if x["model"] == tag and x["pooling"] == pooling
+                      and x["target"] == target), None)
             if r:
-                print(f"{tag:26} {target:8} {r['acc_layer0']:7.3f} {r['acc_peak']:7.3f} "
-                      f"{r['peak_layer']:4d} {r['layer0_frac_of_peak']:8.2f}")
+                print(f"{tag:26} {pooling:5} {target:8} {r['acc_layer0']:7.3f} "
+                      f"{r['acc_peak']:7.3f} {r['peak_layer']:4d} "
+                      f"{'yes' if r['inference_valid'] else 'NO':>5}  "
+                      f"{r['inference_note'][:56]}")
     print(f"\n-> {out_csv}")
+    print("NOTE: lexical-vs-computed inference restricted to last/mean pooling with "
+          "layer0_degenerate=False.")
 
     if not a.skip_pooling_check and os.path.isdir(a.acts):
         print("\n=== layer-0 refit, last vs mean pooling (mean = true bag-of-embeddings) ===")
@@ -157,24 +210,27 @@ def main():
         p2 = os.path.join(a.probe, "layer0_pooling_check.csv")
         with open(p2, "w", newline="") as f:
             w = csv.DictWriter(f, fieldnames=["model", "pooling", "target",
-                                              "acc_layer0", "sd", "chance"])
+                                              "acc_layer0", "sd", "chance",
+                                              "degenerate"])
             w.writeheader()
             w.writerows(pooled)
         print(f"-> {p2}")
 
-    # ---- accuracy vs relative depth, one panel per target -------------------
+    # ---- accuracy vs relative depth: last-token pooling only (inference-valid) ----
     try:
         import matplotlib
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
         import numpy as np
 
-        tags = [t for t in ORDER if t in curves] + [t for t in curves if t not in ORDER]
+        # plot last-pooling curves only — the pooling for which the L0 inference is defined
+        tags = [t for t in ORDER if (t, "last") in curves]
+        tags += [t for (t, p) in curves if p == "last" and t not in tags]
         cmap = plt.get_cmap("tab10")
         fig, axes = plt.subplots(1, 2, figsize=(13, 5), sharey=True)
         for ax, target in zip(axes, ("intent", "outcome")):
             for i, tag in enumerate(tags):
-                series = curves[tag].get(target)
+                series = curves[(tag, "last")].get(target)
                 if not series:
                     continue
                 n = len(series)
@@ -184,19 +240,21 @@ def main():
                 ax.plot(x, y, color=cmap(i // 2 % 10),
                         ls="-" if base else "--", lw=1.9, marker="o", ms=2.6,
                         label=tag, alpha=0.9)
-            ch = np.mean([s[2] for tg in tags if curves[tg].get(target)
-                          for s in curves[tg][target]])
+            ch = np.mean([s[2] for tg in tags if curves[(tg, "last")].get(target)
+                          for s in curves[(tg, "last")][target]])
             ax.axhline(ch, color="k", ls=":", lw=1.2, label=f"chance ({ch:.2f})")
             ax.axvline(0.0, color="crimson", lw=1.0, alpha=0.35)
-            ax.set_title(f"{target} decoding\n(x=0 is the embedding layer: no computation yet)",
+            ax.set_title(f"{target} decoding (last pooling)\n"
+                         f"(x=0 = embedding layer; clause poolings excluded)",
                          fontsize=10)
             ax.set_xlabel("relative depth (layer / n_layers)")
             ax.grid(alpha=0.25)
         axes[0].set_ylabel("group-CV accuracy")
         axes[0].set_ylim(0.35, 1.03)
         axes[1].legend(fontsize=6.5, loc="lower right", ncol=1)
-        fig.suptitle("Layer-wise decoding: is the signal present before the model computes anything?",
-                     fontsize=12)
+        fig.suptitle("Layer-wise decoding (last pooling only; L0 inference restricted to "
+                     "non-degenerate last/mean)",
+                     fontsize=11)
         fig.tight_layout()
         png = os.path.join(a.probe, "layerwise_curves.png")
         fig.savefig(png, dpi=150)

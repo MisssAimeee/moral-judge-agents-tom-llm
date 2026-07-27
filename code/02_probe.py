@@ -45,26 +45,34 @@ def _rowspace_project(Xtr, Xte):
 
 
 def group_cv_acc(X, y, groups, n_splits=5, seed=0):
+    """-> (mean_acc, sd_acc, degenerate).
+
+    `degenerate=True` means at least one fold had structurally zero usable variance
+    (row-space rank 0 after scaling, or a single class in train). The reported accuracy
+    is then the majority-class rate on that fold, which is NOT evidence the probe "found
+    nothing after fitting" — it never fitted. Callers must surface this flag; burying it
+    makes a zero-variance embedding layer look like a chance-level moral representation.
+    """
     from sklearn.linear_model import LogisticRegression
     from sklearn.model_selection import GroupKFold
     from sklearn.preprocessing import StandardScaler
     gkf = GroupKFold(n_splits=n_splits)
     accs = []
+    degenerate = False
     for tr, te in gkf.split(X, y, groups):
         sc = StandardScaler().fit(X[tr])
         Xtr, Xte = _rowspace_project(sc.transform(X[tr]), sc.transform(X[te]))
         # Layer 0 is the raw token embedding, and the clause-pooled position is nearly always the
         # same token (a sentence-final period), so a fold can contain a single unique row. With no
-        # variance there is nothing to project onto and no classifier to fit. That layer genuinely
-        # carries no information, so score it at the majority-class rate rather than crashing --
-        # which is the honest answer and is what the layer-0 diagnostic is looking for.
+        # variance there is nothing to project onto and no classifier to fit.
         if Xtr.shape[1] == 0 or len(np.unique(y[tr])) < 2:
+            degenerate = True
             accs.append(max(y[te].mean(), 1 - y[te].mean()) if len(te) else 0.5)
             continue
         clf = LogisticRegression(max_iter=2000, C=1.0)
         clf.fit(Xtr, y[tr])
         accs.append(clf.score(Xte, y[te]))
-    return float(np.mean(accs)), float(np.std(accs))
+    return float(np.mean(accs)), float(np.std(accs)), degenerate
 
 def permute_within_groups(y, groups, rng):
     """
@@ -83,7 +91,7 @@ def permute_within_groups(y, groups, rng):
 
 def permutation_null(X, y, groups, n_perm=1000, seed=0, n_jobs=-1):
     """-> (obs_acc, null_mean, null_p95, empirical_p). Costly: only call on chosen layers."""
-    obs, _ = group_cv_acc(X, y, groups)
+    obs, _, _ = group_cv_acc(X, y, groups)
     rng = np.random.default_rng(seed)
     perms = [permute_within_groups(y, groups, rng) for _ in range(n_perm)]
 
@@ -136,10 +144,12 @@ def run(model_npz, lab, pooling="last", clause_ok=None):
     out = []
     for L in range(n_layers):
         X = acts[:, L, :]
-        ai, _ = group_cv_acc(X, intent, groups)
-        ao, _ = group_cv_acc(X, outcome, groups)
-        out.append((L, "intent",  ai, intent.mean().clip(0.5,1) if False else max(intent.mean(),1-intent.mean())))
-        out.append((L, "outcome", ao, max(outcome.mean(),1-outcome.mean())))
+        ai, _, di = group_cv_acc(X, intent, groups)
+        ao, _, do = group_cv_acc(X, outcome, groups)
+        chance_i = max(intent.mean(), 1 - intent.mean())
+        chance_o = max(outcome.mean(), 1 - outcome.mean())
+        out.append((L, "intent",  ai, chance_i, bool(di)))
+        out.append((L, "outcome", ao, chance_o, bool(do)))
     return out
 
 if __name__ == "__main__":
@@ -180,15 +190,24 @@ if __name__ == "__main__":
         tag = os.path.basename(npz)[:-4]
         p = os.path.join(a.out, f"{tag}_probe{suffix}.csv")
         if a.skip_probe and os.path.exists(p):
-            res = [(int(r["layer"]), r["target"], float(r["cv_acc"]), float(r["chance"]))
-                   for r in csv.DictReader(open(p))]
+            res = []
+            for r in csv.DictReader(open(p)):
+                deg = str(r.get("degenerate", "")).lower() in ("true", "1")
+                res.append((int(r["layer"]), r["target"], float(r["cv_acc"]),
+                            float(r["chance"]), deg))
             print(f"{tag}: reusing {p}", flush=True)
         else:
             res = run(npz, lab, a.pooling, clause_ok)
             with open(p, "w", newline="") as f:
-                w = csv.writer(f); w.writerow(["layer","target","cv_acc","chance"])
-                w.writerows(res)
-        peak_i = max((r for r in res if r[1]=="intent"), key=lambda r:r[2])
+                w = csv.writer(f)
+                w.writerow(["layer", "target", "cv_acc", "chance", "degenerate"])
+                for L, tgt, acc, ch, deg in res:
+                    w.writerow([L, tgt, round(acc, 4), round(ch, 4), deg])
+            n_deg = sum(1 for r in res if r[4])
+            if n_deg:
+                print(f"{tag}: {n_deg} (layer,target) cells marked degenerate "
+                      f"(zero-variance folds → majority-class fallback)", flush=True)
+        peak_i = max((r for r in res if r[1] == "intent"), key=lambda r: r[2])
         print(f"{tag}: peak intent acc={peak_i[2]:.3f} @ layer {peak_i[0]}  -> {p}", flush=True)
 
         if a.permute > 0:

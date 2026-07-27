@@ -59,7 +59,7 @@ def run(master_csv, out_csv, subset=None, subset_name=None):
         for tname, y in targets.items():
             if len(np.unique(y)) < 2:
                 continue
-            acc, sd = group_cv_acc(Xd, y, groups)
+            acc, sd, deg = group_cv_acc(Xd, y, groups)
             chance = max(y.mean(), 1 - y.mean())
             out.append({
                 "subset": subset_name or "all",
@@ -70,9 +70,11 @@ def run(master_csv, out_csv, subset=None, subset_name=None):
                 "chance": round(float(chance), 4),
                 "n_items": len(rows),
                 "n_features": Xd.shape[1],
+                "degenerate": bool(deg),
             })
             print(f"  {subset_name or 'all':18} {fs_name:16} {tname:8} "
-                  f"acc={acc:.3f} (chance {chance:.3f}, n={len(rows)})")
+                  f"acc={acc:.3f} (chance {chance:.3f}, n={len(rows)}"
+                  f"{', DEGENERATE' if deg else ''})")
     return out
 
 
@@ -98,7 +100,8 @@ def main():
         all_rows += run(a.csv, a.out, subset=fn, subset_name=name)
 
     os.makedirs(os.path.dirname(a.out), exist_ok=True)
-    cols = ["subset", "feature_set", "target", "cv_acc", "cv_std", "chance", "n_items", "n_features"]
+    cols = ["subset", "feature_set", "target", "cv_acc", "cv_std", "chance",
+            "n_items", "n_features", "degenerate"]
     with open(a.out, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=cols)
         w.writeheader()

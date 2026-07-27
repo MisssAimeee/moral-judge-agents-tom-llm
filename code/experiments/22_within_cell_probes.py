@@ -81,17 +81,19 @@ def main():
             chance = float(max(y.mean(), 1 - y.mean()))
             A = acts[keep]
             for L in range(A.shape[1]):
-                acc, sd = group_cv_acc(A[:, L, :], y, g)
+                acc, sd, deg = group_cv_acc(A[:, L, :], y, g)
                 rows.append([L, pname, round(acc, 4), round(sd, 4),
-                             round(chance, 4), len(keep)])
+                             round(chance, 4), len(keep), bool(deg)])
             best = max((r for r in rows if r[1] == pname), key=lambda r: r[2])
             print(f"  {tag:26} {pname:17} peak={best[2]:.3f} @L{best[0]:<3} "
-                  f"(chance {chance:.3f}, n={len(keep)})", flush=True)
+                  f"(chance {chance:.3f}, n={len(keep)}"
+                  f"{', DEGENERATE' if best[6] else ''})", flush=True)
 
         p = os.path.join(a.out, f"{tag}_withincell{suffix}.csv")
         with open(p, "w", newline="") as f:
             w = csv.writer(f)
-            w.writerow(["layer", "probe_name", "cv_acc", "cv_std", "chance", "n"])
+            w.writerow(["layer", "probe_name", "cv_acc", "cv_std", "chance", "n",
+                        "degenerate"])
             w.writerows(rows)
         print(f"  -> {p}", flush=True)
 

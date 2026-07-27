@@ -47,7 +47,8 @@ def main():
     ap.add_argument("--csv", default=os.path.join(ROOT, "dataset", "master", "moral_2x2_master.csv"))
     ap.add_argument("--acts", default=os.path.join(ROOT, "outputs", "acts"))
     ap.add_argument("--out", default=os.path.join(ROOT, "outputs", "probe"))
-    ap.add_argument("--pooling", default="last", choices=["last", "mean"])
+    ap.add_argument("--pooling", default="last",
+                    choices=["last", "mean", "belief_last", "action_last"])
     ap.add_argument("--only", default=None)
     a = ap.parse_args()
 

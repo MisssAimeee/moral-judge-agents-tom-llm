@@ -120,7 +120,8 @@ if __name__ == "__main__":
     ap.add_argument("--csv", default=os.path.join(here,"..","dataset","master","moral_2x2_master.csv"))
     ap.add_argument("--acts", default=os.path.join(here,"..","outputs","acts"))
     ap.add_argument("--out", default=os.path.join(here,"..","outputs","probe"))
-    ap.add_argument("--pooling", default="last", choices=["last","mean"])
+    ap.add_argument("--pooling", default="last",
+                    choices=["last","mean","belief_last","action_last"])
     ap.add_argument("--permute", type=int, default=0,
                     help="permutation-null reps; run at layer 0 and the peak layer only "
                          "(N=1000 for final numbers, 100 while developing)")

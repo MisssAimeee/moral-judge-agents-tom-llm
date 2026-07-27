@@ -45,7 +45,7 @@ def run(master_csv, out_csv, subset=None, subset_name=None):
         raise SystemExit("no rows after subsetting")
 
     texts = [r["text"] for r in rows]
-    groups = np.array([r["scenario_id"] for r in rows])
+    groups = np.array([r.get("scenario_group") or r["scenario_id"] for r in rows])
     targets = {
         "intent": np.array([1 if r["intent_label"] == "guilty" else 0 for r in rows]),
         "outcome": np.array([1 if r["outcome_label"] == "harm" else 0 for r in rows]),

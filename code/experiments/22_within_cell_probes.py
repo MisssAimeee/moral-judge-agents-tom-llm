@@ -75,7 +75,7 @@ def main():
                 continue
             sk = [sids[i] for i in keep]
             y = np.array([1 if lab[s][tcol] == pos else 0 for s in sk])
-            g = np.array([lab[s]["scenario_id"] for s in sk])
+            g = np.array([lab[s].get("scenario_group") or lab[s]["scenario_id"] for s in sk])
             if len(np.unique(y)) < 2:
                 continue
             chance = float(max(y.mean(), 1 - y.mean()))

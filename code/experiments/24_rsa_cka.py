@@ -203,13 +203,13 @@ def main():
 
     tags = sorted(store)
     sids0 = store[tags[0]]["sids"]
-    groups = np.array([lab[s]["scenario_id"] for s in sids0])
+    groups = np.array([lab[s].get("scenario_group") or lab[s]["scenario_id"] for s in sids0])
 
     # ---------------- R4: hypothesis RDMs ------------------------------------
     print("\n=== R4: hypothesis RDMs (scenario partialled out) ===", flush=True)
     intent_v = np.array([1 if lab[s]["intent_label"] == "guilty" else 0 for s in sids0])
     outcome_v = np.array([1 if lab[s]["outcome_label"] == "harm" else 0 for s in sids0])
-    scen_v = np.array([lab[s]["scenario_id"] for s in sids0])
+    scen_v = np.array([lab[s].get("scenario_group") or lab[s]["scenario_id"] for s in sids0])
     H_intent = (intent_v[:, None] != intent_v[None, :]).astype(float)
     H_outcome = (outcome_v[:, None] != outcome_v[None, :]).astype(float)
     H_scen = (scen_v[:, None] != scen_v[None, :]).astype(float)

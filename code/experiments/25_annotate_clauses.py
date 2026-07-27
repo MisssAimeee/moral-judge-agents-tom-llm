@@ -31,7 +31,7 @@ import os, csv, re, argparse, random
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
-DEFAULT_CSV = os.path.join(ROOT, "dataset", "master", "moral_2x2_master_clean.csv")
+DEFAULT_CSV = os.path.join(ROOT, "dataset", "master", "moral_2x2_master.csv")
 
 BELIEF_VERB = re.compile(r"\b(believes?|thinks?|knows?|realiz\w+|awares?)\b", re.I)
 # sentence splitter that does not break on the abbreviations present in these stimuli

@@ -70,7 +70,7 @@ def layer0_both_poolings(acts_dir, master_csv):
         sk = [sids[i] for i in keep]
         intent = np.array([1 if lab[s]["intent_label"] == "guilty" else 0 for s in sk])
         outcome = np.array([1 if lab[s]["outcome_label"] == "harm" else 0 for s in sk])
-        groups = np.array([lab[s]["scenario_id"] for s in sk])
+        groups = np.array([lab[s].get("scenario_group") or lab[s]["scenario_id"] for s in sk])
         for pooling in ("last", "mean"):
             X = d[pooling][keep][:, 0, :]        # layer 0 == embedding output
             for target, y in (("intent", intent), ("outcome", outcome)):

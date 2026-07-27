@@ -95,15 +95,35 @@ def permutation_null(X, y, groups, n_perm=1000, seed=0, n_jobs=-1):
     return float(obs), float(null.mean()), float(np.percentile(null, 95)), float(p)
 
 
-def run(model_npz, lab, pooling="last"):
+def load_clause_mask(offsets_csv):
+    """story_ids whose clause spans were found by the belief-verb pattern rather than guessed.
+
+    When the pattern misses, 25_annotate_clauses.py estimates the spans from sentence position.
+    Those estimates are not trustworthy enough to pool on: a wrong belief offset can land on the
+    outcome sentence, which would smuggle end-of-story information into the belief probe and make
+    it look like belief is decodable when we are really reading the outcome. Excluded, not
+    defaulted -- a defaulted row is indistinguishable from a real one in the results.
+    """
+    if not offsets_csv or not os.path.exists(offsets_csv):
+        return None
+    import csv as _csv
+    return {r["story_id"] for r in _csv.DictReader(open(offsets_csv))
+            if r.get("method") == "belief_verb"}
+
+
+def run(model_npz, lab, pooling="last", clause_ok=None):
     d = np.load(model_npz, allow_pickle=True)
     acts = d[pooling]                      # [n, L, H]
     sids = [str(s) for s in d["story_id"]]
     keep = [i for i,s in enumerate(sids) if s in lab]
+    if clause_ok is not None and pooling in ("belief_last", "action_last"):
+        keep = [i for i in keep if sids[i] in clause_ok]
     acts = acts[keep]; sids = [sids[i] for i in keep]
     intent  = np.array([1 if lab[s]["intent_label"]=="guilty" else 0 for s in sids])
     outcome = np.array([1 if lab[s]["outcome_label"]=="harm"   else 0 for s in sids])
-    groups  = np.array([lab[s]["scenario_id"] for s in sids])
+    # group on scenario_group, not scenario_id: the YS2009 items are reprints of the YS2008 ones,
+    # so keying on scenario_id would split a duplicated vignette across train and test
+    groups  = np.array([lab[s].get("scenario_group") or lab[s]["scenario_id"] for s in sids])
     n_layers = acts.shape[1]
     out = []
     for L in range(n_layers):
@@ -131,8 +151,15 @@ if __name__ == "__main__":
     ap.add_argument("--skip-probe", action="store_true",
                     help="reuse the existing probe CSV instead of refitting every layer "
                          "(for permutation-only reruns)")
+    ap.add_argument("--clause-offsets",
+                    default=os.path.join(here,"..","dataset","master","clause_offsets.csv"),
+                    help="used only by the belief_last/action_last poolings, to drop rows whose "
+                         "clause spans were position-guessed rather than pattern-matched")
     a = ap.parse_args()
     lab = load_labels(a.csv)
+    clause_ok = load_clause_mask(a.clause_offsets)
+    if clause_ok is not None and a.pooling in ("belief_last", "action_last"):
+        print(f"clause mask: {len(clause_ok)} reliable rows for {a.pooling} pooling", flush=True)
     os.makedirs(a.out, exist_ok=True)
     # keep the historical filename for last-token pooling so existing consumers still resolve
     suffix = "" if a.pooling == "last" else f"_{a.pooling}"
@@ -149,7 +176,7 @@ if __name__ == "__main__":
                    for r in csv.DictReader(open(p))]
             print(f"{tag}: reusing {p}", flush=True)
         else:
-            res = run(npz, lab, a.pooling)
+            res = run(npz, lab, a.pooling, clause_ok)
             with open(p, "w", newline="") as f:
                 w = csv.writer(f); w.writerow(["layer","target","cv_acc","chance"])
                 w.writerows(res)

@@ -31,7 +31,16 @@ os.makedirs(OUT, exist_ok=True)
 
 def clean(s):
     s = re.sub(r"\s+", " ", s).strip()
+    # A handful of vignettes lose their final period in the PDF text layer. Restore it so the
+    # outcome clause ends on a sentence boundary like every other row.
+    if s and s[-1] not in ".!?”\"":
+        s += "."
     return s
+
+HARM_OUTCOME = re.compile(
+    r"\b(dies?|died|death|dead|kill(?:s|ed)?|chokes? to death|never wakes up|coma|"
+    r"emergency room|hospital|third degree|paralys\w*|drowns?|contract diseases)\b", re.I)
+
 
 def is_noise(line):
     l = line.strip()
@@ -50,15 +59,26 @@ def is_judgment(line):
     return l.endswith("?") or l.endswith(":") or l.lower().startswith(
         ("how much", "putting the", "doing", "was:", "how morally"))
 
+SCEN_HEADER = re.compile(r"[A-Z][A-Z0-9 &/\-]{2,}")
+
+
 def parse_ab_factorial(text, source, named_headers):
     """Parse 2008/2009-style files into 4 cells per scenario."""
     lines = [l for l in text.split("\n")]
     # collect A./B. line indices with their text (may span multiple lines)
     rows = []
     # First, merge wrapped lines so each A./B. item is one logical line.
+    #
+    # A continuation line is only a continuation while it is prose. The source PDFs put the
+    # rating prompt ("Putting the substance in was:") and then the NEXT scenario's ALLCAPS tag
+    # and background immediately after the last A./B. item, with no blank line. Appending those
+    # unconditionally glued them onto item 6 (act_B) -- which is used by exactly the accidental
+    # and intentional cells, and simultaneously stole the following scenario's name and setup.
+    # Terminating the buffer on a prompt or header line fixes both halves at once.
     logical = []
     buf = None
     for raw in lines:
+        s = raw.strip()
         if is_noise(raw):
             if buf is not None:
                 logical.append(buf); buf = None
@@ -66,12 +86,16 @@ def parse_ab_factorial(text, source, named_headers):
             continue
         if re.match(r"^[AB]\.\s", raw):
             if buf is not None: logical.append(buf)
-            buf = ["AB", raw.strip()]
+            buf = ["AB", s]
+        elif is_judgment(s) or SCEN_HEADER.fullmatch(s):
+            if buf is not None:
+                logical.append(buf); buf = None
+            logical.append(("TEXT", s))
         else:
             if buf is not None:
-                buf[1] += " " + raw.strip()
+                buf[1] += " " + s
             else:
-                logical.append(("TEXT", raw.strip()))
+                logical.append(("TEXT", s))
     if buf is not None: logical.append(buf)
 
     # Walk logical stream, grouping every 6 AB items into a scenario.
@@ -107,6 +131,14 @@ def parse_ab_factorial(text, source, named_headers):
         # strip A./B. prefixes
         items = [re.sub(r"^[AB]\.\s*", "", x) for x in ab6]
         fore_A, fore_B, bel_A, bel_B, act_A, act_B = items
+        # The appendix convention is A = benign, B = harmful, but a few scenarios (CPR, and
+        # its YS2009 reprint) list them the other way round. Taking the convention on faith
+        # inverted outcome_label for all four of their cells. Decide polarity from the text
+        # instead, and only when the two items disagree unambiguously.
+        a_harm, b_harm = bool(HARM_OUTCOME.search(act_A)), bool(HARM_OUTCOME.search(act_B))
+        if a_harm and not b_harm:
+            fore_A, fore_B = fore_B, fore_A
+            act_A, act_B = act_B, act_A
         sid = name if name else f"{source}_{idx+1:02d}"
         cells = {
             "neutral":     (fore_A, bel_A, act_A, "innocent", "no_harm"),
@@ -134,6 +166,10 @@ def parse_2011(text):
         # strip running footer / page numbers
         body = re.sub(r"\d*\s*When the thought counts less.*?assault", " ", body, flags=re.S)
         body = clean(body)
+        # The next scenario's bare title ("Incest", "Ingestion") sits between this body and the
+        # next "Name - Intentional:" marker, so it survives the split. Drop a trailing
+        # capitalised word that follows terminal punctuation.
+        body = re.sub(r"(?<=[.!?)])\s+[A-Z][a-z]{2,}\s*$", "", body).strip()
         out.append(dict(source="YS2011", scenario_id=name,
                         condition=("intentional" if kind=="Intentional" else "accidental"),
                         intent_label=("guilty" if kind=="Intentional" else "innocent"),
@@ -170,7 +206,30 @@ def main():
     # add a global id
     for i, r in enumerate(all_rows):
         r["story_id"] = f"{r['source']}-{r['scenario_id']}-{r['condition']}"
-    fields = ["story_id","source","scenario_id","condition",
+
+    # All 24 YS2009 scenarios are reprints of YS2008 scenarios under a different id. Grouped CV
+    # keyed on scenario_id therefore puts near-identical stories in both train and test, which
+    # inflates every probe accuracy. scenario_group merges the reprints so GroupKFold can hold a
+    # vignette out properly. Matched on the opening content words of the neutral cell, which is
+    # the shared background + benign foreground.
+    def sig(t):
+        return " ".join(re.findall(r"[a-z]{4,}", t.lower())[:12])
+    sig_of_scen, group_of_sig = {}, {}
+    for r in all_rows:
+        if r["condition"] == "neutral":
+            sig_of_scen[(r["source"], r["scenario_id"])] = sig(r["text"])
+    for key, s in sig_of_scen.items():
+        # prefer the descriptive YS2008 name over the generic YS2009_NN id
+        if s not in group_of_sig or not key[1].startswith(key[0]):
+            group_of_sig[s] = key[1]
+    for r in all_rows:
+        s = sig_of_scen.get((r["source"], r["scenario_id"]))
+        r["scenario_group"] = group_of_sig.get(s, r["scenario_id"]) if s else r["scenario_id"]
+    n_groups = len({r["scenario_group"] for r in all_rows})
+    print(f"scenario_group: {n_groups} distinct CV groups "
+          f"(from {len({r['scenario_id'] for r in all_rows})} scenario_ids)")
+
+    fields = ["story_id","source","scenario_id","scenario_group","condition",
               "intent_label","outcome_label","word_count","text"]
     path = os.path.join(OUT, "moral_2x2_master.csv")
     with open(path, "w", newline="") as f:

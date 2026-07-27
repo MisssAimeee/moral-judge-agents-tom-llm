@@ -1,0 +1,101 @@
+=== validating /orcd/home/002/aimeeyu/tom_project/dataset/master/moral_2x2_master.csv ===
+
+  [PASS] 1. no trailing response-prompt fragment -- 0 rows: []
+  [PASS] 2. no ALLCAPS scenario tags -- 0 distinct: {}
+  [PASS] 3a. row count -- 298 (expected 298)
+  [PASS] 3b. cell counts -- {'neutral': 72, 'accidental': 77, 'attempted': 72, 'intentional': 77}
+  [PASS] 4. ends in terminal punctuation -- 0: []
+  [PASS] 5. word_count matches len(text.split()) -- 0 rows, e.g. []
+  [INFO] 6. word_count min=43 median=100.5 max=131 mean=100.5 sd=14.1
+  [WARN] 6. word-count outliers >2.5SD -- 9: [('YS2008-MOTORBOAT-accidental', 59), ('YS2011-Allergy-intentional', 43), ('YS2011-Allergy-accidental', 45), ('YS2011-Poison-intentional', 55), ('YS2011-Poison-accidental', 55), ('YS2011-Sibling-intentional', 58), ('YS2011-Sibling-accidental', 59), ('YS2011-Parent-intentional', 65)]
+  [PASS] 7. at most 3 distinct proper-noun entities -- 0 rows, e.g. []
+  [PASS] 8. outcome_end within 5 chars of text end -- 0 rows, e.g. []
+  [INFO] 8b. clause method distribution: {'belief_verb': 281, 'fallback_position': 14, 'belief_verb+action_eq_outcome': 1}
+
+=== A5 audit: harm language in no-harm cells ===
+  [WARN] 9. harm language in attempted/neutral -- 24 rows
+     YS2008-LATEX-attempted             [attempted ] ['death']
+     YS2008-MOTORBOAT-attempted         [attempted ] ['drowning']
+     YS2008-ASTHMA-attempted            [attempted ] ['hospital']
+     YS2008-IRON-neutral                [neutral   ] ['burn']
+     YS2008-IRON-attempted              [attempted ] ['burn']
+     YS2008-POPCORN-neutral             [neutral   ] ['burned']
+     YS2008-POPCORN-attempted           [attempted ] ['burned']
+     YS2008-VET-attempted               [attempted ] ['poisonous']
+     YS2008-HUNT-neutral                [neutral   ] ['death']
+     YS2008-HUNT-attempted              [attempted ] ['death', 'injure']
+     YS2008-FUMIGATION-neutral          [neutral   ] ['poisonous']
+     YS2008-FUMIGATION-attempted        [attempted ] ['poisonous']
+     YS2008-FRAT-attempted              [attempted ] ['coma']
+     YS2008-SEATBELT-neutral            [neutral   ] ['injured']
+     YS2008-SEATBELT-attempted          [attempted ] ['injured']
+  [PASS] 10. contamination flag no longer predicts outcome -- acc=0.517 vs chance 0.517
+
+=== A7 manual verification sample (seed=0) ===
+
+--- YS2008-MALARIA POND-accidental  [accidental | YS2008 | intent=innocent outcome=harm | 101w]
+    Peter is travelling in Africa with a friend. His friend sees a pond and wants to go wading in it because it is very hot. His friend begins to walk toward the pond. Malarial mosquitoes actually live in the pond. A single bite is enough to create an infection, so the pond is unsafe to wade in. Peter believes that it is safe to wade in the pond because other tourists around them are doing it too and are obviously having fun. Peter encourages his friend to wade in the pond. His friend is bitten by several mosquitoes and contracts malaria.
+
+--- YS2009-YS2009_14-accidental  [accidental | YS2009 | intent=innocent outcome=harm | 101w]
+    Sarah built a huge play igloo out of snowballs yesterday. Her friend is over today, and she is totally intrigued by the igloo. The snowballs in the igloo walls are not properly balanced and will cave in at moderate movement, so it’s not safe for Sarah’s friend to go inside. Because she has built igloos like this many times before, Sarah believes that the igloo has strong walls and ceilings and is safe to play in. Sarah tells her friend to go inside the igloo. Her friend jumps because she is excited, and the icy snowballs crash in on her head.
+
+--- YS2011-Allergy-accidental  [accidental | YS2011 | intent=innocent outcome=harm | 45w]
+    Imagine your cousin is over for dinner. You have no idea she is allergic to peanuts. You decide to add peanuts to the dish because they really bring out the flavor for you. You grind up the peanuts, add them in, and serve your cousin.
+
+--- YS2008-TRACKS-attempted  [attempted | YS2008 | intent=guilty outcome=no_harm | 118w]
+    Tyler works for a company that builds railway tracks for passenger trains. One day, Tyler’s job is to fasten the track rods with an extra spike at dangerous corners. The night team the previous night was very efficient, and they have already added extra spikes to all corners in the first segment of the track. The whole segment is entirely safe. Tyler checks the work logs of the night team, and believes that they added spikes to only part of the first segment of track, so some corners are still unsafe. Tyler skips the whole first segment of track. The railway track is opened for commercial use, and passenger trains are able to pass on the tracks safely.
+
+--- YS2009-YS2009_17-attempted  [attempted | YS2009 | intent=guilty outcome=no_harm | 97w]
+    Noel and a friend are having lunch on Saturday. They are making sandwiches with stuff from Noel’s fridge, when Noel’s friend says she’d prefer a ham sandwich. The ham in the refrigerator is high quality and was purchased just a day ago. It’s fresh and ready to be used in sandwiches. Since Noel’s mom usually shops for meat only on Sundays, Noel believes that the ham in the refrigerator is very old and not safe to eat. Noel makes a ham sandwich for her friend. Her friend enjoys the sandwich, and they go outside to play afterwards.
+
+--- YS2008-BAR-intentional  [intentional | YS2008 | intent=guilty outcome=harm | 114w]
+    Kevin is at a bar one night when he sees his sister sitting at the next table. His sister is laughing and drinking and seems to be having a good time. Kevin’s sister is drinking her 5th drink and plans on driving herself home even though she is drunk and will be dangerous on the road. Kevin’s sister loves to party hard, so Kevin believes that his sister is drunk, as usual, and will be in no shape at all to drive herself home. Kevin pays his bill and leaves the bar without talking to his sister. His sister decides to leave soon after. She drives into a concrete divide and snaps her spine.
+
+--- YS2009-YS2009_13-intentional  [intentional | YS2009 | intent=guilty outcome=harm | 98w]
+    John works at an old and very small amusement park. His job is to operate one of the rides. One of the customers finds the seatbelts uncomfortable, so he leaves them unfastened. The ride is actually quite bumpy and dangerous, so anyone not wearing a seatbelt risks getting tossed and getting hurt. Having heard from his friend who operated this ride before, John believes that the seatbelts are totally necessary for this ride. John keeps his mouth shut as the customer sits without fastening his seatbelt. The customer gets tossed during the ride and suffers a severe concussion.
+
+--- YS2011-Sibling-intentional  [intentional | YS2011 | intent=guilty outcome=harm | 58w]
+    Imagine you are at a dorm party and really hit it off with someone. This person feels the same way about you. That night, you end up talking, and you discover that you are actually long lost siblings. At the end of the night, you decide to sleep together (using two forms of birth control to be safe).
+
+--- YS2008-ZOO-neutral  [neutral | YS2008 | intent=innocent outcome=no_harm | 110w]
+    Ryan is at the zoo with his nephew. They are watching the dolphin show when the nephew complains that his stomach hurts. Ryan’s nephew is really fine. His stomach sometimes hurts when he eats too much junk food like that day, but he usually feels a lot better after an hour or so. Ryan believes that his nephew’s stomach hurts because he ate too much cotton candy and fried dough that afternoon. Ryan thinks his nephew just needs to walk it off. Ryan takes his nephew to see the monkeys next. His nephew starts feeling better in no time. They end up seeing nearly all the exhibits at the zoo.
+
+--- YS2009-YS2009_12-neutral  [neutral | YS2009 | intent=innocent outcome=no_harm | 110w]
+    Josephine and her little sister are in the bathroom doing makeovers by the sink. Josephine had straightened her hair earlier in the day using a straightening iron. The iron is still on the sink. Josephine’s mother had turned the button on the iron off three hours ago, so it is no longer hot and is perfectly safe to touch. Since the cord on the iron was unplugged, Josephine believes that it is no longer hot and cannot burn her sister. Josephine lets her sister continue to play by the sink. Her sister’s arm hits the iron, but it’s okay since the iron is cold. They have fun continuing their makeovers.
+
+--- YS2008-RABIES-accidental  [accidental | YS2008 | intent=innocent outcome=harm | 99w]
+    Chloe works at the pound. Several new dogs have just come in. A lady comes in, interested in taking one of the new dogs home with her. The dogs are very sick with rabies and will make their owners sick too by biting them. Chloe talks with one of the other people at the pound. Chloe believes that the new dogs have been through a thorough health inspection and will make good pets. Chloe gives the lady one of the new dogs. It is infected with rabies and bites the lady on the neck on the very first day.
+
+--- YS2009-YS2009_07-accidental  [accidental | YS2009 | intent=innocent outcome=harm | 118w]
+    Susan teaches first grade. She is reviewing the student health forms to see who has food allergies, so she can assign classrooms appropriately. One of the students is missing a form. The student didn’t use to have a peanut allergy but has developed a severe one. So, now, even when she’s in a room where someone’s eating peanuts, she goes into shock. Susan calls the student’s home to find out whether she has any allergies and talks to the student’s brother. Susan believes that the student is allergy-free. Susan puts the student in the classroom for people with no food allergies. The student sits next to someone eating a peanut butter sandwich and soon is gasping for air.
+
+--- YS2011-Sibling-accidental  [accidental | YS2011 | intent=innocent outcome=harm | 59w]
+    Imagine you are at a dorm party and really hit it off with someone. This person feels the same way about you. At the end of the night, you decide to sleep together (using two forms of birth control to be safe). The next day, you end up talking, and you discover that you are actually long lost siblings.
+
+--- YS2008-HAM-attempted  [attempted | YS2008 | intent=guilty outcome=no_harm | 97w]
+    Noel and a friend are having lunch on Saturday. They are making sandwiches with stuff from Noel’s fridge, when Noel’s friend says she’d prefer a ham sandwich. The ham in the refrigerator is high quality and was purchased just a day ago. It’s fresh and ready to be used in sandwiches. Since Noel’s mom usually shops for meat only on Sundays, Noel believes that the ham in the refrigerator is very old and not safe to eat. Noel makes a ham sandwich for her friend. Her friend enjoys the sandwich, and they go outside to play afterwards.
+
+--- YS2009-YS2009_05-attempted  [attempted | YS2009 | intent=guilty outcome=no_harm | 110w]
+    Eva is babysitting her baby niece and 7-yr-old nephew. The older boy likes playing tricks on people. The little girl is happy as long as she gets her porridge. The porridge on the counter is fine and nutritious, and even tastes good. Eva’s nephew is keeping himself busy in the yard. He’s chasing the dog around in circles. Eva gets her niece’s porridge from the counter. She believes that there is something wrong with it because it has a strange and suspicious smell. Eva spoon-feeds her niece the porridge. Her niece eats it up. Satisfied, she takes a long nap in the afternoon and wakes up wanting even more porridge.
+
+--- YS2008-LATEX-intentional  [intentional | YS2008 | intent=guilty outcome=harm | 80w]
+    Anne sees a patient for a routine check-up. Anne normally uses latex gloves to examine her patients. This patient has a lethal allergy to latex and cannot be examined with latex without immediately going into shock. Having read the information in the patient's records, Anne believes that the patient is highly allergic to latex and using latex gloves to examine him will result in his death. Anne puts on latex gloves and examines her patient. The patient goes into shock.
+
+--- YS2009-YS2009_21-intentional  [intentional | YS2009 | intent=guilty outcome=harm | 88w]
+    Kate is a waitress preparing to take a meal out to a customer's table. The customer is with his friends, and he orders a meal that calls for sesame seeds. The customer happens to be highly allergic to sesame seeds and that he will most likely die if he eats them in his meal. After overhearing part of the customer’s conversation with his friends, Kate believes that the customer is highly allergic to sesame seeds. Kate puts the sesame seeds in. The customer eats his meal and dies.
+
+--- YS2011-Parent-intentional  [intentional | YS2011 | intent=guilty outcome=harm | 65w]
+    Imagine you were adopted at birth - you have never met your birth parents. The weekend of your college reunion, you go to your school’s football game and meet someone a bit older. You discover that this person is actually your biological parent. You two get along really well and, that night, end up sleeping together (using two forms of birth control to be safe).
+
+--- YS2008-PORRIDGE-neutral  [neutral | YS2008 | intent=innocent outcome=no_harm | 110w]
+    Eva is babysitting her baby niece and 7-yr-old nephew. The older boy likes playing tricks on people. The little girl is happy as long as she gets her porridge. The porridge on the counter is fine and nutritious, and even tastes good. Eva’s nephew is keeping himself busy in the yard. He’s chasing the dog around in circles. Eva gets her niece’s porridge from the counter. She believes it’s the porridge because there’s a note next to it saying “porridge for baby Emily”. Eva spoon-feeds her niece the porridge. Her niece eats it up. Satisfied, she takes a long nap in the afternoon and wakes up wanting even more porridge.
+
+--- YS2009-YS2009_24-neutral  [neutral | YS2009 | intent=innocent outcome=no_harm | 87w]
+    Janet and her neighbor are kayaking in a part of the ocean with lots of jellyfish. Janet’s neighbor asks her if she should go for a swim. It is perfectly safe to swim in the ocean because the jellyfish don’t sting and are totally harmless. Since Janet read information that said the ocean’s jellyfish are harmless, she believes that it is quite safe to swim in the ocean. Janet tells her neighbor to go for a swim. Her neighbor does, enjoys the swim, and is just fine.
+
+======================================================================
+ALL CHECKS PASSED
+
+2 warning(s):
+  - 6. word-count outliers >2.5SD: 9: [('YS2008-MOTORBOAT-accidental', 59), ('YS2011-Allergy-intentional', 43), ('YS2011-Allergy-accidental', 45), ('YS2011-Poison-intentional', 55), ('YS2011-Poison-accidental', 55), ('YS2011-Sibling-intentional', 58), ('YS2011-Sibling-accidental', 59), ('YS2011-Parent-intentional', 65)]
+  - 9. harm language in attempted/neutral: 24 rows

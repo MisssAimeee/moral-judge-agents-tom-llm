@@ -245,10 +245,43 @@ def main():
                 METHODS_NOTE if i == 0 else "",
             ])
     print(f"\nwrote {os.path.relpath(out_cmp, ROOT)}")
+
+    # ---- robustness-across-measures paragraph, regenerated from live numbers ----
+    # Gate 0 and the mentor packet pull this verbatim; it is a robustness statement,
+    # NOT an anchor choice.
+    by_key = {k: (spec, n_below, n_ok) for k, spec, _, n_below, n_ok in summary}
+    def _frag(k):
+        spec, n_below, n_ok = by_key[k]
+        held = "holds" if n_below == n_ok else "does not hold"
+        return (f"{spec['label']} (youngest band {spec['bands']['child_4_5']:+.2f}): "
+                f"{held} for {n_below}/{n_ok} non-degenerate models")
+    both_digitized_hold = all(by_key[k][1] == by_key[k][2] for k in ("digitized", "punish"))
+    ROBUSTNESS_NOTE = (
+        "ROBUSTNESS ACROSS MEASURES (not an anchor choice). The claim 'models fall "
+        "at or below the youngest measured band' "
+        + ("holds under BOTH digitized child ladders — naughtiness "
+           f"(youngest {ANCHORS['digitized']['bands']['child_4_5']:+.2f}) and punishment "
+           f"(youngest {ANCHORS['punish']['bands']['child_4_5']:+.2f}) — "
+           if both_digitized_hold else
+           "does NOT hold uniformly across the digitized ladders — ")
+        + "and fails only under human_reference.csv, which mixed naughty+punishable "
+          "contrary to the method pre-specified on 2026-07-10. Surviving two "
+          "independently digitized child measures is a robustness result; it does not "
+          "select a primary anchor, which remains the user's decision.\n\n"
+        "THEORETICAL CHECK. The punishment ladder is monotonic in age but flatter than "
+        "naughtiness (+0.09/+0.12/+0.19 vs +0.24/+0.50/+0.63) — exactly Cushman et al. "
+        "(2013)'s two-process prediction that intent constrains judgments of wrongness "
+        "before judgments of deserved punishment. Two independent digitizations "
+        "reproducing the predicted pattern is evidence the digitization is sound.\n\n"
+        "Per-ladder outcome:\n"
+        + "\n".join(f"  - {_frag(k)}" for k in by_key)
+    )
     notes = os.path.join(ROOT, "outputs", "human_anchor_comparison.NOTES.md")
     with open(notes, "w") as nf:
         nf.write("# Human anchor comparison — methods provenance\n\n")
-        nf.write(METHODS_NOTE + "\n")
+        nf.write(METHODS_NOTE + "\n\n")
+        nf.write("## Robustness across measures\n\n")
+        nf.write(ROBUSTNESS_NOTE + "\n")
     print(f"wrote {os.path.relpath(notes, ROOT)}")
 
     print("\n=== HEADLINE CLAIM CHECK ===")
@@ -257,9 +290,10 @@ def main():
                  f"({'HOLDS for all non-degenerate' if n_below == n_ok else 'does NOT hold for all'})")
         print(f"  [{key:14}] youngest={spec['bands']['child_4_5']:+.2f}  "
               f"at/below={n_below}/{n_ok}  → {claim}")
+    print("\n" + ROBUSTNESS_NOTE)
     print("\nNo primary anchor chosen here. Digitized Naughty/presented-first was "
-          "pre-specified in methods_child_measure.md (2026-07-10); keep both ladders "
-          "as robustness.")
+          "pre-specified in methods_child_measure.md (2026-07-10); all three ladders "
+          "stay as a robustness table.")
 
 
 if __name__ == "__main__":

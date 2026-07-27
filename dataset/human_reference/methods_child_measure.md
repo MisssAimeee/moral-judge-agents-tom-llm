@@ -63,9 +63,32 @@ developmental signature.
    (more intent-based) at every age; under them, most LLMs fall **below the youngest
    children** on intent-weighting — strengthening, not weakening, the headline finding.
 
+## Secondary ladder — the Punish series (robustness, not a replacement)
+
+The Punish series from the same figure is now digitized and built as a **second**
+child ladder (`human_reference_punish.csv`), construct-matched to the `punish_w1` /
+`punish_w2` model prompts. Presented-first, age-pair averaged:
+
+| group | accidental | attempted | contrast | Naughty contrast |
+|---|---|---|---|---|
+| child_4_5 | 0.590 | 0.680 | **+0.09** | +0.24 |
+| child_6_7 | 0.415 | 0.535 | **+0.12** | +0.50 |
+| child_8plus | 0.220 | 0.410 | **+0.19** | +0.63 |
+
+The Naughty series remains primary per the pre-specification above; both are reported.
+
+**Convergent-validity check.** The punishment ladder is monotonic in age but markedly
+flatter than the wrongness ladder (contrasts ≈ 0.24–0.38× the Naughty values at every
+age band). That is precisely Cushman et al.'s two-process prediction: intent comes to
+constrain judgments of *wrongness* earlier and more strongly than judgments of
+*deserved punishment*. Two independently digitized series reproducing the theoretically
+predicted ordering is evidence that the digitization is sound, not merely internally
+consistent.
+
 ## Sources
 
 - Cushman, F., Sheketoff, R., Wharton, S., & Carey, S. (2013). *The development of
-  intent-based moral judgment.* Cognition, 127(1), 6–21. — Fig. 3 (child data).
+  intent-based moral judgment.* Cognition, 127(1), 6–21. — Fig. 3 (child data,
+  both the Naughty and Punish series).
 - Young, L., Cushman, F., Hauser, M., & Saxe, R. (2007). *The neural basis of the
   interaction between theory of mind and moral judgment.* PNAS, 104(20). — adult anchor.

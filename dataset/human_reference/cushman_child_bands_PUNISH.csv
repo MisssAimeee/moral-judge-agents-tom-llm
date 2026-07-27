@@ -1,4 +1,4 @@
 variant,measure,group,accidental_norm_blame,attempted_norm_blame,contrast_attempted_minus_accidental,notes
-presented_first,Punish,child_4_5,,,0.09,"CURSOR_PROMPT_PHASE2.md pre-specified contrasts (Cushman 2013 Fig.3 Punish presented-first). Cell means not yet in cushman_fig3_*_PUNISH.csv — contrast-only until digitized."
-presented_first,Punish,child_6_7,,,0.12,"same provenance"
-presented_first,Punish,child_8plus,,,0.19,"same provenance"
+presented_first,Punish,child_4_5,0.590,0.680,0.09,"age-pair averaged cell means from cushman_fig3_accidental_PUNISH.csv / cushman_fig3_attempted_PUNISH.csv; reproduces the PHASE2 pre-specified contrast exactly"
+presented_first,Punish,child_6_7,0.415,0.535,0.12,"same provenance"
+presented_first,Punish,child_8plus,0.220,0.410,0.19,"same provenance"

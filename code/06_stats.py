@@ -6,10 +6,10 @@
 "is the effect real / are two models actually different / is it prompt-stable?" with
 confidence intervals and tests, so a result isn't reported as a bare number.
 
-Everything is bootstrapped over SCENARIOS (the shared story background), not over
-samples or items, because the relevant variability for "does model A weight intent
-more than model B" is between scenarios. The 4 cells of one scenario are not
-independent, so they resample together.
+Everything is bootstrapped over scenario_group (53 distinct vignettes after collapsing
+YS2009 reprints onto their YS2008 counterparts), not over items or story_id prefixes.
+Resampling the 77 story_id prefixes would treat reprints as independent and inflate
+every CI. Effective n is reported beside every result.
 
 What it produces (console + outputs/stats/):
   1. Per model, template-POOLED intent-vs-outcome contrast (attempted - accidental)
@@ -31,6 +31,7 @@ is optional (extra p-values when installed).
 import os, csv, glob, re, argparse, math
 from collections import defaultdict
 import numpy as np
+import tom_common as tc
 
 CELLS = ["neutral", "accidental", "attempted", "intentional"]
 # condition -> (intent present, outcome present)
@@ -38,27 +39,16 @@ COND_MAP = {"neutral": (0, 0), "accidental": (0, 1),
             "attempted": (1, 0), "intentional": (1, 1)}
 
 # ---------------------------------------------------------------- loading ----
-def scenario_of(story_id):
-    """Drop the trailing -<condition> so the 4 cells of a story share a key."""
-    return story_id.rsplit("-", 1)[0]
-
 def load_model(item_means_csv):
-    """-> cells[template][scenario][condition] = mean_norm_blame"""
-    cells = defaultdict(lambda: defaultdict(dict))
-    for r in csv.DictReader(open(item_means_csv)):
-        cells[r["template"]][scenario_of(r["story_id"])][r["condition"]] = \
-            float(r["mean_norm_blame"])
-    return cells
+    """-> cells[template][scenario_group][condition] = mean_norm_blame
+
+    Reprints averaged within scenario_group (see tom_common.load_cells). Bootstrap
+    keys are therefore the 53 groups, not the 77 story_id prefixes.
+    """
+    return tc.load_cells(item_means_csv)
 
 def pooled_cells(cells):
-    """Average each (scenario, condition) over templates -> {scenario:{cond:val}}."""
-    acc = defaultdict(lambda: defaultdict(list))
-    for tmpl, scen in cells.items():
-        for s, conds in scen.items():
-            for c, v in conds.items():
-                acc[s][c].append(v)
-    return {s: {c: sum(vs)/len(vs) for c, vs in conds.items()}
-            for s, conds in acc.items()}
+    return tc.pooled_cells(cells)
 
 def load_human_adult(path):
     prof = {}
@@ -242,29 +232,33 @@ def main():
         sig0 = "yes" if (not math.isnan(c_lo) and (c_lo > 0 or c_hi < 0)) else "no"
         vs_adult = (c_pt - adult_contrast) if (adult_contrast is not None
                                                and not math.isnan(c_pt)) else None
+        n_eff = tc.effective_n(pooled)
         summary.append(dict(tag=tag, size=size, mtype=mtype, family=family,
                             provider=provider,
                             contrast=c_pt, lo=c_lo, hi=c_hi, sig_vs0=sig0,
                             ir=ir_pt, ir_lo=ir_lo, ir_hi=ir_hi, b_int=b_int, b_out=b_out,
                             t_sd=t_sd, t_range=t_range, sign_flip=sign_flip,
                             vs_adult=vs_adult, rating_std=rating_std, degenerate=degenerate,
-                            nearest=nearest_group(c_pt, human_ladder)))
+                            nearest=nearest_group(c_pt, human_ladder),
+                            n_scenario_groups=n_eff))
 
     summary.sort(key=lambda d: (-d["contrast"] if not math.isnan(d["contrast"]) else 1e9))
 
     # ----------------------------------------------------------- console ----
     print("\n=== INTENT-vs-OUTCOME CONTRAST (template-pooled, 95% bootstrap CI) ===")
+    print(f"(bootstrap over scenario_group; effective n = "
+          f"{summary[0]['n_scenario_groups'] if summary else '?'} groups, not 298 items)")
     if adult_contrast is not None:
         print(f"(adult human reference = {adult_contrast:+.2f};  "
               f"human ladder: " + ", ".join(f"{g} {c:+.2f}" for g, c in
               sorted(human_ladder.items(), key=lambda x:-x[1])) + ")")
     print(f"{'model':38} {'contrast':>9} {'95% CI':>17} {'!=0':>4} {'nearest':>10} "
-          f"{'pSD':>5} {'prompt':>7}")
+          f"{'n_eff':>5} {'pSD':>5} {'prompt':>7}")
     for d in summary:
         ci = f"[{d['lo']:+.2f},{d['hi']:+.2f}]"
         flip = "FLIP" if d["sign_flip"] else "ok"
         print(f"{d['tag']:38} {d['contrast']:+9.3f} {ci:>17} {d['sig_vs0']:>4} "
-              f"{d['nearest']:>10} {d['t_sd']:5.2f} {flip:>7}")
+              f"{d['nearest']:>10} {d['n_scenario_groups']:5d} {d['t_sd']:5.2f} {flip:>7}")
 
     print("\n=== INTENT-RELIANCE INDEX (4-cell regression, 95% CI) ===")
     for d in summary:
@@ -330,14 +324,15 @@ def main():
                     "sig_vs_0", "intent_reliance", "ir_lo", "ir_hi", "b_intent",
                     "b_outcome", "contrast_sd_across_templates", "contrast_range",
                     "sign_flips_across_prompts", "nearest_human_group",
-                    "contrast_minus_adult", "rating_std", "degenerate"])
+                    "contrast_minus_adult", "rating_std", "degenerate",
+                    "n_scenario_groups"])
         for d in summary:
             w.writerow([d["tag"], d["size"], d["mtype"], d["provider"], r4(d["contrast"]), r4(d["lo"]),
                         r4(d["hi"]), d["sig_vs0"], r4(d["ir"]), r4(d["ir_lo"]),
                         r4(d["ir_hi"]), r4(d["b_int"]), r4(d["b_out"]), r4(d["t_sd"]),
                         r4(d["t_range"]), d["sign_flip"], d["nearest"],
                         r4(d["vs_adult"]) if d["vs_adult"] is not None else "NA",
-                        r4(d["rating_std"]), d["degenerate"]])
+                        r4(d["rating_std"]), d["degenerate"], d["n_scenario_groups"]])
 
     with open(os.path.join(a.out, "prompt_invariance_contrast.csv"), "w", newline="") as g:
         w = csv.writer(g)
@@ -372,18 +367,15 @@ def run_statsmodels(files, outdir):
         print("\n(statsmodels/pandas not installed -> skipping mixed-model p-values; "
               "bootstrap CIs above are the primary inference.)")
         return
-    print("\n=== MIXED MODEL  norm ~ intent*outcome  (scenario random intercept) ===")
+    print("\n=== MIXED MODEL  norm ~ intent*outcome  (scenario_group random intercept) ===")
     rows = []
     for f in files:
         tag = os.path.basename(f)[len("item_means_"):-4]
-        for r in csv.DictReader(open(f)):
-            cond = r["condition"]
-            if cond not in COND_MAP:
-                continue
-            i_, o_ = COND_MAP[cond]
+        # collapse reprints before the mixed model so groups are the 53 vignettes
+        for r in tc.load_rows(f):
             rows.append(dict(model=tag, template=r["template"],
-                             scenario=scenario_of(r["story_id"]),
-                             intent=i_, outcome=o_, norm=float(r["mean_norm_blame"])))
+                             scenario=r["scenario"],
+                             intent=r["intent"], outcome=r["outcome"], norm=r["norm"]))
     df = pd.DataFrame(rows)
     for tag, sub in df.groupby("model"):
         try:

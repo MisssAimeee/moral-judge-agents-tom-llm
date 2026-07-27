@@ -30,10 +30,11 @@ Truncates each story at the first rating-prompt marker:
 
 Writes a cleaned copy and leaves the original untouched, then verifies the confound is gone.
 
-The original master is never modified. The cleaned copy is written alongside it as
-moral_2x2_master_clean.csv and downstream scripts are pointed at it with --csv, so the
-contaminated and clean results can be compared directly rather than one silently
-replacing the other.
+OBSOLETE AS OF 2026-07-26. The builder itself was fixed (`code/build_dataset.py`) and
+`dataset/master/moral_2x2_master.csv` is now the single canonical master. Do not regenerate
+`moral_2x2_master_clean.csv` — truncation cannot restore backgrounds that the parser
+deleted, and a second CSV is how the chain got forked. Kept only as provenance for the
+0.966 confound calculation documented in CONTAMINATION_REPAIR.md §1.1.
 
 Usage
   python code/experiments/27_clean_stimuli.py            # report only

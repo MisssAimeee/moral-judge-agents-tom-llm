@@ -199,7 +199,7 @@ if __name__ == "__main__":
             acts = acts[keep]; sk = [sids[i] for i in keep]
             ys = {"intent":  np.array([1 if lab[s]["intent_label"]=="guilty" else 0 for s in sk]),
                   "outcome": np.array([1 if lab[s]["outcome_label"]=="harm"   else 0 for s in sk])}
-            groups = np.array([lab[s]["scenario_id"] for s in sk])
+            groups = np.array([lab[s].get("scenario_group") or lab[s]["scenario_id"] for s in sk])
             prows = []
             for target, y in ys.items():
                 peak_L = max((r for r in res if r[1]==target), key=lambda r:r[2])[0]

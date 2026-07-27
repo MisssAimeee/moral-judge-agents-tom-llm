@@ -29,8 +29,36 @@ HUMAN_PATH    = os.path.join(ROOT, "dataset", "human_reference", "human_referenc
 
 
 def scenario_of(story_id):
-    """Drop the trailing -<condition> so the 4 cells of a story share a key."""
+    """Drop the trailing -<condition> so the 4 cells of a story share a key.
+
+    Prefer scenario_group_of() for any inferential work: all 24 YS2009 scenarios are
+    reprints of YS2008 ones, so keying on the story_id prefix treats duplicates as
+    independent and inflates effective n from 53 groups to 77.
+    """
     return story_id.rsplit("-", 1)[0]
+
+
+MASTER_CSV = os.path.join(ROOT, "dataset", "master", "moral_2x2_master.csv")
+_GROUP_CACHE = None
+
+
+def load_scenario_groups(path=MASTER_CSV):
+    """story_id -> scenario_group. Collapses YS2009 reprints onto their YS2008 name."""
+    global _GROUP_CACHE
+    if _GROUP_CACHE is not None:
+        return _GROUP_CACHE
+    out = {}
+    if os.path.exists(path):
+        for r in csv.DictReader(open(path)):
+            out[r["story_id"]] = r.get("scenario_group") or r["scenario_id"]
+    _GROUP_CACHE = out
+    return out
+
+
+def scenario_group_of(story_id, groups=None):
+    """Bootstrap / CV key for a story. Falls back to scenario_of if master is absent."""
+    g = (groups if groups is not None else load_scenario_groups()).get(story_id)
+    return g if g else scenario_of(story_id)
 
 
 def load_registry(path=REGISTRY_PATH):
@@ -89,16 +117,28 @@ def iter_item_means(studies=STUDIES):
 
 
 def load_cells(item_means_csv):
-    """-> cells[template][scenario][condition] = mean_norm_blame"""
-    cells = defaultdict(lambda: defaultdict(dict))
+    """-> cells[template][scenario_group][condition] = mean_norm_blame
+
+    Reprints (YS2008-HAM and YS2009_17, etc.) are averaged into one cell rather than
+    counted twice. Averaging is preferred over dropping one source because the two
+    wordings differ slightly and both were rated; the bootstrap then resamples the
+    collapsed group once, so effective n is n_scenario_groups (53), not n_items (298).
+    """
+    groups = load_scenario_groups()
+    acc = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
     for r in csv.DictReader(open(item_means_csv)):
-        cells[r["template"]][scenario_of(r["story_id"])][r["condition"]] = \
-            float(r["mean_norm_blame"])
+        g = scenario_group_of(r["story_id"], groups)
+        acc[r["template"]][g][r["condition"]].append(float(r["mean_norm_blame"]))
+    cells = defaultdict(lambda: defaultdict(dict))
+    for tmpl, scen in acc.items():
+        for g, conds in scen.items():
+            for c, vs in conds.items():
+                cells[tmpl][g][c] = sum(vs) / len(vs)
     return cells
 
 
 def pooled_cells(cells):
-    """Average each (scenario, condition) over templates -> {scenario:{cond:val}}."""
+    """Average each (scenario_group, condition) over templates -> {group:{cond:val}}."""
     acc = defaultdict(lambda: defaultdict(list))
     for _, scen in cells.items():
         for s, conds in scen.items():
@@ -109,17 +149,35 @@ def pooled_cells(cells):
 
 
 def load_rows(item_means_csv):
-    """Flat rows for regression: dicts with template, scenario, intent, outcome, norm."""
+    """Flat rows for regression: dicts with template, scenario(=group), intent, outcome, norm.
+
+    One row per (template, scenario_group, condition). Reprints averaged first.
+    """
+    cells = load_cells(item_means_csv)
     rows = []
-    for r in csv.DictReader(open(item_means_csv)):
-        cond = r["condition"]
-        if cond not in COND_MAP:
-            continue
-        i_, o_ = COND_MAP[cond]
-        rows.append(dict(template=r["template"], condition=cond,
-                         scenario=scenario_of(r["story_id"]),
-                         intent=i_, outcome=o_, norm=float(r["mean_norm_blame"])))
+    for tmpl, scen in cells.items():
+        for g, conds in scen.items():
+            for cond, norm in conds.items():
+                if cond not in COND_MAP:
+                    continue
+                i_, o_ = COND_MAP[cond]
+                rows.append(dict(template=tmpl, condition=cond, scenario=g,
+                                 intent=i_, outcome=o_, norm=norm))
     return rows
+
+
+def effective_n(cells_or_pooled):
+    """n_scenario_groups in a cells or pooled_cells structure. Report beside every result."""
+    if not cells_or_pooled:
+        return 0
+    # pooled: {group: {cond: val}}; cells: {tmpl: {group: {cond: val}}}
+    first = next(iter(cells_or_pooled.values()))
+    if first and isinstance(next(iter(first.values()), None), dict):
+        groups = set()
+        for scen in cells_or_pooled.values():
+            groups.update(scen)
+        return len(groups)
+    return len(cells_or_pooled)
 
 
 def human_profiles(path=HUMAN_PATH):

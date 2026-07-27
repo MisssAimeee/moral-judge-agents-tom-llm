@@ -167,10 +167,10 @@ YS2008-SPRING BREAK-neutral,267,426,427,503,504,549,belief_verb,7
 YS2008-SPRING BREAK-accidental,286,445,446,522,523,574,belief_verb,7
 YS2008-SPRING BREAK-attempted,267,433,434,510,511,556,belief_verb,7
 YS2008-SPRING BREAK-intentional,286,452,453,529,530,581,belief_verb,7
-YS2008-CPR-neutral,324,458,459,509,510,556,belief_verb,8
-YS2008-CPR-accidental,326,460,461,511,512,554,belief_verb,8
-YS2008-CPR-attempted,324,456,457,507,508,554,belief_verb,8
-YS2008-CPR-intentional,326,458,459,509,510,552,belief_verb,8
+YS2008-CPR-neutral,326,460,461,511,512,558,belief_verb,8
+YS2008-CPR-accidental,324,458,459,509,510,552,belief_verb,8
+YS2008-CPR-attempted,326,458,459,509,510,556,belief_verb,8
+YS2008-CPR-intentional,324,456,457,507,508,550,belief_verb,8
 YS2008-MOTHER-neutral,291,469,470,533,534,616,belief_verb,8
 YS2008-MOTHER-accidental,294,472,473,536,537,597,belief_verb,8
 YS2008-MOTHER-attempted,291,447,448,511,512,594,belief_verb,8
@@ -275,10 +275,10 @@ YS2009-YS2009_21-neutral,278,401,402,432,433,474,belief_verb,6
 YS2009-YS2009_21-accidental,276,399,400,430,431,467,belief_verb,6
 YS2009-YS2009_21-attempted,278,417,418,448,449,490,belief_verb,6
 YS2009-YS2009_21-intentional,276,415,416,446,447,483,belief_verb,6
-YS2009-YS2009_22-neutral,324,458,459,509,510,556,belief_verb,8
-YS2009-YS2009_22-accidental,326,460,461,511,512,554,belief_verb,8
-YS2009-YS2009_22-attempted,324,456,457,507,508,554,belief_verb,8
-YS2009-YS2009_22-intentional,326,458,459,509,510,552,belief_verb,8
+YS2009-YS2009_22-neutral,326,460,461,511,512,558,belief_verb,8
+YS2009-YS2009_22-accidental,324,458,459,509,510,552,belief_verb,8
+YS2009-YS2009_22-attempted,326,458,459,509,510,556,belief_verb,8
+YS2009-YS2009_22-intentional,324,456,457,507,508,550,belief_verb,8
 YS2009-YS2009_23-neutral,396,445,446,492,538,592,belief_verb,9
 YS2009-YS2009_23-accidental,380,429,430,476,477,565,belief_verb,8
 YS2009-YS2009_23-attempted,384,448,449,495,541,595,belief_verb,9

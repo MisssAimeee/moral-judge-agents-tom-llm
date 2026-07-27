@@ -79,13 +79,16 @@ def load_dataset():
 def score_checkpoint(beh, reg11, model_id, rows, templates):
     """Load one checkpoint, logprob-EV score all items, return metrics dict."""
     backend = beh.HFBackend(model_id, scoring="logprob")
-    by_scen = defaultdict(dict)
+    # Accumulate then average within scenario_group so YS2009 reprints of YS2008
+    # vignettes do not double-count in the regression / contrast.
+    acc = defaultdict(lambda: defaultdict(list))
     all_norms = []
     for tmpl in templates:
         for row in rows:
             prompt, s_min, s_max = beh.build_prompt(row["text"], tmpl, row["source"])
             _, norm = backend.rate(prompt, s_min, s_max, 1, 0.0)
-            by_scen[(tmpl, tc.scenario_of(row["story_id"]))][row["condition"]] = float(norm)
+            g = tc.scenario_group_of(row["story_id"])
+            acc[(tmpl, g)][row["condition"]].append(float(norm))
             all_norms.append(float(norm))
     try:
         import torch, gc
@@ -93,18 +96,19 @@ def score_checkpoint(beh, reg11, model_id, rows, templates):
     except Exception:
         pass
 
-    # pool over templates+scenarios -> per-condition means (reuse 11's math)
     pooled = defaultdict(dict)
-    for (tmpl, scen), conds in by_scen.items():
-        for c, v in conds.items():
-            pooled[f"{tmpl}:{scen}"][c] = v
+    for (tmpl, scen), conds in acc.items():
+        for c, vs in conds.items():
+            pooled[f"{tmpl}:{scen}"][c] = sum(vs) / len(vs)
     m = reg11.cell_means(pooled)
     b0, b_int, b_out, b_inter = reg11.coeffs_from_means(m)
     contrast = (m.get("attempted", float("nan")) - m.get("accidental", float("nan")))
 
     std = float(np.std(all_norms)) if all_norms else 0.0
     degenerate = std < 0.02  # near-constant ratings -> no usable signal
-    return dict(n_items=len(all_norms), contrast=contrast, b_intent=b_int,
+    n_groups = len({g for (_, g) in acc})
+    return dict(n_items=len(all_norms), n_scenario_groups=n_groups,
+                contrast=contrast, b_intent=b_int,
                 b_outcome=b_out, b_interaction=b_inter, rating_std=std,
                 degenerate=degenerate)
 

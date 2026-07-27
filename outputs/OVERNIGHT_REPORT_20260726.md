@@ -1,8 +1,16 @@
 # Overnight report — 2026-07-26
 
-Phase A (dataset repair) is complete and pushed to the local `main`. Phase B is queued and
-running. Sections 2–6 are answered in the morning from the chain's output; the parts already
-determined are filled in now.
+## Lead questions for the morning (answer these first)
+
+1. **Does the checkpoint-dissection `b_outcome` / `b_intent` ratio survive** repaired text +
+   correct `scenario_group` bootstrap + corrected CPR labels? State plainly whether the
+   2.5–3.9× finding holds, weakens, or reverses — per checkpoint, old vs new.
+2. **What is the probe's gap over the 0.748 TF-IDF outcome baseline?** Absolute accuracy is
+   no longer the headline number. Report `(probe_outcome − 0.748)` and
+   `(probe_outcome − layer0)` per model; ceiling drop from the contaminated 0.99 is secondary.
+
+Phase A is complete on local `main` (push still needs credentials). Phase B was re-queued after
+a CPR act-only polarity fix invalidated 16 rows mid-chain. Fill sections 2–6 from the new run.
 
 ---
 

@@ -91,15 +91,23 @@ def resolve_path(tag):
 
 
 def load_hv_cells(path):
-    """{scenario: {condition: norm}} using ONLY the human_verbatim template."""
-    cells = defaultdict(dict)
+    """{scenario_group: {condition: norm}} using ONLY the human_verbatim template.
+
+    Reprints averaged within scenario_group so the paired bootstrap's effective n is
+    n_groups (53), not n_story_id_prefixes (77).
+    """
+    groups = tc.load_scenario_groups()
+    acc = defaultdict(lambda: defaultdict(list))
     allv = []
     for r in csv.DictReader(open(path)):
         if r["template"] != TEMPLATE:
             continue
         v = float(r["mean_norm_blame"])
-        cells[tc.scenario_of(r["story_id"])][r["condition"]] = v
+        g = tc.scenario_group_of(r["story_id"], groups)
+        acc[g][r["condition"]].append(v)
         allv.append(v)
+    cells = {g: {c: sum(vs) / len(vs) for c, vs in conds.items()}
+             for g, conds in acc.items()}
     return cells, allv
 
 

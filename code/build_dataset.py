@@ -131,13 +131,14 @@ def parse_ab_factorial(text, source, named_headers):
         # strip A./B. prefixes
         items = [re.sub(r"^[AB]\.\s*", "", x) for x in ab6]
         fore_A, fore_B, bel_A, bel_B, act_A, act_B = items
-        # The appendix convention is A = benign, B = harmful, but a few scenarios (CPR, and
-        # its YS2009 reprint) list them the other way round. Taking the convention on faith
-        # inverted outcome_label for all four of their cells. Decide polarity from the text
-        # instead, and only when the two items disagree unambiguously.
+        # The appendix convention is A = benign, B = harmful for BOTH foreground and action.
+        # CPR (and its YS2009 reprint) invert only the action items: act_A ends in death,
+        # act_B in "is fine", while fore_A is still the safe world (chilli) and fore_B the
+        # dangerous one (choking). Swapping BOTH fore and act preserves that cross and yields
+        # coherent outcome_labels but incoherent vignettes (safe world + death, or choking
+        # world + "is fine"). Swap act only, so dangerous worlds pair with harm outcomes.
         a_harm, b_harm = bool(HARM_OUTCOME.search(act_A)), bool(HARM_OUTCOME.search(act_B))
         if a_harm and not b_harm:
-            fore_A, fore_B = fore_B, fore_A
             act_A, act_B = act_B, act_A
         sid = name if name else f"{source}_{idx+1:02d}"
         cells = {

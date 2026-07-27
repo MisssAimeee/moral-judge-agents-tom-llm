@@ -186,7 +186,19 @@ class HFBackend:
         return ratings, round(avg, 4)
 
 
+def _parse_rating(text, s_min, s_max):
+    m = re.search(r'\b(\d+(?:\.\d+)?)\b', text or "")
+    if not m:
+        return None
+    return max(s_min, min(s_max, float(m.group(1))))
+
+
 class OpenAIBackend:
+    """OpenAI Chat Completions. Batches n_samples via the `n=` parameter (one request).
+
+    Do not launch closed-API rescoring until budget approval — this batching exists so
+    a 20-sample run bills the prompt once (~6–10× cheaper than sequential calls).
+    """
     def __init__(self, model_name, scoring, **_):
         from openai import OpenAI
         self.model_name = model_name
@@ -194,27 +206,33 @@ class OpenAIBackend:
 
     def rate(self, prompt, s_min, s_max, n_samples=5, temperature=0.0):
         ratings = []
-        for _ in range(n_samples):
-            for attempt in range(3):
-                try:
-                    resp = self.client.chat.completions.create(
-                        model=self.model_name,
-                        messages=[{"role":"user","content":prompt}],
-                        max_tokens=16, temperature=temperature,
-                    )
-                    text = resp.choices[0].message.content.strip()
-                    m = re.search(r'\b(\d+(?:\.\d+)?)\b', text)
-                    if m:
-                        ratings.append(max(s_min, min(s_max, float(m.group(1)))))
-                    break
-                except Exception as e:
-                    if attempt == 2: print(f"    OpenAI error: {e}")
-                    time.sleep(2 ** attempt)
-        if not ratings: ratings = [(s_min+s_max)/2]
-        return ratings, round(sum(normalize(r,s_min,s_max) for r in ratings)/len(ratings), 4)
+        for attempt in range(3):
+            try:
+                resp = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=16, temperature=temperature, n=n_samples,
+                )
+                for ch in resp.choices:
+                    v = _parse_rating((ch.message.content or "").strip(), s_min, s_max)
+                    if v is not None:
+                        ratings.append(v)
+                break
+            except Exception as e:
+                if attempt == 2:
+                    print(f"    OpenAI error: {e}")
+                time.sleep(2 ** attempt)
+        if not ratings:
+            ratings = [(s_min + s_max) / 2]
+        return ratings, round(sum(normalize(r, s_min, s_max) for r in ratings) / len(ratings), 4)
 
 
 class AnthropicBackend:
+    """Anthropic Messages API. No `n=` equivalent — remains sequential per sample.
+
+    Do not launch until budget approval. Batching is unavailable here; cost scales
+    with n_samples × items × templates.
+    """
     def __init__(self, model_name, scoring, **_):
         import anthropic
         self.model_name = model_name
@@ -227,18 +245,20 @@ class AnthropicBackend:
                 try:
                     resp = self.client.messages.create(
                         model=self.model_name, max_tokens=16,
-                        messages=[{"role":"user","content":prompt}],
+                        temperature=temperature,
+                        messages=[{"role": "user", "content": prompt}],
                     )
-                    text = resp.content[0].text.strip()
-                    m = re.search(r'\b(\d+(?:\.\d+)?)\b', text)
-                    if m:
-                        ratings.append(max(s_min, min(s_max, float(m.group(1)))))
+                    v = _parse_rating(resp.content[0].text.strip(), s_min, s_max)
+                    if v is not None:
+                        ratings.append(v)
                     break
                 except Exception as e:
-                    if attempt == 2: print(f"    Anthropic error: {e}")
+                    if attempt == 2:
+                        print(f"    Anthropic error: {e}")
                     time.sleep(2 ** attempt)
-        if not ratings: ratings = [(s_min+s_max)/2]
-        return ratings, round(sum(normalize(r,s_min,s_max) for r in ratings)/len(ratings), 4)
+        if not ratings:
+            ratings = [(s_min + s_max) / 2]
+        return ratings, round(sum(normalize(r, s_min, s_max) for r in ratings) / len(ratings), 4)
 
 
 class GoogleBackend:
@@ -267,36 +287,64 @@ class GoogleBackend:
             return ""
 
     def rate(self, prompt, s_min, s_max, n_samples=5, temperature=0.0):
-        # Use a large token budget so thinking models have room to reason then answer.
-        cfg = self.gai.types.GenerationConfig(max_output_tokens=1024, temperature=temperature)
+        # candidate_count batches when supported (often capped at 8); fall back to
+        # sequential for the remainder. Do not launch until budget approval.
         ratings = []
-        for _ in range(n_samples):
+        remaining = n_samples
+        while remaining > 0:
+            batch = min(remaining, 8)
+            got = []
             for attempt in range(5):
                 try:
+                    cfg = self.gai.types.GenerationConfig(
+                        max_output_tokens=1024, temperature=temperature,
+                        candidate_count=batch)
                     resp = self.mdl.generate_content(prompt, generation_config=cfg)
-                    text = self._extract_text(resp)
-                    m = re.search(r'\b(\d+(?:\.\d+)?)\b', text)
-                    if m:
-                        ratings.append(max(s_min, min(s_max, float(m.group(1)))))
+                    cands = getattr(resp, "candidates", None) or []
+                    if cands:
+                        for cand in cands:
+                            try:
+                                parts = cand.content.parts
+                                text = " ".join(
+                                    p.text for p in parts
+                                    if hasattr(p, "text") and not getattr(p, "thought", False)
+                                ).strip()
+                            except Exception:
+                                text = ""
+                            v = _parse_rating(text, s_min, s_max)
+                            if v is not None:
+                                got.append(v)
+                    else:
+                        v = _parse_rating(self._extract_text(resp), s_min, s_max)
+                        if v is not None:
+                            got.append(v)
                     break
                 except Exception as e:
                     err_str = str(e)
-                    # Daily quota exhausted — raise immediately so fallback values are NOT used.
                     if "per_day" in err_str or "per_model_per_day" in err_str:
                         raise RuntimeError(
                             f"Daily quota exhausted for {self.model_name}. "
                             "Resubmit after midnight UTC when quota resets."
                         ) from e
-                    # Rate-limit (per minute/second): honour the retry-after hint.
+                    # candidate_count unsupported -> sequential fallback
+                    if "candidate" in err_str.lower() and batch > 1:
+                        batch = 1
+                        continue
                     wait = 2 ** attempt
-                    import re as _re
-                    m_delay = _re.search(r'retry[_ ](?:in|after)[^\d]*(\d+)', err_str)
+                    m_delay = re.search(r'retry[_ ](?:in|after)[^\d]*(\d+)', err_str)
                     if m_delay:
                         wait = min(int(m_delay.group(1)) + 5, 400)
                     print(f"    Google error (attempt {attempt+1}/5, wait {wait}s): {err_str[:120]}")
                     time.sleep(wait)
-        if not ratings: ratings = [(s_min+s_max)/2]
-        return ratings, round(sum(normalize(r,s_min,s_max) for r in ratings)/len(ratings), 4)
+            if not got and batch > 1:
+                # last resort: one-at-a-time for this remainder
+                batch = 1
+                continue
+            ratings.extend(got[:batch] if got else [(s_min + s_max) / 2])
+            remaining -= batch if got else 1
+        if not ratings:
+            ratings = [(s_min + s_max) / 2]
+        return ratings, round(sum(normalize(r, s_min, s_max) for r in ratings) / len(ratings), 4)
 
 
 class MistralBackend:
@@ -330,6 +378,7 @@ class MistralBackend:
 
 
 class TogetherBackend:
+    """Together (OpenAI-compatible). Batches via `n=`. Do not launch until budget approval."""
     def __init__(self, model_name, scoring, **_):
         from openai import OpenAI
         key = os.environ.get("TOGETHER_API_KEY")
@@ -339,24 +388,25 @@ class TogetherBackend:
 
     def rate(self, prompt, s_min, s_max, n_samples=5, temperature=0.0):
         ratings = []
-        for _ in range(n_samples):
-            for attempt in range(3):
-                try:
-                    resp = self.client.chat.completions.create(
-                        model=self.model_name,
-                        messages=[{"role":"user","content":prompt}],
-                        max_tokens=16, temperature=temperature,
-                    )
-                    text = resp.choices[0].message.content.strip()
-                    m = re.search(r'\b(\d+(?:\.\d+)?)\b', text)
-                    if m:
-                        ratings.append(max(s_min, min(s_max, float(m.group(1)))))
-                    break
-                except Exception as e:
-                    if attempt == 2: print(f"    Together error: {e}")
-                    time.sleep(2 ** attempt)
-        if not ratings: ratings = [(s_min+s_max)/2]
-        return ratings, round(sum(normalize(r,s_min,s_max) for r in ratings)/len(ratings), 4)
+        for attempt in range(3):
+            try:
+                resp = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=16, temperature=temperature, n=n_samples,
+                )
+                for ch in resp.choices:
+                    v = _parse_rating((ch.message.content or "").strip(), s_min, s_max)
+                    if v is not None:
+                        ratings.append(v)
+                break
+            except Exception as e:
+                if attempt == 2:
+                    print(f"    Together error: {e}")
+                time.sleep(2 ** attempt)
+        if not ratings:
+            ratings = [(s_min + s_max) / 2]
+        return ratings, round(sum(normalize(r, s_min, s_max) for r in ratings) / len(ratings), 4)
 
 
 class MoonshotBackend:
@@ -379,25 +429,47 @@ class MoonshotBackend:
         self._force_temp1 = any(t in model_name.lower() for t in self.FORCE_TEMP_1)
 
     def rate(self, prompt, s_min, s_max, n_samples=5, temperature=0.0):
+        # Batch via n= when the endpoint allows it; fall back to sequential on error.
+        # Kimi K3 still forces temperature=1. Do not launch until budget approval.
         temp = 1.0 if self._force_temp1 else temperature
         ratings = []
-        for _ in range(n_samples):
-            for attempt in range(3):
-                try:
-                    resp = self.client.chat.completions.create(
-                        model=self.model_name,
-                        messages=[{"role": "user", "content": prompt}],
-                        max_tokens=32, temperature=temp,
-                    )
-                    text = (resp.choices[0].message.content or "").strip()
-                    m = re.search(r'\b(\d+(?:\.\d+)?)\b', text)
-                    if m:
-                        ratings.append(max(s_min, min(s_max, float(m.group(1)))))
+        for attempt in range(3):
+            try:
+                resp = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=32, temperature=temp, n=n_samples,
+                )
+                for ch in resp.choices:
+                    v = _parse_rating((ch.message.content or "").strip(), s_min, s_max)
+                    if v is not None:
+                        ratings.append(v)
+                break
+            except Exception as e:
+                err = str(e)
+                if "n" in err.lower() and n_samples > 1:
+                    # endpoint rejects n= — sequential fallback
+                    for _ in range(n_samples):
+                        for att2 in range(3):
+                            try:
+                                resp = self.client.chat.completions.create(
+                                    model=self.model_name,
+                                    messages=[{"role": "user", "content": prompt}],
+                                    max_tokens=32, temperature=temp,
+                                )
+                                v = _parse_rating((resp.choices[0].message.content or "").strip(),
+                                                  s_min, s_max)
+                                if v is not None:
+                                    ratings.append(v)
+                                break
+                            except Exception as e2:
+                                if att2 == 2:
+                                    print(f"    Moonshot/Kimi error: {e2}")
+                                time.sleep(2 ** att2)
                     break
-                except Exception as e:
-                    if attempt == 2:
-                        print(f"    Moonshot/Kimi error: {e}")
-                    time.sleep(2 ** attempt)
+                if attempt == 2:
+                    print(f"    Moonshot/Kimi error: {e}")
+                time.sleep(2 ** attempt)
         if not ratings:
             ratings = [(s_min + s_max) / 2]
         return ratings, round(sum(normalize(r, s_min, s_max) for r in ratings) / len(ratings), 4)
@@ -579,7 +651,7 @@ def main():
                          "Use e.g. outputs/agents/behavior to keep API/agent runs separate.")
     ap.add_argument("--csv",         default=None,
                     help="Stimulus CSV. Default dataset/master/moral_2x2_master.csv. Use "
-                         "moral_2x2_master_clean.csv to re-score without the rating-prompt "
+                         "dataset/master/moral_2x2_master.csv (canonical; the old _clean "
                          "bleed that contaminates 144 of the 298 original stories.")
     args = ap.parse_args()
 

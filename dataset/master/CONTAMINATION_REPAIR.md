@@ -43,8 +43,32 @@ perfectly aligned with the outcome factor:
 | **no-harm cells** | **0 / 144 (0.0%)** | **0** |
 
 A "does this story have an unrelated tail glued on" flag predicted `outcome_label` at **0.966**
-accuracy. After repair it predicts at **0.517**, exactly the class base rate. `b_outcome` and the
-0.99–1.00 outcome decoding were therefore both confounded with this artefact.
+accuracy. After repair it predicts at **0.517**, which is the majority-class rate (154/298), not
+0.5 by coincidence — see §1.1. `b_outcome` and the 0.99–1.00 outcome decoding were therefore
+both confounded with this artefact.
+
+### 1.1 Derivation of 0.966 → 0.517 (exact)
+
+This is **accuracy**, not AUC. There is no trained classifier and no cross-validation.
+
+| piece | value |
+|---|---|
+| **Metric** | Accuracy = `max(agree, 1 − agree)` where `agree = mean(flag == (outcome_label == "harm"))` over all 298 rows. The `max` allows the flag's polarity to be flipped; it does not change the before number. |
+| **Predictor** | Binary `contaminated(text)`: true iff a rating-prompt cut point exists before `len(text)`. Cut point = earliest match of either `STUB = r"\b[A-Za-z][^.!?]*?\b(?:was\|were\|is\|are):"` or `BLAME = r"How much (?:blame\|punishment)[^?]*\?"` (same detector as `27_clean_stimuli.py`). |
+| **Target** | `outcome_label == "harm"`. |
+| **Classifier** | None. The binary flag *is* the prediction. Equivalent to a single-feature threshold rule with no free parameters. |
+| **CV scheme** | None. In-sample agreement on the full 298-row master. |
+
+| | n_flag | agree | accuracy | majority-class rate |
+|---|---|---|---|---|
+| **before** | 144 (all in harm cells: 72 accidental + 72 intentional) | 0.9664 | **0.9664** | 0.5168 (154/298) |
+| **after** | 0 | 0.4832 | **0.5168** | 0.5168 (154/298) |
+
+After repair the flag is constant (`False` for every row), so `agree` equals the no-harm rate
+(144/298 = 0.483) and `max(agree, 1−agree)` equals the harm rate (154/298 = 0.517). That is
+exactly the accuracy of the best constant predictor of `outcome_label`. It is **not** 0.5 by
+chance — the class balance is 154:144, and 0.5168 = 154/298. Confirmed: post-repair
+`n_flag == 0` and `accuracy == majority-class rate` to machine precision.
 
 **Defect 2 — the following scenario lost its name and background.** Because those lines were
 consumed into the previous item, they never reached the next scenario. 33 of 48 YS2008 scenarios
@@ -76,7 +100,14 @@ elif is_judgment(s) or SCEN_HEADER.fullmatch(s):
 `is_judgment` (pre-existing) matches lines ending in `?` or `:`, or beginning
 `how much` / `putting the` / `doing` / `was:` / `how morally`.
 
-**(b) Derive harm polarity from the text instead of assuming item B is harmful.**
+**(b) Derive act polarity from the text instead of assuming item B is harmful.**
+
+CPR (and its YS2009 reprint) invert only the *action* items in the source appendix —
+`act_A` ends in death, `act_B` in "is fine" — while `fore_A` remains the safe world
+(chilli) and `fore_B` the dangerous one (choking). An earlier draft of this repair swapped
+*both* fore and act, which made `outcome_label` agree with the final sentence but left the
+vignettes incoherent (choking world + "is fine", or chilli world + death). The correct fix
+swaps **act only**:
 
 ```python
 HARM_OUTCOME = re.compile(
@@ -85,8 +116,7 @@ HARM_OUTCOME = re.compile(
 ...
 a_harm, b_harm = bool(HARM_OUTCOME.search(act_A)), bool(HARM_OUTCOME.search(act_B))
 if a_harm and not b_harm:
-    fore_A, fore_B = fore_B, fore_A
-    act_A, act_B = act_B, act_A
+    act_A, act_B = act_B, act_A   # fore polarity is already correct — do not swap it
 ```
 
 **(c) Strip a trailing bare scenario title in the 2011 parser** (`"...with poison. Incest"`).

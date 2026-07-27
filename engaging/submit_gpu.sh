@@ -44,10 +44,17 @@ MEM="${MEM:-64G}"
 CPUS="${CPUS:-8}"
 GPUS="${GPUS:-1}"
 JOBNAME="${JOBNAME:-gpu_tom}"
+# DEP=afterok:12345[:67890] chains this job behind others so a failure halts the chain
+# instead of letting the next stage run on missing or stale inputs.
+DEP="${DEP:-}"
+SBATCH_ARGS=()
+[ -n "$DEP" ] && SBATCH_ARGS+=(--dependency="$DEP" --kill-on-invalid-dep=yes)
+# PARSABLE=1 prints just the job id, so a chain script can capture it
+[ -n "${PARSABLE:-}" ] && SBATCH_ARGS+=(--parsable)
 
 mkdir -p "$PROJ/outputs/logs"
 
-sbatch <<EOF
+sbatch "${SBATCH_ARGS[@]}" <<EOF
 #!/usr/bin/env bash
 #SBATCH --job-name=$JOBNAME
 #SBATCH --partition=$PART

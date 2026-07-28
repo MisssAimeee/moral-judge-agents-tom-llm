@@ -42,38 +42,38 @@ used up the scale, and the two cases mean opposite things.
 
 `saturating_factor` in the CSV records which main effect is larger per model: 18 of 20 are outcome-saturating against the human pattern of intent-saturating.
 
-The direct discriminator is the `attempted - accidental` diagonal, which is positive
-for humans (+0.666: attempted harm is blamed far more than accidental harm) and
-negative for an outcome-driven judge. It is reported per model below. Matching the
-interaction sign while inverting this diagonal is evidence AGAINST performing the
-human computation, not for it.
+Human interaction from cell means: (0.967−0.933)−(0.267−0.033) = -0.200. Several models
+approximate that coefficient. Same sign with the **opposite cell order**
+(accidental > attempted) is not human-likeness — see `cell_order`.
 
-## Interaction terms, primary specification
+Cell-order counts (primary spec): matches_human=0, inverted=14, tied=6.
 
-| model | b_intent | b_outcome | b_interaction | SE | p | attempted-accidental | saturating |
-|---|---|---|---|---|---|---|---|
-| unsloth/gemma-2-9b-it | +0.236 | +0.645 | -0.252 | 0.031 | 3.3e-16 | -0.402 | outcome |
-| unsloth/Meta-Llama-3_1-8B-Instruct | +0.154 | +0.357 | -0.183 | 0.019 | 5.38e-22 | -0.198 | outcome |
-| Qwen/Qwen2_5-14B-Instruct | +0.186 | +0.563 | -0.165 | 0.024 | 3.91e-12 | -0.372 | outcome |
-| allenai/Llama-3_1-Tulu-3-8B | +0.144 | +0.534 | -0.161 | 0.021 | 8.09e-15 | -0.385 | outcome |
-| mistralai/Mistral-7B-Instruct-v0_3 | +0.126 | +0.593 | -0.135 | 0.019 | 1.01e-12 | -0.461 | outcome |
-| Qwen/Qwen2_5-7B-Instruct | +0.104 | +0.347 | -0.126 | 0.017 | 3.21e-14 | -0.245 | outcome |
-| allenai/OLMo-2-1124-7B-Instruct | +0.093 | +0.735 | -0.110 | 0.024 | 3.18e-06 | -0.640 | outcome |
-| HuggingFaceH4/zephyr-7b-beta | +0.091 | +0.630 | -0.087 | 0.026 | 0.000681 | -0.534 | outcome |
-| Qwen/Qwen2_5-3B-Instruct | +0.042 | +0.294 | -0.054 | 0.015 | 0.000379 | -0.251 | outcome |
-| Qwen/Qwen2_5-14B | +0.012 | +0.139 | -0.027 | 0.008 | 0.000935 | -0.126 | outcome |
-| Qwen/Qwen2_5-7B | +0.008 | +0.058 | -0.017 | 0.004 | 6.68e-05 | -0.053 | outcome |
-| Qwen/Qwen2_5-0_5B-Instruct | +0.008 | +0.057 | -0.016 | 0.012 | 0.212 | -0.047 | outcome |
-| Qwen/Qwen2_5-3B | +0.003 | +0.052 | -0.010 | 0.005 | 0.0538 | -0.053 | outcome |
-| allenai/OLMo-2-1124-7B | +0.006 | +0.008 | -0.006 | 0.004 | 0.201 | -0.001 | outcome |
-| Qwen/Qwen2_5-1_5B-Instruct | +0.012 | +0.184 | -0.005 | 0.008 | 0.57 | -0.171 | outcome |
-| mistralai/Mistral-7B-v0_3 | +0.003 | +0.005 | -0.004 | 0.003 | 0.1 | -0.002 | outcome |
-| unsloth/Meta-Llama-3_1-8B | +0.007 | +0.004 | -0.004 | 0.006 | 0.488 | +0.004 | intent |
-| Qwen/Qwen2_5-1_5B | +0.000 | +0.012 | -0.004 | 0.005 | 0.437 | -0.009 | outcome |
-| Qwen/Qwen2_5-0_5B | +0.002 | +0.002 | -0.002 | 0.006 | 0.789 | -0.001 | outcome |
-| unsloth/gemma-2-9b | +0.002 | +0.001 | -0.001 | 0.008 | 0.864 | +0.001 | intent |
+## Interaction terms with cell means (primary specification)
 
-| **HUMAN (Young 2007)** | +0.900 | +0.234 | -0.200 | - | - | +0.666 | intent |
+| model | b_int | b_out | b_ixo | SE | p | neu | acc | att | int | att−acc | cell order | sat |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| unsloth/gemma-2-9b-it | +0.236 | +0.645 | -0.252 | 0.031 | 3.3e-16 | 0.203 | 0.841 | 0.439 | 0.825 | -0.402 | inverted | outcome |
+| unsloth/Meta-Llama-3_1-8B-Instruct | +0.154 | +0.357 | -0.183 | 0.019 | 5.38e-22 | 0.365 | 0.716 | 0.518 | 0.687 | -0.198 | inverted | outcome |
+| Qwen/Qwen2_5-14B-Instruct | +0.186 | +0.563 | -0.165 | 0.024 | 3.91e-12 | 0.126 | 0.684 | 0.312 | 0.706 | -0.372 | inverted | outcome |
+| allenai/Llama-3_1-Tulu-3-8B | +0.144 | +0.534 | -0.161 | 0.021 | 8.09e-15 | 0.176 | 0.705 | 0.320 | 0.688 | -0.385 | inverted | outcome |
+| mistralai/Mistral-7B-Instruct-v0_3 | +0.126 | +0.593 | -0.135 | 0.019 | 1.01e-12 | 0.172 | 0.759 | 0.298 | 0.749 | -0.461 | inverted | outcome |
+| Qwen/Qwen2_5-7B-Instruct | +0.104 | +0.347 | -0.126 | 0.017 | 3.21e-14 | 0.304 | 0.653 | 0.408 | 0.630 | -0.245 | inverted | outcome |
+| allenai/OLMo-2-1124-7B-Instruct | +0.093 | +0.735 | -0.110 | 0.024 | 3.18e-06 | 0.148 | 0.880 | 0.241 | 0.863 | -0.640 | inverted | outcome |
+| HuggingFaceH4/zephyr-7b-beta | +0.091 | +0.630 | -0.087 | 0.026 | 0.000681 | 0.060 | 0.686 | 0.151 | 0.689 | -0.534 | inverted | outcome |
+| Qwen/Qwen2_5-3B-Instruct | +0.042 | +0.294 | -0.054 | 0.015 | 0.000379 | 0.378 | 0.671 | 0.420 | 0.659 | -0.251 | inverted | outcome |
+| Qwen/Qwen2_5-14B | +0.012 | +0.139 | -0.027 | 0.008 | 0.000935 | 0.217 | 0.355 | 0.229 | 0.340 | -0.126 | inverted | outcome |
+| Qwen/Qwen2_5-7B | +0.008 | +0.058 | -0.017 | 0.004 | 6.68e-05 | 0.439 | 0.500 | 0.447 | 0.490 | -0.053 | inverted | outcome |
+| Qwen/Qwen2_5-0_5B-Instruct | +0.008 | +0.057 | -0.016 | 0.012 | 0.212 | 0.199 | 0.255 | 0.208 | 0.248 | -0.047 | inverted | outcome |
+| Qwen/Qwen2_5-3B | +0.003 | +0.052 | -0.010 | 0.005 | 0.0538 | 0.616 | 0.672 | 0.619 | 0.665 | -0.053 | inverted | outcome |
+| allenai/OLMo-2-1124-7B | +0.006 | +0.008 | -0.006 | 0.004 | 0.201 | 0.218 | 0.226 | 0.224 | 0.226 | -0.001 | tied | outcome |
+| Qwen/Qwen2_5-1_5B-Instruct | +0.012 | +0.184 | -0.005 | 0.008 | 0.57 | 0.597 | 0.780 | 0.609 | 0.788 | -0.171 | inverted | outcome |
+| mistralai/Mistral-7B-v0_3 | +0.003 | +0.005 | -0.004 | 0.003 | 0.1 | 0.241 | 0.246 | 0.244 | 0.245 | -0.002 | tied | outcome |
+| unsloth/Meta-Llama-3_1-8B | +0.007 | +0.004 | -0.004 | 0.006 | 0.488 | 0.237 | 0.240 | 0.244 | 0.243 | +0.004 | tied | intent |
+| Qwen/Qwen2_5-1_5B | +0.000 | +0.012 | -0.004 | 0.005 | 0.437 | 0.291 | 0.300 | 0.291 | 0.296 | -0.009 | tied | outcome |
+| Qwen/Qwen2_5-0_5B | +0.002 | +0.002 | -0.002 | 0.006 | 0.789 | 0.281 | 0.283 | 0.283 | 0.283 | -0.001 | tied | outcome |
+| unsloth/gemma-2-9b | +0.002 | +0.001 | -0.001 | 0.008 | 0.864 | 0.105 | 0.106 | 0.107 | 0.107 | +0.001 | tied | intent |
+
+| **HUMAN (Young 2007)** | +0.900 | +0.234 | -0.200 | - | - | 0.033 | 0.267 | 0.933 | 0.967 | +0.666 | matches_human | intent |
 
 The `template_absorbed` rows in the CSV repeat every fit with prompt template as
 a fixed factor. C1 showed model identity dominates the variance, so this checks

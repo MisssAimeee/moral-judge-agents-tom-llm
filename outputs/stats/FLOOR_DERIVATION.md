@@ -77,3 +77,20 @@ See `check_c5_engagement_floor.csv` for the anchor comparison re-run at the deri
 engagement floor alongside 0.05 and 0.10. The conclusions are stable across all three
 only if the same models clear every value; where they do not, the CSV shows which
 models move and the anchor counts change with them.
+
+## Two uses of the floor — do not conflate them
+
+`rating_std` correlates with contrast *magnitude*: models that vary their ratings more
+also tend to show larger (usually more negative) contrasts. Filtering on `rating_std`
+therefore selects on a variable adjacent to the outcome. That is fine for some
+questions and wrong for others.
+
+| Use | Floor applied? | Why |
+| --- | --- | --- |
+| Engagement / degenerate flags | **yes** — derived 0.2191 (with 0.05 / 0.10 sensitivity) | A near-constant rater has no estimable contrast; counting them as "below the youngest band" would treat non-engagement as a developmental claim. |
+| Anchor counts ("at or below youngest") | **yes** — same floor | Same reason: the claim is about models that answered the task. |
+| Correlations (ToM↔contrast, representation↔behavior, RSA convergence) | **no** — keep every model | Excluding on `rating_std` selects on the outcome's neighbor. Control for model type (and log-size) instead; see `TOM_VS_CONTRAST.md`. |
+
+This separation is fixed here so switching the floor between analyses cannot be read as
+floor-shopping. If a correlation is reported on a restricted set, that is a sensitivity
+check and must be labelled as such.

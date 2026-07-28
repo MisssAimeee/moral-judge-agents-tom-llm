@@ -33,26 +33,40 @@ POOL_LABEL = {
     "last": "last\n(whole story)",
 }
 
-# The pre-outcome reading of belief_last/action_last is NOT established. In YS2008
-# (192 of 298 items) the sentence that fixes the true state of the world — and therefore
-# the outcome — appears BEFORE the belief clause, so a cut at belief_last has already
-# seen it. Only YS2009 clearly places the belief before that sentence. Until the
-# per-source probe split (02_probe.py --source) is run and shows outcome decoding at
-# belief_last differing between sources, this figure is a statement about clause
-# POSITION, not about information availability.
-CAPTION = ("Probe advantage over a TF-IDF surface baseline, by token position.\n"
-           "Positions are clause boundaries; whether they precede the outcome-determining\n"
-           "sentence differs by source (YS2008 vs YS2009) and is not yet established.")
+# Gaps use span-matched TF-IDF: belief_last/action_last baselines are fit on
+# text[:belief_end] / text[:action_end], not the full story. Full-story TF-IDF
+# inflated the surface baseline whenever the outcome sentence followed the cut.
+# C2 (span-matched): YS2009 outcome TF-IDF at belief_last ≈ 0.58 (near chance) while
+# probes average ≈ 0.82 — pre-outcome reading reopened pending annotation audit.
+# See outputs/analysis/C2_SOURCE_SPLIT_BELIEF_LAST.md.
+POOL_TO_SPAN = {
+    "belief_last": "belief_last",
+    "action_last": "action_last",
+    "mean": "full",
+    "last": "full",
+}
+CAPTION = ("Gaps vs span-matched TF-IDF (clause-position baselines use text up to that cut).\n"
+           "YS2009 matched outcome TF-IDF at belief_last is near chance while probes read ~0.82;\n"
+           "pre-outcome reading reopened — see C2_SOURCE_SPLIT_BELIEF_LAST.md.")
 
 def peaks():
     surf = list(csv.DictReader(open(os.path.join(PROBE, "surface_baseline.csv"))))
-    tfidf = {r["target"]: float(r["cv_acc"]) for r in surf
-             if r["subset"] == "all" and r["feature_set"] == "tfidf_word_1_2"}
+    # Prefer span-matched rows; fall back to full if span column absent (old files).
+    tfidf_by_span = defaultdict(dict)
+    for r in surf:
+        if r.get("feature_set") != "tfidf_word_1_2" or r.get("subset") != "all":
+            continue
+        span = r.get("span") or "full"
+        tfidf_by_span[span][r["target"]] = float(r["cv_acc"])
+    # Default map used when a pooling has no span row: full-story.
+    tfidf = tfidf_by_span.get("full", {})
     best = defaultdict(lambda: (-1.0, None))  # (model,pool,tgt)->acc
     for p in glob.glob(os.path.join(PROBE, "*_probe*.csv")):
         base = os.path.basename(p)
         if "surface" in base or "within" in base or "perm" in base or "layer0" in base:
             continue
+        if "_srcYS" in base:
+            continue  # per-source probes are for C2, not the pooled figure
         if base.endswith("_probe.csv"):
             model, pooling = base[:-len("_probe.csv")], "last"
         elif "_probe_" in base:
@@ -68,7 +82,14 @@ def peaks():
             if a > best[k][0]:
                 best[k] = (a, r.get("layer"))
     models = sorted({m for m, _, _ in best})
-    return tfidf, best, models
+    return tfidf_by_span, best, models
+
+
+def baseline_for(tfidf_by_span, pool):
+    span = POOL_TO_SPAN[pool]
+    d = tfidf_by_span.get(span) or tfidf_by_span.get("full") or {}
+    return d.get("intent"), d.get("outcome")
+
 
 def write_paired():
     """Per-model paired intent-gap vs outcome-gap, with an exact sign test per pooling.
@@ -76,16 +97,19 @@ def write_paired():
     The by-pooling table reports the single best model per cell, which cannot support a
     within-model claim. This pairs the two gaps inside each model instead.
     """
-    tfidf, best, models = peaks()
+    tfidf_by_span, best, models = peaks()
     rows, summary = [], []
     for pool in POOLS:
+        ti, to = baseline_for(tfidf_by_span, pool)
+        if ti is None or to is None:
+            continue
         diffs = []
         for m in models:
             ai = best.get((m, pool, "intent"), (-1,))[0]
             ao = best.get((m, pool, "outcome"), (-1,))[0]
             if ai < 0 or ao < 0:
                 continue
-            gi, go = ai - tfidf["intent"], ao - tfidf["outcome"]
+            gi, go = ai - ti, ao - to
             diffs.append(gi - go)
             rows.append([pool, m, round(gi, 4), round(go, 4), round(gi - go, 4),
                          "intent" if gi > go else "outcome"])
@@ -104,13 +128,13 @@ def write_paired():
                     "sign_test_p_two_sided"])
         w.writerows(summary)
     print("wrote", PAIRED_CSV)
-    print("within-model paired intent_gap − outcome_gap (exact sign test):")
+    print("within-model paired intent_gap − outcome_gap (exact sign test, span-matched):")
     for pool, n, k, md, p in summary:
         print(f"  {pool:14} intent larger in {k}/{n}  mean diff={md:+.4f}  p={p}")
 
 
 def main():
-    tfidf, best, models = peaks()
+    tfidf_by_span, best, models = peaks()
     write_paired()
 
     fig, ax = plt.subplots(figsize=(9.5, 5.2))
@@ -120,14 +144,15 @@ def main():
     intent_gaps = []
     outcome_gaps = []
     for pool in POOLS:
+        ti, to = baseline_for(tfidf_by_span, pool)
         ig, og = [], []
         for m in models:
             ai = best.get((m, pool, "intent"), (-1,))[0]
             ao = best.get((m, pool, "outcome"), (-1,))[0]
-            if ai < 0 or ao < 0:
+            if ai < 0 or ao < 0 or ti is None or to is None:
                 continue
-            ig.append(ai - tfidf["intent"])
-            og.append(ao - tfidf["outcome"])
+            ig.append(ai - ti)
+            og.append(ao - to)
         intent_gaps.append(ig)
         outcome_gaps.append(og)
 
@@ -146,10 +171,9 @@ def main():
     ax.axhline(0, color="k", lw=0.8)
     ax.set_xticks(x)
     ax.set_xticklabels([POOL_LABEL[p] for p in POOLS])
-    ax.set_ylabel("gap over TF-IDF surface baseline (probe − TF-IDF)")
-    ax.set_title("Intent and outcome decodability over a surface baseline, by clause position\n"
-                 "intent advantage is largest at clause boundaries; outcome advantage is "
-                 "largest at whole-story positions", fontsize=11)
+    ax.set_ylabel("gap over span-matched TF-IDF (probe − TF-IDF)")
+    ax.set_title("Intent and outcome decodability over span-matched baselines\n"
+                 "clause-position gaps use TF-IDF fit on text up to that cut", fontsize=11)
     ax.text(0.5, -0.30, CAPTION, transform=ax.transAxes, ha="center", va="top",
             fontsize=7.5, color="#666")
     # Headroom above the tallest point so the per-pooling annotations and the legend

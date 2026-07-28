@@ -136,6 +136,17 @@ def fit_one(d, with_template):
     out["diag_attempted_minus_accidental"] = out["cell_attempted"] - out["cell_accidental"]
     out["saturating_factor"] = ("intent" if abs(out["b_intent"]) > abs(out["b_outcome"])
                                else "outcome")
+    # Humans: attempted (0.933) > accidental (0.267). Same interaction sign with the
+    # opposite cell order is NOT human-likeness — it is outcome-driven sub-additivity.
+    diag = out["diag_attempted_minus_accidental"]
+    if diag != diag:  # NaN
+        out["cell_order"] = "unknown"
+    elif diag > 0.02:
+        out["cell_order"] = "matches_human"
+    elif diag < -0.02:
+        out["cell_order"] = "inverted"
+    else:
+        out["cell_order"] = "tied"
     return out, None
 
 
@@ -231,7 +242,7 @@ def main():
             "b_intent", "se_intent", "p_intent", "b_outcome", "se_outcome", "p_outcome",
             "b_interaction", "se_interaction", "p_interaction",
             "cell_neutral", "cell_accidental", "cell_attempted", "cell_intentional",
-            "diag_attempted_minus_accidental", "saturating_factor",
+            "diag_attempted_minus_accidental", "cell_order", "saturating_factor",
             "var_scenario_group", "var_residual", "converged",
             "n_obs", "n_groups", "n_stories", "note"]
     csv_path = os.path.join(a.out, "mixed_effects_2x2.csv")
@@ -253,6 +264,7 @@ def main():
                     "cell_intentional": HUMAN_CELLS[(1, 1)],
                     "diag_attempted_minus_accidental":
                         HUMAN_CELLS[(1, 0)] - HUMAN_CELLS[(0, 1)],
+                    "cell_order": "matches_human",
                     "saturating_factor": "intent",
                     "note": "computed from normalised cell means, no SE available"})
     print(f"  -> {csv_path}")
@@ -299,25 +311,38 @@ def main():
         f"`saturating_factor` in the CSV records which main effect is larger per model: "
         f"{sum(1 for r in est if r.get('saturating_factor') == 'outcome')} of {len(est)} are "
         f"outcome-saturating against the human pattern of intent-saturating.", "",
-        "The direct discriminator is the `attempted - accidental` diagonal, which is positive",
-        "for humans (+0.666: attempted harm is blamed far more than accidental harm) and",
-        "negative for an outcome-driven judge. It is reported per model below. Matching the",
-        "interaction sign while inverting this diagonal is evidence AGAINST performing the",
-        "human computation, not for it.", "",
-        "## Interaction terms, primary specification", "",
-        "| model | b_intent | b_outcome | b_interaction | SE | p | attempted-accidental | saturating |",
-        "|---|---|---|---|---|---|---|---|",
+        "Human interaction from cell means: "
+        f"(0.967−0.933)−(0.267−0.033) = {human['b_interaction']:+.3f}. Several models",
+        "approximate that coefficient. Same sign with the **opposite cell order**",
+        "(accidental > attempted) is not human-likeness — see `cell_order`.", "",
+        f"Cell-order counts (primary spec): "
+        f"matches_human="
+        f"{sum(1 for r in est if r.get('cell_order') == 'matches_human')}, "
+        f"inverted="
+        f"{sum(1 for r in est if r.get('cell_order') == 'inverted')}, "
+        f"tied={sum(1 for r in est if r.get('cell_order') == 'tied')}.", "",
+        "## Interaction terms with cell means (primary specification)", "",
+        "| model | b_int | b_out | b_ixo | SE | p | neu | acc | att | int | att−acc | cell order | sat |",
+        "|---|---|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     for r in sorted(est, key=lambda x: x["b_interaction"]):
-        md.append(f"| {r['model']} | {r.get('b_intent', float('nan')):+.3f} | "
-                  f"{r.get('b_outcome', float('nan')):+.3f} | "
-                  f"{r['b_interaction']:+.3f} | {r.get('se_interaction', float('nan')):.3f} | "
-                  f"{r.get('p_interaction', float('nan')):.3g} | "
-                  f"{r.get('diag_attempted_minus_accidental', float('nan')):+.3f} | "
-                  f"{r.get('saturating_factor', '')} |")
+        md.append(
+            f"| {r['model']} | {r.get('b_intent', float('nan')):+.3f} | "
+            f"{r.get('b_outcome', float('nan')):+.3f} | "
+            f"{r['b_interaction']:+.3f} | {r.get('se_interaction', float('nan')):.3f} | "
+            f"{r.get('p_interaction', float('nan')):.3g} | "
+            f"{r.get('cell_neutral', float('nan')):.3f} | "
+            f"{r.get('cell_accidental', float('nan')):.3f} | "
+            f"{r.get('cell_attempted', float('nan')):.3f} | "
+            f"{r.get('cell_intentional', float('nan')):.3f} | "
+            f"{r.get('diag_attempted_minus_accidental', float('nan')):+.3f} | "
+            f"{r.get('cell_order', '')} | {r.get('saturating_factor', '')} |")
     md += ["", f"| **HUMAN (Young 2007)** | {human['b_intent']:+.3f} | "
                f"{human['b_outcome']:+.3f} | {human['b_interaction']:+.3f} | - | - | "
-               f"{HUMAN_CELLS[(1,0)] - HUMAN_CELLS[(0,1)]:+.3f} | intent |", "",
+               f"{HUMAN_CELLS[(0,0)]:.3f} | {HUMAN_CELLS[(0,1)]:.3f} | "
+               f"{HUMAN_CELLS[(1,0)]:.3f} | {HUMAN_CELLS[(1,1)]:.3f} | "
+               f"{HUMAN_CELLS[(1,0)] - HUMAN_CELLS[(0,1)]:+.3f} | matches_human | intent |",
+           "",
            "The `template_absorbed` rows in the CSV repeat every fit with prompt template as",
            "a fixed factor. C1 showed model identity dominates the variance, so this checks",
            "that the interaction is not an artefact of averaging over templates.", ""]

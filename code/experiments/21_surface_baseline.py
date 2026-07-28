@@ -34,9 +34,40 @@ FEATURE_SETS = {
 }
 
 
-def run(master_csv, out_csv, subset=None, subset_name=None):
+def load_offsets(path):
+    if not path or not os.path.exists(path):
+        return {}
+    return {r["story_id"]: r for r in csv.DictReader(open(path))}
+
+
+def span_text(row, offsets, span):
+    """Truncate story text to the clause span used by the matching probe pooling.
+
+    belief_last / action_last probes see only tokens up to that clause end. Comparing
+    them against TF-IDF fit on the FULL story inflates the surface baseline (and shrinks
+    the gap) whenever the outcome-determining sentence appears after the cut. Span-
+    matched baselines close that mismatch.
+    """
+    text = row["text"]
+    if span in (None, "full", "last", "mean"):
+        return text
+    off = offsets.get(row["story_id"])
+    if not off:
+        return text
+    key = "belief_end" if span == "belief_last" else "action_end" if span == "action_last" else None
+    if key is None:
+        return text
+    try:
+        end = int(float(off[key]))
+    except (TypeError, ValueError, KeyError):
+        return text
+    return text[:end]
+
+
+def run(master_csv, out_csv, subset=None, subset_name=None, offsets=None, span="full"):
     from sklearn.feature_extraction.text import TfidfVectorizer
     group_cv_acc = load_probe_module().group_cv_acc
+    offsets = offsets or {}
 
     rows = list(csv.DictReader(open(master_csv)))
     if subset is not None:
@@ -44,7 +75,7 @@ def run(master_csv, out_csv, subset=None, subset_name=None):
     if not rows:
         raise SystemExit("no rows after subsetting")
 
-    texts = [r["text"] for r in rows]
+    texts = [span_text(r, offsets, span) for r in rows]
     groups = np.array([r.get("scenario_group") or r["scenario_id"] for r in rows])
     targets = {
         "intent": np.array([1 if r["intent_label"] == "guilty" else 0 for r in rows]),
@@ -63,6 +94,7 @@ def run(master_csv, out_csv, subset=None, subset_name=None):
             chance = max(y.mean(), 1 - y.mean())
             out.append({
                 "subset": subset_name or "all",
+                "span": span,
                 "feature_set": fs_name,
                 "target": tname,
                 "cv_acc": round(acc, 4),
@@ -72,7 +104,7 @@ def run(master_csv, out_csv, subset=None, subset_name=None):
                 "n_features": Xd.shape[1],
                 "degenerate": bool(deg),
             })
-            print(f"  {subset_name or 'all':18} {fs_name:16} {tname:8} "
+            print(f"  {subset_name or 'all':18} span={span:12} {fs_name:16} {tname:8} "
                   f"acc={acc:.3f} (chance {chance:.3f}, n={len(rows)}"
                   f"{', DEGENERATE' if deg else ''})")
     return out
@@ -82,25 +114,39 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--csv", default=os.path.join(ROOT, "dataset", "master", "moral_2x2_master.csv"))
     ap.add_argument("--out", default=os.path.join(ROOT, "outputs", "probe", "surface_baseline.csv"))
+    ap.add_argument("--clause-offsets",
+                    default=os.path.join(ROOT, "dataset", "master", "clause_offsets.csv"))
     a = ap.parse_args()
 
     # The four within-cell restrictions from Task C3 each need their own surface baseline,
-    # so compute them here in one pass.
+    # so compute them here in one pass. Span-matched rows (belief_last / action_last) are
+    # required for fair gaps against clause-position probes; full-story rows stay for
+    # mean/last pooling and for the historical comparison.
     SUBSETS = {
         "all": None,
         "intent_noharm":    lambda r: r["outcome_label"] == "no_harm",
         "intent_harm":      lambda r: r["outcome_label"] == "harm",
         "outcome_innocent": lambda r: r["intent_label"] == "innocent",
         "outcome_guilty":   lambda r: r["intent_label"] == "guilty",
+        "YS2008":           lambda r: r.get("source") == "YS2008",
+        "YS2009":           lambda r: r.get("source") == "YS2009",
     }
+    SPANS = ("full", "belief_last", "action_last")
+    offsets = load_offsets(a.clause_offsets)
 
     all_rows = []
     print("=== TF-IDF surface baselines (same LR + GroupKFold as 02_probe.py) ===")
     for name, fn in SUBSETS.items():
-        all_rows += run(a.csv, a.out, subset=fn, subset_name=name)
+        for span in SPANS:
+            # Within-cell subsets only need the full span; source splits need all three
+            # so C2 can be re-evaluated against matched baselines.
+            if name not in ("all", "YS2008", "YS2009") and span != "full":
+                continue
+            all_rows += run(a.csv, a.out, subset=fn, subset_name=name,
+                            offsets=offsets, span=span)
 
     os.makedirs(os.path.dirname(a.out), exist_ok=True)
-    cols = ["subset", "feature_set", "target", "cv_acc", "cv_std", "chance",
+    cols = ["subset", "span", "feature_set", "target", "cv_acc", "cv_std", "chance",
             "n_items", "n_features", "degenerate"]
     with open(a.out, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=cols)

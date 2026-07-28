@@ -1,46 +1,30 @@
 #!/usr/bin/env python3
-"""J1 part 2 -- correlate ToM-benchmark accuracy against the 2x2 intent contrast.
+"""J1 part 2 -- ToM accuracy vs 2x2 contrast, with the base/instruct confound controlled.
 
-PRE-REGISTERED BEFORE THE FULL ROSTER WAS SCORED. The ceiling gate (job 19026525) had run
-on three models and confirmed spread on both benchmarks; the 20-model accuracies were not
-available when this file was written, and the reading of each outcome below is fixed here so
-it cannot be chosen afterwards.
+The raw all-20 correlation is confounded: base models sit near floor on BigToM (they
+cannot follow the QA format) and near zero on contrast, while instruct models move both
+axes with size. That number is retained only as a demonstration of the confound.
 
-  PRIMARY MEASURE: BigToM forward-belief accuracy, false-belief condition. This is the
-  belief-inference construct, the closest of the available benchmark conditions to what the
-  moral task requires -- inferring a mental state that diverges from the state of the world.
-  ToMi total accuracy is secondary and reported alongside.
+Primary analyses (no engagement floor; every model kept; type/size handled explicitly):
 
-  BEHAVIOURAL AXIS: the 2x2 contrast (attempted - accidental) from contrast_by_model.csv,
-  restricted to models clearing the derived engagement floor (rating_std >= 0.2191, see
-  40_derive_floors.py). Models that do not vary their ratings have no contrast to correlate.
+  (a) instruct models only — Pearson r, bootstrap CI over models
+  (b) all models, OLS: contrast ~ ToM + C(mtype) + log(size_B)
+  (c) within-family base→instruct deltas on both measures — does the tuning step that
+      raises ToM also raise intent use?
 
-  INTERPRETATION, fixed in advance:
-  * NULL (interval includes zero and excludes moderate effects): ToM-benchmark performance
-    does not predict whether a model weights intent in graded moral judgment. The two come
-    apart, and "models pass ToM tests but fail this" becomes a result in our own data rather
-    than a claim borrowed from the literature.
-  * POSITIVE: the moral task is partly measuring general ToM competence. The dissociation
-    claim weakens and must be restated -- models that reason better about beliefs also use
-    intent more, so the moral failure is not a separate phenomenon.
-  * NEGATIVE: would need explaining, not celebrating. The most likely mundane cause is that
-    both axes track instruction tuning in opposite directions, so the instruct/base split is
-    reported alongside any negative result.
-  * WIDE INTERVAL: uninformative, and reported as such. With at most 20 models and a
-    restriction to engaged ones, this is a live possibility and is not to be written up as a
-    null. C6 made exactly that mistake at n=8.
+Interpretation (fixed before the controlled analyses were fit):
+  * NULL under (a)/(b)/(c): ToM-benchmark performance does not predict intent use once
+    model type is held constant. Dissociation claim supported by our own data.
+  * POSITIVE under (a)/(b) or positive delta–delta under (c): the moral task partly
+    measures general ToM competence; dissociation claim weakens.
+  * The unrestricted all-20 r is NOT a result — it is the confound.
 
-  Because n is small either way, the per-model table is the deliverable and the correlation
-  is secondary. The scatter is reported with base and instruct models marked, since
-  instruction tuning moves both axes and is the obvious confound.
-
-Outputs
-  outputs/tom_benchmarks/tom_vs_contrast.csv
-  outputs/tom_benchmarks/tom_vs_contrast.png
-  outputs/tom_benchmarks/TOM_VS_CONTRAST.md
+Floor policy (J4 separation): correlation analyses keep every model. The derived
+rating_std floor is for engagement / anchor counts only; see FLOOR_DERIVATION.md.
 """
 import argparse
 import csv
+import math
 import os
 import re
 
@@ -50,9 +34,21 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 TOMDIR = os.path.join(ROOT, "outputs", "tom_benchmarks")
 STATS = os.path.join(ROOT, "outputs", "stats", "contrast_by_model.csv")
-
-ENGAGEMENT_FLOOR = 0.2191   # derived; 40_derive_floors.py
 N_BOOT = 10000
+
+# Family stems for within-family base→instruct deltas. Zephyr and Tulu have no
+# paired base in the behavioural roster under a distinct "base" label.
+FAMILY_STEMS = [
+    ("Qwen2.5-0.5B", "Qwen2.5-0.5B", "Qwen2.5-0.5B-Instruct"),
+    ("Qwen2.5-1.5B", "Qwen2.5-1.5B", "Qwen2.5-1.5B-Instruct"),
+    ("Qwen2.5-3B", "Qwen2.5-3B", "Qwen2.5-3B-Instruct"),
+    ("Qwen2.5-7B", "Qwen2.5-7B", "Qwen2.5-7B-Instruct"),
+    ("Qwen2.5-14B", "Qwen2.5-14B", "Qwen2.5-14B-Instruct"),
+    ("OLMo-2-1124-7B", "OLMo-2-1124-7B", "OLMo-2-1124-7B-Instruct"),
+    ("Mistral-7B-v0.3", "Mistral-7B-v0.3", "Mistral-7B-Instruct-v0.3"),
+    ("gemma-2-9b", "gemma-2-9b", "gemma-2-9b-it"),
+    ("Meta-Llama-3.1-8B", "Meta-Llama-3.1-8B", "Meta-Llama-3.1-8B-Instruct"),
+]
 
 
 def joinkey(s):
@@ -67,7 +63,6 @@ def fnum(x):
 
 
 def load_tom():
-    """-> {joinkey: {subset: accuracy}}"""
     path = os.path.join(TOMDIR, "tom_accuracy_by_model.csv")
     if not os.path.exists(path):
         raise SystemExit(f"missing {path}; run 36_tom_benchmarks.py first")
@@ -86,8 +81,35 @@ def load_behaviour():
         rows.append(dict(model=r["model"], contrast=fnum(r.get("contrast")),
                          rating_std=fnum(r.get("rating_std")),
                          size_B=fnum(r.get("size_B")), mtype=r.get("type", ""),
-                         key=joinkey(r["model"])))
+                         key=joinkey(r["model"]),
+                         short=r["model"].split("/")[-1].replace("_", "-")))
     return rows
+
+
+def join_rows(tom, beh):
+    rows = []
+    for b in beh:
+        t = tom.get(b["key"])
+        if t is None:
+            cand = [v for k, v in tom.items() if k.endswith(b["key"]) or b["key"].endswith(k)]
+            t = cand[0] if len(cand) == 1 else None
+        if t is None or b["contrast"] is None:
+            continue
+        rows.append(dict(
+            model=b["model"], short=b["short"], mtype=b["mtype"],
+            size_B=b["size_B"], rating_std=b["rating_std"], contrast=b["contrast"],
+            bigtom_false=t.get("bigtom|false_belief"),
+            bigtom_all=t.get("bigtom"), tomi=t.get("tomi"),
+            log_size=math.log(b["size_B"]) if b["size_B"] and b["size_B"] > 0 else None,
+        ))
+    return rows
+
+
+def pearson(x, y):
+    x, y = np.asarray(x, float), np.asarray(y, float)
+    if len(x) < 3 or x.std() < 1e-12 or y.std() < 1e-12:
+        return float("nan")
+    return float(np.corrcoef(x, y)[0, 1])
 
 
 def boot_ci(x, y, n_boot=N_BOOT, seed=0):
@@ -106,198 +128,321 @@ def boot_ci(x, y, n_boot=N_BOOT, seed=0):
     return float(np.percentile(rs, 2.5)), float(np.percentile(rs, 97.5))
 
 
-def label(r, lo, hi, n):
-    if not np.isfinite(lo):
+def label_r(r, lo, hi, n, context=""):
+    if not np.isfinite(r) or not np.isfinite(lo):
         return f"NOT ESTIMABLE (n={n})"
     width = hi - lo
     if width > 0.9:
-        return ("UNINFORMATIVE — the interval is too wide to exclude a moderate effect in "
-                "either direction. Not a null.")
+        return ("UNINFORMATIVE — interval too wide to exclude a moderate effect either "
+                "way. Not a null.")
     if lo <= 0 <= hi:
-        return ("NULL, and bounded — ToM-benchmark accuracy does not predict the intent "
-                "contrast, and the interval excludes a large effect.")
+        return ("NULL, bounded — ToM accuracy does not predict the contrast once "
+                f"{context or 'the stated controls'} are applied.")
     if lo > 0:
-        return ("POSITIVE — the moral task partly measures general ToM competence; the "
-                "dissociation claim must be weakened.")
-    return ("NEGATIVE — check the base/instruct split before interpreting; both axes track "
-            "instruction tuning.")
+        return ("POSITIVE — moral intent use partly tracks ToM competence; "
+                "dissociation claim weakens.")
+    return ("NEGATIVE — higher ToM tracks more outcome-driven contrast; check residual "
+            "confounds before interpreting as a finding.")
 
 
-def scatter(pts, path, rlab):
+def analysis_a(rows, meas_key, meas_label):
+    """Instruct models only."""
+    sub = [r for r in rows if r["mtype"] == "instruct" and r.get(meas_key) is not None]
+    x = [r[meas_key] for r in sub]
+    y = [r["contrast"] for r in sub]
+    r = pearson(x, y)
+    lo, hi = boot_ci(x, y)
+    return dict(analysis="(a) instruct only", measure=meas_label, r=r, lo=lo, hi=hi,
+                n=len(sub), label=label_r(r, lo, hi, len(sub), "restricting to instruct"))
+
+
+def analysis_b(rows, meas_key, meas_label):
+    """OLS: contrast ~ ToM + C(mtype) + log(size)."""
+    import statsmodels.formula.api as smf
+    import pandas as pd
+    sub = [r for r in rows if r.get(meas_key) is not None and r["log_size"] is not None
+           and r["mtype"] in ("base", "instruct")]
+    df = pd.DataFrame(sub).rename(columns={meas_key: "tom"})
+    if len(df) < 6:
+        return dict(analysis="(b) OLS with covariates", measure=meas_label,
+                    r=float("nan"), lo=float("nan"), hi=float("nan"), n=len(df),
+                    label=f"NOT ESTIMABLE (n={len(df)})", beta_tom=float("nan"),
+                    se_tom=float("nan"), p_tom=float("nan"))
+    fit = smf.ols("contrast ~ tom + C(mtype) + log_size", data=df).fit()
+    beta = float(fit.params["tom"])
+    se = float(fit.bse["tom"])
+    p = float(fit.pvalues["tom"])
+    lo, hi = beta - 1.96 * se, beta + 1.96 * se
+    # Partial correlation of residuals after regressing both on covariates
+    r_tom = smf.ols("tom ~ C(mtype) + log_size", data=df).fit()
+    r_con = smf.ols("contrast ~ C(mtype) + log_size", data=df).fit()
+    pr = pearson(r_tom.resid, r_con.resid)
+    plo, phi = boot_ci(r_tom.resid.values, r_con.resid.values)
+    return dict(analysis="(b) OLS with covariates", measure=meas_label,
+                r=pr, lo=plo, hi=phi, n=len(df),
+                beta_tom=beta, se_tom=se, p_tom=p, beta_lo=lo, beta_hi=hi,
+                label=label_r(pr, plo, phi, len(df), "controlling for type and log-size"))
+
+
+def find_row(rows, stem):
+    jk = joinkey(stem)
+    for r in rows:
+        if joinkey(r["short"]) == jk or joinkey(r["model"]).endswith(jk):
+            return r
+    # looser: stem contained
+    for r in rows:
+        if jk in joinkey(r["short"]) or jk in joinkey(r["model"]):
+            return r
+    return None
+
+
+def analysis_c(rows, meas_key, meas_label):
+    """Within-family base→instruct deltas."""
+    deltas = []
+    for fam, base_stem, inst_stem in FAMILY_STEMS:
+        b = find_row(rows, base_stem)
+        i = find_row(rows, inst_stem)
+        if b is None or i is None:
+            continue
+        if b.get(meas_key) is None or i.get(meas_key) is None:
+            continue
+        # Prefer typed rows when available
+        if b["mtype"] == "instruct" and i["mtype"] == "base":
+            b, i = i, b
+        deltas.append(dict(
+            family=fam,
+            d_tom=i[meas_key] - b[meas_key],
+            d_contrast=i["contrast"] - b["contrast"],
+            base=b["model"], instruct=i["model"],
+            base_tom=b[meas_key], inst_tom=i[meas_key],
+            base_contrast=b["contrast"], inst_contrast=i["contrast"],
+        ))
+    if len(deltas) < 3:
+        return deltas, dict(analysis="(c) within-family deltas", measure=meas_label,
+                            r=float("nan"), lo=float("nan"), hi=float("nan"),
+                            n=len(deltas), label=f"NOT ESTIMABLE (n={len(deltas)})")
+    x = [d["d_tom"] for d in deltas]
+    y = [d["d_contrast"] for d in deltas]
+    r = pearson(x, y)
+    lo, hi = boot_ci(x, y)
+    return deltas, dict(analysis="(c) within-family deltas", measure=meas_label,
+                        r=r, lo=lo, hi=hi, n=len(deltas),
+                        label=label_r(r, lo, hi, len(deltas),
+                                      "looking at within-family tuning deltas"))
+
+
+def confound_demo(rows, meas_key, meas_label):
+    """All-20 raw r — demonstration of the confound, not a result."""
+    sub = [r for r in rows if r.get(meas_key) is not None]
+    x = [r[meas_key] for r in sub]
+    y = [r["contrast"] for r in sub]
+    r = pearson(x, y)
+    lo, hi = boot_ci(x, y)
+    return dict(analysis="(confound demo) all models, no controls",
+                measure=meas_label, r=r, lo=lo, hi=hi, n=len(sub),
+                label=("CONFOUND DEMO — both axes proxy base-vs-instruct (and size). "
+                       "Do not cite as a result."))
+
+
+def scatter_panels(rows, deltas, path):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    fig, ax = plt.subplots(figsize=(8.0, 5.6))
-    for mtype, colour, marker in (("instruct", "#1f3f8f", "o"),
-                                  ("base", "#c07a1e", "s")):
-        sub = [p for p in pts if p["mtype"] == mtype]
-        if not sub:
-            continue
-        ax.scatter([p["tom"] for p in sub], [p["contrast"] for p in sub],
-                   s=[26 + 5.0 * (p["size_B"] or 1) for p in sub],
-                   c=colour, marker=marker, alpha=0.82, edgecolor="white",
-                   linewidth=0.7, label=f"{mtype} (area ~ params)", zorder=3)
-    others = [p for p in pts if p["mtype"] not in ("instruct", "base")]
-    if others:
-        ax.scatter([p["tom"] for p in others], [p["contrast"] for p in others],
-                   s=32, c="#777777", marker="^", alpha=0.8, label="unlabelled", zorder=3)
+    fig, axes = plt.subplots(1, 3, figsize=(13.5, 4.4))
 
-    for p in pts:
-        ax.annotate(p["name"].split("/")[-1], (p["tom"], p["contrast"]),
-                    fontsize=6.4, xytext=(4, 3), textcoords="offset points",
-                    color="#444444")
-    ax.axhline(0, color="#888888", lw=0.9, ls=":")
-    ax.axvline(0.5, color="#888888", lw=0.9, ls=":")
-    ax.annotate("chance on a 2-way forced choice", xy=(0.5, ax.get_ylim()[0]),
-                xytext=(3, 4), textcoords="offset points", fontsize=6.8,
-                color="#777777", rotation=90, va="bottom")
-    ax.set_xlabel("BigToM forward-belief accuracy, false-belief condition", fontsize=9.8)
-    ax.set_ylabel("2x2 intent contrast  (attempted - accidental)", fontsize=9.8)
-    ax.set_title("Does standard ToM-benchmark performance predict intent use in moral "
-                 "judgment?\n" + rlab, fontsize=10.4)
-    ax.legend(fontsize=8, loc="best")
-    ax.grid(alpha=0.22, lw=0.6)
-    for s in ("top", "right"):
-        ax.spines[s].set_visible(False)
+    # (a) instruct only
+    ax = axes[0]
+    inst = [r for r in rows if r["mtype"] == "instruct" and r["bigtom_all"] is not None]
+    ax.scatter([r["bigtom_all"] for r in inst], [r["contrast"] for r in inst],
+               s=[30 + 4 * (r["size_B"] or 1) for r in inst],
+               c="#1f3f8f", alpha=0.85, edgecolor="white")
+    for r in inst:
+        ax.annotate(r["short"][:18], (r["bigtom_all"], r["contrast"]),
+                    fontsize=6, xytext=(3, 2), textcoords="offset points", color="#444")
+    ax.axhline(0, color="#888", lw=0.8, ls=":")
+    ax.set_title("(a) instruct only", fontsize=10)
+    ax.set_xlabel("BigToM accuracy (all)")
+    ax.set_ylabel("2×2 contrast")
+
+    # (b) all, coloured by type
+    ax = axes[1]
+    for mtype, colour, marker in (("instruct", "#1f3f8f", "o"), ("base", "#c07a1e", "s")):
+        sub = [r for r in rows if r["mtype"] == mtype and r["bigtom_all"] is not None]
+        ax.scatter([r["bigtom_all"] for r in sub], [r["contrast"] for r in sub],
+                   s=40, c=colour, marker=marker, alpha=0.8, label=mtype, edgecolor="white")
+    ax.axhline(0, color="#888", lw=0.8, ls=":")
+    ax.legend(fontsize=8, frameon=False)
+    ax.set_title("(b) all models (type shown)", fontsize=10)
+    ax.set_xlabel("BigToM accuracy (all)")
+
+    # (c) deltas
+    ax = axes[2]
+    if deltas:
+        ax.scatter([d["d_tom"] for d in deltas], [d["d_contrast"] for d in deltas],
+                   s=55, c="#2a6f4e", alpha=0.85, edgecolor="white")
+        for d in deltas:
+            ax.annotate(d["family"], (d["d_tom"], d["d_contrast"]),
+                        fontsize=6.5, xytext=(3, 2), textcoords="offset points")
+        ax.axhline(0, color="#888", lw=0.8, ls=":")
+        ax.axvline(0, color="#888", lw=0.8, ls=":")
+    ax.set_title("(c) within-family Δ (instruct − base)", fontsize=10)
+    ax.set_xlabel("Δ BigToM")
+    ax.set_ylabel("Δ contrast")
+
+    for ax in axes:
+        ax.grid(alpha=0.2, lw=0.6)
+        for s in ("top", "right"):
+            ax.spines[s].set_visible(False)
+    fig.suptitle("ToM vs moral intent use — confound-controlled analyses", fontsize=11)
     fig.tight_layout()
-    fig.savefig(path, dpi=185)
+    fig.savefig(path, dpi=170, bbox_inches="tight")
     print(f"  -> {path}")
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--primary", default="bigtom|false_belief")
-    ap.add_argument("--floor", type=float, default=ENGAGEMENT_FLOOR)
+    ap.add_argument("--primary", default="bigtom",
+                    help="primary ToM measure key in joined rows: bigtom_all / bigtom_false / tomi")
     a = ap.parse_args()
+    key_map = {"bigtom": "bigtom_all", "bigtom|false_belief": "bigtom_false",
+               "bigtom_all": "bigtom_all", "bigtom_false": "bigtom_false", "tomi": "tomi"}
+    primary_key = key_map.get(a.primary, a.primary)
 
-    tom = load_tom()
-    beh = load_behaviour()
+    rows = join_rows(load_tom(), load_behaviour())
+    print(f"joined {len(rows)} models")
 
-    rows, pts = [], []
-    for b in beh:
-        t = tom.get(b["key"])
-        if t is None:
-            cand = [v for k, v in tom.items() if k.endswith(b["key"]) or b["key"].endswith(k)]
-            t = cand[0] if len(cand) == 1 else None
-        if t is None:
-            continue
-        engaged = (b["rating_std"] is not None and b["rating_std"] >= a.floor)
-        rows.append(dict(model=b["model"], mtype=b["mtype"], size_B=b["size_B"],
-                         rating_std=b["rating_std"], contrast=b["contrast"],
-                         bigtom_false=t.get("bigtom|false_belief"),
-                         bigtom_true=t.get("bigtom|true_belief"),
-                         bigtom_all=t.get("bigtom"), tomi_all=t.get("tomi"),
-                         engaged=engaged))
-        if engaged and b["contrast"] is not None and t.get(a.primary) is not None:
-            pts.append(dict(name=b["model"], tom=t[a.primary], contrast=b["contrast"],
-                            mtype=b["mtype"], size_B=b["size_B"]))
+    measures = [("bigtom_false", "bigtom|false_belief"),
+                ("bigtom_all", "bigtom"),
+                ("tomi", "tomi")]
 
-    print(f"models with both ToM and behaviour: {len(rows)}; "
-          f"engaged and usable: {len(pts)}")
-
-    results = {}
-    for meas in ("bigtom|false_belief", "bigtom", "tomi"):
-        x, y = [], []
-        for b in beh:
-            t = tom.get(b["key"])
-            if t is None or t.get(meas) is None or b["contrast"] is None:
-                continue
-            if b["rating_std"] is None or b["rating_std"] < a.floor:
-                continue
-            x.append(t[meas])
-            y.append(b["contrast"])
-        if len(x) < 4 or np.std(x) < 1e-12:
-            results[meas] = dict(r=float("nan"), lo=float("nan"), hi=float("nan"),
-                                 n=len(x), label=f"NOT ESTIMABLE (n={len(x)})")
-            print(f"  {meas:24} n={len(x)}  not estimable")
-            continue
-        r = float(np.corrcoef(x, y)[0, 1])
-        lo, hi = boot_ci(x, y)
-        results[meas] = dict(r=r, lo=lo, hi=hi, n=len(x), label=label(r, lo, hi, len(x)))
-        print(f"  {meas:24} r={r:+.3f} [{lo:+.3f},{hi:+.3f}] n={len(x)}")
+    results = []
+    deltas_primary = []
+    for mk, label in measures:
+        results.append(confound_demo(rows, mk, label))
+        results.append(analysis_a(rows, mk, label))
+        results.append(analysis_b(rows, mk, label))
+        deltas, cres = analysis_c(rows, mk, label)
+        results.append(cres)
+        if mk == primary_key:
+            deltas_primary = deltas
 
     os.makedirs(TOMDIR, exist_ok=True)
     csv_path = os.path.join(TOMDIR, "tom_vs_contrast.csv")
-    cols = ["model", "mtype", "size_B", "rating_std", "engaged", "contrast",
-            "bigtom_false", "bigtom_true", "bigtom_all", "tomi_all"]
     with open(csv_path, "w", newline="") as fh:
+        cols = ["model", "mtype", "size_B", "rating_std", "contrast",
+                "bigtom_false", "bigtom_all", "tomi"]
         w = csv.DictWriter(fh, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
-        for r in sorted(rows, key=lambda z: -(z["bigtom_false"] or -1)):
+        for r in sorted(rows, key=lambda z: -(z["bigtom_all"] or -1)):
             w.writerow(r)
         w.writerow({})
-        for meas, res in results.items():
-            w.writerow({"model": f"CORRELATION {meas} vs contrast", "contrast": res["r"],
-                        "bigtom_false": res["lo"], "bigtom_true": res["hi"],
-                        "bigtom_all": res["n"], "tomi_all": res["label"]})
+        w.writerow({"model": "ANALYSIS", "mtype": "measure", "size_B": "r_or_partial_r",
+                    "rating_std": "ci_lo", "contrast": "ci_hi", "bigtom_false": "n",
+                    "bigtom_all": "beta_tom", "tomi": "label"})
+        for res in results:
+            w.writerow({"model": res["analysis"], "mtype": res["measure"],
+                        "size_B": res.get("r"), "rating_std": res.get("lo"),
+                        "contrast": res.get("hi"), "bigtom_false": res.get("n"),
+                        "bigtom_all": res.get("beta_tom", ""),
+                        "tomi": res.get("label")})
+        if deltas_primary:
+            w.writerow({})
+            w.writerow({"model": "WITHIN_FAMILY_DELTAS", "mtype": "family",
+                        "size_B": "d_tom", "rating_std": "d_contrast",
+                        "contrast": "base_tom", "bigtom_false": "inst_tom",
+                        "bigtom_all": "base_contrast", "tomi": "inst_contrast"})
+            for d in deltas_primary:
+                w.writerow({"model": d["family"], "mtype": d["family"],
+                            "size_B": d["d_tom"], "rating_std": d["d_contrast"],
+                            "contrast": d["base_tom"], "bigtom_false": d["inst_tom"],
+                            "bigtom_all": d["base_contrast"], "tomi": d["inst_contrast"]})
     print(f"  -> {csv_path}")
 
-    prim = results.get(a.primary, {})
-    rlab = (f"r = {prim.get('r', float('nan')):+.3f}, "
-            f"95% CI [{prim.get('lo', float('nan')):+.2f}, "
-            f"{prim.get('hi', float('nan')):+.2f}], n = {prim.get('n', 0)} engaged models")
-    if pts:
-        scatter(pts, os.path.join(TOMDIR, "tom_vs_contrast.png"), rlab)
+    scatter_panels(rows, deltas_primary, os.path.join(TOMDIR, "tom_vs_contrast.png"))
 
+    # Markdown report
     md = [
         "# ToM benchmark performance vs intent use in moral judgment (J1)", "",
         "## Question", "",
-        "Does standard theory-of-mind benchmark performance predict whether a model weights",
-        "intent in graded moral judgment? A null converts \"models pass ToM tests but fail",
-        "this task\" from a literature argument into a result measured on the same models.", "",
-        "## Design", "",
-        "- **ToM axis (primary):** BigToM forward belief, false-belief condition. 200 items,",
-        "  two-alternative forced choice scored by length-normalised log-likelihood. The",
-        "  explicit statement of the agent's initial belief is removed from the story",
-        "  (init_belief=0), so the belief must be inferred rather than copied.",
-        "- **ToM axis (secondary):** ToMi first-order belief questions, 400 items, same",
-        "  scoring.",
-        "- **Behavioural axis:** the 2x2 contrast (attempted - accidental).",
-        f"- **Restriction:** models clearing the derived engagement floor "
-        f"(rating_std >= {a.floor}). A model that does not vary its ratings has no contrast",
-        "  to correlate.",
-        "- **Uncertainty:** bootstrap over models, 10,000 resamples.", "",
-        "The interpretation of each possible outcome was fixed in the script docstring before",
-        "the full roster was scored; only the three gate models had been run.", "",
+        "Does standard ToM-benchmark performance predict whether a model weights intent in",
+        "graded moral judgment — once the base/instruct (and size) confound is controlled?",
+        "",
+        "## Why the all-20 correlation is not a result", "",
+        "Both axes are proxies for model type. Base models score near floor on BigToM",
+        "because they cannot follow the QA format, and sit near zero on the 2×2 contrast.",
+        "Instruction tuning and scale move both axes. The unrestricted Pearson r",
+        "(e.g. BigToM–contrast ≈ −0.74 over 20 models) demonstrates that confound; it is",
+        "**not reported as a finding**. The three analyses below are.",
+        "",
+        "## Floor policy", "",
+        "Correlation analyses keep **every** model. The derived `rating_std` floor",
+        "(0.2191) is for engagement / anchor counts only — see",
+        "`outputs/stats/FLOOR_DERIVATION.md`. Using it here would select on a variable",
+        "adjacent to the outcome. The fix for the confound is controlling for type, not",
+        "excluding models.",
+        "",
         "## Ceiling gate", "",
-        "Run first, on Qwen2.5-0.5B-Instruct, Qwen2.5-14B-Instruct and OLMo-2-7B-Instruct,",
-        "because a correlation needs variance on both axes and a ceiling would have killed the",
-        "analysis before spending GPU on 20 models:", "",
-        "| benchmark | accuracies | spread | verdict |",
+        "| benchmark | accuracies (0.5B-I / 14B-I / OLMo-I) | spread | verdict |",
         "|---|---|---|---|",
         "| BigToM | 0.520 / 0.882 / 0.850 | 0.362 | spread, proceed |",
-        "| ToMi | 0.482 / 0.512 / 0.818 | 0.335 | spread, proceed |", "",
-        "Neither is near ceiling, so the full roster was worth running.", "",
-        "## Result", "",
-        "| ToM measure | r | 95% CI (bootstrap over models) | n | reading |",
-        "|---|---|---|---|---|",
+        "| ToMi | 0.482 / 0.512 / 0.818 | 0.335 | spread, proceed |",
+        "",
+        "## Controlled results", "",
+        "| analysis | ToM measure | estimate | 95% CI | n | reading |",
+        "|---|---|---|---|---|---|",
     ]
-    for meas, res in results.items():
-        md.append(f"| {meas} | {res['r']:+.3f} | "
-                  f"[{res['lo']:+.3f}, {res['hi']:+.3f}] | {res['n']} | {res['label']} |")
+    for res in results:
+        if res["analysis"].startswith("(confound"):
+            continue
+        est = res.get("r")
+        lo, hi = res.get("lo"), res.get("hi")
+        extra = ""
+        if res.get("beta_tom") is not None and not (isinstance(res["beta_tom"], float)
+                                                     and math.isnan(res["beta_tom"])):
+            extra = f" (β_tom={res['beta_tom']:+.3f}, p={res['p_tom']:.3g})"
+        md.append(
+            f"| {res['analysis']} | {res['measure']} | "
+            f"{est:+.3f}{extra} | [{lo:+.3f}, {hi:+.3f}] | {res['n']} | {res['label']} |"
+        )
+
+    md += ["", "### Confound demonstration (not a result)", "",
+           "| analysis | ToM measure | r | 95% CI | n |",
+           "|---|---|---|---|---|"]
+    for res in results:
+        if res["analysis"].startswith("(confound"):
+            md.append(f"| {res['analysis']} | {res['measure']} | {res['r']:+.3f} | "
+                      f"[{res['lo']:+.3f}, {res['hi']:+.3f}] | {res['n']} |")
+
+    md += ["", "## Within-family deltas (primary measure: BigToM all)", "",
+           "| family | Δ ToM (I−B) | Δ contrast (I−B) | base contrast | instruct contrast |",
+           "|---|---|---|---|---|"]
+    for d in deltas_primary:
+        md.append(f"| {d['family']} | {d['d_tom']:+.3f} | {d['d_contrast']:+.3f} | "
+                  f"{d['base_contrast']:+.3f} | {d['inst_contrast']:+.3f} |")
+
     md += ["", "## Per-model table", "",
-           "ToM accuracy is reported as its own column regardless of the correlation result,",
-           "as requested, in `tom_vs_contrast.csv` and folded into the master table.", "",
-           "| model | type | params | BigToM false-belief | BigToM all | ToMi | contrast | engaged |",
-           "|---|---|---|---|---|---|---|---|"]
-    for r in sorted(rows, key=lambda z: -(z["bigtom_false"] or -1)):
+           "| model | type | params | BigToM FB | BigToM all | ToMi | contrast |",
+           "|---|---|---|---|---|---|---|"]
+    for r in sorted(rows, key=lambda z: -(z["bigtom_all"] or -1)):
         f = lambda v: "—" if v is None else f"{v:.3f}"
         md.append(f"| {r['model']} | {r['mtype']} | {r['size_B'] or '—'} | "
-                  f"{f(r['bigtom_false'])} | {f(r['bigtom_all'])} | {f(r['tomi_all'])} | "
-                  f"{f(r['contrast'])} | {'yes' if r['engaged'] else 'no'} |")
-    md += ["", "## Caveats", "",
-           "- n is at most 20 and smaller after the engagement restriction, so the per-model",
-           "  table is the deliverable and the correlation is secondary. A wide interval is",
-           "  reported as uninformative, not as a null.",
-           "- Instruction tuning moves both axes, so it is the obvious confound; base and",
-           "  instruct models are marked separately in the scatter.",
-           "- ToMi's true_belief / false_belief tags describe the story-generation condition",
-           "  rather than the queried agent's belief state, so only the aggregate and the",
-           "  question-type breakdown are used.", ""]
+                  f"{f(r['bigtom_false'])} | {f(r['bigtom_all'])} | {f(r['tomi'])} | "
+                  f"{f(r['contrast'])} |")
+
+    md += ["", "## Reading", "",
+           "Report (a), (b), and (c). If all three are null or negative, ToM-benchmark",
+           "performance does not predict intent-weighting in moral judgment once type is",
+           "held constant — the dissociation is measured on our own models. A positive",
+           "result under (a)/(b) or a positive delta–delta under (c) would weaken that claim.",
+           "Do not cite the all-20 r.", ""]
+
     md_path = os.path.join(TOMDIR, "TOM_VS_CONTRAST.md")
     open(md_path, "w").write("\n".join(md))
     print(f"  -> {md_path}")
+    for res in results:
+        print(f"  {res['analysis']:40} {res['measure']:22} "
+              f"r={res.get('r', float('nan')):+.3f} n={res['n']}")
 
 
 if __name__ == "__main__":

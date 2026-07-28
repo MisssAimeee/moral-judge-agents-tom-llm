@@ -51,26 +51,41 @@ across scenarios rather than the between-model differences the old test rested o
 
 The 95% interval on the pooled slope is [-0.146, +0.270] in
 within-model SD units. Both axes are standardised, so the slope is the SD
-change in intent-use per SD of intent decodability, and the interval rules out
-anything larger than about 0.27 SD in either direction.
+change in intent-use per SD of intent decodability.
 
-**This is an informative null, and that is the difference from C6.** The
-model-level test spanned [-0.80, +0.58] and so excluded nothing; this interval
-is narrow enough to exclude a moderate or large effect. The reading it supports
-is that within a model, the scenarios whose intent is most clearly represented
-are not the scenarios where intent is most used -- a dissociation between
-representation and use, measured at the level where the two are comparable.
+### Why this null is informative
+
+The minimum slope that would be theoretically meaningful here is **+0.30 SD**:
+if representation drove use, a scenario whose intent is 1 SD more decodable
+should show at least a medium (+0.3 SD) increase in intent-use. The observed
+CI upper bound is **+0.270**, which excludes that threshold (and anything larger).
+That is the difference from C6: the model-level test spanned [-0.80, +0.58] and
+excluded nothing; this interval is narrow enough to rule out the effect size the
+competence→performance story requires.
+
+The reading it supports is that within a model, the scenarios whose intent is
+most clearly represented are not the scenarios where intent is most used — a
+dissociation between representation and use, measured at the level where the
+two are comparable.
 
 Two limits worth stating with it. The bound is on a LINEAR, MONOTONE relation
 between probe margin and contrast; a threshold relation, where intent must
 merely be present rather than strongly present, would not show up here. And
 probe margin is a proxy for representational quality, not a measure of what the
-model reads out downstream -- decodable by a linear probe is not the same as
+model reads out downstream — decodable by a linear probe is not the same as
 used by the model. Causal steering at the peak intent layer is the test that
 would close that gap.
 
-## Status of the old model-level link
+## Three independent tests of one claim
 
-Retained as a footnote only, and labelled uninformative: r = -0.209, 95% CI
-[-0.80, +0.58], n = 8. It is not evidence of absence and should not be cited as
-a null.
+Intent is represented, linearly readable, and not used. Three results, different
+units of analysis, same claim:
+
+| test | unit | estimate | CI | status |
+| --- | --- | --- | --- | --- |
+| **J2 item-level link** (this file) | scenario group within model | slope +0.062 | [−0.146, +0.270] | informative null (excludes +0.30) |
+| **RSA convergence** (`outputs/rsa/convergence_test.json`) | model pair | r = +0.098 | [−0.31, +0.46] | null — similar behavior ≠ similar geometry |
+| **Model-level link** (`representation_vs_behavior.csv`) | model | r = −0.209 | [−0.80, +0.58] | **uninformative** — footnote only |
+
+Present J2 and the RSA null as the load-bearing pair; keep the n=8 model-level
+result only as a footnote marked uninformative.

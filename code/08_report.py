@@ -107,7 +107,9 @@ def main():
             ir=fnum(c.get("intent_reliance")), ir_lo=fnum(c.get("ir_lo")),
             ir_hi=fnum(c.get("ir_hi")),
             psd=fnum(c.get("contrast_sd_across_templates")),
-            flip=str(c.get("sign_flips_across_prompts")).lower() in ("true", "yes", "1"),
+            flip=str(c.get("sign_flips_all_templates",
+                           c.get("sign_flips_across_prompts"))).lower()
+                 in ("true", "yes", "1"),
             n_templates=nt, n_stories=ns))
     table.sort(key=lambda d: (-d["contrast"] if not math.isnan(d["contrast"]) else 1e9))
 

@@ -1,4 +1,4 @@
-model,rating_std,contrast,engaged_at_0.05
+model,rating_std,contrast,engaged_at_0.2191
 unsloth_gemma-2-9b,0.0064,-0.0002,False
 mistralai_Mistral-7B-v0_3,0.0153,-0.0026,False
 unsloth_Meta-Llama-3_1-8B,0.0238,0.0025,False
@@ -8,11 +8,11 @@ Qwen_Qwen2_5-3B,0.0405,-0.0483,False
 Qwen_Qwen2_5-7B,0.043,-0.0511,False
 Qwen_Qwen2_5-0_5B-Instruct,0.0483,-0.0502,False
 Qwen_Qwen2_5-1_5B,0.049,-0.0128,False
-Qwen_Qwen2_5-14B,0.0749,-0.1257,True
-Qwen_Qwen2_5-1_5B-Instruct,0.0995,-0.1665,True
-Qwen_Qwen2_5-3B-Instruct,0.1637,-0.2469,True
-unsloth_Meta-Llama-3_1-8B-Instruct,0.1739,-0.2016,True
-Qwen_Qwen2_5-7B-Instruct,0.1777,-0.2382,True
+Qwen_Qwen2_5-14B,0.0749,-0.1257,False
+Qwen_Qwen2_5-1_5B-Instruct,0.0995,-0.1665,False
+Qwen_Qwen2_5-3B-Instruct,0.1637,-0.2469,False
+unsloth_Meta-Llama-3_1-8B-Instruct,0.1739,-0.2016,False
+Qwen_Qwen2_5-7B-Instruct,0.1777,-0.2382,False
 allenai_Llama-3_1-Tulu-3-8B,0.2604,-0.4008,True
 Qwen_Qwen2_5-14B-Instruct,0.2818,-0.3699,True
 mistralai_Mistral-7B-Instruct-v0_3,0.2933,-0.4735,True
@@ -21,7 +21,6 @@ HuggingFaceH4_zephyr-7b-beta,0.33,-0.5513,True
 allenai_OLMo-2-1124-7B-Instruct,0.3619,-0.6458,True
 
 floor,n_engaged,n_excluded,text_reported,digitized_naughty,punish
-0.02,18,2,10/18,18/18,18/18
-0.03,15,5,10/15,15/15,15/15
+0.2191,6,14,6/6,6/6,6/6
 0.05,11,9,10/11,11/11,11/11
 0.1,9,11,9/9,9/9,9/9

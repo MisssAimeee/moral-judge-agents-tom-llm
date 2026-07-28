@@ -142,7 +142,11 @@ def sign_stability_table(studies=None):
             **{f"c_{t}": round(tcs[t], 4) for t in FACTORIAL_1_7 if t in tcs},
             contrast_mean_all=round(float(np.mean(vals)), 4),
             contrast_mean_included=round(float(np.mean(vals)), 4) if include else "",
-            sign_stable=not flip,
+            # Scoped name: this covers the 6 factorial 1-7 templates only. 06_stats.py writes
+            # sign_flips_all_templates over every template including the 1-10 paraphrases and
+            # human_verbatim, so the two can disagree for the same model without either being
+            # wrong. Do not read one as a correction of the other.
+            sign_stable_factorial_1_7=not flip,
             include_in_pooled=include,
             verdict=("sign-stable" if include else
                      ("FRAGILE (sign flip)" if flip else "degenerate/zero")),
@@ -242,7 +246,7 @@ def write_report(sign_rows, var_summary, out_dir, var_summary_filtered=None):
     os.makedirs(out_dir, exist_ok=True)
     # sign stability csv
     keys = ["model", "study", "n_factorial"] + [f"c_{t}" for t in FACTORIAL_1_7] + [
-        "contrast_mean_all", "contrast_mean_included", "sign_stable",
+        "contrast_mean_all", "contrast_mean_included", "sign_stable_factorial_1_7",
         "include_in_pooled", "verdict",
     ]
     sp = os.path.join(out_dir, "prompt_factorial_sign_stability.csv")

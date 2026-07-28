@@ -226,6 +226,13 @@ def main():
         tvals = list(tcs.values())
         t_sd = float(np.std(tvals)) if len(tvals) > 1 else 0.0
         t_range = (max(tvals) - min(tvals)) if tvals else 0.0
+        # Scope matters and the column name has to say so. This ranges over EVERY template
+        # the model was run on, including human_verbatim and the 1-10 paraphrases, which sit
+        # on different response scales. 33_prompt_factorial_analysis.py computes its own
+        # stability flag over the 6 factorial 1-7 templates only. The two legitimately
+        # disagree -- Qwen2.5-0.5B-Instruct and 1.5B-Instruct flip on a non-factorial
+        # template while the factorial set holds its sign -- so they are named for their
+        # scopes rather than reconciled into one number.
         sign_flip = bool(tvals) and (min(tvals) < 0 < max(tvals))
 
         size, mtype, family, provider = parse_tag(tag, registry)
@@ -323,7 +330,7 @@ def main():
         w.writerow(["model", "size_B", "type", "provider", "contrast", "ci_lo", "ci_hi",
                     "sig_vs_0", "intent_reliance", "ir_lo", "ir_hi", "b_intent",
                     "b_outcome", "contrast_sd_across_templates", "contrast_range",
-                    "sign_flips_across_prompts", "nearest_human_group",
+                    "sign_flips_all_templates", "nearest_human_group",
                     "contrast_minus_adult", "rating_std", "degenerate",
                     "n_scenario_groups"])
         for d in summary:
@@ -337,7 +344,7 @@ def main():
     with open(os.path.join(a.out, "prompt_invariance_contrast.csv"), "w", newline="") as g:
         w = csv.writer(g)
         all_t = sorted({t for tmpl_c in per_template.values() for t in tmpl_c})
-        w.writerow(["model"] + all_t + ["sd", "range", "sign_flips"])
+        w.writerow(["model"] + all_t + ["sd", "range", "sign_flips_all_templates"])
         for d in summary:
             tmpl_c = per_template[d["tag"]]
             row = [d["tag"]] + [r4(tmpl_c.get(t)) if t in tmpl_c else "NA" for t in all_t]

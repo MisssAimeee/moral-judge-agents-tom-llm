@@ -24,7 +24,7 @@ cd "$SLURM_SUBMIT_DIR"
 source .venv/bin/activate
 
 echo "=== Job $SLURM_JOB_ID on $(hostname) at $(date) ==="
-nvidia-smi | head -12
+nvidia-smi --query-gpu=name,memory.total --format=csv,noheader
 
 python -u code/experiments/16_checkpoint_dissection.py --run --force \
   --templates human_verbatim blame_w1 blame_w2 wrong_w1 wrong_w2 punish_w1 punish_w2

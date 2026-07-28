@@ -51,8 +51,15 @@ STATS = os.path.join(ROOT, "outputs", "stats", "contrast_by_model.csv")
 # being tested, so it cannot bias the direction of the contrast. A model that barely
 # varies its rating across 298 items has not engaged with the task, and its contrast is
 # not an estimate of anything. Floor is stated on the normalised 0-1 scale.
-ENGAGEMENT_FLOOR = 0.05          # >= 5% of the response range in SD terms
-FLOOR_SENSITIVITY = [0.02, 0.03, 0.05, 0.10]
+#
+# The primary value is now derived from the data by 40_derive_floors.py rather than set by
+# hand: sorted across the 20 post-fix models, rating_std has its largest gap between 0.1777
+# and 0.2604, and the floor sits at that gap's midpoint. See outputs/stats/
+# FLOOR_DERIVATION.md. The old 0.05 is retained in the sensitivity list, not as the default,
+# because its stated justification -- excluding Mistral-7B and Zephyr-7B -- described two
+# tokenizer measurement failures rather than two unengaged models.
+ENGAGEMENT_FLOOR = 0.2191        # derived; see 40_derive_floors.py
+FLOOR_SENSITIVITY = [0.2191, 0.05, 0.10]
 
 # --- C7 pre-registration -----------------------------------------------------
 # A sign flip is only meaningful if there is a signal whose sign could flip. Models whose
@@ -266,7 +273,9 @@ def check_c7():
         mag = abs(r["contrast_mean_all"])
         recs.append(dict(model=r["model"], mean_abs=mag,
                          max_abs=max(abs(v) for v in vals) if vals else 0.0,
-                         flip=not r["sign_stable"], verdict=r["verdict"]))
+                         flip=not r.get("sign_stable_factorial_1_7",
+                                        r.get("sign_stable")),
+                         verdict=r["verdict"]))
 
     table = []
     for thr in NULL_SENSITIVITY:

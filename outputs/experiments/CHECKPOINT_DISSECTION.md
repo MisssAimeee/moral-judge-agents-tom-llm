@@ -18,14 +18,41 @@ the factorial analysis.
 | Zephyr-7B | SFT | −0.1496 | 0.1679 |
 | Zephyr-7B | DPO | −0.5516 | 0.3878 |
 
-## SFT-locus claim — three families
+## SFT is sufficient, but the locus is recipe-dependent — three families
 
-| family | base → SFT |
-| --- | --- |
-| OLMo-2-7B | +0.002 → −0.586 |
-| Tulu-3-8B | +0.007 → −0.258 |
-| Zephyr-7B | −0.001 → −0.150 |
+**SFT alone is sufficient to induce outcome bias in all three families**, moving each off a
+neutral base by 0.15–0.59 in contrast with no preference optimization involved:
 
-Zephyr was previously all zeros at every stage (digit-token collapse on the Mistral
-tokenizer). It is now a third supporting family. The mechanism claim rests on **three**
-instruction-tuning pipelines, all scored on the same 7-template basis as the ladder.
+| family | base → SFT | SFT drop |
+| --- | --- | ---: |
+| OLMo-2-7B | +0.002 → −0.586 | 0.588 |
+| Tulu-3-8B | +0.007 → −0.258 | 0.265 |
+| Zephyr-7B | −0.001 → −0.150 | 0.149 |
+
+**But the relative contribution of SFT versus preference optimization is recipe-dependent.**
+Each stage's step as a share of that family's total base → final shift:
+
+| family | SFT share | later-stage share | concentrates at |
+| --- | ---: | ---: | --- |
+| OLMo-2-7B | 85.4% | 14.6% | SFT |
+| Tulu-3-8B | 65.4% | 34.5% | SFT |
+| Zephyr-7B | 27.0% | 73.0% | **DPO** |
+
+Zephyr's shift is concentrated at DPO, where one preference-optimization stage moves the
+contrast from −0.150 to −0.552. **Do not describe the effect as localized to SFT, and do not
+claim it is "not RLHF/DPO"** — Zephyr refutes both. Zephyr was previously all zeros at every
+stage (digit-token collapse on the Mistral tokenizer); it is now a third supporting family
+for the sufficiency claim and the decisive counterexample for the locus claim.
+
+`b_outcome`/`b_intent` at final stage: OLMo 6.6×, Tulu 3.4×, Zephyr 7.7× (3.0–7.7× across
+all non-base stages). The earlier "2.5–3.9×" figure was pre-rescore and is retired; report
+the range, and treat "several-fold faster than `b_intent`, every family, every stage" as the
+robust claim.
+
+**Base engagement now resolved.** All three bases are engaged and near-zero on contrast
+(`rating_std` OLMo 0.0575, Tulu **0.0966**, Zephyr 0.0285). Tulu's base was previously
+degenerate at 0.018 — a stated limitation, now fixed — so the base → tuned comparison is
+like-for-like between responsive models, materially strengthening the causal reading.
+
+Full per-stage table: `CHECKPOINT_STAGE_SHARES.md` / `checkpoint_stage_shares.csv`
+(`code/experiments/47_checkpoint_stage_shares.py`).

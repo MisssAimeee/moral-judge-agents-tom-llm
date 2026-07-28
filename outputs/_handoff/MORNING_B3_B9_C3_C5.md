@@ -20,7 +20,15 @@ Overnight B2 wrote fresh `item_means_*` at 00:00–00:15, but B3 never read them
 survives repaired text + `scenario_group` + CPR act-only labels.** That requires
 `16_checkpoint_dissection.py --run --force` against the new behavior tree (queued next).
 
-### Stale CSV ratios (for reference only — NOT a survival claim)
+> **RESOLVED (job `19030249`, rescore on 7-template basis).** The 2.5–3.9× figure did
+> **not** survive and is retired. The ratio is now **3.0–7.7×** across all non-base stages
+> (final stage: OLMo 6.6×, Tülu 3.4×, Zephyr 7.7×). What is robust is the qualitative
+> claim — `b_outcome` grows several-fold faster than `b_intent` in every family at every
+> stage — not any single multiplier. Zephyr is also no longer degenerate. See
+> `experiments/CHECKPOINT_STAGE_SHARES.md` and the revised
+> `experiments/checkpoint_dissection_writeup.md`.
+
+### Stale CSV ratios (superseded by the rescore — NOT a survival claim)
 
 | transition | Δb_outcome | Δb_intent | ratio |
 |---|---:|---:|---:|
@@ -34,7 +42,9 @@ bootstrapped CIs on Δb (mini_dissection / ladder do for contrasts). Force-rerun
 scenario_group bootstrap CIs on coefficients if we extend the script; until then, report
 point estimates only and say so.
 
-Zephyr family remains **degenerate** at every stage.
+Zephyr family remains **degenerate** at every stage. *(Superseded: the degeneracy was the
+digit-token collapse on the Mistral tokenizer, not model behaviour. Post-fix, Zephyr is
+engaged at every stage and is the family whose shift concentrates at DPO rather than SFT.)*
 
 ---
 

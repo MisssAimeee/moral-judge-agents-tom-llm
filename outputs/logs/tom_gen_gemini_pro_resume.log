@@ -12,3 +12,11 @@ https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/READM
 
   import google.generativeai as genai
     325/400  new=25
+    350/400  new=50
+    375/400  new=75
+    400/400  new=100
+  bigtom                                0/400  acc=0.000  parsed=0.000
+  bigtom|false_belief                   0/200  acc=0.000  parsed=0.000
+  bigtom|true_belief                    0/200  acc=0.000  parsed=0.000
+
+wrote /orcd/home/002/aimeeyu/tom_project/outputs/tom_benchmarks/tom_accuracy_by_model_generative.csv

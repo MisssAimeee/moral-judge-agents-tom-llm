@@ -38,6 +38,10 @@ Clause exclusions: **1/53 groups (LAPTOP)**. Scale replication r=0.71 is roadmap
 1. **Does the checkpoint-dissection `b_outcome` / `b_intent` ratio survive** repaired text +
    correct `scenario_group` bootstrap + corrected CPR labels? State plainly whether the
    2.5–3.9× finding holds, weakens, or reverses — per checkpoint, old vs new.
+   **ANSWERED (job `19030249`): the 2.5–3.9× figure is retired.** The rescored ratio is
+   3.0–7.7× across non-base stages (final: OLMo 6.6×, Tülu 3.4×, Zephyr 7.7×). The
+   direction holds in every family at every stage; the multiplier does not replicate as a
+   point estimate. See `experiments/CHECKPOINT_STAGE_SHARES.md`.
 2. **What is the probe's gap over the TF-IDF surface baseline?** Absolute accuracy is
    no longer the headline number. Compare **matched poolings** (see morning lead table).
    Peak-across-models: intent-gap > outcome-gap at **all four** poolings. Outcome last/
@@ -132,6 +136,11 @@ baseline and over layer 0, not the absolute number.
 inflates outcome sensitivity 2.5–3.9× more than intent sensitivity, and `b_outcome` was the
 coefficient confounded with "this story has ~200 characters of unrelated text glued on". Whether
 it holds, weakens or reverses will be stated plainly, per checkpoint.
+
+**Resolved (job `19030249`).** The direction survived and strengthened; the specific
+multiplier did not. Retired: 2.5–3.9×. Current: 3.0–7.7× across all non-base stages. Two
+further changes came out of the same rescore — Zephyr is no longer degenerate, and the
+"shift is localized to SFT, not RLHF/DPO" claim is withdrawn (Zephyr's shift is 73% at DPO).
 
 ## 4. Did the headline contrast move?
 

@@ -1,0 +1,16 @@
+direction,raw_norm,cos_with_intent_dom,cos_with_outcome_dom,probe_cv_acc
+intent_dom,0.5683,1.0,0.3894,
+intent_probe,49.9635,0.5142,0.0002,0.8462
+outcome_dom,2.253,0.3894,1.0,
+outcome_probe,14.6244,0.1422,0.6882,0.9933
+random0,63.8519,0.0215,0.0162,
+random1,64.2482,-0.0264,-0.0056,
+,,,,
+metric,value
+layer,16
+typical_residual_norm,12.26
+cos_intent_dom_vs_probe,0.5142
+cos_outcome_dom_vs_probe,0.6882
+cos_intent_vs_outcome_dom,0.3894
+probe_cv_acc_intent,0.8462
+probe_cv_acc_outcome,0.9933

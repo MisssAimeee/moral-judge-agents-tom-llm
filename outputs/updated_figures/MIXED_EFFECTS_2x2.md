@@ -20,6 +20,29 @@ Computed from the Young et al. 2007 normalised cell means (neutral 0.033, accide
 The interaction is negative because a harmful outcome adds little once intent is
 present (0.933 -> 0.967) but a great deal when it is absent (0.033 -> 0.267).
 
+## Cell ordering, not just the coefficient (headline)
+
+**0 of 20 models match the human cell ordering (attempted > accidental); 14 are inverted (accidental > attempted); 6 are tied.** This is a stronger and
+more quotable result than the interaction coefficient alone: several models
+approximate the human interaction magnitude (human = -0.200) while getting the underlying cell
+pattern backwards, which the coefficient by itself hides.
+
+| model | neutral | accidental | attempted | intentional | att − acc | b_interaction | cell order |
+|---|---:|---:|---:|---:|---:|---:|---|
+| HUMAN (Young 2007) | 0.033 | 0.267 | 0.933 | 0.967 | +0.666 | -0.200 | matches_human |
+| allenai/OLMo-2-1124-7B-Instruct  (most extreme inversion) | 0.148 | 0.880 | 0.241 | 0.863 | -0.640 | -0.110 | inverted |
+| unsloth/Meta-Llama-3_1-8B-Instruct  (closest coefficient match (inverted)) | 0.365 | 0.716 | 0.518 | 0.687 | -0.198 | -0.183 | inverted |
+
+Humans: attempted (0.933) is already almost as harsh as intentional
+(0.967) — the accident with the same outcome (accidental, 0.267) is judged
+far more leniently. These models put accidental ABOVE attempted: an
+outcome-free failed attempt is judged more leniently than an accident that
+caused harm, the reverse of the human pattern, even when the interaction
+coefficient sits close to the human value.
+
+The full per-model cell means and `cell_order` column are in the table below
+and in `mixed_effects_2x2.csv`.
+
 ## Counts
 
 - models with an estimable interaction: 20 of 20

@@ -149,3 +149,13 @@ https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/READM
     275/400  new=275
     300/400  new=300
     325/400  new=325
+    350/400  new=350
+    375/400  new=375
+    400/400  new=400
+  bigtom                                0/400  acc=0.000  parsed=0.000
+  bigtom|false_belief                   0/200  acc=0.000  parsed=0.000
+  bigtom|true_belief                    0/200  acc=0.000  parsed=0.000
+
+wrote /orcd/home/002/aimeeyu/tom_project/outputs/tom_benchmarks/tom_accuracy_by_model_generative.csv
+python: can't open file '/orcd/home/002/aimeeyu/tom_project/code/experiments/46_write_closed_tom_md.py': [Errno 2] No such file or directory
+=== done at Tue Jul 28 12:46:50 EDT 2026 ===

@@ -2,97 +2,113 @@
 
 ## Question
 
-Does standard ToM-benchmark performance predict whether a model weights intent in
-graded moral judgment — once the base/instruct (and size) confound is controlled?
+Do models that pass a standard false-belief ToM benchmark still fail to weight
+intent in graded moral judgment?
 
-## Why the all-20 correlation is not a result
+## Finding (primary)
 
-Both axes are proxies for model type. Base models score near floor on BigToM
-because they cannot follow the QA format, and sit near zero on the 2×2 contrast.
-Instruction tuning and scale move both axes. The unrestricted Pearson r
-(e.g. BigToM–contrast ≈ −0.74 over 20 models) demonstrates that confound; it is
-**not reported as a finding**. The three analyses below are.
+Models that pass BigToM false belief at **0.82–0.99** are the same models with
+2×2 contrasts of **−0.37 to −0.65** — outcome-driven, not intent-driven. The
+per-model table and the scatter (BigToM FB × contrast, base/instruct by marker,
+engaged models labelled, **no regression line**) are the deliverable. The
+populated high-FB / negative-contrast region is the dissociation claim.
 
-## Floor policy
+Engagement labels use `rating_std ≥ 0.2191` (engagement floor only;
+correlations keep every model — see `FLOOR_DERIVATION.md`).
 
-Correlation analyses keep **every** model. The derived `rating_std` floor
-(0.2191) is for engagement / anchor counts only — see
-`outputs/stats/FLOOR_DERIVATION.md`. Using it here would select on a variable
-adjacent to the outcome. The fix for the confound is controlling for type, not
-excluding models.
+## BigToM condition: `init_belief=0`
 
-## Ceiling gate
+All BigToM numbers here use the **hard** Forward-Belief variant: sentence 4 of
+each story (the explicit statement of the agent’s initial belief) is dropped, so
+the model must **infer** the belief rather than copy it. That is the
+`init_belief=0` setting from the BigToM generator. Reporting a pass under this
+condition is stronger than a pass when the belief is written out in the prompt.
 
-| benchmark | accuracies (0.5B-I / 14B-I / OLMo-I) | spread | verdict |
-|---|---|---|---|
-| BigToM | 0.520 / 0.882 / 0.850 | 0.362 | spread, proceed |
-| ToMi | 0.482 / 0.512 / 0.818 | 0.335 | spread, proceed |
+## ToMi
 
-## Controlled results
-
-| analysis | ToM measure | estimate | 95% CI | n | reading |
-|---|---|---|---|---|---|
-| (a) instruct only | bigtom|false_belief | -0.473 | [-0.776, +0.513] | 11 | UNINFORMATIVE — interval too wide to exclude a moderate effect either way. Not a null. |
-| (b) OLS with covariates | bigtom|false_belief | -0.310 (β_tom=-0.379, p=0.211) | [-0.612, +0.158] | 20 | NULL, bounded — ToM accuracy does not predict the contrast once controlling for type and log-size are applied. |
-| (c) within-family deltas | bigtom|false_belief | -0.160 | [-0.824, +0.807] | 9 | UNINFORMATIVE — interval too wide to exclude a moderate effect either way. Not a null. |
-| (a) instruct only | bigtom | -0.709 | [-0.931, -0.180] | 11 | NEGATIVE — higher ToM tracks more outcome-driven contrast; check residual confounds before interpreting as a finding. |
-| (b) OLS with covariates | bigtom | -0.588 (β_tom=-0.907, p=0.0103) | [-0.825, -0.176] | 20 | NEGATIVE — higher ToM tracks more outcome-driven contrast; check residual confounds before interpreting as a finding. |
-| (c) within-family deltas | bigtom | -0.762 | [-0.949, -0.307] | 9 | NEGATIVE — higher ToM tracks more outcome-driven contrast; check residual confounds before interpreting as a finding. |
-| (a) instruct only | tomi | -0.650 | [-0.954, -0.058] | 11 | NEGATIVE — higher ToM tracks more outcome-driven contrast; check residual confounds before interpreting as a finding. |
-| (b) OLS with covariates | tomi | -0.343 (β_tom=-0.424, p=0.163) | [-0.688, +0.178] | 20 | NULL, bounded — ToM accuracy does not predict the contrast once controlling for type and log-size are applied. |
-| (c) within-family deltas | tomi | -0.225 | [-0.742, +0.589] | 9 | UNINFORMATIVE — interval too wide to exclude a moderate effect either way. Not a null. |
-
-### Confound demonstration (not a result)
-
-| analysis | ToM measure | r | 95% CI | n |
-|---|---|---|---|---|
-| (confound demo) all models, no controls | bigtom|false_belief | -0.261 | [-0.526, +0.027] | 20 |
-| (confound demo) all models, no controls | bigtom | -0.738 | [-0.841, -0.612] | 20 |
-| (confound demo) all models, no controls | tomi | -0.240 | [-0.710, +0.338] | 20 |
-
-## Within-family deltas (primary measure: BigToM all)
-
-| family | Δ ToM (I−B) | Δ contrast (I−B) | base contrast | instruct contrast |
-|---|---|---|---|---|
-| Qwen2.5-0.5B | +0.008 | -0.051 | +0.000 | -0.050 |
-| Qwen2.5-1.5B | +0.062 | -0.154 | -0.013 | -0.167 |
-| Qwen2.5-3B | +0.000 | -0.199 | -0.048 | -0.247 |
-| Qwen2.5-7B | +0.148 | -0.187 | -0.051 | -0.238 |
-| Qwen2.5-14B | +0.125 | -0.244 | -0.126 | -0.370 |
-| OLMo-2-1124-7B | +0.220 | -0.642 | -0.004 | -0.646 |
-| Mistral-7B-v0.3 | +0.105 | -0.471 | -0.003 | -0.473 |
-| gemma-2-9b | +0.203 | -0.408 | -0.000 | -0.408 |
-| Meta-Llama-3.1-8B | +0.085 | -0.204 | +0.003 | -0.202 |
+ToMi is **not** used in the argument. An audit found the scored 400-item slice is
+82% `no_tom` items; aggregate accuracy is not a false-belief measure. See
+`TOMI_SCORING_AUDIT.md`. Numbers below retain ToMi only for provenance.
 
 ## Per-model table
 
-| model | type | params | BigToM FB | BigToM all | ToMi | contrast |
-|---|---|---|---|---|---|---|
-| Qwen_Qwen2_5-14B-Instruct | instruct | 14.0 | 0.985 | 0.882 | 0.512 | -0.370 |
-| Qwen_Qwen2_5-7B-Instruct | instruct | 7.0 | 0.935 | 0.868 | 0.550 | -0.238 |
-| unsloth_gemma-2-9b-it | instruct | 9.0 | 0.935 | 0.858 | 0.665 | -0.408 |
-| allenai_OLMo-2-1124-7B-Instruct | instruct | 7.3 | 0.890 | 0.850 | 0.818 | -0.646 |
-| mistralai_Mistral-7B-Instruct-v0_3 | instruct | 7.0 | 0.815 | 0.833 | 0.637 | -0.473 |
-| HuggingFaceH4_zephyr-7b-beta | instruct | 7.2 | 0.835 | 0.833 | 0.522 | -0.551 |
-| unsloth_Meta-Llama-3_1-8B-Instruct | instruct | 8.0 | 0.865 | 0.807 | 0.570 | -0.202 |
-| allenai_Llama-3_1-Tulu-3-8B | instruct | 8.0 | 0.855 | 0.805 | 0.757 | -0.401 |
-| Qwen_Qwen2_5-14B | base | 14.0 | 0.940 | 0.757 | 0.542 | -0.126 |
-| mistralai_Mistral-7B-v0_3 | base | 7.0 | 0.800 | 0.728 | 0.620 | -0.003 |
-| unsloth_Meta-Llama-3_1-8B | base | 8.0 | 0.835 | 0.723 | 0.728 | 0.003 |
-| Qwen_Qwen2_5-7B | base | 7.0 | 0.935 | 0.720 | 0.520 | -0.051 |
-| Qwen_Qwen2_5-3B | base | 3.0 | 0.795 | 0.675 | 0.537 | -0.048 |
-| Qwen_Qwen2_5-3B-Instruct | instruct | 3.0 | 0.920 | 0.675 | 0.540 | -0.247 |
-| unsloth_gemma-2-9b | base | 9.0 | 0.925 | 0.655 | 0.745 | -0.000 |
-| allenai_OLMo-2-1124-7B | base | 7.3 | 0.930 | 0.630 | 0.757 | -0.004 |
-| Qwen_Qwen2_5-1_5B-Instruct | instruct | 5.0 | 0.545 | 0.608 | 0.550 | -0.167 |
-| Qwen_Qwen2_5-1_5B | base | 5.0 | 0.625 | 0.545 | 0.492 | -0.013 |
-| Qwen_Qwen2_5-0_5B-Instruct | instruct | 5.0 | 0.635 | 0.520 | 0.482 | -0.050 |
-| Qwen_Qwen2_5-0_5B | base | 5.0 | 0.775 | 0.512 | 0.505 | 0.000 |
+| model | type | engaged | BigToM FB | contrast |
+|---|---|---|---:|---:|
+| Qwen_Qwen2_5-14B-Instruct | instruct | yes | 0.985 | -0.370 |
+| Qwen_Qwen2_5-14B | base | no | 0.940 | -0.126 |
+| unsloth_gemma-2-9b-it | instruct | yes | 0.935 | -0.408 |
+| Qwen_Qwen2_5-7B-Instruct | instruct | no | 0.935 | -0.238 |
+| Qwen_Qwen2_5-7B | base | no | 0.935 | -0.051 |
+| allenai_OLMo-2-1124-7B | base | no | 0.930 | -0.004 |
+| unsloth_gemma-2-9b | base | no | 0.925 | -0.000 |
+| Qwen_Qwen2_5-3B-Instruct | instruct | no | 0.920 | -0.247 |
+| allenai_OLMo-2-1124-7B-Instruct | instruct | yes | 0.890 | -0.646 |
+| unsloth_Meta-Llama-3_1-8B-Instruct | instruct | no | 0.865 | -0.202 |
+| allenai_Llama-3_1-Tulu-3-8B | instruct | yes | 0.855 | -0.401 |
+| HuggingFaceH4_zephyr-7b-beta | instruct | yes | 0.835 | -0.551 |
+| unsloth_Meta-Llama-3_1-8B | base | no | 0.835 | +0.003 |
+| mistralai_Mistral-7B-Instruct-v0_3 | instruct | yes | 0.815 | -0.473 |
+| mistralai_Mistral-7B-v0_3 | base | no | 0.800 | -0.003 |
+| Qwen_Qwen2_5-3B | base | no | 0.795 | -0.048 |
+| Qwen_Qwen2_5-0_5B | base | no | 0.775 | +0.000 |
+| Qwen_Qwen2_5-0_5B-Instruct | instruct | no | 0.635 | -0.050 |
+| Qwen_Qwen2_5-1_5B | base | no | 0.625 | -0.013 |
+| Qwen_Qwen2_5-1_5B-Instruct | instruct | no | 0.545 | -0.167 |
+
+### Finding quadrant (FB ≥ 0.82 and contrast ≤ −0.37)
+
+| model | BigToM FB | contrast |
+|---|---:|---:|
+| allenai_OLMo-2-1124-7B-Instruct | 0.890 | -0.646 |
+| HuggingFaceH4_zephyr-7b-beta | 0.835 | -0.551 |
+| unsloth_gemma-2-9b-it | 0.935 | -0.408 |
+| allenai_Llama-3_1-Tulu-3-8B | 0.855 | -0.401 |
+
+## Scatter
+
+`tom_vs_contrast.png` — x = BigToM false-belief (`init_belief=0`), y = contrast,
+marker = base vs instruct, labels = engaged models only, **no regression line**.
+
+## Why the all-model correlation is not a result
+
+Both axes proxy model type. Base models often struggle with the BigToM QA format
+and sit near zero on contrast; instruction tuning moves both. The unrestricted
+Pearson r on BigToM-all over 20 models is **r = -0.738** [-0.841, -0.612] — a **confound demonstration**, not a finding.
+On BigToM false belief alone the raw r is -0.261 [-0.526, +0.027]. Do not cite either as the result; cite the table.
+
+## Secondary controlled analyses (BigToM FB only)
+
+Kept for completeness after the table. These are not the headline.
+
+| analysis | estimate | 95% CI | n |
+|---|---|---|---|
+| (a) instruct only | r = -0.473 | [-0.776, +0.513] | 11 |
+| (b) OLS with covariates | partial r = -0.310 (β_tom=-0.379, p=0.211) | [-0.612, +0.158] | 20 |
+| (c) within-family deltas | r = -0.160 | [-0.824, +0.807] | 9 |
+
+## Within-family deltas (BigToM FB)
+
+| family | Δ ToM (I−B) | Δ contrast (I−B) |
+|---|---|---|
+| Qwen2.5-0.5B | -0.140 | -0.051 |
+| Qwen2.5-1.5B | -0.080 | -0.154 |
+| Qwen2.5-3B | +0.125 | -0.199 |
+| Qwen2.5-7B | +0.000 | -0.187 |
+| Qwen2.5-14B | +0.045 | -0.244 |
+| OLMo-2-1124-7B | -0.040 | -0.642 |
+| Mistral-7B-v0.3 | +0.015 | -0.471 |
+| gemma-2-9b | +0.010 | -0.408 |
+| Meta-Llama-3.1-8B | +0.030 | -0.204 |
+
+## Closed models
+
+Closed-API BigToM (generative) is reported in
+`tom_accuracy_by_model_generative.csv` / `CLOSED_TOM.md` when available.
+**Do not correlate** closed ToM accuracy against their moral contrasts — those
+contrasts are still v1-contaminated. Standalone ToM numbers only.
 
 ## Reading
 
-Report (a), (b), and (c). If all three are null or negative, ToM-benchmark
-performance does not predict intent-weighting in moral judgment once type is
-held constant — the dissociation is measured on our own models. A positive
-result under (a)/(b) or a positive delta–delta under (c) would weaken that claim.
-Do not cite the all-20 r.
+Lead with the table and scatter. Models that clear hard false belief still produce
+strongly outcome-driven moral contrasts. That is the dissociation measured on our
+own open-weight roster under `init_belief=0`.

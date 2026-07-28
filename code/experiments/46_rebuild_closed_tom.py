@@ -8,6 +8,10 @@ import os
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = os.path.join(ROOT, "outputs", "tom_benchmarks")
 
+# Full BigToM slice per model. A model scored on fewer items was interrupted, and the
+# report must say so rather than presenting a partial accuracy as a finished run.
+FULL_N = 400
+
 
 def main():
     rows_out = []
@@ -17,6 +21,17 @@ def main():
             continue
         model = items[0].get("model") or os.path.basename(path)
         backend = items[0].get("backend", "")
+        # A row with no response text was never scored -- an API error, a quota block, or an
+        # interrupted run. Counting those as wrong answers turned a 234-item Gemini Pro run
+        # into a "complete" 400-item run at 0.570, so drop them and let the partial-run
+        # flag report the real denominator.
+        n_raw = len(items)
+        items = [r for r in items if (r.get("response") or "").strip()]
+        if len(items) < n_raw:
+            print(f"  {os.path.basename(path)}: dropped {n_raw - len(items)} unanswered "
+                  f"rows (no response text)")
+        if not items:
+            continue
         agg = collections.defaultdict(lambda: [0, 0, 0])
         for r in items:
             for key in (r["bench"], f"{r['bench']}|{r['subset']}"):
@@ -53,9 +68,10 @@ def main():
         "**Do not correlate** these accuracies against closed-model moral contrasts —",
         "those contrasts are still v1-contaminated. Report ToM standalone only.",
         "",
-        "| model | backend | n | BigToM all | BigToM FB | BigToM TB | parse rate |",
-        "|---|---|---:|---:|---:|---:|---:|",
+        "| model | backend | n | BigToM all | BigToM FB | BigToM TB | parse rate | run |",
+        "|---|---|---:|---:|---:|---:|---:|---|",
     ]
+    partials = []
     for model, d in by_model.items():
         allr = d.get("bigtom")
         fb = d.get("bigtom|false_belief")
@@ -64,10 +80,23 @@ def main():
             continue
         fb_a = fb[4] if fb else float("nan")
         tb_a = tb[4] if tb else float("nan")
+        complete = allr[3] >= FULL_N
+        if not complete:
+            partials.append((model, allr[3]))
         lines.append(
             f"| {model} | {allr[6]} | {allr[3]} | {allr[4]:.3f} | "
-            f"{fb_a:.3f} | {tb_a:.3f} | {allr[5]:.3f} |"
+            f"{fb_a:.3f} | {tb_a:.3f} | {allr[5]:.3f} | "
+            f"{'complete' if complete else f'**PARTIAL {allr[3]}/{FULL_N}**'} |"
         )
+    if partials:
+        lines += [
+            "",
+            "**Partial runs.** " + "; ".join(f"`{m}` scored {n}/{FULL_N} items"
+                                            for m, n in partials) +
+            ". These accuracies are computed on the items completed, so they carry wider "
+            "sampling error than the full runs and the item mix may not be balanced "
+            "across subsets. Treat them as provisional until the run finishes.",
+        ]
 
     agree = os.path.join(OUT, "tom_scoring_agreement.csv")
     if os.path.exists(agree):

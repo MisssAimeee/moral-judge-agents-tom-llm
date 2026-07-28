@@ -1,0 +1,225 @@
+=== Job 19092342 on node1704 at Tue Jul 28 13:36:02 EDT 2026 ===
+Tue Jul 28 13:36:02 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:C4:00.0 Off |                    0 |
+| N/A   33C    P8             34W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+CUDA: True
+
+================ allenai/OLMo-2-1124-7B-Instruct ================
+  pre-spec already exists, leaving untouched: outputs/experiments/W3_PRESPEC.md
+  298 stories, 53 scenario groups
+Loading allenai/OLMo-2-1124-7B-Instruct ...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+[transformers] The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading weights:   0%|          | 0/355 [00:00<?, ?it/s]Loading weights:   0%|          | 1/355 [00:00<01:16,  4.62it/s]Loading weights:   6%|▋         | 23/355 [00:00<00:03, 88.38it/s]Loading weights:  13%|█▎        | 46/355 [00:00<00:02, 132.71it/s]Loading weights:  19%|█▉        | 68/355 [00:00<00:01, 156.84it/s]Loading weights:  25%|██▌       | 89/355 [00:00<00:01, 172.94it/s]Loading weights:  30%|███       | 108/355 [00:00<00:01, 176.62it/s]Loading weights:  37%|███▋      | 131/355 [00:00<00:01, 185.68it/s]Loading weights:  43%|████▎     | 153/355 [00:00<00:01, 188.76it/s]Loading weights:  49%|████▊     | 173/355 [00:01<00:00, 189.45it/s]Loading weights:  54%|█████▍    | 193/355 [00:01<00:00, 188.93it/s]Loading weights:  60%|██████    | 213/355 [00:01<00:00, 187.11it/s]Loading weights:  66%|██████▌   | 234/355 [00:01<00:00, 189.51it/s]Loading weights:  73%|███████▎  | 258/355 [00:01<00:00, 201.35it/s]Loading weights:  79%|███████▊  | 279/355 [00:01<00:00, 199.90it/s]Loading weights:  85%|████████▍ | 300/355 [00:01<00:00, 202.21it/s]Loading weights:  90%|█████████ | 321/355 [00:01<00:00, 202.95it/s]Loading weights:  96%|█████████▋| 342/355 [00:01<00:00, 196.70it/s]Loading weights: 100%|██████████| 355/355 [00:01<00:00, 180.39it/s]
+  digit tokens distinct: 10 of 10
+  32 layers; steering hidden_states[16] (output of decoder block 15) -- probe peak in OLMo-2-1124-7B-Instruct_probe.csv (pooling=last, cv_acc=0.850)
+  collecting last-token residuals at L16 ...
+  typical residual norm @L16 = 12.3
+  probe cv_acc at L16: intent=0.846  outcome=0.993
+  cos(dom, probe): intent=+0.514 outcome=+0.688; cos(intent_dom, outcome_dom)=+0.389
+  baseline: contrast=-0.4452 (n_pairs=48) ppl=10.86 refusal=0.00 degen=1.00
+    cells: neutral=0.119  accidental=0.761  attempted=0.310  intentional=0.740
+  calibrating alpha grid on perplexity (intent_dom direction) ...
+    calib alpha=+0.010  ppl_ratio=1.00  <= bound
+    calib alpha=+0.020  ppl_ratio=1.00  <= bound
+    calib alpha=+0.050  ppl_ratio=1.01  <= bound
+    calib alpha=+0.100  ppl_ratio=1.15  <= bound
+    calib alpha=+0.200  ppl_ratio=1.26  <= bound
+    calib alpha=+0.400  ppl_ratio=2.40  OVER bound
+  a_max=+0.2000 (largest rung within 1.5x ppl); sweep grid: [-0.3, -0.2, -0.15, -0.1, -0.05, -0.025, 0.0, 0.025, 0.05, 0.1, 0.15, 0.2, 0.3]
+    intent_dom     a=-0.30  contrast=-0.5189 (d=-0.0737)  ppl_ratio=1.89  coherent=N
+    intent_dom     a=-0.20  contrast=-0.4770 (d=-0.0318)  ppl_ratio=1.84  coherent=N
+    intent_dom     a=-0.15  contrast=-0.4836 (d=-0.0384)  ppl_ratio=1.20  coherent=N
+    intent_dom     a=-0.10  contrast=-0.4698 (d=-0.0246)  ppl_ratio=1.07  coherent=N
+    intent_dom     a=-0.05  contrast=-0.4597 (d=-0.0145)  ppl_ratio=0.99  coherent=N
+    intent_dom     a=-0.03  contrast=-0.4527 (d=-0.0075)  ppl_ratio=1.00  coherent=N
+    intent_dom     a=+0.03  contrast=-0.4363 (d=+0.0089)  ppl_ratio=1.00  coherent=N
+    intent_dom     a=+0.05  contrast=-0.4261 (d=+0.0191)  ppl_ratio=1.01  coherent=N
+    intent_dom     a=+0.10  contrast=-0.3997 (d=+0.0455)  ppl_ratio=1.15  coherent=N
+    intent_dom     a=+0.15  contrast=-0.3932 (d=+0.0520)  ppl_ratio=1.23  coherent=N
+    intent_dom     a=+0.20  contrast=-0.3645 (d=+0.0807)  ppl_ratio=1.26  coherent=N
+    intent_dom     a=+0.30  contrast=-0.2600 (d=+0.1852)  ppl_ratio=2.00  coherent=N
+    intent_probe   a=-0.30  contrast=-0.4580 (d=-0.0128)  ppl_ratio=1.43  coherent=N
+    intent_probe   a=-0.20  contrast=-0.4511 (d=-0.0059)  ppl_ratio=1.06  coherent=N
+    intent_probe   a=-0.15  contrast=-0.4422 (d=+0.0030)  ppl_ratio=1.07  coherent=N
+    intent_probe   a=-0.10  contrast=-0.4470 (d=-0.0018)  ppl_ratio=0.92  coherent=N
+    intent_probe   a=-0.05  contrast=-0.4447 (d=+0.0005)  ppl_ratio=0.97  coherent=N
+    intent_probe   a=-0.03  contrast=-0.4446 (d=+0.0006)  ppl_ratio=0.98  coherent=N
+    intent_probe   a=+0.03  contrast=-0.4465 (d=-0.0013)  ppl_ratio=1.02  coherent=N
+    intent_probe   a=+0.05  contrast=-0.4478 (d=-0.0026)  ppl_ratio=1.03  coherent=N
+    intent_probe   a=+0.10  contrast=-0.4500 (d=-0.0048)  ppl_ratio=1.06  coherent=N
+    intent_probe   a=+0.15  contrast=-0.4429 (d=+0.0023)  ppl_ratio=1.17  coherent=N
+    intent_probe   a=+0.20  contrast=-0.4372 (d=+0.0080)  ppl_ratio=1.38  coherent=N
+    intent_probe   a=+0.30  contrast=-0.4383 (d=+0.0069)  ppl_ratio=1.41  coherent=N
+    outcome_dom    a=-0.30  contrast=-0.3326 (d=+0.1126)  ppl_ratio=2.06  coherent=N
+    outcome_dom    a=-0.20  contrast=-0.3004 (d=+0.1448)  ppl_ratio=1.45  coherent=Y
+    outcome_dom    a=-0.15  contrast=-0.3449 (d=+0.1003)  ppl_ratio=1.25  coherent=Y
+    outcome_dom    a=-0.10  contrast=-0.4196 (d=+0.0256)  ppl_ratio=1.16  coherent=Y
+    outcome_dom    a=-0.05  contrast=-0.4403 (d=+0.0049)  ppl_ratio=1.00  coherent=Y
+    outcome_dom    a=-0.03  contrast=-0.4470 (d=-0.0018)  ppl_ratio=1.00  coherent=Y
+    outcome_dom    a=+0.03  contrast=-0.4288 (d=+0.0164)  ppl_ratio=1.00  coherent=Y
+    outcome_dom    a=+0.05  contrast=-0.4031 (d=+0.0421)  ppl_ratio=1.00  coherent=Y
+    outcome_dom    a=+0.10  contrast=-0.3260 (d=+0.1192)  ppl_ratio=1.04  coherent=Y
+    outcome_dom    a=+0.15  contrast=-0.2895 (d=+0.1557)  ppl_ratio=1.23  coherent=Y
+    outcome_dom    a=+0.20  contrast=-0.2133 (d=+0.2319)  ppl_ratio=1.12  coherent=Y
+    outcome_dom    a=+0.30  contrast=-0.0491 (d=+0.3961)  ppl_ratio=2.38  coherent=N
+    outcome_probe  a=-0.30  contrast=-0.3308 (d=+0.1144)  ppl_ratio=2.26  coherent=N
+    outcome_probe  a=-0.20  contrast=-0.3645 (d=+0.0807)  ppl_ratio=1.21  coherent=Y
+    outcome_probe  a=-0.15  contrast=-0.4411 (d=+0.0041)  ppl_ratio=1.29  coherent=Y
+    outcome_probe  a=-0.10  contrast=-0.4470 (d=-0.0018)  ppl_ratio=0.96  coherent=Y
+    outcome_probe  a=-0.05  contrast=-0.4482 (d=-0.0030)  ppl_ratio=0.97  coherent=Y
+    outcome_probe  a=-0.03  contrast=-0.4483 (d=-0.0031)  ppl_ratio=0.99  coherent=Y
+    outcome_probe  a=+0.03  contrast=-0.4366 (d=+0.0086)  ppl_ratio=1.02  coherent=Y
+    outcome_probe  a=+0.05  contrast=-0.4219 (d=+0.0233)  ppl_ratio=1.04  coherent=Y
+    outcome_probe  a=+0.10  contrast=-0.3834 (d=+0.0618)  ppl_ratio=1.09  coherent=Y
+    outcome_probe  a=+0.15  contrast=-0.3259 (d=+0.1193)  ppl_ratio=1.34  coherent=Y
+    outcome_probe  a=+0.20  contrast=-0.2839 (d=+0.1613)  ppl_ratio=1.39  coherent=Y
+    outcome_probe  a=+0.30  contrast=-0.1725 (d=+0.2727)  ppl_ratio=1.77  coherent=N
+    random0        a=-0.30  contrast=-0.2370 (d=+0.2082)  ppl_ratio=1.85  coherent=N
+    random0        a=-0.20  contrast=-0.3725 (d=+0.0727)  ppl_ratio=1.20  coherent=Y
+    random0        a=-0.15  contrast=-0.4034 (d=+0.0418)  ppl_ratio=1.00  coherent=Y
+    random0        a=-0.10  contrast=-0.4337 (d=+0.0115)  ppl_ratio=0.98  coherent=Y
+    random0        a=-0.05  contrast=-0.4441 (d=+0.0011)  ppl_ratio=0.99  coherent=Y
+    random0        a=-0.03  contrast=-0.4450 (d=+0.0002)  ppl_ratio=0.99  coherent=Y
+    random0        a=+0.03  contrast=-0.4448 (d=+0.0004)  ppl_ratio=1.01  coherent=Y
+    random0        a=+0.05  contrast=-0.4445 (d=+0.0007)  ppl_ratio=1.01  coherent=Y
+    random0        a=+0.10  contrast=-0.4442 (d=+0.0010)  ppl_ratio=1.03  coherent=Y
+    random0        a=+0.15  contrast=-0.4535 (d=-0.0083)  ppl_ratio=1.07  coherent=Y
+    random0        a=+0.20  contrast=-0.4673 (d=-0.0221)  ppl_ratio=1.10  coherent=Y
+    random0        a=+0.30  contrast=-0.4586 (d=-0.0134)  ppl_ratio=1.42  coherent=N
+    random1        a=-0.30  contrast=-0.4107 (d=+0.0345)  ppl_ratio=1.54  coherent=N
+    random1        a=-0.20  contrast=-0.4736 (d=-0.0284)  ppl_ratio=1.05  coherent=Y
+    random1        a=-0.15  contrast=-0.4796 (d=-0.0344)  ppl_ratio=1.05  coherent=Y
+    random1        a=-0.10  contrast=-0.4748 (d=-0.0296)  ppl_ratio=1.01  coherent=Y
+    random1        a=-0.05  contrast=-0.4629 (d=-0.0177)  ppl_ratio=1.00  coherent=Y
+    random1        a=-0.03  contrast=-0.4550 (d=-0.0098)  ppl_ratio=1.00  coherent=Y
+    random1        a=+0.03  contrast=-0.4340 (d=+0.0112)  ppl_ratio=1.00  coherent=Y
+    random1        a=+0.05  contrast=-0.4214 (d=+0.0238)  ppl_ratio=1.01  coherent=Y
+    random1        a=+0.10  contrast=-0.3952 (d=+0.0500)  ppl_ratio=1.02  coherent=Y
+    random1        a=+0.15  contrast=-0.3708 (d=+0.0744)  ppl_ratio=1.02  coherent=Y
+    random1        a=+0.20  contrast=-0.3567 (d=+0.0885)  ppl_ratio=1.16  coherent=Y
+    random1        a=+0.30  contrast=-0.3212 (d=+0.1240)  ppl_ratio=1.33  coherent=N
+
+wrote outputs/experiments/w3_steering_OLMo-2-1124-7B-Instruct.csv
+  NO non-zero alpha met the coherence bounds — no causal claim supportable
+wrote outputs/experiments/w3_steering_OLMo-2-1124-7B-Instruct.png
+wrote outputs/experiments/W3_STEERING_OLMo-2-1124-7B-Instruct.md
+
+================ Qwen/Qwen2.5-7B-Instruct ================
+  pre-spec already exists, leaving untouched: outputs/experiments/W3_PRESPEC.md
+  298 stories, 53 scenario groups
+Loading Qwen/Qwen2.5-7B-Instruct ...
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+[transformers] The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   0%|          | 1/339 [00:00<01:48,  3.10it/s]Loading weights:   8%|▊         | 28/339 [00:00<00:03, 78.87it/s]Loading weights:  12%|█▏        | 41/339 [00:00<00:03, 92.37it/s]Loading weights:  19%|█▉        | 65/339 [00:00<00:02, 132.16it/s]Loading weights:  25%|██▍       | 84/339 [00:00<00:01, 144.18it/s]Loading weights:  30%|██▉       | 101/339 [00:00<00:01, 144.05it/s]Loading weights:  37%|███▋      | 125/339 [00:01<00:01, 156.23it/s]Loading weights:  46%|████▋     | 157/339 [00:01<00:00, 192.02it/s]Loading weights:  53%|█████▎    | 178/339 [00:01<00:00, 194.52it/s]Loading weights:  59%|█████▊    | 199/339 [00:01<00:00, 175.87it/s]Loading weights:  65%|██████▍   | 220/339 [00:01<00:00, 183.40it/s]Loading weights:  71%|███████▏  | 242/339 [00:01<00:00, 193.02it/s]Loading weights:  77%|███████▋  | 262/339 [00:01<00:00, 188.91it/s]Loading weights:  83%|████████▎ | 282/339 [00:01<00:00, 187.70it/s]Loading weights:  89%|████████▉ | 302/339 [00:01<00:00, 184.75it/s]Loading weights:  96%|█████████▌| 326/339 [00:02<00:00, 186.60it/s]Loading weights: 100%|██████████| 339/339 [00:02<00:00, 162.56it/s]
+  digit tokens distinct: 9 of 9
+  28 layers; steering hidden_states[19] (output of decoder block 18) -- probe peak in Qwen2.5-7B-Instruct_probe.csv (pooling=last, cv_acc=0.879)
+  collecting last-token residuals at L19 ...
+  typical residual norm @L19 = 79.8
+  probe cv_acc at L19: intent=0.869  outcome=0.987
+  cos(dom, probe): intent=+0.354 outcome=+0.635; cos(intent_dom, outcome_dom)=+0.319
+  baseline: contrast=-0.2667 (n_pairs=48) ppl=11.84 refusal=0.00 degen=1.00
+    cells: neutral=0.311  accidental=0.803  attempted=0.540  intentional=0.761
+  calibrating alpha grid on perplexity (intent_dom direction) ...
+    calib alpha=+0.010  ppl_ratio=1.01  <= bound
+    calib alpha=+0.020  ppl_ratio=1.02  <= bound
+    calib alpha=+0.050  ppl_ratio=1.04  <= bound
+    calib alpha=+0.100  ppl_ratio=1.09  <= bound
+    calib alpha=+0.200  ppl_ratio=1.17  <= bound
+    calib alpha=+0.400  ppl_ratio=1.51  OVER bound
+  a_max=+0.2000 (largest rung within 1.5x ppl); sweep grid: [-0.3, -0.2, -0.15, -0.1, -0.05, -0.025, 0.0, 0.025, 0.05, 0.1, 0.15, 0.2, 0.3]
+    intent_dom     a=-0.30  contrast=-0.4022 (d=-0.1356)  ppl_ratio=0.95  coherent=N
+    intent_dom     a=-0.20  contrast=-0.3052 (d=-0.0385)  ppl_ratio=0.93  coherent=N
+    intent_dom     a=-0.15  contrast=-0.3012 (d=-0.0346)  ppl_ratio=0.93  coherent=N
+    intent_dom     a=-0.10  contrast=-0.3067 (d=-0.0400)  ppl_ratio=0.94  coherent=N
+    intent_dom     a=-0.05  contrast=-0.2980 (d=-0.0314)  ppl_ratio=0.96  coherent=N
+    intent_dom     a=-0.03  contrast=-0.2851 (d=-0.0184)  ppl_ratio=0.98  coherent=N
+    intent_dom     a=+0.03  contrast=-0.2449 (d=+0.0218)  ppl_ratio=1.02  coherent=N
+    intent_dom     a=+0.05  contrast=-0.2176 (d=+0.0491)  ppl_ratio=1.04  coherent=N
+    intent_dom     a=+0.10  contrast=-0.1517 (d=+0.1149)  ppl_ratio=1.09  coherent=N
+    intent_dom     a=+0.15  contrast=-0.1082 (d=+0.1585)  ppl_ratio=1.13  coherent=N
+    intent_dom     a=+0.20  contrast=-0.0636 (d=+0.2031)  ppl_ratio=1.17  coherent=N
+    intent_dom     a=+0.30  contrast=-0.0416 (d=+0.2251)  ppl_ratio=1.31  coherent=N
+    intent_probe   a=-0.30  contrast=-0.2511 (d=+0.0155)  ppl_ratio=0.97  coherent=N
+    intent_probe   a=-0.20  contrast=-0.2578 (d=+0.0089)  ppl_ratio=0.94  coherent=N
+    intent_probe   a=-0.15  contrast=-0.2601 (d=+0.0066)  ppl_ratio=0.94  coherent=N
+    intent_probe   a=-0.10  contrast=-0.2621 (d=+0.0046)  ppl_ratio=0.95  coherent=N
+    intent_probe   a=-0.05  contrast=-0.2643 (d=+0.0023)  ppl_ratio=0.97  coherent=N
+    intent_probe   a=-0.03  contrast=-0.2649 (d=+0.0018)  ppl_ratio=0.99  coherent=N
+    intent_probe   a=+0.03  contrast=-0.2677 (d=-0.0010)  ppl_ratio=1.01  coherent=N
+    intent_probe   a=+0.05  contrast=-0.2686 (d=-0.0019)  ppl_ratio=1.03  coherent=N
+    intent_probe   a=+0.10  contrast=-0.2707 (d=-0.0041)  ppl_ratio=1.06  coherent=N
+    intent_probe   a=+0.15  contrast=-0.2715 (d=-0.0048)  ppl_ratio=1.09  coherent=N
+    intent_probe   a=+0.20  contrast=-0.2707 (d=-0.0040)  ppl_ratio=1.13  coherent=N
+    intent_probe   a=+0.30  contrast=-0.2610 (d=+0.0056)  ppl_ratio=1.21  coherent=N
+    outcome_dom    a=-0.30  contrast=-0.1586 (d=+0.1080)  ppl_ratio=1.03  coherent=N
+    outcome_dom    a=-0.20  contrast=-0.1362 (d=+0.1305)  ppl_ratio=0.99  coherent=Y
+    outcome_dom    a=-0.15  contrast=-0.1410 (d=+0.1256)  ppl_ratio=0.98  coherent=Y
+    outcome_dom    a=-0.10  contrast=-0.1868 (d=+0.0798)  ppl_ratio=0.98  coherent=Y
+    outcome_dom    a=-0.05  contrast=-0.2602 (d=+0.0065)  ppl_ratio=0.98  coherent=Y
+    outcome_dom    a=-0.03  contrast=-0.2784 (d=-0.0117)  ppl_ratio=0.99  coherent=Y
+    outcome_dom    a=+0.03  contrast=-0.2359 (d=+0.0308)  ppl_ratio=1.01  coherent=Y
+    outcome_dom    a=+0.05  contrast=-0.1862 (d=+0.0804)  ppl_ratio=1.02  coherent=Y
+    outcome_dom    a=+0.10  contrast=-0.0904 (d=+0.1762)  ppl_ratio=1.03  coherent=Y
+    outcome_dom    a=+0.15  contrast=-0.0756 (d=+0.1911)  ppl_ratio=1.03  coherent=Y
+    outcome_dom    a=+0.20  contrast=-0.0599 (d=+0.2068)  ppl_ratio=1.02  coherent=Y
+    outcome_dom    a=+0.30  contrast=-0.0074 (d=+0.2592)  ppl_ratio=1.00  coherent=N
+    outcome_probe  a=-0.30  contrast=-0.0649 (d=+0.2017)  ppl_ratio=0.97  coherent=N
+    outcome_probe  a=-0.20  contrast=-0.1198 (d=+0.1469)  ppl_ratio=0.99  coherent=Y
+    outcome_probe  a=-0.15  contrast=-0.1680 (d=+0.0987)  ppl_ratio=0.99  coherent=Y
+    outcome_probe  a=-0.10  contrast=-0.2267 (d=+0.0400)  ppl_ratio=1.00  coherent=Y
+    outcome_probe  a=-0.05  contrast=-0.2646 (d=+0.0021)  ppl_ratio=1.00  coherent=Y
+    outcome_probe  a=-0.03  contrast=-0.2687 (d=-0.0021)  ppl_ratio=1.00  coherent=Y
+    outcome_probe  a=+0.03  contrast=-0.2600 (d=+0.0066)  ppl_ratio=1.00  coherent=Y
+    outcome_probe  a=+0.05  contrast=-0.2480 (d=+0.0186)  ppl_ratio=1.00  coherent=Y
+    outcome_probe  a=+0.10  contrast=-0.2090 (d=+0.0577)  ppl_ratio=1.00  coherent=Y
+    outcome_probe  a=+0.15  contrast=-0.1642 (d=+0.1025)  ppl_ratio=1.00  coherent=Y
+    outcome_probe  a=+0.20  contrast=-0.1304 (d=+0.1363)  ppl_ratio=1.00  coherent=Y
+    outcome_probe  a=+0.30  contrast=-0.0953 (d=+0.1714)  ppl_ratio=1.02  coherent=N
+    random0        a=-0.30  contrast=-0.2756 (d=-0.0090)  ppl_ratio=1.04  coherent=N
+    random0        a=-0.20  contrast=-0.2752 (d=-0.0086)  ppl_ratio=1.01  coherent=Y
+    random0        a=-0.15  contrast=-0.2733 (d=-0.0066)  ppl_ratio=1.00  coherent=Y
+    random0        a=-0.10  contrast=-0.2715 (d=-0.0049)  ppl_ratio=1.00  coherent=Y
+    random0        a=-0.05  contrast=-0.2692 (d=-0.0025)  ppl_ratio=1.00  coherent=Y
+    random0        a=-0.03  contrast=-0.2679 (d=-0.0012)  ppl_ratio=1.00  coherent=Y
+    random0        a=+0.03  contrast=-0.2653 (d=+0.0014)  ppl_ratio=1.00  coherent=Y
+    random0        a=+0.05  contrast=-0.2640 (d=+0.0027)  ppl_ratio=1.01  coherent=Y
+    random0        a=+0.10  contrast=-0.2616 (d=+0.0051)  ppl_ratio=1.02  coherent=Y
+    random0        a=+0.15  contrast=-0.2588 (d=+0.0079)  ppl_ratio=1.03  coherent=Y
+    random0        a=+0.20  contrast=-0.2557 (d=+0.0109)  ppl_ratio=1.04  coherent=Y
+    random0        a=+0.30  contrast=-0.2460 (d=+0.0207)  ppl_ratio=1.07  coherent=N
+    random1        a=-0.30  contrast=-0.2133 (d=+0.0534)  ppl_ratio=1.09  coherent=N
+    random1        a=-0.20  contrast=-0.2352 (d=+0.0315)  ppl_ratio=1.06  coherent=Y
+    random1        a=-0.15  contrast=-0.2443 (d=+0.0223)  ppl_ratio=1.05  coherent=Y
+    random1        a=-0.10  contrast=-0.2525 (d=+0.0141)  ppl_ratio=1.03  coherent=Y
+    random1        a=-0.05  contrast=-0.2595 (d=+0.0072)  ppl_ratio=1.01  coherent=Y
+    random1        a=-0.03  contrast=-0.2631 (d=+0.0035)  ppl_ratio=1.01  coherent=Y
+    random1        a=+0.03  contrast=-0.2699 (d=-0.0032)  ppl_ratio=0.99  coherent=Y
+    random1        a=+0.05  contrast=-0.2732 (d=-0.0066)  ppl_ratio=0.99  coherent=Y
+    random1        a=+0.10  contrast=-0.2792 (d=-0.0125)  ppl_ratio=0.98  coherent=Y
+    random1        a=+0.15  contrast=-0.2840 (d=-0.0173)  ppl_ratio=0.96  coherent=Y
+    random1        a=+0.20  contrast=-0.2869 (d=-0.0202)  ppl_ratio=0.95  coherent=Y
+    random1        a=+0.30  contrast=-0.2844 (d=-0.0177)  ppl_ratio=0.93  coherent=N
+
+wrote outputs/experiments/w3_steering_Qwen2.5-7B-Instruct.csv
+  NO non-zero alpha met the coherence bounds — no causal claim supportable
+wrote outputs/experiments/w3_steering_Qwen2.5-7B-Instruct.png
+wrote outputs/experiments/W3_STEERING_Qwen2.5-7B-Instruct.md
+=== done at Tue Jul 28 13:51:42 EDT 2026 ===

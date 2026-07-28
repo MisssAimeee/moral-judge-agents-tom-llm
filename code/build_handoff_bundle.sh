@@ -52,6 +52,25 @@ take outputs/analysis/interaction_regression.csv
 take outputs/experiments/checkpoint_dissection.csv
 take outputs/experiments/checkpoint_dissection_writeup.md
 take outputs/experiments/CHECKPOINT_DISSECTION.md
+take outputs/experiments/CHECKPOINT_STAGE_SHARES.md
+take outputs/experiments/checkpoint_stage_shares.csv
+
+# Hand-maintained status table. It used to live inside $DEST, where the wipe at the top
+# deleted it on every rebuild; its source of truth is now outside the bundle.
+take outputs/RUN_STATUS.md
+
+# W3 causal steering
+take outputs/experiments/W3_PRESPEC.md
+take outputs/experiments/W3_STEERING_SUMMARY.md
+for m in OLMo-2-1124-7B-Instruct Qwen2.5-7B-Instruct; do
+  take "outputs/experiments/W3_STEERING_${m}.md"
+  take "outputs/experiments/w3_steering_${m}.csv"
+  take "outputs/experiments/w3_steering_${m}.png"
+  take "outputs/experiments/w3_steering_directions_${m}.csv"
+  take "outputs/experiments/w3_calibration_${m}.csv"
+  take "outputs/experiments/w3_generations_${m}.txt"
+done
+take outputs/MENTOR_PACKET.md
 take outputs/experiments/mini_dissection.csv
 take outputs/stats/mixed_effects_2x2.csv
 take outputs/stats/MIXED_EFFECTS_2x2.md

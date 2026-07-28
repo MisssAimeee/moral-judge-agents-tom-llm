@@ -34,35 +34,35 @@ ToMi is **not** used in the argument. An audit found the scored 400-item slice i
 
 | model | type | engaged | BigToM FB | contrast |
 |---|---|---|---:|---:|
-| Qwen-Qwen2-5-14B-Instruct | instruct | yes | 0.985 | -0.370 |
-| unsloth-gemma-2-9b-it | instruct | yes | 0.935 | -0.408 |
-| allenai-OLMo-2-1124-7B-Instruct | instruct | yes | 0.890 | -0.646 |
-| allenai-Llama-3-1-Tulu-3-8B | instruct | yes | 0.855 | -0.401 |
-| HuggingFaceH4-zephyr-7b-beta | instruct | yes | 0.835 | -0.551 |
-| mistralai-Mistral-7B-Instruct-v0-3 | instruct | yes | 0.815 | -0.473 |
-| Qwen-Qwen2-5-7B-Instruct | instruct | no | 0.935 | -0.238 |
-| Qwen-Qwen2-5-3B-Instruct | instruct | no | 0.920 | -0.247 |
-| unsloth-Meta-Llama-3-1-8B-Instruct | instruct | no | 0.865 | -0.202 |
-| Qwen-Qwen2-5-0-5B-Instruct | instruct | no | 0.635 | -0.050 |
-| Qwen-Qwen2-5-1-5B-Instruct | instruct | no | 0.545 | -0.167 |
-| Qwen-Qwen2-5-14B | base | no | 0.940 | -0.126 |
-| Qwen-Qwen2-5-7B | base | no | 0.935 | -0.051 |
-| allenai-OLMo-2-1124-7B | base | no | 0.930 | -0.004 |
-| unsloth-gemma-2-9b | base | no | 0.925 | -0.000 |
-| unsloth-Meta-Llama-3-1-8B | base | no | 0.835 | +0.003 |
-| mistralai-Mistral-7B-v0-3 | base | no | 0.800 | -0.003 |
-| Qwen-Qwen2-5-3B | base | no | 0.795 | -0.048 |
-| Qwen-Qwen2-5-0-5B | base | no | 0.775 | +0.000 |
-| Qwen-Qwen2-5-1-5B | base | no | 0.625 | -0.013 |
+| Qwen_Qwen2_5-14B-Instruct | instruct | yes | 0.985 | -0.370 |
+| Qwen_Qwen2_5-14B | base | no | 0.940 | -0.126 |
+| unsloth_gemma-2-9b-it | instruct | yes | 0.935 | -0.408 |
+| Qwen_Qwen2_5-7B-Instruct | instruct | no | 0.935 | -0.238 |
+| Qwen_Qwen2_5-7B | base | no | 0.935 | -0.051 |
+| allenai_OLMo-2-1124-7B | base | no | 0.930 | -0.004 |
+| unsloth_gemma-2-9b | base | no | 0.925 | -0.000 |
+| Qwen_Qwen2_5-3B-Instruct | instruct | no | 0.920 | -0.247 |
+| allenai_OLMo-2-1124-7B-Instruct | instruct | yes | 0.890 | -0.646 |
+| unsloth_Meta-Llama-3_1-8B-Instruct | instruct | no | 0.865 | -0.202 |
+| allenai_Llama-3_1-Tulu-3-8B | instruct | yes | 0.855 | -0.401 |
+| HuggingFaceH4_zephyr-7b-beta | instruct | yes | 0.835 | -0.551 |
+| unsloth_Meta-Llama-3_1-8B | base | no | 0.835 | +0.003 |
+| mistralai_Mistral-7B-Instruct-v0_3 | instruct | yes | 0.815 | -0.473 |
+| mistralai_Mistral-7B-v0_3 | base | no | 0.800 | -0.003 |
+| Qwen_Qwen2_5-3B | base | no | 0.795 | -0.048 |
+| Qwen_Qwen2_5-0_5B | base | no | 0.775 | +0.000 |
+| Qwen_Qwen2_5-0_5B-Instruct | instruct | no | 0.635 | -0.050 |
+| Qwen_Qwen2_5-1_5B | base | no | 0.625 | -0.013 |
+| Qwen_Qwen2_5-1_5B-Instruct | instruct | no | 0.545 | -0.167 |
 
 ### Finding quadrant (FB ≥ 0.82 and contrast ≤ −0.37)
 
 | model | BigToM FB | contrast |
 |---|---:|---:|
-| allenai-OLMo-2-1124-7B-Instruct | 0.890 | -0.646 |
-| HuggingFaceH4-zephyr-7b-beta | 0.835 | -0.551 |
-| unsloth-gemma-2-9b-it | 0.935 | -0.408 |
-| allenai-Llama-3-1-Tulu-3-8B | 0.855 | -0.401 |
+| allenai_OLMo-2-1124-7B-Instruct | 0.890 | -0.646 |
+| HuggingFaceH4_zephyr-7b-beta | 0.835 | -0.551 |
+| unsloth_gemma-2-9b-it | 0.935 | -0.408 |
+| allenai_Llama-3_1-Tulu-3-8B | 0.855 | -0.401 |
 
 ## Scatter
 
@@ -83,8 +83,8 @@ Kept for completeness after the table. These are not the headline.
 | analysis | estimate | 95% CI | n |
 |---|---|---|---|
 | (a) instruct only | r = -0.473 | [-0.776, +0.513] | 11 |
-| (b) OLS ToM + type + log(size) | partial r = -0.310 (β_tom=-0.379, p=0.193) | [-0.612, +0.158] | 20 |
-| (c) within-family Δ | r = -0.160 | [-0.824, +0.807] | 9 |
+| (b) OLS with covariates | partial r = -0.310 (β_tom=-0.379, p=0.211) | [-0.612, +0.158] | 20 |
+| (c) within-family deltas | r = -0.160 | [-0.824, +0.807] | 9 |
 
 ## Within-family deltas (BigToM FB)
 

@@ -1,46 +1,39 @@
-model,mtype,size_B,rating_std,contrast,bigtom_false,bigtom_all,tomi
-Qwen_Qwen2_5-14B-Instruct,instruct,14.0,0.2818,-0.3699,0.985,0.8825,0.5125
-Qwen_Qwen2_5-7B-Instruct,instruct,7.0,0.1777,-0.2382,0.935,0.8675,0.55
-unsloth_gemma-2-9b-it,instruct,9.0,0.326,-0.4079,0.935,0.8575,0.665
-allenai_OLMo-2-1124-7B-Instruct,instruct,7.3,0.3619,-0.6458,0.89,0.85,0.8175
-mistralai_Mistral-7B-Instruct-v0_3,instruct,7.0,0.2933,-0.4735,0.815,0.8325,0.6375
-HuggingFaceH4_zephyr-7b-beta,instruct,7.2,0.33,-0.5513,0.835,0.8325,0.5225
-unsloth_Meta-Llama-3_1-8B-Instruct,instruct,8.0,0.1739,-0.2016,0.865,0.8075,0.57
-allenai_Llama-3_1-Tulu-3-8B,instruct,8.0,0.2604,-0.4008,0.855,0.805,0.7575
-Qwen_Qwen2_5-14B,base,14.0,0.0749,-0.1257,0.94,0.7575,0.5425
-mistralai_Mistral-7B-v0_3,base,7.0,0.0153,-0.0026,0.8,0.7275,0.62
-unsloth_Meta-Llama-3_1-8B,base,8.0,0.0238,0.0025,0.835,0.7225,0.7275
-Qwen_Qwen2_5-7B,base,7.0,0.043,-0.0511,0.935,0.72,0.52
-Qwen_Qwen2_5-3B,base,3.0,0.0405,-0.0483,0.795,0.675,0.5375
-Qwen_Qwen2_5-3B-Instruct,instruct,3.0,0.1637,-0.2469,0.92,0.675,0.54
-unsloth_gemma-2-9b,base,9.0,0.0064,-0.0002,0.925,0.655,0.745
-allenai_OLMo-2-1124-7B,base,7.3,0.027,-0.0043,0.93,0.63,0.7575
-Qwen_Qwen2_5-1_5B-Instruct,instruct,5.0,0.0995,-0.1665,0.545,0.6075,0.55
-Qwen_Qwen2_5-1_5B,base,5.0,0.049,-0.0128,0.625,0.545,0.4925
-Qwen_Qwen2_5-0_5B-Instruct,instruct,5.0,0.0483,-0.0502,0.635,0.52,0.4825
-Qwen_Qwen2_5-0_5B,base,5.0,0.0264,0.0004,0.775,0.5125,0.505
-,,,,,,,
-ANALYSIS,measure,r_or_partial_r,ci_lo,ci_hi,n,beta_tom,label
-"(confound demo) all models, no controls",bigtom|false_belief,-0.2605188947314885,-0.5260949229084475,0.02673855356377616,20,,CONFOUND DEMO — both axes proxy base-vs-instruct (and size). Do not cite as a result.
-(a) instruct only,bigtom|false_belief,-0.4732181132472906,-0.7764864975543571,0.5127633736819025,11,,UNINFORMATIVE — interval too wide to exclude a moderate effect either way. Not a null.
-(b) OLS with covariates,bigtom|false_belief,-0.3097073050800837,-0.6123309944926297,0.15849285212142067,20,-0.37856101425524713,"NULL, bounded — ToM accuracy does not predict the contrast once controlling for type and log-size are applied."
-(c) within-family deltas,bigtom|false_belief,-0.15958535018167588,-0.8239093896630136,0.8072995641899766,9,,UNINFORMATIVE — interval too wide to exclude a moderate effect either way. Not a null.
-"(confound demo) all models, no controls",bigtom,-0.7375906186338191,-0.8405759815365682,-0.61192239796131,20,,CONFOUND DEMO — both axes proxy base-vs-instruct (and size). Do not cite as a result.
-(a) instruct only,bigtom,-0.7092887700352007,-0.9305884319937818,-0.18037800963899342,11,,NEGATIVE — higher ToM tracks more outcome-driven contrast; check residual confounds before interpreting as a finding.
-(b) OLS with covariates,bigtom,-0.5880662338188005,-0.8246742253310408,-0.17598150880307456,20,-0.9074242078054217,NEGATIVE — higher ToM tracks more outcome-driven contrast; check residual confounds before interpreting as a finding.
-(c) within-family deltas,bigtom,-0.7621004723325464,-0.9493609372848602,-0.30695971028288843,9,,NEGATIVE — higher ToM tracks more outcome-driven contrast; check residual confounds before interpreting as a finding.
-"(confound demo) all models, no controls",tomi,-0.2402856143081118,-0.7095266388696436,0.3381188836987796,20,,CONFOUND DEMO — both axes proxy base-vs-instruct (and size). Do not cite as a result.
-(a) instruct only,tomi,-0.6501486406620419,-0.9536839252570459,-0.05760920196946914,11,,NEGATIVE — higher ToM tracks more outcome-driven contrast; check residual confounds before interpreting as a finding.
-(b) OLS with covariates,tomi,-0.34329778696122565,-0.6879150371246244,0.17842359110478592,20,-0.42374164028321726,"NULL, bounded — ToM accuracy does not predict the contrast once controlling for type and log-size are applied."
-(c) within-family deltas,tomi,-0.22490659234343824,-0.7419166679957364,0.5894852402113905,9,,UNINFORMATIVE — interval too wide to exclude a moderate effect either way. Not a null.
-,,,,,,,
-WITHIN_FAMILY_DELTAS,family,d_tom,d_contrast,base_tom,inst_tom,base_contrast,inst_contrast
-Qwen2.5-0.5B,Qwen2.5-0.5B,0.007500000000000062,-0.0506,0.5125,0.52,0.0004,-0.0502
-Qwen2.5-1.5B,Qwen2.5-1.5B,0.0625,-0.1537,0.545,0.6075,-0.0128,-0.1665
-Qwen2.5-3B,Qwen2.5-3B,0.0,-0.1986,0.675,0.675,-0.0483,-0.2469
-Qwen2.5-7B,Qwen2.5-7B,0.14750000000000008,-0.1871,0.72,0.8675,-0.0511,-0.2382
-Qwen2.5-14B,Qwen2.5-14B,0.125,-0.2442,0.7575,0.8825,-0.1257,-0.3699
-OLMo-2-1124-7B,OLMo-2-1124-7B,0.21999999999999997,-0.6415000000000001,0.63,0.85,-0.0043,-0.6458
-Mistral-7B-v0.3,Mistral-7B-v0.3,0.10499999999999998,-0.4709,0.7275,0.8325,-0.0026,-0.4735
-gemma-2-9b,gemma-2-9b,0.2025,-0.4077,0.655,0.8575,-0.0002,-0.4079
-Meta-Llama-3.1-8B,Meta-Llama-3.1-8B,0.08499999999999996,-0.2041,0.7225,0.8075,0.0025,-0.2016
+model,mtype,size_B,rating_std,engaged,contrast,bigtom_false,bigtom_all,tomi
+Qwen_Qwen2_5-14B-Instruct,instruct,14.0,0.2818,True,-0.3699,0.985,0.8825,0.5125
+Qwen_Qwen2_5-14B,base,14.0,0.0749,False,-0.1257,0.94,0.7575,0.5425
+Qwen_Qwen2_5-7B,base,7.0,0.043,False,-0.0511,0.935,0.72,0.52
+Qwen_Qwen2_5-7B-Instruct,instruct,7.0,0.1777,False,-0.2382,0.935,0.8675,0.55
+unsloth_gemma-2-9b-it,instruct,9.0,0.326,True,-0.4079,0.935,0.8575,0.665
+allenai_OLMo-2-1124-7B,base,7.3,0.027,False,-0.0043,0.93,0.63,0.7575
+unsloth_gemma-2-9b,base,9.0,0.0064,False,-0.0002,0.925,0.655,0.745
+Qwen_Qwen2_5-3B-Instruct,instruct,3.0,0.1637,False,-0.2469,0.92,0.675,0.54
+allenai_OLMo-2-1124-7B-Instruct,instruct,7.3,0.3619,True,-0.6458,0.89,0.85,0.8175
+unsloth_Meta-Llama-3_1-8B-Instruct,instruct,8.0,0.1739,False,-0.2016,0.865,0.8075,0.57
+allenai_Llama-3_1-Tulu-3-8B,instruct,8.0,0.2604,True,-0.4008,0.855,0.805,0.7575
+unsloth_Meta-Llama-3_1-8B,base,8.0,0.0238,False,0.0025,0.835,0.7225,0.7275
+HuggingFaceH4_zephyr-7b-beta,instruct,7.2,0.33,True,-0.5513,0.835,0.8325,0.5225
+mistralai_Mistral-7B-Instruct-v0_3,instruct,7.0,0.2933,True,-0.4735,0.815,0.8325,0.6375
+mistralai_Mistral-7B-v0_3,base,7.0,0.0153,False,-0.0026,0.8,0.7275,0.62
+Qwen_Qwen2_5-3B,base,3.0,0.0405,False,-0.0483,0.795,0.675,0.5375
+Qwen_Qwen2_5-0_5B,base,5.0,0.0264,False,0.0004,0.775,0.5125,0.505
+Qwen_Qwen2_5-0_5B-Instruct,instruct,5.0,0.0483,False,-0.0502,0.635,0.52,0.4825
+Qwen_Qwen2_5-1_5B,base,5.0,0.049,False,-0.0128,0.625,0.545,0.4925
+Qwen_Qwen2_5-1_5B-Instruct,instruct,5.0,0.0995,False,-0.1665,0.545,0.6075,0.55
+,,,,,,,,
+ANALYSIS,measure,r_or_partial_r,ci_lo,ci_hi,n,beta_tom,p_tom,label
+"(confound demo) all models, no controls",bigtom|false_belief,-0.2605188947314885,-0.5260949229084475,0.02673855356377616,20,,,CONFOUND DEMO — both axes proxy base-vs-instruct (and size). Do not cite as a result.
+(a) instruct only,bigtom|false_belief,-0.4732181132472906,-0.7764864975543571,0.5127633736819025,11,,,UNINFORMATIVE — interval too wide to exclude a moderate effect either way. Not a null.
+(b) OLS with covariates,bigtom|false_belief,-0.3097073050800837,-0.6123309944926297,0.15849285212142067,20,-0.37856101425524713,0.2110527216448965,"NULL, bounded — ToM accuracy does not predict the contrast once controlling for type and log-size are applied."
+(c) within-family deltas,bigtom|false_belief,-0.15958535018167588,-0.8239093896630136,0.8072995641899766,9,,,UNINFORMATIVE — interval too wide to exclude a moderate effect either way. Not a null.
+"(confound demo) all models, no controls",bigtom,-0.7375906186338191,-0.8405759815365682,-0.61192239796131,20,,,CONFOUND DEMO — both axes proxy base-vs-instruct (and size). Do not cite as a result.
+,,,,,,,,
+WITHIN_FAMILY_DELTAS,family,d_tom,d_contrast,,base_tom,inst_tom,base_contrast,inst_contrast
+Qwen2.5-0.5B,Qwen2.5-0.5B,-0.14,-0.0506,,0.775,0.635,0.0004,-0.0502
+Qwen2.5-1.5B,Qwen2.5-1.5B,-0.07999999999999996,-0.1537,,0.625,0.545,-0.0128,-0.1665
+Qwen2.5-3B,Qwen2.5-3B,0.125,-0.1986,,0.795,0.92,-0.0483,-0.2469
+Qwen2.5-7B,Qwen2.5-7B,0.0,-0.1871,,0.935,0.935,-0.0511,-0.2382
+Qwen2.5-14B,Qwen2.5-14B,0.04500000000000004,-0.2442,,0.94,0.985,-0.1257,-0.3699
+OLMo-2-1124-7B,OLMo-2-1124-7B,-0.040000000000000036,-0.6415000000000001,,0.93,0.89,-0.0043,-0.6458
+Mistral-7B-v0.3,Mistral-7B-v0.3,0.014999999999999902,-0.4709,,0.8,0.815,-0.0026,-0.4735
+gemma-2-9b,gemma-2-9b,0.010000000000000009,-0.4077,,0.925,0.935,-0.0002,-0.4079
+Meta-Llama-3.1-8B,Meta-Llama-3.1-8B,0.030000000000000027,-0.2041,,0.835,0.865,0.0025,-0.2016

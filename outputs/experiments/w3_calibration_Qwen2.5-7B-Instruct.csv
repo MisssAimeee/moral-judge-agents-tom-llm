@@ -1,0 +1,7 @@
+alpha,ppl_ratio,within_bound
+0.01,1.0076,True
+0.02,1.0156,True
+0.05,1.0425,True
+0.1,1.0871,True
+0.2,1.1673,True
+0.4,1.5134,False

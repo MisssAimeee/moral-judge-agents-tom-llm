@@ -1,89 +1,104 @@
-# Can this cluster host a 70B for logprob scoring and probing?
+# Can this cluster host a 70B — and should the roster?
 
-Flagged before any roster decision, as requested. Nothing has been started.
+Flagged before any roster decision. Nothing has been started.
 
-**Short answer: yes to both, without quantisation. The binding constraint is not hardware,
-it is that one 70B does not fix the confound it would be added to fix.**
+**Short answer: yes on hardware. 70B is the field norm for ToM papers, not an
+extravagance; our ceiling at 14B with half the roster in one family is the
+anomaly. One 70B still does not by itself break the open/closed × scale confound.**
 
-## Hardware
+## Field norm (why 70B is expected)
+
+Recent ToM / social-reasoning LLM evaluations standardly combine **2–3 frontier
+APIs** with **open-weight models spanning ~8B–70B**, and treat
+**Llama-3.3-70B-Instruct** (or the contemporaneous 70B Llama instruct) as the
+open reference point — not a stretch goal. Examples of that pattern:
+
+- Strachan et al. 2024, *Nature Human Behaviour*
+- Kosinski 2024, *PNAS*
+- OmniToM 2026
+- ToMBench
+- OpenToM
+- “LLMs achieve adult human performance on higher-order ToM”
+- Theory of Mind in LLMs overview papers
+
+Against that backdrop:
+
+| our roster | field norm |
+| --- | --- |
+| open ceiling **14B** | open reference often **70B** |
+| **~half the models are Qwen2.5** | multi-family span at each scale band |
+| closed APIs present, open scale thin | 2–3 APIs **plus** 8B–70B open ladder |
+
+So a reviewer asking “did you try a 70B?” is asking for the standard control,
+not a luxury ablation. Staying at 14B leaves open-vs-closed confounded with
+scale in a way the literature has already moved past.
+
+## Hardware (unchanged)
 
 | resource | finding | verdict |
 |---|---|---|
-| GPU count per node | `mit_preemptable` has `gpu:h200:8` and `gpu:h100:8` nodes; `mit_normal_gpu` has `gpu:h200:8` (6 h limit) | multi-GPU available |
-| GPU memory | H200 = 141 GB, H100 = 80 GB, L40S = 48 GB | see below |
-| 70B bf16 weights | ~140 GB (measured: Qwen2.5-14B is 28 GB on disk, so 2 GB/B) | needs 2 GPUs |
-| host RAM | 2,055 GB per node | ample for offload |
-| disk | `~/.cache/huggingface` is a symlink to `/orcd/scratch/bcs/002/aimeeyu/.cache/huggingface`, on a filesystem with **75 TB free** | not a constraint |
-
-The home quota is nearly full (66 GB used of a 195 GB limit, so ~129 GB free) and would NOT
-hold a 140 GB checkpoint. It does not have to: the cache resolves to scratch. Worth knowing
-before anyone sets `HF_HOME` explicitly and breaks it.
+| GPU count per node | `mit_preemptable` / `mit_normal_gpu` have 8× H200 or H100 | multi-GPU available |
+| GPU memory | H200 = 141 GB, H100 = 80 GB | see below |
+| 70B bf16 weights | ~140 GB | needs 2 GPUs |
+| host RAM | ~2 TB/node | ample |
+| disk | HF cache on scratch, **~75 TB free** | not a constraint |
 
 Allocation for a 70B in bf16:
-- **2x H200 = 282 GB.** Comfortable; room for KV cache and activations.
-- **2x H100 = 160 GB.** Workable but tight with long prompts.
-- **1x H200 = 141 GB.** Do not. Weights alone are ~140 GB.
-- Quantisation is not needed, and should be avoided for this project specifically: 8-bit or
-  4-bit weights change the hidden states, so a quantised model's probe results are not
-  comparable to the bf16 7B models already in the set. If quantisation ever becomes
-  necessary, the probe comparison has to be re-run quantised across the whole roster.
 
-## Logprob scoring: feasible
+- **2× H200 = 282 GB** — comfortable
+- **2× H100 = 160 GB** — workable but tight
+- **1× H200** — do not (weights alone ≈ 140 GB)
+- Avoid quantisation for probe comparability with the existing bf16 7B set
 
-298 stories x 13 templates = 3,874 rated items, each one forward pass with digit logprobs.
-On 2x H200 this is on the order of 1-2 hours, inside the 6 h `mit_normal_gpu` limit.
-`03_behavioral.py` already resumes from a partial `raw_*.csv`, so preemption costs progress
-but not the run.
+Logprob scoring (~4k rated items) and probing (~1.6 GB acts/model; rowspace
+projection keeps fits cheap) are both feasible on this cluster. Digit-token
+guards from the Mistral/Zephyr collapse must stay on.
 
-One thing to check per model before trusting the output: the digit-token guard added after
-the Mistral/Zephyr collapse. Llama-3.3-70B uses a BPE tokenizer, so it should map digits to
-distinct single tokens, but the guard in `_digit_token_ids` will raise rather than fabricate
-if it does not. That check is now automatic and must not be bypassed.
+## Cheaper middle band (before or instead of a full 70B pair)
 
-## Probing: feasible
+If the goal is to leave the 14B ceiling without immediately paying for two 70B
+families, the **27–32B** instruct band is the cost-effective step:
 
-- **Storage.** 80 layers + embeddings, hidden 8192, 298 items, 4 pooled variants, float16:
-  ~1.6 GB per model. The 7B files are 376 MB, so this is 4x larger and irrelevant against
-  75 TB.
-- **Extraction.** One forward pass per story with `output_hidden_states=True`, 298 passes.
-  Minutes, not hours. Memory during extraction is the concern, not compute: 80 layers of
-  hidden states for a long prompt must be moved to CPU per item rather than accumulated on
-  device.
-- **Probe fitting.** This is the pleasant surprise. `_rowspace_project` in `02_probe.py`
-  reduces each layer to the training rank, which is at most 238 with 298 items under
-  GroupKFold, so the logistic fit costs the same at 8192 dimensions as at 4096. Cost scales
-  with the layer count, not the width: roughly 2.4x the current per-model probe time, still
-  CPU-only and still minutes.
+| model | params | rough disk (bf16) | GPUs (bf16) | role |
+| --- | ---: | ---: | --- | --- |
+| **gemma-3-27b-it** | 27B | ~54 GB | 1× H200 (comfortable) or 1× H100 (tight) | non-Qwen mid scale |
+| **Qwen3-32B-Instruct** (or Qwen2.5-32B-Instruct) | 32B | ~64 GB | 1× H200 | extends the existing Qwen ladder past 14B |
 
-## The real caveat, which is not about hardware
+Cost notes (order-of-magnitude, single-pass behavioral + optional probes):
 
-The reason to add a 70B is that the open roster tops out at 14B while GPT-4o and Opus sit in
-the set, so open-vs-closed is confounded with scale, and "did you try a big one?" is the
-first question the work will get. That reasoning is right. But adding **one** 70B does not
-resolve it — it gives a single point at 70B, and a single point cannot separate a scale
-effect from a model-family effect.
+- **Wall time:** behavioral rescore of 298×7 templates on 1× H200 is typically
+  well under a 6–12 h limit; probes are CPU-side minutes after one activation pass.
+- **Disk:** ~50–70 GB each in the HF scratch cache — negligible against 75 TB.
+- **What it buys:** breaks the “nothing above 14B” objection and adds a second
+  family at mid scale (gemma) without the 2-GPU scheduling friction of 70B.
+- **What it does not buy:** the field’s Llama-3.3-70B reference point, or a clean
+  scale slope — for that you still want ≥1 model at 70B (ideally a base/instruct
+  pair in a second family).
 
-Two things follow:
+Practical sequence: **gemma-3-27b-it + Qwen 32B** as a cheap mid-band, then
+**Llama-3.3-70B-Instruct** (and, if claiming scale, Qwen2.5-72B base/instruct)
+when ready to match the literature’s reference class.
 
-1. To break the confound, the large models need to span at least two families (for example
-   Llama-3.3-70B and Qwen2.5-72B), so that "large" is not synonymous with "Llama". Three
-   points would let scale be fitted rather than asserted.
-2. J3 gives an independent reason to want this. Across the 20 current models the intent
-   contrast tracks instruction tuning far more strongly than parameter count: base models
-   sit near zero and instruct models carry the whole effect. If that is the real axis, then
-   the scale question is answered by adding large models **in base/instruct pairs**, not by
-   adding the largest single model available. Llama-3.3-70B ships instruct-only, which makes
-   Qwen2.5-72B and its base the more informative pair.
+## The confound caveat (still binding)
 
-Also worth noting for the probing side specifically: an 80-layer model cannot be compared
-against a 33-layer model by absolute layer index. The peak-layer analyses would need to move
-to relative depth (layer / n_layers) before a 70B can be read alongside the 7Bs, and that
-change affects the existing figures, not just the new model.
+Adding **one** 70B answers the narrow reviewer question; it does not separate
+scale from family. To support a scale claim:
+
+1. At least **two families** at large scale (e.g. Llama-3.3-70B and Qwen2.5-72B).
+2. Prefer **base/instruct pairs** where they exist — J3 already shows instruction
+   tuning moves the moral contrast far more than parameter count in the current
+   20-model set. Llama-3.3-70B is instruct-only; Qwen2.5-72B + base is the more
+   informative pair for that axis.
+
+Probing caveat: move peak-layer analyses to **relative depth** (layer / n_layers)
+before comparing 80-layer 70Bs to 33-layer 7Bs; that change touches existing
+figures.
 
 ## Recommendation
 
-Hardware is not the reason to wait. The decision to make first is which large models, in
-which base/instruct configuration, and whether the peak-layer analyses move to relative
-depth — because that choice changes existing figures. A single Llama-3.3-70B run is
-affordable and would answer the reviewer question narrowly, but it will not support a scale
-claim on its own, and it should not be described as if it does.
+1. Treat **70B as the field-standard open reference**, not optional polish.
+2. If budget/scheduling is tight, land **gemma-3-27b / Qwen3-32B** first to exit
+   the 14B ceiling and diversify off Qwen-only growth.
+3. Decide base/instruct pairing and relative-depth probing **before** the first
+   70B run, so the new point does not orphan the existing layer figures.
+4. Do not describe a single Llama-3.3-70B point as a completed scale analysis.

@@ -1,0 +1,1500 @@
+W3 steering generations — Qwen/Qwen2.5-7B-Instruct, layer 19, template human_verbatim
+Greedy decoding, 48 new tokens, 20 prompts per level. Read these to confirm the model is still answering the question rather than degrading.
+
+==============================================================================
+### BASELINE (alpha=0, no steering)
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_dom  alpha=-0.30
+==============================================================================
+
+[00] 1
+
+[01] 3
+
+[02] 2
+
+[03] 3
+
+[04] 1
+
+[05] 2
+
+[06] 1
+
+[07] 2
+
+[08] 1
+
+[09] 3
+
+[10] 1
+
+[11] 3
+
+[12] 1
+
+[13] 2
+
+[14] 1
+
+[15] 2
+
+[16] 1
+
+[17] 2
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_dom  alpha=-0.20
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 2
+
+[03] 3
+
+[04] 1
+
+[05] 2
+
+[06] 1
+
+[07] 2
+
+[08] 1
+
+[09] 2
+
+[10] 2
+
+[11] 3
+
+[12] 1
+
+[13] 2
+
+[14] 2
+
+[15] 2
+
+Ray's inaction in this situation can be seen as partially permissible since there was no direct action taken that contributed to the accident. However, his lack of warning or concern could be considered negligent given the circumstances. Therefore, a rating
+
+[16] 2
+
+[17] 2
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_dom  alpha=-0.15
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 2
+
+[03] 3
+
+[04] 2
+
+[05] 2
+
+[06] 2
+
+[07] 2
+
+[08] 1
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 1
+
+[13] 2
+
+Ray's action can be seen as somewhat permissible since he did not directly cause the accident or provide any false information. However, his inaction could have been more cautious given the context. Since the bridge is described as "extremely
+
+[14] 2
+
+[15] 2
+
+Ray's inaction could be seen as morally permissible if he had no way to prevent his girlfriend from crossing the bridge or if he believed that speaking up would not change her mind. However, if he had the opportunity to warn her
+
+[16] 2
+
+[17] 2
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_dom  alpha=-0.10
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 2
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 1
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 1
+
+[13] 3
+
+[14] 2
+
+[15] 2
+
+Ray's inaction could be seen as negligence, especially if he had the opportunity to warn or prevent his girlfriend from crossing the bridge. However, since he did not physically stop her, it might not be rated as completely impermissible
+
+[16] 2
+
+[17] 2
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_dom  alpha=-0.05
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 2
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_dom  alpha=-0.03
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 2
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_dom  alpha=+0.03
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_dom  alpha=+0.05
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_dom  alpha=+0.10
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 3
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 3
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 3
+
+==============================================================================
+### intent_dom  alpha=+0.15
+==============================================================================
+
+[00] 3
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 3
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 3
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 3
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 3
+
+==============================================================================
+### intent_dom  alpha=+0.20
+==============================================================================
+
+[00] 3
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 3
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 3
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 3
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 3
+
+==============================================================================
+### intent_dom  alpha=+0.30
+==============================================================================
+
+[00] 3
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 3
+
+[07] 3
+
+[08] 3
+
+[09] 3
+
+[10] 3
+
+[11] 3
+
+[12] 3
+
+[13] 3
+
+[14] 3
+
+[15] 3
+
+[16] 2
+
+[17] 2
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_probe  alpha=-0.30
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+Dan's action can be considered moderately impermissible because, despite his belief that the switch is still broken, the evidence at hand suggests that the switch has been successfully repaired. Given that the visitor did not contract any disease and is fine
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 2
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_probe  alpha=-0.20
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+Dan's action can be seen as somewhat permissible but with some concerns. On one hand, the switch has been successfully repaired, and the visitor did not contract any disease, indicating that the safety measures were in place. However, Dan
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 2
+
+Leah's action can be seen as neither completely permissible nor completely impermissible. She had knowledge that could have prevented harm but chose not to act, which is a form of negligence. However, the severity of the consequences does not
+
+[18] 2
+
+[19] 2
+
+Leah's action can be seen as neither completely permissible nor completely impermissible. She had reason to believe the child was in danger due to the warning sign but chose not to intervene. This shows some level of negligence, but it
+
+==============================================================================
+### intent_probe  alpha=-0.15
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 2
+
+Leah's action can be seen as neither completely permissible nor completely impermissible. She had knowledge that the child was about to dive into the wrong end of the pool, which could lead to serious harm. However, she did not
+
+[18] 2
+
+[19] 2
+
+Leah's action can be seen as neither completely permissible nor completely impermissible. She had reason to believe the child was in danger due to the warning sign but chose not to intervene. This shows some level of negligence, but it
+
+==============================================================================
+### intent_probe  alpha=-0.10
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 2
+
+Leah's action can be seen as neither completely permissible nor completely impermissible. She had knowledge that the child was about to make a dangerous decision based on a misleading label, but she chose not to intervene. This lack of intervention
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_probe  alpha=-0.05
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_probe  alpha=-0.03
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_probe  alpha=+0.03
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_probe  alpha=+0.05
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_probe  alpha=+0.10
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_probe  alpha=+0.15
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_probe  alpha=+0.20
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### intent_probe  alpha=+0.30
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### outcome_dom  alpha=-0.30
+==============================================================================
+
+[00] 2
+
+[01] 2
+
+[02] 2
+
+[03] 3
+
+[04] 1
+
+[05] 2
+
+[06] 1
+
+[07] 2
+
+[08] 1
+
+[09] 2
+
+[10] 2
+
+[11] 2
+
+[12] 1
+
+[13] 2
+
+[14] 1
+
+[15] 2
+
+[16] 2
+
+[17] 2
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### outcome_dom  alpha=+0.30
+==============================================================================
+
+[00] 3
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 3
+
+[05] 3
+
+[06] 3
+
+[07] 3
+
+[08] 3
+
+[09] 3
+
+[10] 3
+
+[11] 3
+
+[12] 3
+
+[13] 3
+
+[14] 3
+
+[15] 3
+
+[16] 3
+
+[17] 3
+
+[18] 3
+
+[19] 3
+
+==============================================================================
+### outcome_probe  alpha=-0.30
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 2
+
+[03] 3
+
+[04] 2
+
+[05] 2
+
+[06] 2
+
+Dan's action could be seen as somewhat permissible because there was no clear indication that the switch was actually broken or that Dan had any reason to doubt the repairman's work. However, since Dan's belief was based on a conversation
+
+[07] 2
+
+Dan's action can be seen as somewhat permissible because he believed the switch was still broken based on his conversation with the repairman. However, this belief might not have been fully justified without further verification. Therefore, while Dan acted on
+
+[08] 2
+
+[09] 2
+
+[10] 2
+
+Janet's action is somewhat permissible because she shared her belief without sufficient evidence, which could be seen as unnecessary advice. However, since the actual outcome was that her neighbor had no issues, Janet's action wasn't entirely wrong.
+
+[11] 2
+
+Janet's action can be seen as somewhat permissible because she might have misunderstood or misinterpreted the information she read about the jellyfish. However, since she did not verify this information and did not check the current conditions of the ocean
+
+[12] 2
+
+[13] 2
+
+Ray's action is somewhat permissible because he did not say anything, which could be seen as an implicit agreement or at least a lack of objection. However, it's also somewhat impermissible because he didn't verify the safety of the
+
+[14] 2
+
+[15] 2
+
+Ray's action is neither completely permissible nor impermissible. It depends on whether he had any reason to believe his girlfriend would act recklessly or if he should have intervened based on the bridge's condition. Since he said nothing, it
+
+[16] 2
+
+[17] 2
+
+Leah's action is somewhat permissible because there was no explicit information given that would indicate she had any duty to intervene or that she knew for certain the child was heading towards the shallow end. However, it could be seen as slightly
+
+[18] 2
+
+[19] 2
+
+Leah's action could be seen as somewhat permissible because there was no explicit indication that she had any duty to warn the child, especially since there was a warning sign. However, it also depends on whether Leah was aware of the
+
+==============================================================================
+### outcome_probe  alpha=+0.30
+==============================================================================
+
+[00] 3
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+Dan's action was not completely impermissible but falls into the category of being highly irresponsible given the critical nature of the situation involving disease antigens. The safety of the visitor should have been ensured through a thorough and immediate confirmation that the
+
+[05] 3
+
+[06] 3
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 3
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 3
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 3
+
+[19] 3
+
+==============================================================================
+### random0  alpha=-0.30
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### random0  alpha=+0.30
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 2
+
+Ray's inaction could be seen as negligence since he believed the bridge was safe despite its instability and the warning signs it might have been giving. However, he did not actively cause the bridge to break or push his girlfriend across,
+
+[14] 2
+
+[15] 2
+
+Ray's inaction could be seen as morally questionable, but it's not entirely impermissible since he believed the bridge would break and fall. However, his silence could be interpreted as negligence or a failure to warn, which is morally
+
+[16] 2
+
+[17] 2
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### random1  alpha=-0.30
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 2
+
+[03] 3
+
+[04] 2
+
+[05] 2
+
+[06] 2
+
+[07] 2
+
+[08] 2
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 2
+
+[13] 2
+
+[14] 2
+
+[15] 2
+
+Ray could have expressed his concerns or suggested an alternative route, which would have been more considerate and responsible. However, not speaking up does not necessarily mean he is completely impermissible. His inaction might be seen as neglecting
+
+[16] 2
+
+[17] 2
+
+[18] 2
+
+[19] 2
+
+==============================================================================
+### random1  alpha=+0.30
+==============================================================================
+
+[00] 2
+
+[01] 3
+
+[02] 3
+
+[03] 3
+
+[04] 2
+
+[05] 3
+
+[06] 2
+
+[07] 3
+
+[08] 1
+
+[09] 3
+
+[10] 2
+
+[11] 3
+
+[12] 1
+
+[13] 3
+
+[14] 2
+
+[15] 3
+
+[16] 2
+
+[17] 3
+
+[18] 2
+
+[19] 2

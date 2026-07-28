@@ -162,9 +162,12 @@ class GoogleGen:
     def generate(self, prompt: str) -> str:
         # Thinking Gemini models often put the letter answer after a long chain of
         # thought; give enough output budget, then prefer non-thought parts.
+        # gemini-2.5-pro was observed hitting MAX_TOKENS with zero visible output at
+        # budget=256 (all 253 non-prompt tokens spent on internal thinking, parts=[]).
+        # 1024 was confirmed sufficient in manual testing; use 1536 for headroom.
         r = self.mdl.generate_content(
             prompt,
-            generation_config={"temperature": 0, "max_output_tokens": 256})
+            generation_config={"temperature": 0, "max_output_tokens": 1536})
         try:
             parts = r.candidates[0].content.parts
             texts, thoughts = [], []

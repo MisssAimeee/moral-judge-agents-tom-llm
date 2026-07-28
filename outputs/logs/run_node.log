@@ -1,0 +1,13 @@
+CUDA: True NVIDIA L40S
+=================== Qwen/Qwen2.5-0.5B (00:26:49) ===================
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights:   0%|          | 1/290 [00:00<02:25,  1.98it/s]Loading weights:  67%|██████▋   | 195/290 [00:00<00:00, 429.47it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 347.99it/s]
+[Qwen/Qwen2.5-0.5B] template human_verbatim: done
+[Qwen/Qwen2.5-0.5B] template para_blame10: done
+[Qwen/Qwen2.5-0.5B] template para_wrong7: done
+[Qwen/Qwen2.5-0.5B] template para_blame4: done
+[Qwen/Qwen2.5-0.5B] template punish7: done
+[Qwen/Qwen2.5-0.5B] template acceptable7: done
+[Qwen/Qwen2.5-0.5B] template persona_adult7: done
+[Qwen/Qwen2.5-0.5B] intent-reliance by template: human_verbatim=0.10, para_blame10=0.16, para_wrong7=0.09, para_blame4=0.39, punish7=0.57, acceptable7=0.09, persona_adult7=0.04  (range=0.53)
+=================== Qwen/Qwen2.5-0.5B-Instruct (00:27:26) ===================
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights:   0%|          | 1/290 [00:00<02:35,  1.86it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 535.90it/s]

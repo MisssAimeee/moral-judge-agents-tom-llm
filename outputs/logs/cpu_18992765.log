@@ -1,0 +1,63 @@
+=== Job 18992765 on node1618 at Mon Jul 27 11:39:19 EDT 2026 ===
+CMD: python -u code/02_probe.py --acts outputs/acts --out outputs/probe --pooling belief_last --permute 1000 --skip-probe --clause-offsets dataset/master/clause_offsets.csv --csv dataset/master/moral_2x2_master.csv
+CPUS: 16
+
+clause mask: 290 reliable rows for belief_last pooling
+OLMo-2-1124-7B-Instruct: reusing outputs/probe/OLMo-2-1124-7B-Instruct_probe_belief_last.csv
+OLMo-2-1124-7B-Instruct: peak intent acc=0.983 @ layer 16  -> outputs/probe/OLMo-2-1124-7B-Instruct_probe_belief_last.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L16  obs=0.977 null=0.501 p95=0.550 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=0.9990
+    perm outcome  L13  obs=0.896 null=0.509 p95=0.554 p=0.0010
+    -> outputs/probe/OLMo-2-1124-7B-Instruct_permnull_belief_last.csv
+OLMo-2-1124-7B: reusing outputs/probe/OLMo-2-1124-7B_probe_belief_last.csv
+OLMo-2-1124-7B: peak intent acc=0.972 @ layer 15  -> outputs/probe/OLMo-2-1124-7B_probe_belief_last.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L15  obs=0.973 null=0.502 p95=0.547 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L17  obs=0.839 null=0.512 p95=0.557 p=0.0010
+    -> outputs/probe/OLMo-2-1124-7B_permnull_belief_last.csv
+Qwen2.5-0.5B-Instruct: reusing outputs/probe/Qwen2.5-0.5B-Instruct_probe_belief_last.csv
+Qwen2.5-0.5B-Instruct: peak intent acc=0.903 @ layer 12  -> outputs/probe/Qwen2.5-0.5B-Instruct_probe_belief_last.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L12  obs=0.863 null=0.500 p95=0.537 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L12  obs=0.782 null=0.507 p95=0.544 p=0.0010
+    -> outputs/probe/Qwen2.5-0.5B-Instruct_permnull_belief_last.csv
+Qwen2.5-0.5B: reusing outputs/probe/Qwen2.5-0.5B_probe_belief_last.csv
+Qwen2.5-0.5B: peak intent acc=0.900 @ layer 14  -> outputs/probe/Qwen2.5-0.5B_probe_belief_last.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L14  obs=0.903 null=0.499 p95=0.537 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=0.9990
+    perm outcome  L12  obs=0.822 null=0.509 p95=0.550 p=0.0010
+    -> outputs/probe/Qwen2.5-0.5B_permnull_belief_last.csv
+Qwen2.5-1.5B-Instruct: reusing outputs/probe/Qwen2.5-1.5B-Instruct_probe_belief_last.csv
+Qwen2.5-1.5B-Instruct: peak intent acc=0.952 @ layer 14  -> outputs/probe/Qwen2.5-1.5B-Instruct_probe_belief_last.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L14  obs=0.927 null=0.501 p95=0.544 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L17  obs=0.853 null=0.512 p95=0.557 p=0.0010
+    -> outputs/probe/Qwen2.5-1.5B-Instruct_permnull_belief_last.csv
+Qwen2.5-1.5B: reusing outputs/probe/Qwen2.5-1.5B_probe_belief_last.csv
+Qwen2.5-1.5B: peak intent acc=0.948 @ layer 14  -> outputs/probe/Qwen2.5-1.5B_probe_belief_last.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L14  obs=0.923 null=0.502 p95=0.543 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L14  obs=0.793 null=0.510 p95=0.548 p=0.0010
+    -> outputs/probe/Qwen2.5-1.5B_permnull_belief_last.csv
+Qwen2.5-7B-Instruct: reusing outputs/probe/Qwen2.5-7B-Instruct_probe_belief_last.csv
+Qwen2.5-7B-Instruct: peak intent acc=0.966 @ layer 20  -> outputs/probe/Qwen2.5-7B-Instruct_probe_belief_last.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L20  obs=0.973 null=0.500 p95=0.550 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.513 p95=0.517 p=0.7962
+    perm outcome  L19  obs=0.880 null=0.513 p95=0.558 p=0.0010
+    -> outputs/probe/Qwen2.5-7B-Instruct_permnull_belief_last.csv
+Qwen2.5-7B: reusing outputs/probe/Qwen2.5-7B_probe_belief_last.csv
+Qwen2.5-7B: peak intent acc=0.966 @ layer 19  -> outputs/probe/Qwen2.5-7B_probe_belief_last.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L19  obs=0.973 null=0.501 p95=0.544 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.511 p95=0.517 p=0.7712
+    perm outcome  L18  obs=0.850 null=0.512 p95=0.554 p=0.0010
+    -> outputs/probe/Qwen2.5-7B_permnull_belief_last.csv
+
+=== Job 18992765 finished (exit 0) at Mon Jul 27 11:48:22 EDT 2026 ===

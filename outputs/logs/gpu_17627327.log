@@ -1,0 +1,135 @@
+=== Job 17627327 on node3512 at Fri Jul 10 17:12:34 EDT 2026 ===
+CMD: python code/analysis/15_scoring_parity.py --run
+
+Fri Jul 10 17:12:37 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:E1:00.0 Off |                    0 |
+| N/A   46C    P8             36W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+CUDA: True | NVIDIA L40S
+
+=== scoring parity | RUN (GPU sampling) | template=human_verbatim | n_samples=30 T=1.0 ===
+
+========================================================
+ Qwen/Qwen2.5-0.5B-Instruct
+========================================================
+  Loading Qwen/Qwen2.5-0.5B-Instruct ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights:  10%|▉         | 28/290 [00:00<00:00, 276.52it/s]Loading weights:  53%|█████▎    | 155/290 [00:00<00:00, 855.57it/s]Loading weights:  97%|█████████▋| 280/290 [00:00<00:00, 1017.64it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 944.28it/s] 
+  Loaded on cuda:0
+
+--- scoring-code verification (03_behavioral.HFBackend, logprob) ---
+  [OK] EV renormalizes: rate() applies softmax over ONLY the {s_min..s_max} digit logits, so p(1..K) sums to 1 (renormalized valid tokens).
+  [OK] every rating 1-7 is a single token; no truncation.
+    sampled 40/298 items ...
+    sampled 80/298 items ...
+    sampled 120/298 items ...
+    sampled 160/298 items ...
+    sampled 200/298 items ...
+    sampled 240/298 items ...
+    sampled 280/298 items ...
+  -> outputs/analysis/scoring_parity/sampled_Qwen_Qwen2_5-0_5B-Instruct.csv
+    r=0.1124  BA diff=-0.1106 [-0.375,+0.154]  EV contrast=-0.101  sampled=-0.059  CHECK
+
+========================================================
+ Qwen/Qwen2.5-1.5B-Instruct
+========================================================
+  Loading Qwen/Qwen2.5-1.5B-Instruct ...
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:00<00:44,  7.65it/s]Loading weights:  12%|█▏        | 41/338 [00:00<00:01, 208.71it/s]Loading weights:  26%|██▋       | 89/338 [00:00<00:00, 314.80it/s]Loading weights:  40%|████      | 136/338 [00:00<00:00, 360.75it/s]Loading weights:  54%|█████▍    | 184/338 [00:00<00:00, 392.48it/s]Loading weights:  69%|██████▊   | 232/338 [00:00<00:00, 414.54it/s]Loading weights:  83%|████████▎ | 280/338 [00:00<00:00, 432.89it/s]Loading weights:  96%|█████████▌| 324/338 [00:00<00:00, 434.62it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 379.26it/s]
+  Loaded on cuda:0
+
+--- scoring-code verification (03_behavioral.HFBackend, logprob) ---
+  [OK] EV renormalizes: rate() applies softmax over ONLY the {s_min..s_max} digit logits, so p(1..K) sums to 1 (renormalized valid tokens).
+  [OK] every rating 1-7 is a single token; no truncation.
+    sampled 40/298 items ...
+    sampled 80/298 items ...
+    sampled 120/298 items ...
+    sampled 160/298 items ...
+    sampled 200/298 items ...
+    sampled 240/298 items ...
+    sampled 280/298 items ...
+  -> outputs/analysis/scoring_parity/sampled_Qwen_Qwen2_5-1_5B-Instruct.csv
+    r=-0.2097  BA diff=-0.0916 [-0.673,+0.489]  EV contrast=-0.184  sampled=-0.018  CHECK
+
+========================================================
+ Qwen/Qwen2.5-3B-Instruct
+========================================================
+  Loading Qwen/Qwen2.5-3B-Instruct ...
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [00:40<00:40, 40.99s/it]Fetching 2 files: 100%|██████████| 2/2 [00:40<00:00, 20.49s/it]
+Loading weights:   0%|          | 0/434 [00:00<?, ?it/s]Loading weights:   0%|          | 1/434 [00:00<01:07,  6.43it/s]Loading weights:   6%|▌         | 27/434 [00:00<00:03, 108.99it/s]Loading weights:  14%|█▍        | 62/434 [00:00<00:01, 197.67it/s]Loading weights:  20%|██        | 87/434 [00:00<00:01, 212.21it/s]Loading weights:  26%|██▌       | 111/434 [00:00<00:01, 209.11it/s]Loading weights:  34%|███▎      | 146/434 [00:00<00:01, 242.85it/s]Loading weights:  40%|███▉      | 172/434 [00:00<00:01, 244.92it/s]Loading weights:  46%|████▌     | 198/434 [00:00<00:00, 245.05it/s]Loading weights:  53%|█████▎    | 231/434 [00:01<00:00, 260.71it/s]Loading weights:  59%|█████▉    | 258/434 [00:01<00:00, 248.27it/s]Loading weights:  66%|██████▌   | 286/434 [00:01<00:00, 256.48it/s]Loading weights:  73%|███████▎  | 315/434 [00:01<00:00, 260.27it/s]Loading weights:  79%|███████▉  | 342/434 [00:01<00:00, 248.99it/s]Loading weights:  86%|████████▌ | 373/434 [00:01<00:00, 265.64it/s]Loading weights:  92%|█████████▏| 400/434 [00:01<00:00, 251.34it/s]Loading weights:  98%|█████████▊| 426/434 [00:01<00:00, 249.25it/s]Loading weights: 100%|██████████| 434/434 [00:01<00:00, 236.74it/s]
+  Loaded on cuda:0
+
+--- scoring-code verification (03_behavioral.HFBackend, logprob) ---
+  [OK] EV renormalizes: rate() applies softmax over ONLY the {s_min..s_max} digit logits, so p(1..K) sums to 1 (renormalized valid tokens).
+  [OK] every rating 1-7 is a single token; no truncation.
+    sampled 40/298 items ...
+    sampled 80/298 items ...
+    sampled 120/298 items ...
+    sampled 160/298 items ...
+    sampled 200/298 items ...
+    sampled 240/298 items ...
+    sampled 280/298 items ...
+  -> outputs/analysis/scoring_parity/sampled_Qwen_Qwen2_5-3B-Instruct.csv
+    r=0.3413  BA diff=-0.3171 [-0.859,+0.225]  EV contrast=-0.149  sampled=-0.164  CHECK
+
+========================================================
+ Qwen/Qwen2.5-7B-Instruct
+========================================================
+  Loading Qwen/Qwen2.5-7B-Instruct ...
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:  25%|██▌       | 1/4 [01:48<05:24, 108.12s/it]Fetching 4 files: 100%|██████████| 4/4 [01:48<00:00, 27.04s/it] 
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   0%|          | 1/339 [00:00<01:44,  3.23it/s]Loading weights:   1%|          | 2/339 [00:00<01:41,  3.33it/s]Loading weights:   2%|▏         | 6/339 [00:00<00:29, 11.10it/s]Loading weights:   5%|▌         | 18/339 [00:00<00:09, 34.18it/s]Loading weights:   9%|▊         | 29/339 [00:00<00:05, 51.69it/s]Loading weights:  12%|█▏        | 40/339 [00:01<00:04, 66.13it/s]Loading weights:  15%|█▌        | 52/339 [00:01<00:03, 75.90it/s]Loading weights:  19%|█▉        | 64/339 [00:01<00:03, 79.44it/s]Loading weights:  22%|██▏       | 76/339 [00:01<00:03, 68.90it/s]Loading weights:  26%|██▋       | 89/339 [00:01<00:03, 82.17it/s]Loading weights:  30%|██▉       | 101/339 [00:01<00:02, 83.51it/s]Loading weights:  33%|███▎      | 113/339 [00:01<00:02, 84.44it/s]Loading weights:  37%|███▋      | 125/339 [00:02<00:02, 84.92it/s]Loading weights:  40%|████      | 137/339 [00:02<00:02, 86.07it/s]Loading weights:  44%|████▍     | 149/339 [00:02<00:02, 86.96it/s]Loading weights:  47%|████▋     | 161/339 [00:02<00:02, 87.64it/s]Loading weights:  51%|█████     | 173/339 [00:02<00:01, 88.00it/s]Loading weights:  55%|█████▍    | 185/339 [00:02<00:01, 88.79it/s]Loading weights:  58%|█████▊    | 197/339 [00:02<00:01, 89.34it/s]Loading weights:  62%|██████▏   | 209/339 [00:02<00:01, 89.22it/s]Loading weights:  65%|██████▌   | 221/339 [00:03<00:01, 89.07it/s]Loading weights:  69%|██████▊   | 233/339 [00:03<00:01, 89.49it/s]Loading weights:  72%|███████▏  | 244/339 [00:03<00:01, 87.52it/s]Loading weights:  76%|███████▌  | 256/339 [00:03<00:00, 88.18it/s]Loading weights:  79%|███████▉  | 269/339 [00:03<00:00, 91.05it/s]Loading weights:  83%|████████▎ | 281/339 [00:03<00:00, 90.82it/s]Loading weights:  86%|████████▋ | 293/339 [00:03<00:00, 90.54it/s]Loading weights:  90%|████████▉ | 305/339 [00:04<00:00, 90.88it/s]Loading weights:  94%|█████████▎| 317/339 [00:04<00:00, 91.33it/s]Loading weights:  97%|█████████▋| 329/339 [00:04<00:00, 90.82it/s]Loading weights: 100%|██████████| 339/339 [00:04<00:00, 77.58it/s]
+  Loaded on cuda:0
+
+--- scoring-code verification (03_behavioral.HFBackend, logprob) ---
+  [OK] EV renormalizes: rate() applies softmax over ONLY the {s_min..s_max} digit logits, so p(1..K) sums to 1 (renormalized valid tokens).
+  [OK] every rating 1-7 is a single token; no truncation.
+    sampled 40/298 items ...
+    sampled 80/298 items ...
+    sampled 120/298 items ...
+    sampled 160/298 items ...
+    sampled 200/298 items ...
+    sampled 240/298 items ...
+    sampled 280/298 items ...
+  -> outputs/analysis/scoring_parity/sampled_Qwen_Qwen2_5-7B-Instruct.csv
+    r=0.9591  BA diff=-0.0216 [-0.216,+0.173]  EV contrast=-0.276  sampled=-0.298  PASS
+
+========================================================
+ mistralai/Mistral-7B-Instruct-v0.3
+========================================================
+  Loading mistralai/Mistral-7B-Instruct-v0.3 ...
+Fetching 3 files:   0%|          | 0/3 [00:00<?, ?it/s]Fetching 3 files:  33%|███▎      | 1/3 [01:39<03:18, 99.08s/it]Fetching 3 files: 100%|██████████| 3/3 [01:39<00:00, 33.03s/it]
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   1%|          | 2/291 [00:00<00:21, 13.15it/s]Loading weights:   2%|▏         | 6/291 [00:00<00:11, 25.86it/s]Loading weights:   5%|▌         | 15/291 [00:00<00:05, 47.45it/s]Loading weights:   8%|▊         | 24/291 [00:00<00:04, 58.06it/s]Loading weights:  11%|█▏        | 33/291 [00:00<00:04, 63.24it/s]Loading weights:  14%|█▍        | 42/291 [00:00<00:03, 65.52it/s]Loading weights:  18%|█▊        | 51/291 [00:00<00:03, 67.84it/s]Loading weights:  21%|██        | 60/291 [00:00<00:03, 70.29it/s]Loading weights:  24%|██▎       | 69/291 [00:01<00:03, 71.78it/s]Loading weights:  27%|██▋       | 78/291 [00:01<00:02, 71.93it/s]Loading weights:  30%|██▉       | 87/291 [00:01<00:02, 73.19it/s]Loading weights:  33%|███▎      | 96/291 [00:01<00:02, 73.83it/s]Loading weights:  36%|███▌      | 105/291 [00:01<00:02, 74.41it/s]Loading weights:  39%|███▉      | 114/291 [00:01<00:02, 74.80it/s]Loading weights:  42%|████▏     | 123/291 [00:01<00:02, 75.92it/s]Loading weights:  45%|████▌     | 132/291 [00:01<00:02, 75.93it/s]Loading weights:  48%|████▊     | 141/291 [00:02<00:01, 76.02it/s]Loading weights:  52%|█████▏    | 150/291 [00:02<00:01, 73.38it/s]Loading weights:  55%|█████▍    | 159/291 [00:02<00:01, 74.23it/s]Loading weights:  58%|█████▊    | 168/291 [00:02<00:01, 75.12it/s]Loading weights:  61%|██████    | 177/291 [00:02<00:01, 72.48it/s]Loading weights:  64%|██████▎   | 185/291 [00:02<00:01, 73.70it/s]Loading weights:  67%|██████▋   | 194/291 [00:02<00:01, 71.31it/s]Loading weights:  70%|██████▉   | 203/291 [00:02<00:01, 70.60it/s]Loading weights:  73%|███████▎  | 212/291 [00:03<00:01, 69.63it/s]Loading weights:  76%|███████▌  | 221/291 [00:03<00:01, 69.61it/s]Loading weights:  79%|███████▉  | 230/291 [00:03<00:00, 69.14it/s]Loading weights:  82%|████████▏ | 239/291 [00:03<00:00, 69.42it/s]Loading weights:  85%|████████▌ | 248/291 [00:03<00:00, 69.17it/s]Loading weights:  88%|████████▊ | 257/291 [00:03<00:00, 68.89it/s]Loading weights:  91%|█████████▏| 266/291 [00:03<00:00, 69.12it/s]Loading weights:  95%|█████████▍| 275/291 [00:03<00:00, 69.15it/s]Loading weights:  98%|█████████▊| 284/291 [00:04<00:00, 68.95it/s]Loading weights: 100%|██████████| 291/291 [00:04<00:00, 69.73it/s]
+  Loaded on cuda:0
+
+--- scoring-code verification (03_behavioral.HFBackend, logprob) ---
+  [OK] EV renormalizes: rate() applies softmax over ONLY the {s_min..s_max} digit logits, so p(1..K) sums to 1 (renormalized valid tokens).
+  [WARN] multi-token ratings [1, 2, 3, 4, 5, 6, 7] on scale 1-7: HFBackend uses only the FIRST sub-token, so their EV is truncated. Prefer single-digit scales (e.g. human_verbatim 1-7) for parity.
+    sampled 40/298 items ...
+    sampled 80/298 items ...
+    sampled 120/298 items ...
+    sampled 160/298 items ...
+    sampled 200/298 items ...
+    sampled 240/298 items ...
+    sampled 280/298 items ...
+  -> outputs/analysis/scoring_parity/sampled_mistralai_Mistral-7B-Instruct-v0_3.csv
+    r=nan  BA diff=+0.0269 [-0.800,+0.854]  EV contrast=+0.000  sampled=-0.347  CHECK
+
+wrote outputs/analysis/scoring_parity.csv  (5 models)
+wrote outputs/analysis/scoring_parity_scatter.png
+
+=== Job 17627327 finished (exit 0) at Fri Jul 10 18:17:00 EDT 2026 ===

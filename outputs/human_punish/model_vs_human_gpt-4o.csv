@@ -1,0 +1,46 @@
+model,gpt-4o
+template,human_verbatim
+
+MODEL condition profile (0-1 blame)
+neutral,0.0764
+accidental,0.7727
+attempted,0.3681
+intentional,0.8918
+model_intent_reliance_4cell,0.2518
+model_intent_vs_outcome_contrast,-0.4047
+
+PROMPT-INVARIANCE of intent_vs_outcome_contrast (n_templates=3)
+contrast_template_mean,-0.3646
+contrast_template_sd,0.0337
+contrast_template_min,-0.4047
+contrast_template_max,-0.3222
+contrast_template_range,0.0825
+  contrast[human_verbatim],-0.4047
+  contrast[para_wrong7],-0.3671
+  contrast[punish7],-0.3222
+contrast_sign_stable_across_prompts,yes
+
+vs adult
+rmse,0.3816
+profile_corr,0.4798
+intent_reliance_4cell_diff,-0.6047
+intent_vs_outcome_contrast_human,0.666
+contrast_diff_model_minus_human,-1.0707
+
+vs child_4_5
+rmse,0.2556
+profile_corr,-1.0
+intent_vs_outcome_contrast_human,0.09
+contrast_diff_model_minus_human,-0.4947
+
+vs child_6_7
+rmse,0.2791
+profile_corr,-1.0
+intent_vs_outcome_contrast_human,0.12
+contrast_diff_model_minus_human,-0.5247
+
+vs child_8plus
+rmse,0.392
+profile_corr,-1.0
+intent_vs_outcome_contrast_human,0.19
+contrast_diff_model_minus_human,-0.5947

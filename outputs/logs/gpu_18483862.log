@@ -1,0 +1,66 @@
+=== Job 18483862 on node3402 at Tue Jul 21 21:14:24 EDT 2026 ===
+CMD: python code/01_extract_activations.py --models Qwen/Qwen2.5-0.5B Qwen/Qwen2.5-0.5B-Instruct Qwen/Qwen2.5-1.5B Qwen/Qwen2.5-1.5B-Instruct Qwen/Qwen2.5-7B Qwen/Qwen2.5-7B-Instruct allenai/OLMo-2-1124-7B allenai/OLMo-2-1124-7B-Instruct
+
+Tue Jul 21 21:14:30 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:CA:00.0 Off |                    0 |
+| N/A   30C    P8             33W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+CUDA: True | NVIDIA L40S
+
+Traceback (most recent call last):
+  File "/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/huggingface_hub/utils/_http.py", line 772, in hf_raise_for_status
+    response.raise_for_status()
+  File "/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/httpx/_models.py", line 829, in raise_for_status
+    raise HTTPStatusError(message, request=request, response=self)
+httpx.HTTPStatusError: Client error '401 Unauthorized' for url 'https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B/tree/main/additional_chat_templates?recursive=false&expand=false'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/orcd/home/002/aimeeyu/tom_project/code/01_extract_activations.py", line 95, in <module>
+    extract_for_model(m, rows, a.out)
+  File "/orcd/home/002/aimeeyu/tom_project/code/01_extract_activations.py", line 38, in extract_for_model
+    tok = AutoTokenizer.from_pretrained(model_name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/transformers/models/auto/tokenization_auto.py", line 862, in from_pretrained
+    return tokenizer_class.from_pretrained(pretrained_model_name_or_path, *inputs, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/transformers/tokenization_utils_base.py", line 1673, in from_pretrained
+    for template in list_repo_templates(
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/transformers/utils/hub.py", line 149, in list_repo_templates
+    for entry in hf_api().list_repo_tree(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/huggingface_hub/hf_api.py", line 3945, in list_repo_tree
+    for path_info in paginate(path=tree_url, headers=headers, params={"recursive": recursive, "expand": expand}):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/huggingface_hub/utils/_pagination.py", line 36, in paginate
+    hf_raise_for_status(r)
+  File "/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/huggingface_hub/utils/_http.py", line 859, in hf_raise_for_status
+    raise _format(RepositoryNotFoundError, message, response, repo_type=repo_type, repo_id=repo_id) from e
+huggingface_hub.errors.RepositoryNotFoundError: 401 Client Error. (Request ID: Root=1-6a601998-28e21f0b26401668477f03ce;3d9b35a1-7662-4894-9544-92fd09b5a53d)
+
+Repository Not Found for url: https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B/tree/main/additional_chat_templates?recursive=false&expand=false.
+Please make sure you specified the correct `repo_id` and `repo_type`.
+If you are trying to access a private or gated repo, make sure you are authenticated and your token has the required permissions.
+For more details, see https://huggingface.co/docs/huggingface_hub/authentication
+OAuth token signature verification failed: signature verification failed
+
+=== Job 18483862 finished (exit 1) at Tue Jul 21 21:15:05 EDT 2026 ===

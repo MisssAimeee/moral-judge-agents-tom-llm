@@ -1,0 +1,79 @@
+=== Job 18962390 on node1615 at Sun Jul 26 23:56:38 EDT 2026 ===
+CMD: python -u code/experiments/20_layer0_diagnostic.py --csv dataset/master/moral_2x2_master.csv
+CPUS: 16
+
+model                      pool  target        L0    peak   @L valid note
+----------------------------------------------------------------------------------------------------
+Qwen2.5-0.5B               last  intent     0.507   0.681   12   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B               last  outcome    0.517   0.993   15   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B               mean  intent     0.554   0.648    9   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B               mean  outcome    0.739   0.943   12   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B-Instruct      last  intent     0.507   0.685   21   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B-Instruct      last  outcome    0.517   0.983   16   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B-Instruct      mean  intent     0.557   0.651   14   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B-Instruct      mean  outcome    0.739   0.947   12   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B               last  intent     0.507   0.752   13   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B               last  outcome    0.517   1.000   17   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B               mean  intent     0.567   0.726   20   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B               mean  outcome    0.802   0.923   20   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B-Instruct      last  intent     0.507   0.742   18   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B-Instruct      last  outcome    0.517   1.000   17   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B-Instruct      mean  intent     0.567   0.729   18   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B-Instruct      mean  outcome    0.802   0.933   15   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B                 last  intent     0.507   0.893   19   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B                 last  outcome    0.517   1.000   16   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B                 mean  intent     0.551   0.829   18   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B                 mean  outcome    0.823   0.973   18   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B-Instruct        last  intent     0.507   0.883   17   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B-Instruct        last  outcome    0.517   1.000   16   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B-Instruct        mean  intent     0.554   0.849   18   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B-Instruct        mean  outcome    0.823   0.980   18   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B             last  intent     0.507   0.843   17   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B             last  outcome    0.517   1.000   13   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B             mean  intent     0.550   0.860   15   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B             mean  outcome    0.782   0.977   13   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B-Instruct    last  intent     0.507   0.853   16   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B-Instruct    last  outcome    0.517   1.000   17   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B-Instruct    mean  intent     0.553   0.883   15   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B-Instruct    mean  outcome    0.789   0.997   15   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+
+-> /orcd/home/002/aimeeyu/tom_project/outputs/probe/layer0_diagnostic.csv
+NOTE: lexical-vs-computed inference restricted to last/mean pooling with layer0_degenerate=False.
+
+=== layer-0 refit, last vs mean pooling (mean = true bag-of-embeddings) ===
+  OLMo-2-1124-7B-Instruct    last  intent   L0 acc=0.507
+  OLMo-2-1124-7B-Instruct    last  outcome  L0 acc=0.517
+  OLMo-2-1124-7B-Instruct    mean  intent   L0 acc=0.553
+  OLMo-2-1124-7B-Instruct    mean  outcome  L0 acc=0.789
+  OLMo-2-1124-7B             last  intent   L0 acc=0.507
+  OLMo-2-1124-7B             last  outcome  L0 acc=0.517
+  OLMo-2-1124-7B             mean  intent   L0 acc=0.550
+  OLMo-2-1124-7B             mean  outcome  L0 acc=0.783
+  Qwen2.5-0.5B-Instruct      last  intent   L0 acc=0.507
+  Qwen2.5-0.5B-Instruct      last  outcome  L0 acc=0.517
+  Qwen2.5-0.5B-Instruct      mean  intent   L0 acc=0.557
+  Qwen2.5-0.5B-Instruct      mean  outcome  L0 acc=0.739
+  Qwen2.5-0.5B               last  intent   L0 acc=0.507
+  Qwen2.5-0.5B               last  outcome  L0 acc=0.517
+  Qwen2.5-0.5B               mean  intent   L0 acc=0.554
+  Qwen2.5-0.5B               mean  outcome  L0 acc=0.739
+  Qwen2.5-1.5B-Instruct      last  intent   L0 acc=0.507
+  Qwen2.5-1.5B-Instruct      last  outcome  L0 acc=0.517
+  Qwen2.5-1.5B-Instruct      mean  intent   L0 acc=0.567
+  Qwen2.5-1.5B-Instruct      mean  outcome  L0 acc=0.802
+  Qwen2.5-1.5B               last  intent   L0 acc=0.507
+  Qwen2.5-1.5B               last  outcome  L0 acc=0.517
+  Qwen2.5-1.5B               mean  intent   L0 acc=0.567
+  Qwen2.5-1.5B               mean  outcome  L0 acc=0.802
+  Qwen2.5-7B-Instruct        last  intent   L0 acc=0.507
+  Qwen2.5-7B-Instruct        last  outcome  L0 acc=0.517
+  Qwen2.5-7B-Instruct        mean  intent   L0 acc=0.554
+  Qwen2.5-7B-Instruct        mean  outcome  L0 acc=0.823
+  Qwen2.5-7B                 last  intent   L0 acc=0.507
+  Qwen2.5-7B                 last  outcome  L0 acc=0.517
+  Qwen2.5-7B                 mean  intent   L0 acc=0.551
+  Qwen2.5-7B                 mean  outcome  L0 acc=0.823
+-> /orcd/home/002/aimeeyu/tom_project/outputs/probe/layer0_pooling_check.csv
+-> /orcd/home/002/aimeeyu/tom_project/outputs/probe/layerwise_curves.png
+
+=== Job 18962390 finished (exit 0) at Sun Jul 26 23:56:57 EDT 2026 ===

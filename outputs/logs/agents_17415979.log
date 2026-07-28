@@ -1,0 +1,44 @@
+=== Job 17415979 started on node1624 at Tue Jul  7 20:05:43 EDT 2026 ===
+Provider(s): all
+
+
+======================= anthropic (20:05:43) =======================
+  Note: n_samples=1 is low; recommend --n_samples 5+
+Dataset: 298 stories | Templates: ['human_verbatim', 'para_wrong7', 'punish7']
+
+============================================================
+ Model : claude-3-5-haiku-20241022
+ Backend: anthropic | Scoring: sampling | n_samples: 1
+============================================================
+/orcd/home/002/aimeeyu/tom_project/code/03_behavioral.py:227: DeprecationWarning: The model 'claude-3-5-haiku-20241022' is deprecated and will reach end-of-life on February 19th, 2026.
+Please migrate to a newer model. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+  resp = self.client.messages.create(
+/orcd/home/002/aimeeyu/tom_project/code/03_behavioral.py:227: DeprecationWarning: The model 'claude-3-5-haiku-20241022' is deprecated and will reach end-of-life on February 19th, 2026.
+Please migrate to a newer model. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+  resp = self.client.messages.create(
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcocaBeqKyYKpepFHpxL6'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011Ccocaigt9cxnyihsRnAUC'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcocbFoeYLJGw5b4gMcK3'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcocbpPi1yS4BzWWVJF4A'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcoccNLLHLNiP3qd7vs7N'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcoccuhyMeTYSNfd4hExy'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcocdSpjb4BVogjemfBtW'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcocdybQWyZcPYEnJt7wQ'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcoceX5VVdXbuMkzcErMs'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011Ccocf4Wc9Zp434iEixbpB'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011Ccocfbr1wcL8CfbtQsUPa'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011Ccocg9M6ayC9UnKc9aFH7'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcocggqRkThN11v7tPa9a'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcochEvj6pmjrAryGeqj5'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011Ccochnm9ckhDZ2WsYsTy5'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcociKnTRDjDg6YFo9pAW'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcocirygPUWvmueW2KhfF'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcocjQk8s35WQ7Xq97aSV'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011Ccocjx3JqY5X8nq5Qqxoh'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcockVYPTb2nLiLcuMstG'}
+    20/894 rated ...
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011Ccocm3NK7tMDFwaZgTFVF'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcocmamSieduTDp2dqsrV'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011Ccocn7qENDMjtxZniumd5'}
+    Anthropic error: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-haiku-20241022'}, 'request_id': 'req_011CcocnfsYrDE7PqnoNPo48'}
+[2026-07-07T20:08:47.589] error: *** JOB 17415979 ON node1624 CANCELLED AT 2026-07-07T20:08:47 DUE to SIGNAL Terminated ***

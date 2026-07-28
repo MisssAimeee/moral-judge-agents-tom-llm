@@ -1,0 +1,50 @@
+model,mistralai_Mistral-7B-v0_3
+template,human_verbatim
+
+MODEL condition profile (0-1 blame)
+neutral,0.5
+accidental,0.5
+attempted,0.5
+intentional,0.5
+model_intent_reliance_4cell,0.0
+model_intent_vs_outcome_contrast,0.0
+
+PROMPT-INVARIANCE of intent_vs_outcome_contrast (n_templates=7)
+contrast_template_mean,0.0
+contrast_template_sd,0.0
+contrast_template_min,0.0
+contrast_template_max,0.0
+contrast_template_range,0.0
+  contrast[acceptable7],0.0
+  contrast[human_verbatim],0.0
+  contrast[para_blame10],0.0
+  contrast[para_blame4],0.0
+  contrast[para_wrong7],0.0
+  contrast[persona_adult7],0.0
+  contrast[punish7],0.0
+contrast_sign_stable_across_prompts,yes
+
+vs adult
+rmse,0.4117
+profile_corr,nan
+intent_reliance_4cell_diff,-0.8565
+intent_vs_outcome_contrast_human,0.666
+contrast_diff_model_minus_human,-0.666
+
+vs child_4_5
+rmse,0.1415
+profile_corr,nan
+intent_vs_outcome_contrast_human,0.24
+contrast_diff_model_minus_human,-0.24
+
+vs child_6_7
+rmse,0.255
+profile_corr,nan
+intent_vs_outcome_contrast_human,0.5
+contrast_diff_model_minus_human,-0.5
+
+vs child_8plus
+rmse,0.3389
+profile_corr,nan
+intent_vs_outcome_contrast_human,0.63
+contrast_diff_model_minus_human,-0.63

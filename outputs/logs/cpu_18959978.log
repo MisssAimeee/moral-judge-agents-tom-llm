@@ -1,0 +1,31 @@
+=== Job 18959978 on node1615 at Sun Jul 26 23:23:34 EDT 2026 ===
+CMD: python -u code/02_probe.py --csv dataset/master/moral_2x2_master.csv --acts outputs/acts --out outputs/probe --pooling action_last --clause-offsets dataset/master/clause_offsets.csv
+CPUS: 16
+
+clause mask: 281 reliable rows for action_last pooling
+Traceback (most recent call last):
+  File "/orcd/home/002/aimeeyu/tom_project/code/02_probe.py", line 179, in <module>
+    res = run(npz, lab, a.pooling, clause_ok)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/orcd/home/002/aimeeyu/tom_project/code/02_probe.py", line 131, in run
+    ai, _ = group_cv_acc(X, intent, groups)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/orcd/home/002/aimeeyu/tom_project/code/02_probe.py", line 57, in group_cv_acc
+    clf.fit(Xtr, y[tr])
+  File "/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/sklearn/base.py", line 1403, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py", line 1459, in fit
+    X, y = validate_data(
+           ^^^^^^^^^^^^^^
+  File "/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/sklearn/utils/validation.py", line 3055, in validate_data
+    X, y = check_X_y(X, y, **check_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/sklearn/utils/validation.py", line 1327, in check_X_y
+    X = check_array(
+        ^^^^^^^^^^^^
+  File "/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/sklearn/utils/validation.py", line 1119, in check_array
+    raise ValueError(
+ValueError: Found array with 0 feature(s) (shape=(224, 0)) while a minimum of 1 is required by LogisticRegression.
+
+=== Job 18959978 finished (exit 1) at Sun Jul 26 23:23:38 EDT 2026 ===

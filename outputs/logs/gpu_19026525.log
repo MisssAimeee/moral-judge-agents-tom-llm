@@ -1,0 +1,86 @@
+=== Job 19026525 on node4200 at Mon Jul 27 22:53:29 EDT 2026 ===
+NVIDIA L40S, 46068 MiB
+items: 800  {'bigtom': 400, 'tomi': 400}
+
+=== Qwen/Qwen2.5-0.5B-Instruct ===
+  loading Qwen/Qwen2.5-0.5B-Instruct ...
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights:   0%|          | 1/290 [00:00<00:43,  6.70it/s]Loading weights:  26%|██▌       | 76/290 [00:00<00:00, 360.46it/s]Loading weights:  50%|█████     | 146/290 [00:00<00:00, 483.15it/s]Loading weights:  73%|███████▎  | 211/290 [00:00<00:00, 543.03it/s]Loading weights:  97%|█████████▋| 280/290 [00:00<00:00, 584.99it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 506.56it/s]
+    100/800 scored
+    200/800 scored
+    300/800 scored
+    400/800 scored
+    500/800 scored
+    600/800 scored
+    700/800 scored
+    800/800 scored
+  bigtom                              208/400  acc=0.520
+  bigtom|false_belief                 127/200  acc=0.635
+  bigtom|true_belief                   81/200  acc=0.405
+  tomi                                193/400  acc=0.482
+  tomi|first_order_0_no_tom|false_belief   26/63   acc=0.413
+  tomi|first_order_0_no_tom|second_order_false_belief   17/36   acc=0.472
+  tomi|first_order_0_no_tom|true_belief   45/101  acc=0.446
+  tomi|first_order_1_no_tom|false_belief    2/8    acc=0.250
+  tomi|first_order_1_no_tom|second_order_false_belief   16/30   acc=0.533
+  tomi|first_order_1_no_tom|true_belief   45/91   acc=0.495
+  tomi|first_order_1_tom|false_belief   29/54   acc=0.537
+  tomi|first_order_1_tom|second_order_false_belief    6/7    acc=0.857
+  tomi|first_order_1_tom|true_belief    7/10   acc=0.700
+
+=== Qwen/Qwen2.5-14B-Instruct ===
+  loading Qwen/Qwen2.5-14B-Instruct ...
+Loading weights:   0%|          | 0/579 [00:00<?, ?it/s]Loading weights:   0%|          | 1/579 [00:00<08:29,  1.13it/s]Loading weights:   0%|          | 2/579 [00:01<08:38,  1.11it/s]Loading weights:   1%|          | 5/579 [00:01<02:48,  3.41it/s]Loading weights:   2%|▏         | 10/579 [00:02<01:12,  7.82it/s]Loading weights:   3%|▎         | 16/579 [00:02<00:43, 13.09it/s]Loading weights:   4%|▍         | 22/579 [00:02<00:29, 19.10it/s]Loading weights:   5%|▍         | 28/579 [00:02<00:22, 24.75it/s]Loading weights:   6%|▌         | 32/579 [00:02<00:22, 24.49it/s]Loading weights:   7%|▋         | 40/579 [00:02<00:19, 27.76it/s]Loading weights:   8%|▊         | 46/579 [00:03<00:16, 32.32it/s]Loading weights:   9%|▉         | 52/579 [00:03<00:14, 36.30it/s]Loading weights:  10%|▉         | 57/579 [00:03<00:15, 34.21it/s]Loading weights:  11%|█         | 64/579 [00:03<00:13, 37.67it/s]Loading weights:  12%|█▏        | 69/579 [00:03<00:14, 34.01it/s]Loading weights:  13%|█▎        | 76/579 [00:03<00:15, 32.62it/s]Loading weights:  14%|█▍        | 82/579 [00:04<00:13, 36.34it/s]Loading weights:  15%|█▌        | 88/579 [00:04<00:12, 39.57it/s]Loading weights:  16%|█▌        | 93/579 [00:04<00:13, 35.92it/s]Loading weights:  17%|█▋        | 100/579 [00:04<00:12, 38.97it/s]Loading weights:  18%|█▊        | 105/579 [00:04<00:13, 35.86it/s]Loading weights:  19%|█▉        | 112/579 [00:04<00:11, 38.99it/s]Loading weights:  20%|██        | 117/579 [00:04<00:12, 36.20it/s]Loading weights:  21%|██▏       | 124/579 [00:05<00:11, 39.33it/s]Loading weights:  22%|██▏       | 129/579 [00:05<00:12, 36.35it/s]Loading weights:  23%|██▎       | 136/579 [00:05<00:11, 39.24it/s]Loading weights:  24%|██▍       | 140/579 [00:05<00:12, 33.96it/s]Loading weights:  26%|██▌       | 148/579 [00:05<00:10, 39.22it/s]Loading weights:  26%|██▋       | 153/579 [00:05<00:11, 35.88it/s]Loading weights:  28%|██▊       | 160/579 [00:06<00:10, 39.00it/s]Loading weights:  28%|██▊       | 164/579 [00:06<00:12, 32.96it/s]Loading weights:  30%|██▉       | 172/579 [00:06<00:10, 37.92it/s]Loading weights:  30%|███       | 176/579 [00:06<00:11, 33.83it/s]Loading weights:  32%|███▏      | 184/579 [00:06<00:11, 33.73it/s]Loading weights:  33%|███▎      | 190/579 [00:06<00:10, 37.16it/s]Loading weights:  34%|███▍      | 196/579 [00:07<00:10, 34.87it/s]Loading weights:  35%|███▍      | 202/579 [00:07<00:10, 36.48it/s]Loading weights:  36%|███▌      | 209/579 [00:07<00:09, 37.99it/s]Loading weights:  37%|███▋      | 214/579 [00:07<00:09, 39.26it/s]Loading weights:  38%|███▊      | 220/579 [00:07<00:08, 41.91it/s]Loading weights:  39%|███▉      | 225/579 [00:07<00:09, 37.56it/s]Loading weights:  40%|████      | 232/579 [00:08<00:08, 40.81it/s]Loading weights:  41%|████      | 237/579 [00:08<00:09, 37.25it/s]Loading weights:  42%|████▏     | 244/579 [00:08<00:08, 40.38it/s]Loading weights:  43%|████▎     | 249/579 [00:08<00:08, 36.84it/s]Loading weights:  44%|████▍     | 256/579 [00:08<00:09, 34.00it/s]Loading weights:  45%|████▌     | 262/579 [00:08<00:08, 37.79it/s]Loading weights:  46%|████▋     | 268/579 [00:08<00:07, 41.29it/s]Loading weights:  47%|████▋     | 273/579 [00:09<00:08, 36.97it/s]Loading weights:  48%|████▊     | 280/579 [00:09<00:08, 33.99it/s]Loading weights:  49%|████▉     | 286/579 [00:09<00:08, 35.34it/s]Loading weights:  51%|█████     | 293/579 [00:09<00:07, 37.04it/s]Loading weights:  51%|█████▏    | 298/579 [00:09<00:07, 38.04it/s]Loading weights:  53%|█████▎    | 304/579 [00:09<00:06, 41.19it/s]Loading weights:  53%|█████▎    | 309/579 [00:10<00:07, 37.59it/s]Loading weights:  55%|█████▍    | 316/579 [00:10<00:06, 40.51it/s]Loading weights:  55%|█████▌    | 321/579 [00:10<00:06, 36.90it/s]Loading weights:  57%|█████▋    | 328/579 [00:10<00:06, 40.24it/s]Loading weights:  58%|█████▊    | 333/579 [00:10<00:06, 37.19it/s]Loading weights:  59%|█████▊    | 340/579 [00:10<00:05, 40.42it/s]Loading weights:  60%|█████▉    | 345/579 [00:11<00:06, 37.29it/s]Loading weights:  61%|██████    | 352/579 [00:11<00:05, 40.36it/s]Loading weights:  62%|██████▏   | 357/579 [00:11<00:05, 37.25it/s]Loading weights:  63%|██████▎   | 364/579 [00:11<00:05, 40.68it/s]Loading weights:  64%|██████▎   | 369/579 [00:11<00:05, 37.37it/s]Loading weights:  65%|██████▍   | 376/579 [00:11<00:05, 40.58it/s]Loading weights:  66%|██████▌   | 381/579 [00:11<00:05, 37.55it/s]Loading weights:  67%|██████▋   | 388/579 [00:12<00:05, 35.23it/s]Loading weights:  68%|██████▊   | 394/579 [00:12<00:04, 38.98it/s]Loading weights:  69%|██████▉   | 400/579 [00:12<00:04, 42.31it/s]Loading weights:  70%|██████▉   | 405/579 [00:12<00:04, 37.99it/s]Loading weights:  71%|███████   | 412/579 [00:12<00:04, 35.83it/s]Loading weights:  72%|███████▏  | 418/579 [00:12<00:04, 39.36it/s]Loading weights:  73%|███████▎  | 424/579 [00:13<00:03, 42.20it/s]Loading weights:  74%|███████▍  | 429/579 [00:13<00:03, 38.00it/s]Loading weights:  75%|███████▌  | 436/579 [00:13<00:03, 40.52it/s]Loading weights:  76%|███████▌  | 441/579 [00:13<00:03, 36.79it/s]Loading weights:  77%|███████▋  | 447/579 [00:13<00:04, 32.64it/s]Loading weights:  78%|███████▊  | 454/579 [00:13<00:03, 38.44it/s]Loading weights:  79%|███████▉  | 460/579 [00:14<00:03, 35.51it/s]Loading weights:  80%|████████  | 466/579 [00:14<00:02, 38.96it/s]Loading weights:  82%|████████▏ | 472/579 [00:14<00:02, 42.12it/s]Loading weights:  82%|████████▏ | 477/579 [00:14<00:02, 37.68it/s]Loading weights:  84%|████████▎ | 484/579 [00:14<00:02, 40.48it/s]Loading weights:  84%|████████▍ | 489/579 [00:14<00:02, 36.92it/s]Loading weights:  86%|████████▌ | 496/579 [00:15<00:02, 34.82it/s]Loading weights:  87%|████████▋ | 502/579 [00:15<00:01, 38.53it/s]Loading weights:  88%|████████▊ | 508/579 [00:15<00:01, 41.80it/s]Loading weights:  89%|████████▊ | 513/579 [00:15<00:01, 37.99it/s]Loading weights:  90%|████████▉ | 520/579 [00:15<00:01, 41.27it/s]Loading weights:  91%|█████████ | 525/579 [00:15<00:01, 37.78it/s]Loading weights:  92%|█████████▏| 531/579 [00:15<00:01, 38.88it/s]Loading weights:  92%|█████████▏| 535/579 [00:16<00:01, 34.57it/s]Loading weights:  94%|█████████▍| 544/579 [00:16<00:00, 36.72it/s]Loading weights:  95%|█████████▍| 550/579 [00:16<00:00, 40.38it/s]Loading weights:  96%|█████████▌| 556/579 [00:16<00:00, 43.66it/s]Loading weights:  97%|█████████▋| 561/579 [00:16<00:00, 35.39it/s]Loading weights:  98%|█████████▊| 567/579 [00:16<00:00, 37.21it/s]Loading weights:  99%|█████████▊| 571/579 [00:16<00:00, 33.66it/s]Loading weights: 100%|██████████| 579/579 [00:17<00:00, 33.95it/s]
+    100/800 scored
+    200/800 scored
+    300/800 scored
+    400/800 scored
+    500/800 scored
+    600/800 scored
+    700/800 scored
+    800/800 scored
+  bigtom                              353/400  acc=0.882
+  bigtom|false_belief                 197/200  acc=0.985
+  bigtom|true_belief                  156/200  acc=0.780
+  tomi                                205/400  acc=0.512
+  tomi|first_order_0_no_tom|false_belief   35/63   acc=0.556
+  tomi|first_order_0_no_tom|second_order_false_belief   19/36   acc=0.528
+  tomi|first_order_0_no_tom|true_belief   53/101  acc=0.525
+  tomi|first_order_1_no_tom|false_belief    3/8    acc=0.375
+  tomi|first_order_1_no_tom|second_order_false_belief   15/30   acc=0.500
+  tomi|first_order_1_no_tom|true_belief   38/91   acc=0.418
+  tomi|first_order_1_tom|false_belief   30/54   acc=0.556
+  tomi|first_order_1_tom|second_order_false_belief    6/7    acc=0.857
+  tomi|first_order_1_tom|true_belief    6/10   acc=0.600
+
+=== allenai/OLMo-2-1124-7B-Instruct ===
+  loading allenai/OLMo-2-1124-7B-Instruct ...
+Fetching 3 files:   0%|          | 0/3 [00:00<?, ?it/s]Fetching 3 files:  67%|██████▋   | 2/3 [00:40<00:20, 20.39s/it]Fetching 3 files: 100%|██████████| 3/3 [00:40<00:00, 13.59s/it]
+Loading weights:   0%|          | 0/355 [00:00<?, ?it/s]Loading weights:   0%|          | 1/355 [00:00<02:34,  2.28it/s]Loading weights:   1%|          | 2/355 [00:00<02:51,  2.06it/s]Loading weights:   1%|▏         | 5/355 [00:01<00:57,  6.14it/s]Loading weights:   4%|▍         | 14/355 [00:01<00:17, 19.65it/s]Loading weights:   5%|▌         | 18/355 [00:01<00:14, 23.26it/s]Loading weights:   7%|▋         | 25/355 [00:01<00:11, 28.45it/s]Loading weights:  10%|▉         | 34/355 [00:01<00:07, 40.29it/s]Loading weights:  11%|█▏        | 40/355 [00:01<00:08, 38.74it/s]Loading weights:  13%|█▎        | 47/355 [00:01<00:07, 43.05it/s]Loading weights:  15%|█▍        | 52/355 [00:01<00:06, 44.35it/s]Loading weights:  16%|█▋        | 58/355 [00:02<00:06, 45.62it/s]Loading weights:  18%|█▊        | 63/355 [00:02<00:06, 46.13it/s]Loading weights:  19%|█▉        | 69/355 [00:02<00:06, 46.23it/s]Loading weights:  21%|██        | 74/355 [00:02<00:06, 46.52it/s]Loading weights:  23%|██▎       | 80/355 [00:02<00:05, 46.73it/s]Loading weights:  24%|██▍       | 85/355 [00:02<00:05, 47.01it/s]Loading weights:  26%|██▌       | 91/355 [00:02<00:05, 46.55it/s]Loading weights:  27%|██▋       | 96/355 [00:02<00:05, 46.84it/s]Loading weights:  29%|██▊       | 102/355 [00:03<00:05, 46.74it/s]Loading weights:  30%|███       | 107/355 [00:03<00:05, 46.57it/s]Loading weights:  32%|███▏      | 113/355 [00:03<00:04, 48.85it/s]Loading weights:  34%|███▎      | 119/355 [00:03<00:04, 49.92it/s]Loading weights:  35%|███▌      | 126/355 [00:03<00:04, 53.41it/s]Loading weights:  38%|███▊      | 136/355 [00:03<00:03, 64.05it/s]Loading weights:  41%|████      | 146/355 [00:03<00:02, 71.70it/s]Loading weights:  43%|████▎     | 154/355 [00:03<00:02, 73.39it/s]Loading weights:  46%|████▌     | 162/355 [00:03<00:02, 73.45it/s]Loading weights:  48%|████▊     | 170/355 [00:04<00:02, 66.91it/s]Loading weights:  51%|█████     | 180/355 [00:04<00:02, 73.23it/s]Loading weights:  54%|█████▎    | 190/355 [00:04<00:02, 77.84it/s]Loading weights:  56%|█████▋    | 200/355 [00:04<00:01, 82.32it/s]Loading weights:  59%|█████▉    | 209/355 [00:04<00:01, 77.54it/s]Loading weights:  61%|██████    | 217/355 [00:04<00:01, 76.08it/s]Loading weights:  63%|██████▎   | 225/355 [00:04<00:01, 68.86it/s]Loading weights:  66%|██████▌   | 235/355 [00:04<00:01, 74.35it/s]Loading weights:  69%|██████▉   | 245/355 [00:05<00:01, 75.22it/s]Loading weights:  71%|███████▏  | 253/355 [00:05<00:01, 75.74it/s]Loading weights:  74%|███████▎  | 261/355 [00:05<00:01, 63.92it/s]Loading weights:  75%|███████▌  | 268/355 [00:05<00:01, 54.86it/s]Loading weights:  78%|███████▊  | 276/355 [00:05<00:01, 59.34it/s]Loading weights:  80%|███████▉  | 283/355 [00:05<00:01, 52.40it/s]Loading weights:  81%|████████▏ | 289/355 [00:05<00:01, 50.93it/s]Loading weights:  83%|████████▎ | 295/355 [00:06<00:01, 50.55it/s]Loading weights:  85%|████████▍ | 301/355 [00:06<00:01, 46.31it/s]Loading weights:  87%|████████▋ | 309/355 [00:06<00:00, 53.28it/s]Loading weights:  89%|████████▊ | 315/355 [00:06<00:00, 46.40it/s]Loading weights:  91%|█████████ | 322/355 [00:06<00:00, 48.01it/s]Loading weights:  92%|█████████▏| 328/355 [00:06<00:00, 46.14it/s]Loading weights:  94%|█████████▍| 334/355 [00:06<00:00, 45.69it/s]Loading weights:  96%|█████████▋| 342/355 [00:06<00:00, 52.66it/s]Loading weights:  98%|█████████▊| 348/355 [00:07<00:00, 46.17it/s]Loading weights: 100%|██████████| 355/355 [00:07<00:00, 49.09it/s]
+    100/800 scored
+    200/800 scored
+    300/800 scored
+    400/800 scored
+    500/800 scored
+    600/800 scored
+    700/800 scored
+    800/800 scored
+  bigtom                              340/400  acc=0.850
+  bigtom|false_belief                 178/200  acc=0.890
+  bigtom|true_belief                  162/200  acc=0.810
+  tomi                                327/400  acc=0.818
+  tomi|first_order_0_no_tom|false_belief   57/63   acc=0.905
+  tomi|first_order_0_no_tom|second_order_false_belief   33/36   acc=0.917
+  tomi|first_order_0_no_tom|true_belief   96/101  acc=0.950
+  tomi|first_order_1_no_tom|false_belief    8/8    acc=1.000
+  tomi|first_order_1_no_tom|second_order_false_belief   29/30   acc=0.967
+  tomi|first_order_1_no_tom|true_belief   75/91   acc=0.824
+  tomi|first_order_1_tom|false_belief   29/54   acc=0.537
+  tomi|first_order_1_tom|second_order_false_belief    0/7    acc=0.000
+  tomi|first_order_1_tom|true_belief    0/10   acc=0.000
+
+wrote /orcd/home/002/aimeeyu/tom_project/outputs/tom_benchmarks/tom_accuracy_by_model.csv
+
+=== CEILING GATE ===
+  bigtom   acc=['0.520', '0.882', '0.850']  spread=0.362  HAS SPREAD - proceed
+  tomi     acc=['0.482', '0.512', '0.818']  spread=0.335  HAS SPREAD - proceed
+=== done at Mon Jul 27 22:57:47 EDT 2026 ===

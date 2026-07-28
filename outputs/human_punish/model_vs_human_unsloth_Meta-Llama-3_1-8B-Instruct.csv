@@ -1,0 +1,50 @@
+model,unsloth_Meta-Llama-3_1-8B-Instruct
+template,human_verbatim
+
+MODEL condition profile (0-1 blame)
+neutral,0.3718
+accidental,0.4133
+attempted,0.4797
+intentional,0.4034
+model_intent_reliance_4cell,0.7376
+model_intent_vs_outcome_contrast,0.0664
+
+PROMPT-INVARIANCE of intent_vs_outcome_contrast (n_templates=7)
+contrast_template_mean,-0.0055
+contrast_template_sd,0.0796
+contrast_template_min,-0.1612
+contrast_template_max,0.1008
+contrast_template_range,0.2619
+  contrast[acceptable7],0.0258
+  contrast[human_verbatim],0.0664
+  contrast[para_blame10],0.1008
+  contrast[para_blame4],-0.1612
+  contrast[para_wrong7],-0.0553
+  contrast[persona_adult7],-0.0177
+  contrast[punish7],0.0026
+contrast_sign_stable_across_prompts,NO
+
+vs adult
+rmse,0.406
+profile_corr,0.6659
+intent_reliance_4cell_diff,-0.1189
+intent_vs_outcome_contrast_human,0.666
+contrast_diff_model_minus_human,-0.5996
+
+vs child_4_5
+rmse,0.1889
+profile_corr,1.0
+intent_vs_outcome_contrast_human,0.09
+contrast_diff_model_minus_human,-0.0236
+
+vs child_6_7
+rmse,0.0391
+profile_corr,1.0
+intent_vs_outcome_contrast_human,0.12
+contrast_diff_model_minus_human,-0.0536
+
+vs child_8plus
+rmse,0.1453
+profile_corr,1.0
+intent_vs_outcome_contrast_human,0.19
+contrast_diff_model_minus_human,-0.1236

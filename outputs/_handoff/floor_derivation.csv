@@ -1,0 +1,49 @@
+quantity,value,basis
+engagement_floor_rating_std,0.2191,"midpoint of largest gap in sorted rating_std (0.1777 -> 0.2604, width 0.0827), 20 models post-fix"
+effect_floor_abs_b_sum,0.0988,"q95 of within-scenario-group permutation null of |b_intent|+|b_outcome|, 51400 draws"
+effect_floor_abs_b_sum_q99,0.1439,"same null, 99th percentile"
+effect_floor_old,0.05,"hand-set; justified as excluding Mistral-7B and Zephyr-7B, which are now known to have been measurement failures"
+
+model,observed_mean_abs_b_sum,own_null_q95_abs_b_sum,n_templates_above_own_null,n_templates,binomial_p,degenerate_by_own_null,clears_global_0.0988
+HuggingFaceH4/zephyr-7b-beta,0.6357,0.145,12,12,2.441e-16,False,True
+Qwen/Qwen2_5-0_5B-Instruct,0.0509,0.0249,10,13,2.429e-11,False,False
+Qwen/Qwen2_5-0_5B,0.0091,0.0084,5,13,0.0002866,False,False
+Qwen/Qwen2_5-14B-Instruct,0.5854,0.1189,13,13,1.221e-17,False,True
+Qwen/Qwen2_5-14B,0.1302,0.044,12,13,3.027e-15,False,True
+Qwen/Qwen2_5-1_5B-Instruct,0.2,0.0479,12,13,3.027e-15,False,True
+Qwen/Qwen2_5-1_5B,0.011,0.0157,3,13,0.02451,False,False
+Qwen/Qwen2_5-3B-Instruct,0.2981,0.0865,13,13,1.221e-17,False,True
+Qwen/Qwen2_5-3B,0.0551,0.022,12,13,3.027e-15,False,False
+Qwen/Qwen2_5-7B-Instruct,0.3321,0.0828,13,13,1.221e-17,False,True
+Qwen/Qwen2_5-7B,0.0553,0.0199,12,13,3.027e-15,False,False
+allenai/Llama-3_1-Tulu-3-8B,0.5111,0.1048,13,13,1.221e-17,False,True
+allenai/OLMo-2-1124-7B-Instruct,0.7213,0.1591,13,13,1.221e-17,False,True
+allenai/OLMo-2-1124-7B,0.0141,0.0121,7,13,1.026e-06,False,False
+mistralai/Mistral-7B-Instruct-v0_3,0.5774,0.1199,12,12,2.441e-16,False,True
+mistralai/Mistral-7B-v0_3,0.009,0.0066,8,12,1.612e-08,False,False
+unsloth/Meta-Llama-3_1-8B-Instruct,0.3228,0.0715,13,13,1.221e-17,False,True
+unsloth/Meta-Llama-3_1-8B,0.0089,0.0098,4,13,0.003103,False,False
+unsloth/gemma-2-9b-it,0.6213,0.1268,13,13,1.221e-17,False,True
+unsloth/gemma-2-9b,0.0031,0.0048,1,13,0.4867,True,False
+
+model,rating_std,engaged_at_0.2191
+unsloth_gemma-2-9b,0.0064,False
+mistralai_Mistral-7B-v0_3,0.0153,False
+unsloth_Meta-Llama-3_1-8B,0.0238,False
+Qwen_Qwen2_5-0_5B,0.0264,False
+allenai_OLMo-2-1124-7B,0.027,False
+Qwen_Qwen2_5-3B,0.0405,False
+Qwen_Qwen2_5-7B,0.043,False
+Qwen_Qwen2_5-0_5B-Instruct,0.0483,False
+Qwen_Qwen2_5-1_5B,0.049,False
+Qwen_Qwen2_5-14B,0.0749,False
+Qwen_Qwen2_5-1_5B-Instruct,0.0995,False
+Qwen_Qwen2_5-3B-Instruct,0.1637,False
+unsloth_Meta-Llama-3_1-8B-Instruct,0.1739,False
+Qwen_Qwen2_5-7B-Instruct,0.1777,False
+allenai_Llama-3_1-Tulu-3-8B,0.2604,True
+Qwen_Qwen2_5-14B-Instruct,0.2818,True
+mistralai_Mistral-7B-Instruct-v0_3,0.2933,True
+unsloth_gemma-2-9b-it,0.326,True
+HuggingFaceH4_zephyr-7b-beta,0.33,True
+allenai_OLMo-2-1124-7B-Instruct,0.3619,True

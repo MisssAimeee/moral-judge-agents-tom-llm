@@ -11,11 +11,11 @@ ROBUSTNESS ACROSS MEASURES (not an anchor choice). The claim 'models fall at or 
 THEORETICAL CHECK. The punishment ladder is monotonic in age but flatter than naughtiness (+0.09/+0.12/+0.19 vs +0.24/+0.50/+0.63) — exactly Cushman et al. (2013)'s two-process prediction that intent constrains judgments of wrongness before judgments of deserved punishment. Two independent digitizations reproducing the predicted pattern is evidence the digitization is sound.
 
 Per-ladder outcome (open-weight only):
-  - text-reported (human_reference.csv) (youngest band -0.14): does not hold for 8/16 non-degenerate models
-  - digitized Naughty presented-first (youngest band +0.24): holds for 16/16 non-degenerate models
-  - Punish presented-first (secondary; construct-matched to punish_* prompts) (youngest band +0.09): holds for 16/16 non-degenerate models
+  - text-reported (human_reference.csv) (youngest band -0.14): does not hold for 10/18 non-degenerate models
+  - digitized Naughty presented-first (youngest band +0.24): holds for 18/18 non-degenerate models
+  - Punish presented-first (secondary; construct-matched to punish_* prompts) (youngest band +0.09): holds for 18/18 non-degenerate models
 
 Same ladders WITH contaminated-era closed-API models included (marked, not for headline use):
-  - text-reported (human_reference.csv) (youngest band -0.14): does not hold for 11/23 non-degenerate models
-  - digitized Naughty presented-first (youngest band +0.24): holds for 23/23 non-degenerate models
-  - Punish presented-first (secondary; construct-matched to punish_* prompts) (youngest band +0.09): does not hold for 22/23 non-degenerate models
+  - text-reported (human_reference.csv) (youngest band -0.14): does not hold for 13/25 non-degenerate models
+  - digitized Naughty presented-first (youngest band +0.24): holds for 25/25 non-degenerate models
+  - Punish presented-first (secondary; construct-matched to punish_* prompts) (youngest band +0.09): does not hold for 24/25 non-degenerate models

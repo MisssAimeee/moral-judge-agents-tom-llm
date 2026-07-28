@@ -1,0 +1,11 @@
+=== Job 18992768 on node3109 at Mon Jul 27 11:09:31 EDT 2026 ===
+CMD: bash -c python -u code/experiments/23_build_intent_reliance_summary.py --behavior outputs/behavior && python -u code/04_link_analysis.py
+CPUS: 4
+
+Traceback (most recent call last):
+  File "/orcd/home/002/aimeeyu/tom_project/code/04_link_analysis.py", line 43, in <module>
+    for r in csv.DictReader(open(a.behavior)):
+                            ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/orcd/home/002/aimeeyu/tom_project/code/../outputs/behavior/intent_reliance_summary.csv'
+
+=== Job 18992768 finished (exit 1) at Mon Jul 27 11:09:31 EDT 2026 ===

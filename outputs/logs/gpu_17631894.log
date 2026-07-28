@@ -1,0 +1,4 @@
+=== Job 17631894 on node4200 at Fri Jul 10 18:33:11 EDT 2026 ===
+CMD: python code/analysis/15_scoring_parity.py --run
+
+[2026-07-10T19:38:44.452] error: *** JOB 17631894 ON node4200 CANCELLED AT 2026-07-10T19:38:44 DUE to SIGNAL Terminated ***

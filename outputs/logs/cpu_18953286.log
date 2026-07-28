@@ -1,0 +1,14 @@
+=== Job 18953286 on node1625 at Sun Jul 26 21:32:28 EDT 2026 ===
+CMD: python code/02_probe.py --pooling mean
+CPUS: 16
+
+OLMo-2-1124-7B-Instruct: peak intent acc=0.936 @ layer 15  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/OLMo-2-1124-7B-Instruct_probe_mean.csv
+OLMo-2-1124-7B: peak intent acc=0.929 @ layer 15  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/OLMo-2-1124-7B_probe_mean.csv
+Qwen2.5-0.5B-Instruct: peak intent acc=0.788 @ layer 14  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-0.5B-Instruct_probe_mean.csv
+Qwen2.5-0.5B: peak intent acc=0.768 @ layer 15  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-0.5B_probe_mean.csv
+Qwen2.5-1.5B-Instruct: peak intent acc=0.856 @ layer 18  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-1.5B-Instruct_probe_mean.csv
+Qwen2.5-1.5B: peak intent acc=0.845 @ layer 19  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-1.5B_probe_mean.csv
+Qwen2.5-7B-Instruct: peak intent acc=0.896 @ layer 18  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-7B-Instruct_probe_mean.csv
+Qwen2.5-7B: peak intent acc=0.889 @ layer 16  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-7B_probe_mean.csv
+
+=== Job 18953286 finished (exit 0) at Sun Jul 26 21:35:24 EDT 2026 ===

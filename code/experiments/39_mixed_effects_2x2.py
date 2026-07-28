@@ -203,6 +203,81 @@ def forest_plot(rows, path, human):
     print(f"  -> {path}")
 
 
+def headline_cell_order_section(est, human):
+    """Promote cell-order (J3 headline): 0/N match human ordering, most inverted.
+
+    Picks two representative models: the most extreme inversion (largest negative
+    attempted-minus-accidental diagonal) and the model whose interaction
+    COEFFICIENT is closest to the human value despite an inverted cell order --
+    the case that most directly shows the coefficient alone is misleading.
+    """
+    with_order = [r for r in est if r.get("cell_order") in
+                  ("matches_human", "inverted", "tied")]
+    n = len(with_order)
+    n_match = sum(1 for r in with_order if r["cell_order"] == "matches_human")
+    n_inv = sum(1 for r in with_order if r["cell_order"] == "inverted")
+    n_tied = sum(1 for r in with_order if r["cell_order"] == "tied")
+
+    inverted = [r for r in with_order if r["cell_order"] == "inverted"]
+    most_extreme = (min(inverted, key=lambda r: r["diag_attempted_minus_accidental"])
+                    if inverted else None)
+    closest_coef = (min(inverted, key=lambda r: abs(r["b_interaction"]
+                                                     - human["b_interaction"]))
+                    if inverted else None)
+
+    lines = [
+        "## Cell ordering, not just the coefficient (headline)", "",
+        f"**{n_match} of {n} models match the human cell ordering "
+        f"(attempted > accidental); {n_inv} are inverted "
+        f"(accidental > attempted); {n_tied} are tied.** This is a stronger and",
+        "more quotable result than the interaction coefficient alone: several models",
+        "approximate the human interaction magnitude "
+        f"(human = {human['b_interaction']:+.3f}) while getting the underlying cell",
+        "pattern backwards, which the coefficient by itself hides.", "",
+    ]
+    if most_extreme and closest_coef:
+        rows_to_show = [("HUMAN (Young 2007)", human, "matches_human")]
+        seen = set()
+        for label, r in (("most extreme inversion", most_extreme),
+                         ("closest coefficient match (inverted)", closest_coef)):
+            if r["model"] in seen:
+                continue
+            seen.add(r["model"])
+            rows_to_show.append((f"{r['model']}  ({label})", r, r["cell_order"]))
+        lines += [
+            "| model | neutral | accidental | attempted | intentional | "
+            "att − acc | b_interaction | cell order |",
+            "|---|---:|---:|---:|---:|---:|---:|---|",
+        ]
+        for label, r, order in rows_to_show:
+            if r is human:
+                neu, acc, att, intl = (HUMAN_CELLS[(0, 0)], HUMAN_CELLS[(0, 1)],
+                                       HUMAN_CELLS[(1, 0)], HUMAN_CELLS[(1, 1)])
+                diag = att - acc
+                bixo = human["b_interaction"]
+            else:
+                neu, acc, att, intl = (r["cell_neutral"], r["cell_accidental"],
+                                       r["cell_attempted"], r["cell_intentional"])
+                diag = r["diag_attempted_minus_accidental"]
+                bixo = r["b_interaction"]
+            lines.append(f"| {label} | {neu:.3f} | {acc:.3f} | {att:.3f} | "
+                        f"{intl:.3f} | {diag:+.3f} | {bixo:+.3f} | {order} |")
+        lines += [
+            "",
+            "Humans: attempted (0.933) is already almost as harsh as intentional",
+            "(0.967) — the accident with the same outcome (accidental, 0.267) is judged",
+            "far more leniently. These models put accidental ABOVE attempted: an",
+            "outcome-free failed attempt is judged more leniently than an accident that",
+            "caused harm, the reverse of the human pattern, even when the interaction",
+            "coefficient sits close to the human value.", "",
+        ]
+    lines += [
+        "The full per-model cell means and `cell_order` column are in the table below",
+        "and in `mixed_effects_2x2.csv`.", "",
+    ]
+    return lines
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--behavior", default=BEHAVIOR)
@@ -293,6 +368,9 @@ def main():
         f"    b_interaction = {human['b_interaction']:+.3f}", "",
         "The interaction is negative because a harmful outcome adds little once intent is",
         "present (0.933 -> 0.967) but a great deal when it is absent (0.033 -> 0.267).", "",
+    ]
+    md += headline_cell_order_section(est, human)
+    md += [
         "## Counts", "",
         f"- models with an estimable interaction: {len(est)} of {len(files)}",
         f"- significantly negative (same sign as humans, p<0.05): {len(neg_sig)}",

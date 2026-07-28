@@ -1,0 +1,21 @@
+=== Job 18959838 on node1606 at Sun Jul 26 23:13:13 EDT 2026 ===
+CMD: python -u code/experiments/21_surface_baseline.py --csv dataset/master/moral_2x2_master.csv
+CPUS: 8
+
+=== TF-IDF surface baselines (same LR + GroupKFold as 02_probe.py) ===
+  all                tfidf_word_1_2   intent   acc=0.587 (chance 0.500, n=298)
+  all                tfidf_word_1_2   outcome  acc=0.748 (chance 0.517, n=298)
+  all                tfidf_char_3_5   intent   acc=0.584 (chance 0.500, n=298)
+  all                tfidf_char_3_5   outcome  acc=0.755 (chance 0.517, n=298)
+  intent_noharm      tfidf_word_1_2   intent   acc=0.601 (chance 0.500, n=144)
+  intent_noharm      tfidf_char_3_5   intent   acc=0.577 (chance 0.500, n=144)
+  intent_harm        tfidf_word_1_2   intent   acc=0.590 (chance 0.500, n=154)
+  intent_harm        tfidf_char_3_5   intent   acc=0.604 (chance 0.500, n=154)
+  outcome_innocent   tfidf_word_1_2   outcome  acc=0.738 (chance 0.517, n=149)
+  outcome_innocent   tfidf_char_3_5   outcome  acc=0.758 (chance 0.517, n=149)
+  outcome_guilty     tfidf_word_1_2   outcome  acc=0.725 (chance 0.517, n=149)
+  outcome_guilty     tfidf_char_3_5   outcome  acc=0.760 (chance 0.517, n=149)
+
+-> /orcd/home/002/aimeeyu/tom_project/outputs/probe/surface_baseline.csv
+
+=== Job 18959838 finished (exit 0) at Sun Jul 26 23:13:23 EDT 2026 ===

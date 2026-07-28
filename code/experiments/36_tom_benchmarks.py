@@ -35,6 +35,11 @@ BENCHMARK SUBSETS.
   ToMi    -- first-order belief questions ("Where will X look for Y?"). Memory and
              reality questions are kept separately as a comprehension control: a model
              failing those is not failing at ToM, it is failing at reading.
+
+NOTE (post-audit): the default `--tomi-limit 400` slice is ~82% `no_tom` items, so
+aggregate ToMi accuracy is not a false-belief measure. Drop ToMi from primary claims;
+BigToM false belief with init_belief=0 carries the argument. See
+outputs/tom_benchmarks/TOMI_SCORING_AUDIT.md.
 """
 import argparse
 import csv

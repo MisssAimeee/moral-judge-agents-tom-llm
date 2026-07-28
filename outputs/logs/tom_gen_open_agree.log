@@ -1,0 +1,51 @@
+items: 400  {'bigtom': 400}  method=generative  backend=hf
+
+=== Qwen/Qwen2.5-7B-Instruct (hf) ===
+  loading Qwen/Qwen2.5-7B-Instruct ...
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   0%|          | 1/339 [00:00<02:30,  2.25it/s]Loading weights:   1%|          | 2/339 [00:00<02:41,  2.09it/s]Loading weights:   1%|▏         | 5/339 [00:01<00:55,  6.07it/s]Loading weights:   5%|▍         | 16/339 [00:01<00:14, 22.53it/s]Loading weights:   6%|▌         | 20/339 [00:01<00:12, 25.07it/s]Loading weights:   9%|▊         | 29/339 [00:01<00:08, 36.95it/s]Loading weights:  12%|█▏        | 40/339 [00:01<00:05, 50.61it/s]Loading weights:  14%|█▍        | 47/339 [00:01<00:05, 52.60it/s]Loading weights:  16%|█▌        | 54/339 [00:01<00:05, 50.29it/s]Loading weights:  19%|█▉        | 65/339 [00:01<00:04, 61.60it/s]Loading weights:  22%|██▏       | 76/339 [00:02<00:03, 67.35it/s]Loading weights:  25%|██▍       | 84/339 [00:02<00:03, 65.85it/s]Loading weights:  27%|██▋       | 91/339 [00:02<00:04, 59.14it/s]Loading weights:  29%|██▉       | 100/339 [00:02<00:03, 63.04it/s]Loading weights:  33%|███▎      | 112/339 [00:02<00:03, 65.32it/s]Loading weights:  37%|███▋      | 124/339 [00:02<00:03, 61.30it/s]Loading weights:  40%|████      | 136/339 [00:03<00:02, 70.61it/s]Loading weights:  44%|████▎     | 148/339 [00:03<00:02, 64.64it/s]Loading weights:  47%|████▋     | 160/339 [00:03<00:02, 72.64it/s]Loading weights:  51%|█████     | 172/339 [00:03<00:02, 66.42it/s]Loading weights:  54%|█████▍    | 184/339 [00:03<00:02, 74.12it/s]Loading weights:  58%|█████▊    | 196/339 [00:03<00:01, 79.39it/s]Loading weights:  60%|██████    | 205/339 [00:03<00:01, 77.99it/s]Loading weights:  63%|██████▎   | 214/339 [00:04<00:01, 69.34it/s]Loading weights:  65%|██████▌   | 222/339 [00:04<00:01, 63.05it/s]Loading weights:  69%|██████▊   | 233/339 [00:04<00:01, 63.57it/s]Loading weights:  71%|███████   | 240/339 [00:04<00:01, 63.30it/s]Loading weights:  73%|███████▎  | 247/339 [00:04<00:01, 49.43it/s]Loading weights:  76%|███████▌  | 256/339 [00:04<00:01, 56.90it/s]Loading weights:  78%|███████▊  | 263/339 [00:05<00:01, 50.32it/s]Loading weights:  79%|███████▉  | 269/339 [00:05<00:01, 46.94it/s]Loading weights:  81%|████████  | 275/339 [00:05<00:01, 48.86it/s]Loading weights:  83%|████████▎ | 281/339 [00:05<00:01, 46.20it/s]Loading weights:  84%|████████▍ | 286/339 [00:05<00:01, 46.16it/s]Loading weights:  86%|████████▌ | 292/339 [00:05<00:01, 43.79it/s]Loading weights:  88%|████████▊ | 299/339 [00:05<00:00, 49.13it/s]Loading weights:  90%|████████▉ | 305/339 [00:06<00:00, 45.67it/s]Loading weights:  92%|█████████▏| 312/339 [00:06<00:00, 50.44it/s]Loading weights:  94%|█████████▍| 318/339 [00:06<00:00, 30.54it/s]Loading weights:  97%|█████████▋| 328/339 [00:06<00:00, 33.27it/s]Loading weights:  98%|█████████▊| 333/339 [00:07<00:00, 26.24it/s]Loading weights: 100%|██████████| 339/339 [00:07<00:00, 47.48it/s]
+    25/400  new=25
+    50/400  new=50
+    75/400  new=75
+    100/400  new=100
+    125/400  new=125
+    150/400  new=150
+    175/400  new=175
+    200/400  new=200
+    225/400  new=225
+    250/400  new=250
+    275/400  new=275
+    300/400  new=300
+    325/400  new=325
+    350/400  new=350
+    375/400  new=375
+    400/400  new=400
+  agreement vs logprob: n=400 log=0.868 gen=0.927 agree=0.900
+  bigtom                              371/400  acc=0.927  parsed=1.000
+  bigtom|false_belief                 185/200  acc=0.925  parsed=1.000
+  bigtom|true_belief                  186/200  acc=0.930  parsed=1.000
+
+=== allenai/OLMo-2-1124-7B-Instruct (hf) ===
+  loading allenai/OLMo-2-1124-7B-Instruct ...
+Loading weights:   0%|          | 0/355 [00:00<?, ?it/s]Loading weights:   0%|          | 1/355 [00:00<00:41,  8.48it/s]Loading weights:   1%|          | 2/355 [00:00<00:46,  7.64it/s]Loading weights:   7%|▋         | 25/355 [00:00<00:03, 92.89it/s]Loading weights:  12%|█▏        | 42/355 [00:00<00:02, 119.02it/s]Loading weights:  17%|█▋        | 60/355 [00:00<00:02, 137.48it/s]Loading weights:  22%|██▏       | 79/355 [00:00<00:01, 140.01it/s]Loading weights:  29%|██▉       | 103/355 [00:00<00:01, 164.25it/s]Loading weights:  35%|███▍      | 123/355 [00:00<00:01, 174.58it/s]Loading weights:  40%|███▉      | 141/355 [00:01<00:01, 169.74it/s]Loading weights:  45%|████▍     | 159/355 [00:01<00:01, 162.52it/s]Loading weights:  50%|████▉     | 176/355 [00:01<00:01, 161.56it/s]Loading weights:  55%|█████▌    | 196/355 [00:01<00:00, 170.88it/s]Loading weights:  60%|██████    | 214/355 [00:01<00:00, 165.66it/s]Loading weights:  66%|██████▌   | 235/355 [00:01<00:00, 174.76it/s]Loading weights:  72%|███████▏  | 256/355 [00:01<00:00, 182.81it/s]Loading weights:  77%|███████▋  | 275/355 [00:01<00:00, 182.45it/s]Loading weights:  83%|████████▎ | 294/355 [00:01<00:00, 182.07it/s]Loading weights:  88%|████████▊ | 313/355 [00:02<00:00, 131.86it/s]Loading weights:  97%|█████████▋| 346/355 [00:02<00:00, 171.63it/s]Loading weights: 100%|██████████| 355/355 [00:02<00:00, 156.68it/s]
+    25/400  new=25
+    50/400  new=50
+    75/400  new=75
+    100/400  new=100
+    125/400  new=125
+    150/400  new=150
+    175/400  new=175
+    200/400  new=200
+    225/400  new=225
+    250/400  new=250
+    275/400  new=275
+    300/400  new=300
+    325/400  new=325
+    350/400  new=350
+    375/400  new=375
+    400/400  new=400
+  agreement vs logprob: n=400 log=0.850 gen=0.652 agree=0.710
+  bigtom                              261/400  acc=0.652  parsed=0.922
+  bigtom|false_belief                 133/200  acc=0.665  parsed=0.860
+  bigtom|true_belief                  128/200  acc=0.640  parsed=0.985
+
+wrote /orcd/home/002/aimeeyu/tom_project/outputs/tom_benchmarks/tom_accuracy_by_model_generative.csv

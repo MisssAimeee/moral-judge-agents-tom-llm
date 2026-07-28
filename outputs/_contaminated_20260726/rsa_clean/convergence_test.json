@@ -1,0 +1,7 @@
+{
+  "r": -0.24904214559386975,
+  "ci_lo": -0.5738064153805761,
+  "ci_hi": 0.17466088218971745,
+  "n_pairs": 28,
+  "verdict": "same answer, different route (null)"
+}

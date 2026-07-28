@@ -1,0 +1,142 @@
+=== Job 19027795 on node2635 at Mon Jul 27 23:13:05 EDT 2026 ===
+activation mtimes going in:
+  2026-07-27_11:17 outputs/acts/OLMo-2-1124-7B-Instruct.npz
+  2026-07-27_11:15 outputs/acts/OLMo-2-1124-7B.npz
+  2026-07-27_11:09 outputs/acts/Qwen2.5-0.5B-Instruct.npz
+  2026-07-27_11:09 outputs/acts/Qwen2.5-0.5B.npz
+  2026-07-27_11:10 outputs/acts/Qwen2.5-1.5B-Instruct.npz
+  2026-07-27_11:10 outputs/acts/Qwen2.5-1.5B.npz
+  2026-07-27_11:13 outputs/acts/Qwen2.5-7B-Instruct.npz
+  2026-07-27_11:12 outputs/acts/Qwen2.5-7B.npz
+--- 21_surface_baseline ---
+=== TF-IDF surface baselines (same LR + GroupKFold as 02_probe.py) ===
+  all                tfidf_word_1_2   intent   acc=0.594 (chance 0.500, n=298)
+  all                tfidf_word_1_2   outcome  acc=0.755 (chance 0.517, n=298)
+  all                tfidf_char_3_5   intent   acc=0.594 (chance 0.500, n=298)
+  all                tfidf_char_3_5   outcome  acc=0.749 (chance 0.517, n=298)
+  intent_noharm      tfidf_word_1_2   intent   acc=0.594 (chance 0.500, n=144)
+  intent_noharm      tfidf_char_3_5   intent   acc=0.583 (chance 0.500, n=144)
+  intent_harm        tfidf_word_1_2   intent   acc=0.590 (chance 0.500, n=154)
+  intent_harm        tfidf_char_3_5   intent   acc=0.604 (chance 0.500, n=154)
+  outcome_innocent   tfidf_word_1_2   outcome  acc=0.738 (chance 0.517, n=149)
+  outcome_innocent   tfidf_char_3_5   outcome  acc=0.745 (chance 0.517, n=149)
+  outcome_guilty     tfidf_word_1_2   outcome  acc=0.738 (chance 0.517, n=149)
+  outcome_guilty     tfidf_char_3_5   outcome  acc=0.800 (chance 0.517, n=149)
+
+-> /orcd/home/002/aimeeyu/tom_project/outputs/probe/surface_baseline.csv
+--- 20_layer0_diagnostic ---
+model                      pool  target        L0    peak   @L valid note
+----------------------------------------------------------------------------------------------------
+Qwen2.5-0.5B               last  intent     0.500   0.671   12   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B               last  outcome    0.517   0.993   15   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B               mean  intent     0.574   0.654    9   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B               mean  outcome    0.739   0.943   12   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B-Instruct      last  intent     0.500   0.695   21   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B-Instruct      last  outcome    0.517   0.980   11   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B-Instruct      mean  intent     0.540   0.661   14   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-0.5B-Instruct      mean  outcome    0.739   0.947   12   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B               last  intent     0.500   0.739   13   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B               last  outcome    0.517   1.000   18   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B               mean  intent     0.580   0.719   20   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B               mean  outcome    0.802   0.923   20   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B-Instruct      last  intent     0.500   0.755   20   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B-Instruct      last  outcome    0.517   1.000   17   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B-Instruct      mean  intent     0.577   0.719   18   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-1.5B-Instruct      mean  outcome    0.802   0.933   15   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B                 last  intent     0.500   0.883   19   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B                 last  outcome    0.517   1.000   16   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B                 mean  intent     0.564   0.823   18   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B                 mean  outcome    0.820   0.973   18   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B-Instruct        last  intent     0.500   0.879   19   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B-Instruct        last  outcome    0.517   1.000   16   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B-Instruct        mean  intent     0.564   0.846   18   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+Qwen2.5-7B-Instruct        mean  outcome    0.823   0.980   18   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B             last  intent     0.500   0.849   16   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B             last  outcome    0.517   1.000   15   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B             mean  intent     0.550   0.866   15   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B             mean  outcome    0.789   0.973   13   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B-Instruct    last  intent     0.500   0.850   16   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B-Instruct    last  outcome    0.517   1.000   17   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B-Instruct    mean  intent     0.550   0.869   15   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+OLMo-2-1124-7B-Instruct    mean  outcome    0.789   0.997   15   yes  ok: L0 fitted; chance-at-L0 + rise = computed signal
+
+-> /orcd/home/002/aimeeyu/tom_project/outputs/probe/layer0_diagnostic.csv
+NOTE: lexical-vs-computed inference restricted to last/mean pooling with layer0_degenerate=False.
+
+=== layer-0 refit, last vs mean pooling (mean = true bag-of-embeddings) ===
+  OLMo-2-1124-7B-Instruct    last  intent   L0 acc=0.500
+  OLMo-2-1124-7B-Instruct    last  outcome  L0 acc=0.517
+  OLMo-2-1124-7B-Instruct    mean  intent   L0 acc=0.550
+  OLMo-2-1124-7B-Instruct    mean  outcome  L0 acc=0.789
+  OLMo-2-1124-7B             last  intent   L0 acc=0.500
+  OLMo-2-1124-7B             last  outcome  L0 acc=0.517
+  OLMo-2-1124-7B             mean  intent   L0 acc=0.550
+  OLMo-2-1124-7B             mean  outcome  L0 acc=0.789
+  Qwen2.5-0.5B-Instruct      last  intent   L0 acc=0.500
+  Qwen2.5-0.5B-Instruct      last  outcome  L0 acc=0.517
+  Qwen2.5-0.5B-Instruct      mean  intent   L0 acc=0.540
+  Qwen2.5-0.5B-Instruct      mean  outcome  L0 acc=0.739
+  Qwen2.5-0.5B               last  intent   L0 acc=0.500
+  Qwen2.5-0.5B               last  outcome  L0 acc=0.517
+  Qwen2.5-0.5B               mean  intent   L0 acc=0.574
+  Qwen2.5-0.5B               mean  outcome  L0 acc=0.739
+  Qwen2.5-1.5B-Instruct      last  intent   L0 acc=0.500
+  Qwen2.5-1.5B-Instruct      last  outcome  L0 acc=0.517
+  Qwen2.5-1.5B-Instruct      mean  intent   L0 acc=0.577
+  Qwen2.5-1.5B-Instruct      mean  outcome  L0 acc=0.802
+  Qwen2.5-1.5B               last  intent   L0 acc=0.500
+  Qwen2.5-1.5B               last  outcome  L0 acc=0.517
+  Qwen2.5-1.5B               mean  intent   L0 acc=0.580
+  Qwen2.5-1.5B               mean  outcome  L0 acc=0.802
+  Qwen2.5-7B-Instruct        last  intent   L0 acc=0.500
+  Qwen2.5-7B-Instruct        last  outcome  L0 acc=0.517
+  Qwen2.5-7B-Instruct        mean  intent   L0 acc=0.564
+  Qwen2.5-7B-Instruct        mean  outcome  L0 acc=0.823
+  Qwen2.5-7B                 last  intent   L0 acc=0.500
+  Qwen2.5-7B                 last  outcome  L0 acc=0.517
+  Qwen2.5-7B                 mean  intent   L0 acc=0.564
+  Qwen2.5-7B                 mean  outcome  L0 acc=0.823
+-> /orcd/home/002/aimeeyu/tom_project/outputs/probe/layer0_pooling_check.csv
+-> /orcd/home/002/aimeeyu/tom_project/outputs/probe/layerwise_curves.png
+--- 22_within_cell_probes ---
+  OLMo-2-1124-7B-Instruct    intent_noharm     peak=0.931 @L14  (chance 0.500, n=144)
+  OLMo-2-1124-7B-Instruct    intent_harm       peak=0.866 @L17  (chance 0.500, n=154)
+  OLMo-2-1124-7B-Instruct    outcome_innocent  peak=1.000 @L17  (chance 0.517, n=149)
+  OLMo-2-1124-7B-Instruct    outcome_guilty    peak=1.000 @L17  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/OLMo-2-1124-7B-Instruct_withincell.csv
+  OLMo-2-1124-7B             intent_noharm     peak=0.923 @L14  (chance 0.500, n=144)
+  OLMo-2-1124-7B             intent_harm       peak=0.846 @L17  (chance 0.500, n=154)
+  OLMo-2-1124-7B             outcome_innocent  peak=1.000 @L14  (chance 0.517, n=149)
+  OLMo-2-1124-7B             outcome_guilty    peak=1.000 @L15  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/OLMo-2-1124-7B_withincell.csv
+  Qwen2.5-0.5B-Instruct      intent_noharm     peak=0.763 @L11  (chance 0.500, n=144)
+  Qwen2.5-0.5B-Instruct      intent_harm       peak=0.649 @L20  (chance 0.500, n=154)
+  Qwen2.5-0.5B-Instruct      outcome_innocent  peak=0.980 @L9   (chance 0.517, n=149)
+  Qwen2.5-0.5B-Instruct      outcome_guilty    peak=0.993 @L15  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/Qwen2.5-0.5B-Instruct_withincell.csv
+  Qwen2.5-0.5B               intent_noharm     peak=0.765 @L11  (chance 0.500, n=144)
+  Qwen2.5-0.5B               intent_harm       peak=0.668 @L19  (chance 0.500, n=154)
+  Qwen2.5-0.5B               outcome_innocent  peak=0.993 @L12  (chance 0.517, n=149)
+  Qwen2.5-0.5B               outcome_guilty    peak=0.993 @L12  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/Qwen2.5-0.5B_withincell.csv
+  Qwen2.5-1.5B-Instruct      intent_noharm     peak=0.827 @L18  (chance 0.500, n=144)
+  Qwen2.5-1.5B-Instruct      intent_harm       peak=0.754 @L17  (chance 0.500, n=154)
+  Qwen2.5-1.5B-Instruct      outcome_innocent  peak=1.000 @L17  (chance 0.517, n=149)
+  Qwen2.5-1.5B-Instruct      outcome_guilty    peak=1.000 @L14  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/Qwen2.5-1.5B-Instruct_withincell.csv
+  Qwen2.5-1.5B               intent_noharm     peak=0.820 @L15  (chance 0.500, n=144)
+  Qwen2.5-1.5B               intent_harm       peak=0.754 @L18  (chance 0.500, n=154)
+  Qwen2.5-1.5B               outcome_innocent  peak=1.000 @L18  (chance 0.517, n=149)
+  Qwen2.5-1.5B               outcome_guilty    peak=1.000 @L17  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/Qwen2.5-1.5B_withincell.csv
+  Qwen2.5-7B-Instruct        intent_noharm     peak=0.929 @L18  (chance 0.500, n=144)
+  Qwen2.5-7B-Instruct        intent_harm       peak=0.857 @L17  (chance 0.500, n=154)
+  Qwen2.5-7B-Instruct        outcome_innocent  peak=1.000 @L14  (chance 0.517, n=149)
+  Qwen2.5-7B-Instruct        outcome_guilty    peak=1.000 @L15  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/Qwen2.5-7B-Instruct_withincell.csv
+  Qwen2.5-7B                 intent_noharm     peak=0.902 @L18  (chance 0.500, n=144)
+  Qwen2.5-7B                 intent_harm       peak=0.852 @L17  (chance 0.500, n=154)
+  Qwen2.5-7B                 outcome_innocent  peak=1.000 @L16  (chance 0.517, n=149)
+  Qwen2.5-7B                 outcome_guilty    peak=1.000 @L16  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/Qwen2.5-7B_withincell.csv
+=== done at Tue Jul 28 02:07:24 EDT 2026 ===

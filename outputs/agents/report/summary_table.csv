@@ -1,0 +1,13 @@
+model,params_B,type,n_stories,n_templates,contrast,contrast_CI,sig_diff_from_0,adult_align_corr,adult_align_rmse,gap_vs_adult,nearest_human_group,intent_reliance,intent_reliance_CI,prompt_sd,sign_flips
+HUMAN adult,—,human,—,—,0.666,—,—,1.0,—,0.0,adult,—,—,—,—
+HUMAN child_8plus,—,human,—,—,0.46,—,—,—,—,0.206,child_8plus,—,—,—,—
+HUMAN child_6_7,—,human,—,—,0.15,—,—,—,—,0.516,child_6_7,—,—,—,—
+HUMAN child_4_5,—,human,—,—,-0.14,—,—,—,—,0.806,child_4_5,—,—,—,—
+claude-opus-4-6,500.0,instruct,298,3,0.093,"[+0.01,+0.17]",yes,0.873,0.269,0.573,child_6_7,0.575,"[+0.52,+0.63]",0.055,no
+gemini-2_5-pro,600.0,instruct,298,3,-0.0,"[-0.02,+0.02]",no,0.791,0.352,0.666,child_4_5,0.501,"[+0.46,+0.55]",0.029,YES
+kimi-k3,nan,instruct,298,3,0.0,"[+0.00,+0.00]",no,NA,0.412,0.666,child_4_5,0.0,"[+0.00,+0.00]",0.0,no
+claude-sonnet-4-6,175.0,instruct,298,3,-0.006,"[-0.09,+0.08]",no,0.823,0.271,0.672,child_4_5,0.509,"[+0.45,+0.57]",0.069,YES
+gemini-2_5-flash,32.0,instruct,298,3,-0.06,"[-0.14,+0.03]",no,0.798,0.251,0.726,child_4_5,0.481,"[+0.43,+0.54]",0.022,no
+claude-haiku-4-5-20251001,20.0,instruct,298,3,-0.151,"[-0.21,-0.09]",yes,0.621,0.342,0.817,child_4_5,0.348,"[+0.28,+0.41]",0.052,no
+gpt-4o-mini,8.0,instruct,298,3,-0.278,"[-0.32,-0.24]",yes,0.464,0.366,0.944,child_4_5,0.232,"[+0.20,+0.27]",0.042,no
+gpt-4o,200.0,instruct,298,3,-0.378,"[-0.44,-0.32]",yes,0.441,0.392,1.044,child_4_5,0.221,"[+0.18,+0.27]",0.035,no

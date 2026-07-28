@@ -1,0 +1,77 @@
+=== Job 18962383 on node3004 at Sun Jul 26 23:44:53 EDT 2026 ===
+CMD: python -u code/01_extract_activations.py --csv dataset/master/moral_2x2_master.csv --clause-offsets dataset/master/clause_offsets.csv --out outputs/acts --models Qwen/Qwen2.5-0.5B Qwen/Qwen2.5-0.5B-Instruct Qwen/Qwen2.5-1.5B Qwen/Qwen2.5-1.5B-Instruct Qwen/Qwen2.5-7B Qwen/Qwen2.5-7B-Instruct allenai/OLMo-2-1124-7B allenai/OLMo-2-1124-7B-Instruct
+
+Sun Jul 26 23:44:56 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:4A:00.0 Off |                    0 |
+| N/A   32C    P8             33W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA L40S                    On  |   00000000:61:00.0 Off |                    0 |
+| N/A   33C    P8             33W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+CUDA: True | NVIDIA L40S
+
+clause offsets: 298 stories from dataset/master/clause_offsets.csv
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights:  14%|█▍        | 40/290 [00:00<00:00, 394.92it/s]Loading weights:  76%|███████▌  | 221/290 [00:00<00:00, 1221.51it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 1232.99it/s]
+Qwen2.5-0.5B: saved (298, 25, 896) (n,layers,hidden) +belief_last/action_last (fallbacks: 4)
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights:  38%|███▊      | 109/290 [00:00<00:00, 1089.07it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 1471.19it/s]
+Qwen2.5-0.5B-Instruct: saved (298, 25, 896) (n,layers,hidden) +belief_last/action_last (fallbacks: 4)
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:00<00:41,  8.03it/s]Loading weights:  29%|██▉       | 99/338 [00:00<00:00, 489.58it/s]Loading weights:  50%|█████     | 169/338 [00:00<00:00, 569.27it/s]Loading weights:  68%|██████▊   | 231/338 [00:00<00:00, 577.34it/s]Loading weights:  87%|████████▋ | 293/338 [00:00<00:00, 591.84it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 559.77it/s]
+Qwen2.5-1.5B: saved (298, 29, 1536) (n,layers,hidden) +belief_last/action_last (fallbacks: 4)
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:00<00:38,  8.73it/s]Loading weights:  22%|██▏       | 75/338 [00:00<00:00, 410.59it/s]Loading weights:  40%|███▉      | 135/338 [00:00<00:00, 481.62it/s]Loading weights:  61%|██████    | 205/338 [00:00<00:00, 562.57it/s]Loading weights:  78%|███████▊  | 263/338 [00:00<00:00, 552.96it/s]Loading weights:  94%|█████████▍| 319/338 [00:00<00:00, 549.15it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 515.86it/s]
+Qwen2.5-1.5B-Instruct: saved (298, 29, 1536) (n,layers,hidden) +belief_last/action_last (fallbacks: 4)
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:00<02:01,  2.77it/s]Loading weights:  11%|█         | 38/338 [00:00<00:02, 106.25it/s]Loading weights:  18%|█▊        | 60/338 [00:00<00:02, 105.26it/s]Loading weights:  23%|██▎       | 77/338 [00:00<00:02, 100.11it/s]Loading weights:  29%|██▉       | 99/338 [00:00<00:01, 123.95it/s]Loading weights:  34%|███▍      | 115/338 [00:01<00:01, 128.41it/s]Loading weights:  40%|███▉      | 135/338 [00:01<00:01, 124.03it/s]Loading weights:  44%|████▍     | 150/338 [00:01<00:01, 128.81it/s]Loading weights:  49%|████▉     | 167/338 [00:01<00:01, 136.52it/s]Loading weights:  54%|█████▍    | 183/338 [00:01<00:01, 132.13it/s]Loading weights:  58%|█████▊    | 197/338 [00:01<00:01, 130.91it/s]Loading weights:  64%|██████▍   | 216/338 [00:01<00:00, 146.32it/s]Loading weights:  69%|██████▊   | 232/338 [00:01<00:00, 123.35it/s]Loading weights:  75%|███████▍  | 253/338 [00:02<00:00, 131.70it/s]Loading weights:  79%|███████▉  | 268/338 [00:02<00:00, 130.02it/s]Loading weights:  85%|████████▍ | 287/338 [00:02<00:00, 139.00it/s]Loading weights:  90%|████████▉ | 303/338 [00:02<00:00, 133.70it/s]Loading weights:  94%|█████████▍| 317/338 [00:02<00:00, 129.70it/s]Loading weights:  98%|█████████▊| 331/338 [00:02<00:00, 130.35it/s]Loading weights: 100%|██████████| 338/338 [00:02<00:00, 124.30it/s]
+[transformers] [1mQwen2Model LOAD REPORT[0m from: Qwen/Qwen2.5-7B
+Key            | Status     |  | 
+---------------+------------+--+-
+lm_head.weight | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+Qwen2.5-7B: saved (298, 29, 3584) (n,layers,hidden) +belief_last/action_last (fallbacks: 4)
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:00<02:19,  2.42it/s]Loading weights:   8%|▊         | 28/338 [00:00<00:04, 67.12it/s]Loading weights:  15%|█▌        | 51/338 [00:00<00:02, 99.29it/s]Loading weights:  22%|██▏       | 75/338 [00:00<00:02, 109.70it/s]Loading weights:  26%|██▋       | 89/338 [00:00<00:02, 110.20it/s]Loading weights:  30%|███       | 102/338 [00:01<00:02, 111.93it/s]Loading weights:  34%|███▍      | 115/338 [00:01<00:02, 105.59it/s]Loading weights:  38%|███▊      | 127/338 [00:01<00:02, 103.28it/s]Loading weights:  41%|████      | 138/338 [00:01<00:01, 102.19it/s]Loading weights:  46%|████▌     | 155/338 [00:01<00:01, 117.56it/s]Loading weights:  50%|████▉     | 168/338 [00:01<00:01, 119.64it/s]Loading weights:  54%|█████▍    | 183/338 [00:01<00:01, 123.36it/s]Loading weights:  58%|█████▊    | 196/338 [00:01<00:01, 107.09it/s]Loading weights:  65%|██████▍   | 219/338 [00:02<00:01, 118.99it/s]Loading weights:  69%|██████▊   | 232/338 [00:02<00:00, 116.72it/s]Loading weights:  72%|███████▏  | 244/338 [00:02<00:00, 112.15it/s]Loading weights:  76%|███████▌  | 256/338 [00:02<00:00, 109.23it/s]Loading weights:  83%|████████▎ | 279/338 [00:02<00:00, 113.01it/s]Loading weights:  86%|████████▌ | 291/338 [00:02<00:00, 109.25it/s]Loading weights:  90%|█████████ | 305/338 [00:02<00:00, 106.64it/s]Loading weights:  97%|█████████▋| 327/338 [00:03<00:00, 125.70it/s]Loading weights: 100%|██████████| 338/338 [00:03<00:00, 109.20it/s]
+[transformers] [1mQwen2Model LOAD REPORT[0m from: Qwen/Qwen2.5-7B-Instruct
+Key            | Status     |  | 
+---------------+------------+--+-
+lm_head.weight | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+Qwen2.5-7B-Instruct: saved (298, 29, 3584) (n,layers,hidden) +belief_last/action_last (fallbacks: 4)
+Loading weights:   0%|          | 0/354 [00:00<?, ?it/s]Loading weights:   0%|          | 1/354 [00:00<02:49,  2.08it/s]Loading weights:  10%|▉         | 35/354 [00:00<00:04, 74.39it/s]Loading weights:  14%|█▍        | 51/354 [00:00<00:03, 84.53it/s]Loading weights:  18%|█▊        | 65/354 [00:00<00:03, 87.95it/s]Loading weights:  22%|██▏       | 77/354 [00:01<00:03, 82.87it/s]Loading weights:  25%|██▌       | 89/354 [00:01<00:03, 80.69it/s]Loading weights:  29%|██▊       | 101/354 [00:01<00:03, 84.06it/s]Loading weights:  32%|███▏      | 114/354 [00:01<00:02, 93.27it/s]Loading weights:  35%|███▌      | 125/354 [00:01<00:02, 93.52it/s]Loading weights:  40%|███▉      | 141/354 [00:01<00:01, 109.95it/s]Loading weights:  43%|████▎     | 153/354 [00:01<00:01, 109.33it/s]Loading weights:  47%|████▋     | 165/354 [00:01<00:01, 110.40it/s]Loading weights:  50%|█████     | 177/354 [00:02<00:01, 94.79it/s] Loading weights:  53%|█████▎    | 189/354 [00:02<00:01, 94.13it/s]Loading weights:  56%|█████▋    | 200/354 [00:02<00:01, 93.34it/s]Loading weights:  61%|██████▏   | 217/354 [00:02<00:01, 110.81it/s]Loading weights:  65%|██████▍   | 229/354 [00:02<00:01, 102.19it/s]Loading weights:  69%|██████▊   | 243/354 [00:02<00:01, 108.92it/s]Loading weights:  72%|███████▏  | 255/354 [00:02<00:01, 90.64it/s] Loading weights:  75%|███████▍  | 265/354 [00:02<00:00, 92.70it/s]Loading weights:  78%|███████▊  | 276/354 [00:03<00:00, 96.30it/s]Loading weights:  81%|████████▏ | 288/354 [00:03<00:00, 84.36it/s]Loading weights:  84%|████████▍ | 299/354 [00:03<00:00, 85.02it/s]Loading weights:  88%|████████▊ | 310/354 [00:03<00:00, 89.32it/s]Loading weights:  91%|█████████ | 321/354 [00:03<00:00, 85.81it/s]Loading weights:  94%|█████████▍| 332/354 [00:03<00:00, 81.20it/s]Loading weights:  97%|█████████▋| 343/354 [00:03<00:00, 75.23it/s]Loading weights: 100%|██████████| 354/354 [00:03<00:00, 88.75it/s]
+[transformers] [1mOlmo2Model LOAD REPORT[0m from: allenai/OLMo-2-1124-7B
+Key            | Status     |  | 
+---------------+------------+--+-
+lm_head.weight | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+OLMo-2-1124-7B: saved (298, 33, 4096) (n,layers,hidden) +belief_last/action_last (fallbacks: 4)
+Loading weights:   0%|          | 0/354 [00:00<?, ?it/s]Loading weights:   3%|▎         | 9/354 [00:00<00:04, 80.59it/s]Loading weights:   6%|▋         | 23/354 [00:00<00:03, 108.45it/s]Loading weights:  10%|█         | 36/354 [00:00<00:02, 114.07it/s]Loading weights:  16%|█▌        | 55/354 [00:00<00:02, 139.87it/s]Loading weights:  20%|█▉        | 70/354 [00:00<00:02, 111.03it/s]Loading weights:  25%|██▌       | 90/354 [00:00<00:02, 119.08it/s]Loading weights:  31%|███       | 108/354 [00:00<00:01, 134.60it/s]Loading weights:  35%|███▍      | 123/354 [00:01<00:01, 123.63it/s]Loading weights:  41%|████      | 144/354 [00:01<00:01, 141.42it/s]Loading weights:  45%|████▍     | 159/354 [00:01<00:01, 119.70it/s]Loading weights:  50%|████▉     | 176/354 [00:01<00:01, 130.66it/s]Loading weights:  54%|█████▎    | 190/354 [00:01<00:01, 117.01it/s]Loading weights:  57%|█████▋    | 203/354 [00:01<00:01, 118.50it/s]Loading weights:  62%|██████▏   | 221/354 [00:01<00:00, 133.31it/s]Loading weights:  66%|██████▋   | 235/354 [00:01<00:01, 111.38it/s]Loading weights:  72%|███████▏  | 255/354 [00:02<00:00, 122.57it/s]Loading weights:  77%|███████▋  | 273/354 [00:02<00:00, 134.37it/s]Loading weights:  81%|████████▏ | 288/354 [00:02<00:00, 120.38it/s]Loading weights:  85%|████████▌ | 301/354 [00:02<00:00, 115.93it/s]Loading weights:  89%|████████▊ | 314/354 [00:02<00:00, 118.73it/s]Loading weights:  92%|█████████▏| 327/354 [00:02<00:00, 120.06it/s]Loading weights:  96%|█████████▌| 340/354 [00:02<00:00, 119.57it/s]Loading weights: 100%|██████████| 354/354 [00:02<00:00, 122.65it/s]
+[transformers] [1mOlmo2Model LOAD REPORT[0m from: allenai/OLMo-2-1124-7B-Instruct
+Key            | Status     |  | 
+---------------+------------+--+-
+lm_head.weight | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+OLMo-2-1124-7B-Instruct: saved (298, 33, 4096) (n,layers,hidden) +belief_last/action_last (fallbacks: 4)
+
+=== Job 18962383 finished (exit 0) at Sun Jul 26 23:53:08 EDT 2026 ===

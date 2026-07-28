@@ -1,0 +1,46 @@
+model,claude-opus-4-6
+template,human_verbatim
+
+MODEL condition profile (0-1 blame)
+neutral,0.037
+accidental,0.329
+attempted,0.4907
+intentional,0.8182
+model_intent_reliance_4cell,0.6035
+model_intent_vs_outcome_contrast,0.1617
+
+PROMPT-INVARIANCE of intent_vs_outcome_contrast (n_templates=3)
+contrast_template_mean,0.1102
+contrast_template_sd,0.0548
+contrast_template_min,0.0343
+contrast_template_max,0.1617
+contrast_template_range,0.1275
+  contrast[human_verbatim],0.1617
+  contrast[para_wrong7],0.1344
+  contrast[punish7],0.0343
+contrast_sign_stable_across_prompts,yes
+
+vs adult
+rmse,0.2354
+profile_corr,0.9038
+intent_reliance_4cell_diff,-0.253
+intent_vs_outcome_contrast_human,0.666
+contrast_diff_model_minus_human,-0.5043
+
+vs child_4_5
+rmse,0.1697
+profile_corr,1.0
+intent_vs_outcome_contrast_human,0.24
+contrast_diff_model_minus_human,-0.0783
+
+vs child_6_7
+rmse,0.1738
+profile_corr,1.0
+intent_vs_outcome_contrast_human,0.5
+contrast_diff_model_minus_human,-0.3383
+
+vs child_8plus
+rmse,0.2367
+profile_corr,1.0
+intent_vs_outcome_contrast_human,0.63
+contrast_diff_model_minus_human,-0.4683

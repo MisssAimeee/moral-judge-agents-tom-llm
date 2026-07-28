@@ -1,0 +1,62 @@
+=== Job 18992763 on node1604 at Mon Jul 27 11:37:19 EDT 2026 ===
+CMD: python -u code/02_probe.py --acts outputs/acts --out outputs/probe --pooling last --permute 1000 --skip-probe --clause-offsets dataset/master/clause_offsets.csv --csv dataset/master/moral_2x2_master.csv
+CPUS: 16
+
+OLMo-2-1124-7B-Instruct: reusing outputs/probe/OLMo-2-1124-7B-Instruct_probe.csv
+OLMo-2-1124-7B-Instruct: peak intent acc=0.850 @ layer 16  -> outputs/probe/OLMo-2-1124-7B-Instruct_probe.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L16  obs=0.850 null=0.500 p95=0.546 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L17  obs=1.000 null=0.509 p95=0.553 p=0.0010
+    -> outputs/probe/OLMo-2-1124-7B-Instruct_permnull.csv
+OLMo-2-1124-7B: reusing outputs/probe/OLMo-2-1124-7B_probe.csv
+OLMo-2-1124-7B: peak intent acc=0.849 @ layer 16  -> outputs/probe/OLMo-2-1124-7B_probe.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L16  obs=0.849 null=0.500 p95=0.544 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L15  obs=1.000 null=0.510 p95=0.550 p=0.0010
+    -> outputs/probe/OLMo-2-1124-7B_permnull.csv
+Qwen2.5-0.5B-Instruct: reusing outputs/probe/Qwen2.5-0.5B-Instruct_probe.csv
+Qwen2.5-0.5B-Instruct: peak intent acc=0.695 @ layer 21  -> outputs/probe/Qwen2.5-0.5B-Instruct_probe.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L21  obs=0.695 null=0.499 p95=0.534 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L11  obs=0.980 null=0.507 p95=0.543 p=0.0010
+    -> outputs/probe/Qwen2.5-0.5B-Instruct_permnull.csv
+Qwen2.5-0.5B: reusing outputs/probe/Qwen2.5-0.5B_probe.csv
+Qwen2.5-0.5B: peak intent acc=0.671 @ layer 12  -> outputs/probe/Qwen2.5-0.5B_probe.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L12  obs=0.671 null=0.500 p95=0.540 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L15  obs=0.993 null=0.510 p95=0.547 p=0.0010
+    -> outputs/probe/Qwen2.5-0.5B_permnull.csv
+Qwen2.5-1.5B-Instruct: reusing outputs/probe/Qwen2.5-1.5B-Instruct_probe.csv
+Qwen2.5-1.5B-Instruct: peak intent acc=0.755 @ layer 20  -> outputs/probe/Qwen2.5-1.5B-Instruct_probe.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L20  obs=0.755 null=0.499 p95=0.541 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L17  obs=1.000 null=0.511 p95=0.554 p=0.0010
+    -> outputs/probe/Qwen2.5-1.5B-Instruct_permnull.csv
+Qwen2.5-1.5B: reusing outputs/probe/Qwen2.5-1.5B_probe.csv
+Qwen2.5-1.5B: peak intent acc=0.739 @ layer 13  -> outputs/probe/Qwen2.5-1.5B_probe.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L13  obs=0.739 null=0.499 p95=0.543 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L18  obs=1.000 null=0.511 p95=0.551 p=0.0010
+    -> outputs/probe/Qwen2.5-1.5B_permnull.csv
+Qwen2.5-7B-Instruct: reusing outputs/probe/Qwen2.5-7B-Instruct_probe.csv
+Qwen2.5-7B-Instruct: peak intent acc=0.879 @ layer 19  -> outputs/probe/Qwen2.5-7B-Instruct_probe.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L19  obs=0.880 null=0.499 p95=0.544 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L16  obs=1.000 null=0.508 p95=0.551 p=0.0010
+    -> outputs/probe/Qwen2.5-7B-Instruct_permnull.csv
+Qwen2.5-7B: reusing outputs/probe/Qwen2.5-7B_probe.csv
+Qwen2.5-7B: peak intent acc=0.883 @ layer 19  -> outputs/probe/Qwen2.5-7B_probe.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.500 p=1.0000
+    perm intent   L19  obs=0.883 null=0.500 p95=0.543 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L16  obs=1.000 null=0.510 p95=0.550 p=0.0010
+    -> outputs/probe/Qwen2.5-7B_permnull.csv
+
+=== Job 18992763 finished (exit 0) at Mon Jul 27 11:46:51 EDT 2026 ===

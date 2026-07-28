@@ -1,0 +1,38 @@
+=== Job 18935926 on node4402 at Sun Jul 26 16:49:34 EDT 2026 ===
+CMD: python -u code/02_probe.py
+
+[warn] cached HF token is not a classic PAT (len=825); proceeding ANONYMOUSLY.
+[warn] gated repos will fail -- fix with: hf auth login  (paste a token from
+[warn] https://huggingface.co/settings/tokens -> 'Create new token' -> Read)
+Sun Jul 26 16:49:36 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:C9:00.0 Off |                    0 |
+| N/A   31C    P8             32W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+CUDA: True | NVIDIA L40S
+
+OLMo-2-1124-7B-Instruct: peak intent acc=0.772 @ layer 18  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/OLMo-2-1124-7B-Instruct_probe.csv
+OLMo-2-1124-7B: peak intent acc=0.802 @ layer 17  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/OLMo-2-1124-7B_probe.csv
+Qwen2.5-0.5B-Instruct: peak intent acc=0.682 @ layer 14  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-0.5B-Instruct_probe.csv
+Qwen2.5-0.5B: peak intent acc=0.671 @ layer 12  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-0.5B_probe.csv
+Qwen2.5-1.5B-Instruct: peak intent acc=0.708 @ layer 17  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-1.5B-Instruct_probe.csv
+Qwen2.5-1.5B: peak intent acc=0.704 @ layer 17  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-1.5B_probe.csv
+Qwen2.5-7B-Instruct: peak intent acc=0.779 @ layer 17  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-7B-Instruct_probe.csv
+Qwen2.5-7B: peak intent acc=0.755 @ layer 19  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-7B_probe.csv
+
+=== Job 18935926 finished (exit 0) at Sun Jul 26 18:27:12 EDT 2026 ===

@@ -1,0 +1,21 @@
+model,study,family,size_B,size_estimated,type,contrast
+Qwen2.5-0.5B-Instruct,local open-weight,Qwen,0.5,no,instruct,-0.0401
+Qwen2.5-0.5B,local open-weight,Qwen,0.5,no,base,-0.0002
+Qwen2.5-1.5B-Instruct,local open-weight,Qwen,1.5,no,instruct,-0.1205
+Qwen2.5-1.5B,local open-weight,Qwen,1.5,no,base,0.0069
+Qwen2.5-3B-Instruct,local open-weight,Qwen,3.0,no,instruct,-0.2472
+Qwen2.5-3B,local open-weight,Qwen,3.0,no,base,0.0085
+Qwen2.5-7B-Instruct,local open-weight,Qwen,7.0,no,instruct,-0.334
+Qwen2.5-7B,local open-weight,Qwen,7.0,no,base,0.0217
+Mistral-7B-Instruct-v0-3,local open-weight,Mistral,7.0,no,instruct,0.0
+Mistral-7B-v0-3,local open-weight,Mistral,7.0,no,base,0.0
+Llama-3.1-8B,local open-weight,Llama,8.0,no,base,-0.0222
+gpt-4o-mini,cloud API,GPT,8.0,yes,instruct,-0.2778
+Qwen2.5-14B-Instruct,local open-weight,Qwen,14.0,no,instruct,-0.394
+Qwen2.5-14B,local open-weight,Qwen,14.0,no,base,-0.0904
+claude-haiku-4-5,cloud API,Claude,20.0,yes,instruct,-0.1512
+gemini-2-5-flash,cloud API,Gemini,32.0,yes,instruct,-0.0602
+claude-sonnet-4-6,cloud API,Claude,175.0,yes,instruct,-0.0062
+gpt-4o,cloud API,GPT,200.0,yes,instruct,-0.3781
+claude-opus-4-6,cloud API,Claude,500.0,yes,instruct,0.0926
+gemini-2-5-pro,cloud API,Gemini,600.0,yes,instruct,-0.0

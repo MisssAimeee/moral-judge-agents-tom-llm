@@ -2,9 +2,9 @@ model,intent_reliance_index,intent_reliance_sd,n_templates,n_templates_total,b_i
 allenai/Llama-3_1-Tulu-3-8B,0.1232,0.0336,11,11,0.0629,0.4342,False
 allenai/OLMo-2-1124-7B,,,0,11,,,True
 allenai/OLMo-2-1124-7B-Instruct,0.063,0.049,11,11,0.0377,0.6595,False
-HuggingFaceH4/zephyr-7b-beta,,,0,11,,,True
-mistralai/Mistral-7B-Instruct-v0_3,,,0,11,,,True
-mistralai/Mistral-7B-v0_3,,,0,11,,,True
+HuggingFaceH4/zephyr-7b-beta,0.0814,0.0558,10,10,0.0479,0.5854,False
+mistralai/Mistral-7B-Instruct-v0_3,0.0941,0.0597,10,10,0.0561,0.518,False
+mistralai/Mistral-7B-v0_3,,,0,10,,,True
 Qwen/Qwen2_5-0_5B,,,0,11,,,True
 Qwen/Qwen2_5-0_5B-Instruct,0.0361,0.0222,4,11,-0.001,0.094,False
 Qwen/Qwen2_5-1_5B,,,0,11,,,True

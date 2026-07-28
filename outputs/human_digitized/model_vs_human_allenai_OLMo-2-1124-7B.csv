@@ -1,0 +1,50 @@
+model,allenai_OLMo-2-1124-7B
+template,human_verbatim
+
+MODEL condition profile (0-1 blame)
+neutral,0.2521
+accidental,0.2396
+attempted,0.2555
+intentional,0.2425
+model_intent_reliance_4cell,0.1999
+model_intent_vs_outcome_contrast,0.0159
+
+PROMPT-INVARIANCE of intent_vs_outcome_contrast (n_templates=7)
+contrast_template_mean,-0.0133
+contrast_template_sd,0.021
+contrast_template_min,-0.039
+contrast_template_max,0.0188
+contrast_template_range,0.0578
+  contrast[acceptable7],-0.0097
+  contrast[human_verbatim],0.0159
+  contrast[para_blame10],-0.0237
+  contrast[para_blame4],0.0188
+  contrast[para_wrong7],-0.0264
+  contrast[persona_adult7],-0.039
+  contrast[punish7],-0.0287
+contrast_sign_stable_across_prompts,NO
+
+vs adult
+rmse,0.5081
+profile_corr,0.08
+intent_reliance_4cell_diff,-0.6566
+intent_vs_outcome_contrast_human,0.666
+contrast_diff_model_minus_human,-0.6501
+
+vs child_4_5
+rmse,0.3461
+profile_corr,1.0
+intent_vs_outcome_contrast_human,0.24
+contrast_diff_model_minus_human,-0.2241
+
+vs child_6_7
+rmse,0.3156
+profile_corr,1.0
+intent_vs_outcome_contrast_human,0.5
+contrast_diff_model_minus_human,-0.4841
+
+vs child_8plus
+rmse,0.3325
+profile_corr,1.0
+intent_vs_outcome_contrast_human,0.63
+contrast_diff_model_minus_human,-0.6141

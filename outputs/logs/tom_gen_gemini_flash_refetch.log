@@ -1,0 +1,24 @@
+items: 400  {'bigtom': 400}  method=generative  backend=google
+
+=== gemini-2.5-flash (google) ===
+  [resume] 250 items already in /orcd/home/002/aimeeyu/tom_project/outputs/tom_benchmarks/tom_gen_items_gemini-2_5-flash.csv
+/orcd/home/002/aimeeyu/tom_project/code/experiments/45_tom_generative.py:154: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+    53/400  new=25
+    113/400  new=50
+    178/400  new=75
+    265/400  new=100
+    333/400  new=125
+    400/400  new=150
+  bigtom                              388/400  acc=0.970  parsed=1.000
+  bigtom|false_belief                 196/200  acc=0.980  parsed=1.000
+  bigtom|true_belief                  192/200  acc=0.960  parsed=1.000
+
+wrote /orcd/home/002/aimeeyu/tom_project/outputs/tom_benchmarks/tom_accuracy_by_model_generative.csv

@@ -1,0 +1,8 @@
+=== Job 18962393 on node3312 at Mon Jul 27 00:17:36 EDT 2026 ===
+CMD: python -u code/10_master_figure.py
+CPUS: 4
+
+wrote outputs/master_all_models.csv (28 models)
+wrote outputs/master_developmental_ladder.png
+
+=== Job 18962393 finished (exit 0) at Mon Jul 27 00:17:38 EDT 2026 ===

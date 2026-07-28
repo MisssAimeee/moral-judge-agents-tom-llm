@@ -12,8 +12,18 @@ This script:
      the matched surface baseline (and reports absolute probe acc too).
 
 If matched outcome TF-IDF is near chance for YS2009 while the probe reads 0.75–0.88,
-the gap is large and the pre-outcome reading is revived — the model represents
-outcome before the text states it, or the YS2009 annotation is wrong.
+that gap alone does not establish that the model represents the outcome before the
+text states it. A manual read of five YS2009 stories (see MANUAL_AUDIT below and
+`C2_SOURCE_SPLIT_BELIEF_LAST.md`) found the offsets are structurally correct
+(belief_end always precedes outcome_start) but the SETUP sentences before
+belief_start already state the situation's ground-truth hazard (e.g. "the kitchen
+is now dangerous", "some batches...have parasites"), which is the causal
+determinant of harm/no-harm. TF-IDF fit with leave-scenario-out CV cannot
+generalize this because each scenario's hazard vocabulary is unique
+(carbon monoxide vs parasites vs malaria vs detergent); a neural probe can, via
+semantic generalization. That explains the gap without invoking either outcome
+anticipation or an annotation error, and downgrades this from a headline claim to
+supporting evidence for representational richness at belief_last.
 """
 import csv
 import glob
@@ -193,6 +203,37 @@ def plot_gaps(rows, summary, surf):
     print("wrote", OUT_FIG)
 
 
+MANUAL_AUDIT_EXAMPLES = [
+    dict(story_id="YS2009-YS2009_01-accidental", scenario="POPCORN",
+         setup_hazard="\u201cDeadly carbon monoxide is escaping from the furnace under "
+                       "the kitchen. The kitchen is now dangerous.\u201d",
+         outcome_sentence="\u201cHis cousin goes into the kitchen and, while fidgeting "
+                           "with the device, passes out from carbon monoxide inhalation.\u201d"),
+    dict(story_id="YS2009-YS2009_02-accidental", scenario="SUSHI",
+         setup_hazard="\u201cSome batches of fish, usually the tuna, have parasites.\u201d",
+         outcome_sentence="\u201cOne of his colleagues orders the tuna and ends up getting "
+                           "a nasty strain of parasites.\u201d"),
+    dict(story_id="YS2009-YS2009_03-accidental", scenario="ASTHMA/SMOKE HOUSE",
+         setup_hazard="\u201cThe boy has asthma, which makes his lungs close up around "
+                       "smoke, so he will not be able to breathe if he goes into the "
+                       "Safety Town smoking house.\u201d",
+         outcome_sentence="\u201cThe boy has a severe asthma attack inside and starts "
+                           "having a seizure.\u201d"),
+    dict(story_id="YS2009-YS2009_04-accidental", scenario="MALARIA POND",
+         setup_hazard="\u201cMalarial mosquitoes actually live in the pond. A single bite "
+                       "is enough to create an infection, so the pond is unsafe to wade "
+                       "in.\u201d",
+         outcome_sentence="\u201cHis friend is bitten by several mosquitoes and contracts "
+                           "malaria.\u201d"),
+    dict(story_id="YS2009-YS2009_05-accidental", scenario="DETERGENT PORRIDGE",
+         setup_hazard="\u201cThe porridge on the counter has some dishwashing detergent "
+                       "in it. Eva\u2019s nephew spilled a large amount of detergent into "
+                       "the container while he was playing.\u201d",
+         outcome_sentence="\u201cSoon after, she starts throwing up again and again and "
+                           "ends up in the emergency room.\u201d"),
+]
+
+
 def rewrite_c2(surf, peaks_by_src):
     """Re-evaluate C2 against span-matched baselines."""
     lines = [
@@ -202,6 +243,40 @@ def rewrite_c2(surf, peaks_by_src):
         "**span-matched** TF-IDF baseline (`text[:belief_end]`) rather than the",
         "full-story baseline. Absolute probe accuracies are unchanged; only the gap",
         "interpretation can move.",
+        "",
+        "## Manual annotation audit (five YS2009 stories, verbatim)", "",
+        "Before interpreting the reopened gap below, five YS2009 stories were read",
+        "manually with `belief_start`/`belief_end`/`action_start`/`action_end`/",
+        "`outcome_start`/`outcome_end` marked. **Finding: offsets are structurally",
+        "correct in all five — `belief_end` always precedes `outcome_start`, so the",
+        "tagged outcome sentence is genuinely outside `belief_last`.** But the",
+        "**setup sentences before `belief_start`** (included in `text[:belief_end]`,",
+        "i.e. inside the belief_last span) already state the situation's",
+        "ground-truth hazard, well before the belief clause and far before the",
+        "tagged outcome sentence:", "",
+        "| story | scenario | hazard stated in setup (before belief_start, "
+        "inside belief_last) | outcome sentence (after belief_end) |",
+        "|---|---|---|---|",
+    ]
+    for ex in MANUAL_AUDIT_EXAMPLES:
+        lines.append(f"| `{ex['story_id']}` | {ex['scenario']} | {ex['setup_hazard']} | "
+                     f"{ex['outcome_sentence']} |")
+    lines += [
+        "",
+        "This is not an annotation error (the YS2008 premise error does not repeat",
+        "here) and it is not evidence that the model anticipates content the text",
+        "never states. The hazard IS stated, inside `belief_last`, just narratively",
+        "separate from the tagged \"outcome\" sentence that restates the consequence.",
+        "The reason TF-IDF (`text[:belief_end]`, leave-scenario-out CV) reads near",
+        "chance despite this is that each scenario's hazard vocabulary is unique",
+        "(\"carbon monoxide\" / \"parasites\" / \"asthma\" / \"malaria\" / \"detergent\") and",
+        "does not recur across the held-out scenarios a bag-of-words model is scored",
+        "on; a neural probe generalizes the shared \"hazard/harm\" semantics that",
+        "bag-of-words features cannot. **Conclusion: downgrade this from a headline",
+        "\"model represents outcome before the text states it\" claim to supporting",
+        "evidence that belief_last representations carry semantically-generalized",
+        "content that a lexical baseline cannot match — not evidence of anticipating",
+        "unstated information.**",
         "",
         "## Span-matched TF-IDF at belief_last",
         "",
@@ -256,14 +331,16 @@ def rewrite_c2(surf, peaks_by_src):
         lines += [
             f"Span-matched outcome TF-IDF on YS2009 at belief_last is **{tf9_out:.3f}**",
             f"(near chance), while probes average **{mean_ys9:.3f}** (gap ≈ {mean_gap9:+.3f}).",
-            "The absolute probe accuracy is therefore **not** explained by surface lexis",
-            "available at the cut. Two readings remain open: (1) the model represents",
-            "outcome before the text states it, or (2) the YS2009 clause annotation is",
-            "wrong. The neutral caption on the gap figure is **withdrawn** pending",
-            "annotation audit; the pre-outcome reading is again a live hypothesis for",
-            "YS2009 items.",
+            "The manual annotation audit above resolves this: the gap reflects setup-hazard",
+            "content that TF-IDF cannot generalize across scenarios, not outcome",
+            "anticipation and not an annotation error. **This is downgraded from headline",
+            "to supporting evidence** — belief_last representations carry more",
+            "semantically-generalized content than a lexical baseline, which is a claim",
+            "about representational richness, not about reading unstated information.",
+            "Do not use \"model represents outcome before the text states it\" language",
+            "for this result anywhere (figure caption, readout, or writeup).",
         ]
-        verdict = "REOPENED"
+        verdict = "DOWNGRADED_SUPPORTING (audited)"
     elif np.isfinite(tf9_out) and tf9_out >= 0.65:
         lines += [
             f"Span-matched outcome TF-IDF on YS2009 at belief_last is still high",

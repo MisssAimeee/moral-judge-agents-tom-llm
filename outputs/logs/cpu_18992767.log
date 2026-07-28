@@ -1,0 +1,71 @@
+=== Job 18992767 on node3303 at Mon Jul 27 11:39:20 EDT 2026 ===
+CMD: python -u code/02_probe.py --acts outputs/acts --out outputs/probe --pooling action_last --permute 1000 --skip-probe --clause-offsets dataset/master/clause_offsets.csv --csv dataset/master/moral_2x2_master.csv
+CPUS: 16
+
+clause mask: 290 reliable rows for action_last pooling
+OLMo-2-1124-7B-Instruct: reusing outputs/probe/OLMo-2-1124-7B-Instruct_probe_action_last.csv
+OLMo-2-1124-7B-Instruct: peak intent acc=0.903 @ layer 14  -> outputs/probe/OLMo-2-1124-7B-Instruct_probe_action_last.csv
+    perm intent   L0   obs=0.503 null=0.500 p95=0.507 p=0.5055
+    perm intent   L14  obs=0.860 null=0.501 p95=0.534 p=0.0010
+/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:599: ConvergenceWarning: lbfgs failed to converge after 23 iteration(s) (status=2):
+ABNORMAL: 
+
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  n_iter_i = _check_optimize_result(
+    perm outcome  L0   obs=0.513 null=0.513 p95=0.513 p=1.0000
+    perm outcome  L17  obs=0.866 null=0.512 p95=0.550 p=0.0010
+    -> outputs/probe/OLMo-2-1124-7B-Instruct_permnull_action_last.csv
+OLMo-2-1124-7B: reusing outputs/probe/OLMo-2-1124-7B_probe_action_last.csv
+OLMo-2-1124-7B: peak intent acc=0.910 @ layer 18  -> outputs/probe/OLMo-2-1124-7B_probe_action_last.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.510 p=0.5504
+    perm intent   L18  obs=0.896 null=0.500 p95=0.537 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L17  obs=0.850 null=0.513 p95=0.550 p=0.0010
+    -> outputs/probe/OLMo-2-1124-7B_permnull_action_last.csv
+Qwen2.5-0.5B-Instruct: reusing outputs/probe/Qwen2.5-0.5B-Instruct_probe_action_last.csv
+Qwen2.5-0.5B-Instruct: peak intent acc=0.707 @ layer 15  -> outputs/probe/Qwen2.5-0.5B-Instruct_probe_action_last.csv
+    perm intent   L0   obs=0.500 null=0.500 p95=0.510 p=0.7233
+    perm intent   L15  obs=0.648 null=0.500 p95=0.527 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L6   obs=0.661 null=0.511 p95=0.537 p=0.0010
+    -> outputs/probe/Qwen2.5-0.5B-Instruct_permnull_action_last.csv
+Qwen2.5-0.5B: reusing outputs/probe/Qwen2.5-0.5B_probe_action_last.csv
+Qwen2.5-0.5B: peak intent acc=0.676 @ layer 15  -> outputs/probe/Qwen2.5-0.5B_probe_action_last.csv
+    perm intent   L0   obs=0.503 null=0.500 p95=0.510 p=0.4955
+    perm intent   L15  obs=0.658 null=0.500 p95=0.530 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L16  obs=0.634 null=0.510 p95=0.537 p=0.0010
+    -> outputs/probe/Qwen2.5-0.5B_permnull_action_last.csv
+Qwen2.5-1.5B-Instruct: reusing outputs/probe/Qwen2.5-1.5B-Instruct_probe_action_last.csv
+Qwen2.5-1.5B-Instruct: peak intent acc=0.800 @ layer 17  -> outputs/probe/Qwen2.5-1.5B-Instruct_probe_action_last.csv
+    perm intent   L0   obs=0.503 null=0.500 p95=0.510 p=0.4895
+    perm intent   L17  obs=0.806 null=0.500 p95=0.534 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L19  obs=0.768 null=0.512 p95=0.547 p=0.0010
+    -> outputs/probe/Qwen2.5-1.5B-Instruct_permnull_action_last.csv
+Qwen2.5-1.5B: reusing outputs/probe/Qwen2.5-1.5B_probe_action_last.csv
+Qwen2.5-1.5B: peak intent acc=0.759 @ layer 25  -> outputs/probe/Qwen2.5-1.5B_probe_action_last.csv
+    perm intent   L0   obs=0.503 null=0.500 p95=0.510 p=0.4975
+    perm intent   L25  obs=0.705 null=0.501 p95=0.530 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L20  obs=0.652 null=0.512 p95=0.544 p=0.0010
+    -> outputs/probe/Qwen2.5-1.5B_permnull_action_last.csv
+Qwen2.5-7B-Instruct: reusing outputs/probe/Qwen2.5-7B-Instruct_probe_action_last.csv
+Qwen2.5-7B-Instruct: peak intent acc=0.924 @ layer 18  -> outputs/probe/Qwen2.5-7B-Instruct_probe_action_last.csv
+    perm intent   L0   obs=0.503 null=0.500 p95=0.510 p=0.5035
+    perm intent   L18  obs=0.910 null=0.500 p95=0.540 p=0.0010
+    perm outcome  L0   obs=0.517 null=0.517 p95=0.517 p=1.0000
+    perm outcome  L23  obs=0.799 null=0.513 p95=0.550 p=0.0010
+    -> outputs/probe/Qwen2.5-7B-Instruct_permnull_action_last.csv
+Qwen2.5-7B: reusing outputs/probe/Qwen2.5-7B_probe_action_last.csv
+Qwen2.5-7B: peak intent acc=0.893 @ layer 17  -> outputs/probe/Qwen2.5-7B_probe_action_last.csv
+    perm intent   L0   obs=0.507 null=0.500 p95=0.507 p=0.4745
+    perm intent   L17  obs=0.883 null=0.501 p95=0.540 p=0.0010
+    perm outcome  L0   obs=0.513 null=0.513 p95=0.513 p=1.0000
+    perm outcome  L22  obs=0.739 null=0.514 p95=0.550 p=0.0010
+    -> outputs/probe/Qwen2.5-7B_permnull_action_last.csv
+
+=== Job 18992767 finished (exit 0) at Mon Jul 27 11:48:33 EDT 2026 ===

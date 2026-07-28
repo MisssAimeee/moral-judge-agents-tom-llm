@@ -1,0 +1,17 @@
+model,layer,hypothesis,obs_r,null_mean,empirical_p,n_perm
+OLMo-2-1124-7B,15,intent,0.0104,-0.0057,0.001,1000
+OLMo-2-1124-7B,15,outcome,0.1288,-0.0058,0.001,1000
+OLMo-2-1124-7B-Instruct,15,intent,0.0172,-0.0057,0.001,1000
+OLMo-2-1124-7B-Instruct,15,outcome,0.147,-0.0061,0.001,1000
+Qwen2.5-0.5B,15,intent,-0.0024,-0.0048,0.88412,1000
+Qwen2.5-0.5B,15,outcome,0.2686,-0.003,0.001,1000
+Qwen2.5-0.5B-Instruct,14,intent,-0.0027,-0.0035,0.77223,1000
+Qwen2.5-0.5B-Instruct,14,outcome,0.2956,-0.0015,0.001,1000
+Qwen2.5-1.5B,19,intent,-0.0023,-0.0037,0.83417,1000
+Qwen2.5-1.5B,19,outcome,0.292,-0.002,0.001,1000
+Qwen2.5-1.5B-Instruct,18,intent,-0.0024,-0.0032,0.79121,1000
+Qwen2.5-1.5B-Instruct,18,outcome,0.2836,-0.0016,0.001,1000
+Qwen2.5-7B,16,intent,-0.0008,-0.0055,0.98302,1000
+Qwen2.5-7B,16,outcome,0.1848,-0.0037,0.001,1000
+Qwen2.5-7B-Instruct,18,intent,-0.0001,-0.0052,0.998,1000
+Qwen2.5-7B-Instruct,18,outcome,0.2186,-0.0034,0.001,1000

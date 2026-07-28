@@ -1,0 +1,46 @@
+=== Job 18956171 on node1615 at Sun Jul 26 22:13:14 EDT 2026 ===
+CMD: python code/experiments/22_within_cell_probes.py --csv dataset/master/moral_2x2_master_clean.csv --acts outputs/acts_clean --out outputs/probe_clean --pooling mean
+CPUS: 16
+
+  OLMo-2-1124-7B-Instruct    intent_noharm     peak=0.979 @L15  (chance 0.500, n=144)
+  OLMo-2-1124-7B-Instruct    intent_harm       peak=0.968 @L15  (chance 0.500, n=154)
+  OLMo-2-1124-7B-Instruct    outcome_innocent  peak=1.000 @L14  (chance 0.517, n=149)
+  OLMo-2-1124-7B-Instruct    outcome_guilty    peak=0.993 @L17  (chance 0.517, n=149)
+  -> outputs/probe_clean/OLMo-2-1124-7B-Instruct_withincell_mean.csv
+  OLMo-2-1124-7B             intent_noharm     peak=0.966 @L15  (chance 0.500, n=144)
+  OLMo-2-1124-7B             intent_harm       peak=0.935 @L15  (chance 0.500, n=154)
+  OLMo-2-1124-7B             outcome_innocent  peak=1.000 @L13  (chance 0.517, n=149)
+  OLMo-2-1124-7B             outcome_guilty    peak=0.986 @L11  (chance 0.517, n=149)
+  -> outputs/probe_clean/OLMo-2-1124-7B_withincell_mean.csv
+  Qwen2.5-0.5B-Instruct      intent_noharm     peak=0.875 @L12  (chance 0.500, n=144)
+  Qwen2.5-0.5B-Instruct      intent_harm       peak=0.837 @L12  (chance 0.500, n=154)
+  Qwen2.5-0.5B-Instruct      outcome_innocent  peak=0.973 @L11  (chance 0.517, n=149)
+  Qwen2.5-0.5B-Instruct      outcome_guilty    peak=0.960 @L12  (chance 0.517, n=149)
+  -> outputs/probe_clean/Qwen2.5-0.5B-Instruct_withincell_mean.csv
+  Qwen2.5-0.5B               intent_noharm     peak=0.881 @L14  (chance 0.500, n=144)
+  Qwen2.5-0.5B               intent_harm       peak=0.823 @L12  (chance 0.500, n=154)
+  Qwen2.5-0.5B               outcome_innocent  peak=0.973 @L14  (chance 0.517, n=149)
+  Qwen2.5-0.5B               outcome_guilty    peak=0.967 @L12  (chance 0.517, n=149)
+  -> outputs/probe_clean/Qwen2.5-0.5B_withincell_mean.csv
+  Qwen2.5-1.5B-Instruct      intent_noharm     peak=0.930 @L18  (chance 0.500, n=144)
+  Qwen2.5-1.5B-Instruct      intent_harm       peak=0.915 @L18  (chance 0.500, n=154)
+  Qwen2.5-1.5B-Instruct      outcome_innocent  peak=0.986 @L15  (chance 0.517, n=149)
+  Qwen2.5-1.5B-Instruct      outcome_guilty    peak=0.980 @L14  (chance 0.517, n=149)
+  -> outputs/probe_clean/Qwen2.5-1.5B-Instruct_withincell_mean.csv
+  Qwen2.5-1.5B               intent_noharm     peak=0.917 @L17  (chance 0.500, n=144)
+  Qwen2.5-1.5B               intent_harm       peak=0.923 @L18  (chance 0.500, n=154)
+  Qwen2.5-1.5B               outcome_innocent  peak=0.980 @L15  (chance 0.517, n=149)
+  Qwen2.5-1.5B               outcome_guilty    peak=0.980 @L15  (chance 0.517, n=149)
+  -> outputs/probe_clean/Qwen2.5-1.5B_withincell_mean.csv
+  Qwen2.5-7B-Instruct        intent_noharm     peak=0.972 @L17  (chance 0.500, n=144)
+  Qwen2.5-7B-Instruct        intent_harm       peak=0.941 @L18  (chance 0.500, n=154)
+  Qwen2.5-7B-Instruct        outcome_innocent  peak=1.000 @L16  (chance 0.517, n=149)
+  Qwen2.5-7B-Instruct        outcome_guilty    peak=1.000 @L18  (chance 0.517, n=149)
+  -> outputs/probe_clean/Qwen2.5-7B-Instruct_withincell_mean.csv
+  Qwen2.5-7B                 intent_noharm     peak=0.938 @L17  (chance 0.500, n=144)
+  Qwen2.5-7B                 intent_harm       peak=0.941 @L18  (chance 0.500, n=154)
+  Qwen2.5-7B                 outcome_innocent  peak=1.000 @L16  (chance 0.517, n=149)
+  Qwen2.5-7B                 outcome_guilty    peak=1.000 @L18  (chance 0.517, n=149)
+  -> outputs/probe_clean/Qwen2.5-7B_withincell_mean.csv
+
+=== Job 18956171 finished (exit 0) at Sun Jul 26 22:15:32 EDT 2026 ===

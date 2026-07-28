@@ -1,0 +1,59 @@
+=== Job 18953596 on node2704 at Sun Jul 26 21:37:33 EDT 2026 ===
+CMD: python code/experiments/24_rsa_cka.py --pooling mean --perm 1000
+CPUS: 16
+
+=== R1: building RDMs ===
+  OLMo-2-1124-7B-Instruct    layers= 33 peak=15 cached=[0, 8, 15, 16, 24, 32]
+  OLMo-2-1124-7B             layers= 33 peak=15 cached=[0, 8, 15, 16, 24, 32]
+  Qwen2.5-0.5B-Instruct      layers= 25 peak=14 cached=[0, 6, 12, 14, 18, 24]
+  Qwen2.5-0.5B               layers= 25 peak=15 cached=[0, 6, 12, 15, 18, 24]
+  Qwen2.5-1.5B-Instruct      layers= 29 peak=18 cached=[0, 7, 14, 18, 21, 28]
+  Qwen2.5-1.5B               layers= 29 peak=19 cached=[0, 7, 14, 19, 21, 28]
+  Qwen2.5-7B-Instruct        layers= 29 peak=18 cached=[0, 7, 14, 18, 21, 28]
+  Qwen2.5-7B                 layers= 29 peak=16 cached=[0, 7, 14, 16, 21, 28]
+
+=== R4: hypothesis RDMs (scenario partialled out) ===
+  OLMo-2-1124-7B             L15  partial r_intent=+0.016 r_outcome=+0.136 ratio=0.1075
+  OLMo-2-1124-7B-Instruct    L15  partial r_intent=+0.023 r_outcome=+0.155 ratio=0.1307
+  Qwen2.5-0.5B               L15  partial r_intent=+0.003 r_outcome=+0.276 ratio=0.0088
+  Qwen2.5-0.5B-Instruct      L14  partial r_intent=+0.001 r_outcome=+0.301 ratio=0.0023
+  Qwen2.5-1.5B               L19  partial r_intent=+0.001 r_outcome=+0.297 ratio=0.0045
+  Qwen2.5-1.5B-Instruct      L18  partial r_intent=+0.001 r_outcome=+0.288 ratio=0.0026
+  Qwen2.5-7B                 L16  partial r_intent=+0.005 r_outcome=+0.193 ratio=0.024
+  Qwen2.5-7B-Instruct        L18  partial r_intent=+0.005 r_outcome=+0.226 ratio=0.0226
+
+=== R7: permutation nulls (n=1000) ===
+  OLMo-2-1124-7B             intent   r=+0.010 null=-0.006 p=0.0010
+  OLMo-2-1124-7B             outcome  r=+0.129 null=-0.006 p=0.0010
+  OLMo-2-1124-7B-Instruct    intent   r=+0.017 null=-0.006 p=0.0010
+  OLMo-2-1124-7B-Instruct    outcome  r=+0.147 null=-0.006 p=0.0010
+  Qwen2.5-0.5B               intent   r=-0.002 null=-0.005 p=0.8841
+  Qwen2.5-0.5B               outcome  r=+0.269 null=-0.003 p=0.0010
+  Qwen2.5-0.5B-Instruct      intent   r=-0.003 null=-0.003 p=0.7722
+  Qwen2.5-0.5B-Instruct      outcome  r=+0.296 null=-0.001 p=0.0010
+  Qwen2.5-1.5B               intent   r=-0.002 null=-0.004 p=0.8342
+  Qwen2.5-1.5B               outcome  r=+0.292 null=-0.002 p=0.0010
+  Qwen2.5-1.5B-Instruct      intent   r=-0.002 null=-0.003 p=0.7912
+  Qwen2.5-1.5B-Instruct      outcome  r=+0.284 null=-0.002 p=0.0010
+  Qwen2.5-7B                 intent   r=-0.001 null=-0.005 p=0.9830
+  Qwen2.5-7B                 outcome  r=+0.185 null=-0.004 p=0.0010
+  Qwen2.5-7B-Instruct        intent   r=-0.000 null=-0.005 p=0.9980
+  Qwen2.5-7B-Instruct        outcome  r=+0.219 null=-0.003 p=0.0010
+
+=== R2/R6: model x model similarity ===
+  peak: 28 pairs
+  reldepth0.75: 28 pairs
+
+=== R5: base vs instruct geometry ===
+  OLMo-2-1124-7B             base<->instruct  RSA=0.941 CKA=0.957
+  Qwen2.5-0.5B               base<->instruct  RSA=0.933 CKA=0.995
+  Qwen2.5-1.5B               base<->instruct  RSA=0.983 CKA=1.000
+  Qwen2.5-7B                 base<->instruct  RSA=0.985 CKA=0.997
+
+=== R3: convergence test ===
+  heatmaps -> /orcd/home/002/aimeeyu/tom_project/outputs/rsa
+
+-> /orcd/home/002/aimeeyu/tom_project/outputs/rsa
+R3: r=-0.160 (95% CI -0.525..+0.237), n_pairs=28 -> same answer, different route (null)
+
+=== Job 18953596 finished (exit 0) at Sun Jul 26 21:39:50 EDT 2026 ===

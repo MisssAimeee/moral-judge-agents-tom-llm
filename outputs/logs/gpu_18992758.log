@@ -1,0 +1,35 @@
+=== Job 18992758 on node4506 at Mon Jul 27 11:24:19 EDT 2026 ===
+CMD: python -u code/02_probe.py --acts outputs/acts --out outputs/probe --pooling last --clause-offsets dataset/master/clause_offsets.csv --csv dataset/master/moral_2x2_master.csv
+
+Mon Jul 27 11:24:21 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:49:00.0 Off |                    0 |
+| N/A   32C    P8             33W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+CUDA: True | NVIDIA L40S
+
+OLMo-2-1124-7B-Instruct: peak intent acc=0.850 @ layer 16  -> outputs/probe/OLMo-2-1124-7B-Instruct_probe.csv
+OLMo-2-1124-7B: peak intent acc=0.849 @ layer 16  -> outputs/probe/OLMo-2-1124-7B_probe.csv
+Qwen2.5-0.5B-Instruct: peak intent acc=0.695 @ layer 21  -> outputs/probe/Qwen2.5-0.5B-Instruct_probe.csv
+Qwen2.5-0.5B: peak intent acc=0.671 @ layer 12  -> outputs/probe/Qwen2.5-0.5B_probe.csv
+Qwen2.5-1.5B-Instruct: peak intent acc=0.755 @ layer 20  -> outputs/probe/Qwen2.5-1.5B-Instruct_probe.csv
+Qwen2.5-1.5B: peak intent acc=0.739 @ layer 13  -> outputs/probe/Qwen2.5-1.5B_probe.csv
+Qwen2.5-7B-Instruct: peak intent acc=0.880 @ layer 19  -> outputs/probe/Qwen2.5-7B-Instruct_probe.csv
+Qwen2.5-7B: peak intent acc=0.883 @ layer 19  -> outputs/probe/Qwen2.5-7B_probe.csv
+
+=== Job 18992758 finished (exit 0) at Mon Jul 27 11:34:10 EDT 2026 ===

@@ -1,0 +1,50 @@
+model,Qwen_Qwen2.5-1.5B
+template,human_verbatim
+
+MODEL condition profile (0-1 blame)
+neutral,0.5629
+accidental,0.5502
+attempted,0.5638
+intentional,0.5488
+model_intent_reliance_4cell,0.0173
+model_intent_vs_outcome_contrast,0.0136
+
+PROMPT-INVARIANCE of intent_vs_outcome_contrast (n_templates=7)
+contrast_template_mean,0.0106
+contrast_template_sd,0.0184
+contrast_template_min,-0.0209
+contrast_template_max,0.0414
+contrast_template_range,0.0623
+  contrast[acceptable7],-0.0066
+  contrast[human_verbatim],0.0136
+  contrast[para_blame10],-0.0209
+  contrast[para_blame4],0.0183
+  contrast[para_wrong7],0.0183
+  contrast[persona_adult7],0.0099
+  contrast[punish7],0.0414
+contrast_sign_stable_across_prompts,NO
+
+vs adult
+rmse,0.4099
+profile_corr,-0.1707
+intent_reliance_4cell_diff,-0.8392
+intent_vs_outcome_contrast_human,0.666
+contrast_diff_model_minus_human,-0.6524
+
+vs child_4_5
+rmse,0.0869
+profile_corr,1.0
+intent_vs_outcome_contrast_human,0.09
+contrast_diff_model_minus_human,-0.0764
+
+vs child_6_7
+rmse,0.0977
+profile_corr,1.0
+intent_vs_outcome_contrast_human,0.12
+contrast_diff_model_minus_human,-0.1064
+
+vs child_8plus
+rmse,0.2575
+profile_corr,1.0
+intent_vs_outcome_contrast_human,0.19
+contrast_diff_model_minus_human,-0.1764

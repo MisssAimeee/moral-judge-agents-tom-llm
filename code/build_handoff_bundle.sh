@@ -51,7 +51,27 @@ take outputs/analysis/prompt_invariance_decomposition.csv
 take outputs/analysis/interaction_regression.csv
 take outputs/experiments/checkpoint_dissection.csv
 take outputs/experiments/checkpoint_dissection_writeup.md
+take outputs/experiments/CHECKPOINT_DISSECTION.md
 take outputs/experiments/mini_dissection.csv
+take outputs/stats/mixed_effects_2x2.csv
+take outputs/stats/MIXED_EFFECTS_2x2.md
+take outputs/stats/FLOOR_DERIVATION.md
+take outputs/stats/floor_derivation.csv
+take outputs/tom_benchmarks/tom_accuracy_by_model.csv
+take outputs/tom_benchmarks/tom_accuracy_by_model_generative.csv
+take outputs/tom_benchmarks/tom_scoring_agreement.csv
+take outputs/tom_benchmarks/tom_vs_contrast.csv
+take outputs/tom_benchmarks/TOM_VS_CONTRAST.md
+take outputs/tom_benchmarks/TOMI_SCORING_AUDIT.md
+take outputs/tom_benchmarks/CLOSED_TOM.md
+take outputs/link/item_level_dissociation.csv
+take outputs/link/item_level_groups.csv
+take outputs/link/ITEM_LEVEL_DISSOCIATION.md
+take outputs/analysis/C2_SOURCE_SPLIT_BELIEF_LAST.md
+take outputs/analysis/SIGN_FLIP_RECONCILIATION.md
+take outputs/analysis/ROSTER_70B_FEASIBILITY.md
+take outputs/analysis/REVIEW_CHECKS.md
+take_glob "outputs/analysis/check_c*.csv"
 
 # ---------------- Representation ----------------
 take_glob "outputs/probe/*_probe.csv"
@@ -64,6 +84,10 @@ take outputs/probe/surface_baseline.csv
 take outputs/probe/layer0_diagnostic.csv
 take outputs/probe/layer0_pooling_check.csv
 take outputs/probe/gap_over_surface_by_pooling.csv
+take outputs/probe/gap_over_surface_span_matched.csv
+take outputs/probe/gap_over_surface_within_model_paired.csv
+take_glob "outputs/probe/*_probe_belief_last_src*.csv"
+take_glob "outputs/probe/*_probe_action_last_src*.csv"
 
 # RSA: outputs/rsa is the mean pooling; the others are per-pooling siblings.
 take_glob "outputs/rsa/*.csv"  "rsa_mean_"
@@ -109,9 +133,15 @@ take_glob "outputs/master_developmental_ladder_*_openonly.png"
 take_glob "outputs/master_developmental_ladder_*_all.png"
 take outputs/experiments/checkpoint_dissection.png
 take outputs/probe/gap_over_surface_dissociation.png
+take outputs/probe/gap_over_surface_dissociation_span_matched.png
 take outputs/probe/layerwise_curves.png
 take_glob "outputs/rsa/model_similarity_heatmap_*.png"
 take outputs/link/rep_vs_behavior.png
+take outputs/link/item_level_dissociation.png
+take outputs/stats/mixed_effects_interaction.png
+take outputs/tom_benchmarks/tom_vs_contrast.png
+take outputs/updated_figures/human_only_developmental_ladder.png
+take outputs/updated_figures/HUMAN_ANCHOR_CHOICES.md
 take dataset/human_reference/cushman_digitized_overlay.png
 
 echo "bundle files: $(find "$DEST" -maxdepth 1 -type f ! -name '.missing.txt' | wc -l)"

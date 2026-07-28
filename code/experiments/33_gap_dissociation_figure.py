@@ -36,9 +36,14 @@ POOL_LABEL = {
 # Gaps use span-matched TF-IDF: belief_last/action_last baselines are fit on
 # text[:belief_end] / text[:action_end], not the full story. Full-story TF-IDF
 # inflated the surface baseline whenever the outcome sentence followed the cut.
-# C2 (span-matched): YS2009 outcome TF-IDF at belief_last ≈ 0.58 (near chance) while
-# probes average ≈ 0.82 — pre-outcome reading reopened pending annotation audit.
-# See outputs/analysis/C2_SOURCE_SPLIT_BELIEF_LAST.md.
+# C2 (span-matched, manually audited): YS2009 outcome TF-IDF at belief_last ≈ 0.58
+# (near chance) while probes read ≈ 0.82. A manual read of five YS2009 stories with
+# clause offsets marked confirmed the offsets are correct (belief_end always precedes
+# outcome_start) but the SETUP sentences before belief_start already state the
+# scenario's hazard, so the gap reflects TF-IDF's failure to generalize
+# scenario-specific hazard vocabulary across a leave-scenario-out split, not the model
+# anticipating outcome content the text never states. DOWNGRADED to supporting
+# evidence, not a headline claim. See outputs/analysis/C2_SOURCE_SPLIT_BELIEF_LAST.md.
 POOL_TO_SPAN = {
     "belief_last": "belief_last",
     "action_last": "action_last",
@@ -47,7 +52,9 @@ POOL_TO_SPAN = {
 }
 CAPTION = ("Gaps vs span-matched TF-IDF (clause-position baselines use text up to that cut).\n"
            "YS2009 matched outcome TF-IDF at belief_last is near chance while probes read ~0.82;\n"
-           "pre-outcome reading reopened — see C2_SOURCE_SPLIT_BELIEF_LAST.md.")
+           "manual audit attributes this to setup-hazard content TF-IDF can't generalize across\n"
+           "scenarios, not to the model anticipating outcome — supporting evidence, not headline.\n"
+           "See C2_SOURCE_SPLIT_BELIEF_LAST.md.")
 
 def peaks():
     surf = list(csv.DictReader(open(os.path.join(PROBE, "surface_baseline.csv"))))

@@ -1,0 +1,5 @@
+layer,target,obs_acc,null_mean,null_p95,empirical_p,n_perm
+0,intent,0.5,0.5,0.5,1.0,1000
+14,intent,0.9026,0.4987,0.5368,0.001,1000
+0,outcome,0.5168,0.5168,0.5168,0.999,1000
+12,outcome,0.8224,0.5091,0.55,0.001,1000

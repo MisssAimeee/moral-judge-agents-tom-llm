@@ -1,0 +1,43 @@
+=== Job 17939306 on node1632 at Tue Jul 14 22:30:37 EDT 2026 ===
+CMD: python code/experiments/16_checkpoint_dissection.py --models Tulu-3-8B --run
+
+Tue Jul 14 22:30:40 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:61:00.0 Off |                    0 |
+| N/A   33C    P8             33W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+CUDA: True | NVIDIA L40S
+
+[resume] 10 checkpoint(s) already scored in /orcd/home/002/aimeeyu/tom_project/code/../outputs/experiments/checkpoint_dissection.csv -> will skip and reuse (pass --force to rescore everything).
+
+============================================================
+ Tulu-3-8B / base : unsloth/Meta-Llama-3.1-8B
+============================================================
+  Loading unsloth/Meta-Llama-3.1-8B ...
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:  25%|██▌       | 1/4 [01:45<05:16, 105.64s/it]Fetching 4 files: 100%|██████████| 4/4 [01:45<00:00, 26.41s/it] 
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<01:58,  2.45it/s]Loading weights:   1%|          | 2/291 [00:00<01:45,  2.73it/s]Loading weights:   3%|▎         | 9/291 [00:00<00:18, 15.22it/s]Loading weights:   5%|▌         | 15/291 [00:00<00:11, 23.40it/s]Loading weights:   8%|▊         | 23/291 [00:01<00:07, 35.38it/s]Loading weights:  11%|█         | 31/291 [00:01<00:05, 45.45it/s]Loading weights:  13%|█▎        | 38/291 [00:01<00:05, 50.33it/s]Loading weights:  15%|█▌        | 45/291 [00:01<00:04, 51.01it/s]Loading weights:  18%|█▊        | 51/291 [00:01<00:04, 49.83it/s]Loading weights:  20%|██        | 59/291 [00:01<00:04, 57.00it/s]Loading weights:  23%|██▎       | 67/291 [00:01<00:03, 62.13it/s]Loading weights:  25%|██▌       | 74/291 [00:01<00:03, 63.38it/s]Loading weights:  28%|██▊       | 81/291 [00:01<00:03, 60.21it/s]Loading weights:  30%|███       | 88/291 [00:02<00:03, 57.10it/s]Loading weights:  33%|███▎      | 95/291 [00:02<00:03, 59.13it/s]Loading weights:  35%|███▌      | 103/291 [00:02<00:02, 63.81it/s]Loading weights:  38%|███▊      | 110/291 [00:02<00:02, 64.13it/s]Loading weights:  40%|████      | 117/291 [00:02<00:02, 60.69it/s]Loading weights:  43%|████▎     | 124/291 [00:02<00:02, 57.71it/s]Loading weights:  45%|████▌     | 131/291 [00:02<00:02, 59.98it/s]Loading weights:  48%|████▊     | 140/291 [00:02<00:02, 62.41it/s]Loading weights:  51%|█████     | 148/291 [00:03<00:02, 66.15it/s]Loading weights:  53%|█████▎    | 155/291 [00:03<00:02, 66.53it/s]Loading weights:  56%|█████▌    | 162/291 [00:03<00:02, 63.64it/s]Loading weights:  58%|█████▊    | 169/291 [00:03<00:02, 60.70it/s]Loading weights:  60%|██████    | 176/291 [00:03<00:01, 61.67it/s]Loading weights:  63%|██████▎   | 184/291 [00:03<00:01, 66.13it/s]Loading weights:  66%|██████▌   | 191/291 [00:03<00:01, 66.68it/s]Loading weights:  68%|██████▊   | 198/291 [00:03<00:01, 62.40it/s]Loading weights:  70%|███████   | 205/291 [00:03<00:01, 60.32it/s]Loading weights:  73%|███████▎  | 213/291 [00:04<00:01, 60.16it/s]Loading weights:  76%|███████▋  | 222/291 [00:04<00:01, 65.31it/s]Loading weights:  79%|███████▉  | 231/291 [00:04<00:00, 69.42it/s]Loading weights:  82%|████████▏ | 240/291 [00:04<00:00, 72.48it/s]Loading weights:  86%|████████▌ | 249/291 [00:04<00:00, 73.94it/s]Loading weights:  89%|████████▊ | 258/291 [00:04<00:00, 75.22it/s]Loading weights:  92%|█████████▏| 267/291 [00:04<00:00, 76.55it/s]Loading weights:  95%|█████████▍| 276/291 [00:04<00:00, 77.90it/s]Loading weights:  98%|█████████▊| 285/291 [00:05<00:00, 78.02it/s]Loading weights: 100%|██████████| 291/291 [00:05<00:00, 57.53it/s]
+  Loaded on cuda:0
+  contrast=-0.036  b_intent=+0.004  b_outcome=+0.039  b_interaction=-0.004
+[skip] Tulu-3-8B / SFT: already scored (contrast=-0.1861)
+[skip] Tulu-3-8B / DPO: already scored (contrast=-0.3145)
+[skip] Tulu-3-8B / RLVR: already scored (contrast=-0.3038)
+
+wrote outputs/experiments/checkpoint_dissection.csv  (11 checkpoints)
+wrote outputs/experiments/checkpoint_dissection.png
+
+=== Job 17939306 finished (exit 0) at Tue Jul 14 22:33:18 EDT 2026 ===

@@ -1,0 +1,9 @@
+model,human_verbatim,para_wrong7,punish7,sd,range,sign_flips
+claude-opus-4-6,0.1435,0.118,0.0162,0.055,0.1273,False
+kimi-k3,0.0,0.0,0.0,0.0,0.0,False
+gemini-2_5-pro,-0.0417,0.0208,0.0208,0.0295,0.0625,True
+claude-sonnet-4-6,0.044,0.0417,-0.1042,0.0693,0.1481,True
+gemini-2_5-flash,-0.0579,-0.0347,-0.088,0.0218,0.0532,False
+claude-haiku-4-5-20251001,-0.0857,-0.213,-0.1551,0.052,0.1273,False
+gpt-4o-mini,-0.3357,-0.2616,-0.2361,0.0422,0.0995,False
+gpt-4o,-0.4213,-0.3773,-0.3357,0.035,0.0856,False

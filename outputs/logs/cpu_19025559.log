@@ -1,0 +1,70 @@
+=== Job 19025559 on node1906 at Mon Jul 27 22:34:09 EDT 2026 ===
+--- source=YS2008 pooling=belief_last ---
+source filter YS2008: 192 items
+clause mask: 290 reliable rows for belief_last pooling
+OLMo-2-1124-7B-Instruct: peak intent acc=0.984 @ layer 19  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/OLMo-2-1124-7B-Instruct_probe_belief_last_srcYS2008.csv
+OLMo-2-1124-7B: peak intent acc=0.979 @ layer 16  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/OLMo-2-1124-7B_probe_belief_last_srcYS2008.csv
+Qwen2.5-0.5B-Instruct: peak intent acc=0.934 @ layer 12  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-0.5B-Instruct_probe_belief_last_srcYS2008.csv
+Qwen2.5-0.5B: peak intent acc=0.939 @ layer 11  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-0.5B_probe_belief_last_srcYS2008.csv
+Qwen2.5-1.5B-Instruct: peak intent acc=0.965 @ layer 17  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-1.5B-Instruct_probe_belief_last_srcYS2008.csv
+Qwen2.5-1.5B: peak intent acc=0.964 @ layer 18  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-1.5B_probe_belief_last_srcYS2008.csv
+Qwen2.5-7B-Instruct: peak intent acc=0.980 @ layer 20  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-7B-Instruct_probe_belief_last_srcYS2008.csv
+Qwen2.5-7B: peak intent acc=0.980 @ layer 20  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-7B_probe_belief_last_srcYS2008.csv
+--- source=YS2008 pooling=action_last ---
+source filter YS2008: 192 items
+clause mask: 290 reliable rows for action_last pooling
+OLMo-2-1124-7B-Instruct: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+OLMo-2-1124-7B-Instruct: peak intent acc=0.921 @ layer 16  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/OLMo-2-1124-7B-Instruct_probe_action_last_srcYS2008.csv
+OLMo-2-1124-7B: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+OLMo-2-1124-7B: peak intent acc=0.933 @ layer 16  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/OLMo-2-1124-7B_probe_action_last_srcYS2008.csv
+Qwen2.5-0.5B-Instruct: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-0.5B-Instruct: peak intent acc=0.704 @ layer 15  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-0.5B-Instruct_probe_action_last_srcYS2008.csv
+Qwen2.5-0.5B: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-0.5B: peak intent acc=0.684 @ layer 12  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-0.5B_probe_action_last_srcYS2008.csv
+Qwen2.5-1.5B-Instruct: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-1.5B-Instruct: peak intent acc=0.801 @ layer 17  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-1.5B-Instruct_probe_action_last_srcYS2008.csv
+Qwen2.5-1.5B: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-1.5B: peak intent acc=0.775 @ layer 17  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-1.5B_probe_action_last_srcYS2008.csv
+Qwen2.5-7B-Instruct: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-7B-Instruct: peak intent acc=0.927 @ layer 19  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-7B-Instruct_probe_action_last_srcYS2008.csv
+Qwen2.5-7B: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-7B: peak intent acc=0.921 @ layer 16  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-7B_probe_action_last_srcYS2008.csv
+--- source=YS2009 pooling=belief_last ---
+source filter YS2009: 96 items
+clause mask: 290 reliable rows for belief_last pooling
+OLMo-2-1124-7B-Instruct: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+OLMo-2-1124-7B-Instruct: peak intent acc=0.988 @ layer 17  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/OLMo-2-1124-7B-Instruct_probe_belief_last_srcYS2009.csv
+OLMo-2-1124-7B: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+OLMo-2-1124-7B: peak intent acc=0.980 @ layer 11  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/OLMo-2-1124-7B_probe_belief_last_srcYS2009.csv
+Qwen2.5-0.5B-Instruct: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-0.5B-Instruct: peak intent acc=0.905 @ layer 14  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-0.5B-Instruct_probe_belief_last_srcYS2009.csv
+Qwen2.5-0.5B: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-0.5B: peak intent acc=0.932 @ layer 14  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-0.5B_probe_belief_last_srcYS2009.csv
+Qwen2.5-1.5B-Instruct: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-1.5B-Instruct: peak intent acc=0.960 @ layer 14  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-1.5B-Instruct_probe_belief_last_srcYS2009.csv
+Qwen2.5-1.5B: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-1.5B: peak intent acc=0.960 @ layer 14  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-1.5B_probe_belief_last_srcYS2009.csv
+Qwen2.5-7B-Instruct: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-7B-Instruct: peak intent acc=0.978 @ layer 19  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-7B-Instruct_probe_belief_last_srcYS2009.csv
+Qwen2.5-7B: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-7B: peak intent acc=1.000 @ layer 15  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-7B_probe_belief_last_srcYS2009.csv
+--- source=YS2009 pooling=action_last ---
+source filter YS2009: 96 items
+clause mask: 290 reliable rows for action_last pooling
+OLMo-2-1124-7B-Instruct: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+OLMo-2-1124-7B-Instruct: peak intent acc=0.907 @ layer 16  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/OLMo-2-1124-7B-Instruct_probe_action_last_srcYS2009.csv
+OLMo-2-1124-7B: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+OLMo-2-1124-7B: peak intent acc=0.885 @ layer 15  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/OLMo-2-1124-7B_probe_action_last_srcYS2009.csv
+Qwen2.5-0.5B-Instruct: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-0.5B-Instruct: peak intent acc=0.680 @ layer 15  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-0.5B-Instruct_probe_action_last_srcYS2009.csv
+Qwen2.5-0.5B: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-0.5B: peak intent acc=0.660 @ layer 11  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-0.5B_probe_action_last_srcYS2009.csv
+Qwen2.5-1.5B-Instruct: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-1.5B-Instruct: peak intent acc=0.778 @ layer 14  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-1.5B-Instruct_probe_action_last_srcYS2009.csv
+Qwen2.5-1.5B: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-1.5B: peak intent acc=0.802 @ layer 19  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-1.5B_probe_action_last_srcYS2009.csv
+Qwen2.5-7B-Instruct: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-7B-Instruct: peak intent acc=0.932 @ layer 21  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-7B-Instruct_probe_action_last_srcYS2009.csv
+Qwen2.5-7B: 2 (layer,target) cells marked degenerate (zero-variance folds → majority-class fallback)
+Qwen2.5-7B: peak intent acc=0.890 @ layer 16  -> /orcd/home/002/aimeeyu/tom_project/code/../outputs/probe/Qwen2.5-7B_probe_action_last_srcYS2009.csv
+=== done at Mon Jul 27 23:19:26 EDT 2026 ===

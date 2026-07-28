@@ -1,0 +1,97 @@
+=== tom closed generative Tue Jul 28 11:10:07 EDT 2026 provider=all ===
+
+----- anthropic: claude-haiku-4-5-20251001 claude-sonnet-4-6 claude-opus-4-6 -----
+items: 400  {'bigtom': 400}  method=generative  backend=anthropic
+
+=== claude-haiku-4-5-20251001 (anthropic) ===
+  [resume] 400 items already in /orcd/home/002/aimeeyu/tom_project/outputs/tom_benchmarks/tom_gen_items_claude-haiku-4-5-20251001.csv
+  bigtom                              381/400  acc=0.953  parsed=1.000
+  bigtom|false_belief                 195/200  acc=0.975  parsed=1.000
+  bigtom|true_belief                  186/200  acc=0.930  parsed=1.000
+
+=== claude-sonnet-4-6 (anthropic) ===
+  [resume] 400 items already in /orcd/home/002/aimeeyu/tom_project/outputs/tom_benchmarks/tom_gen_items_claude-sonnet-4-6.csv
+  bigtom                              376/400  acc=0.940  parsed=1.000
+  bigtom|false_belief                 198/200  acc=0.990  parsed=1.000
+  bigtom|true_belief                  178/200  acc=0.890  parsed=1.000
+
+=== claude-opus-4-6 (anthropic) ===
+  [resume] 350 items already in /orcd/home/002/aimeeyu/tom_project/outputs/tom_benchmarks/tom_gen_items_claude-opus-4-6.csv
+    375/400  new=25
+    400/400  new=50
+  bigtom                              394/400  acc=0.985  parsed=1.000
+  bigtom|false_belief                 197/200  acc=0.985  parsed=1.000
+  bigtom|true_belief                  197/200  acc=0.985  parsed=1.000
+
+wrote /orcd/home/002/aimeeyu/tom_project/outputs/tom_benchmarks/tom_accuracy_by_model_generative.csv
+
+----- openai: gpt-4o-mini gpt-4o -----
+items: 400  {'bigtom': 400}  method=generative  backend=openai
+
+=== gpt-4o-mini (openai) ===
+    25/400  new=25
+    50/400  new=50
+    75/400  new=75
+    100/400  new=100
+    125/400  new=125
+    150/400  new=150
+    175/400  new=175
+    200/400  new=200
+    225/400  new=225
+    250/400  new=250
+    275/400  new=275
+    300/400  new=300
+    325/400  new=325
+    350/400  new=350
+    375/400  new=375
+    400/400  new=400
+  bigtom                              367/400  acc=0.917  parsed=1.000
+  bigtom|false_belief                 191/200  acc=0.955  parsed=1.000
+  bigtom|true_belief                  176/200  acc=0.880  parsed=1.000
+
+=== gpt-4o (openai) ===
+  [resume] 400 items already in /orcd/home/002/aimeeyu/tom_project/outputs/tom_benchmarks/tom_gen_items_gpt-4o.csv
+  bigtom                              387/400  acc=0.968  parsed=1.000
+  bigtom|false_belief                 194/200  acc=0.970  parsed=1.000
+  bigtom|true_belief                  193/200  acc=0.965  parsed=1.000
+
+wrote /orcd/home/002/aimeeyu/tom_project/outputs/tom_benchmarks/tom_accuracy_by_model_generative.csv
+
+----- google: gemini-2.5-flash gemini-2.5-pro -----
+items: 400  {'bigtom': 400}  method=generative  backend=google
+
+=== gemini-2.5-flash (google) ===
+/orcd/home/002/aimeeyu/tom_project/code/experiments/45_tom_generative.py:150: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+    25/400  new=25
+    50/400  new=50
+    75/400  new=75
+    100/400  new=100
+    125/400  new=125
+    150/400  new=150
+    175/400  new=175
+    200/400  new=200
+    225/400  new=225
+    250/400  new=250
+    275/400  new=275
+    300/400  new=300
+    325/400  new=325
+    350/400  new=350
+    375/400  new=375
+    400/400  new=400
+  bigtom                              127/400  acc=0.318  parsed=0.328
+  bigtom|false_belief                  59/200  acc=0.295  parsed=0.300
+  bigtom|true_belief                   68/200  acc=0.340  parsed=0.355
+
+=== gemini-2.5-pro (google) ===
+    25/400  new=25
+    50/400  new=50
+    75/400  new=75
+    100/400  new=100

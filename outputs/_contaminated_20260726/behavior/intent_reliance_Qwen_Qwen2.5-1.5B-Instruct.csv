@@ -1,0 +1,8 @@
+template,b_intent,b_outcome,intent_reliance_index
+human_verbatim,0.0883,0.2687,0.2473
+para_blame10,-0.0175,0.0533,0.2467
+para_wrong7,0.0164,0.1331,0.1097
+para_blame4,0.042,0.1404,0.2303
+punish7,0.0077,0.0798,0.0878
+acceptable7,0.1154,0.3163,0.2673
+persona_adult7,0.0149,0.1333,0.1006

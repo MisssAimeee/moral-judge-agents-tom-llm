@@ -1,0 +1,42 @@
+=== Job 18962392 on node1805 at Mon Jul 27 00:16:23 EDT 2026 ===
+CMD: python -u code/experiments/16_checkpoint_dissection.py --run
+
+Mon Jul 27 00:16:25 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:45:00.0 Off |                    0 |
+| N/A   41C    P8             35W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+CUDA: True | NVIDIA L40S
+
+[resume] 11 checkpoint(s) already scored in /orcd/home/002/aimeeyu/tom_project/code/../outputs/experiments/checkpoint_dissection.csv -> will skip and reuse (pass --force to rescore everything).
+[skip] OLMo-2-7B / base: already scored (contrast=+0.0159)
+[skip] OLMo-2-7B / SFT: already scored (contrast=-0.1416)
+[skip] OLMo-2-7B / DPO: already scored (contrast=-0.1759)
+[skip] OLMo-2-7B / Instruct: already scored (contrast=-0.2886)
+[skip] Tulu-3-8B / base: already scored (contrast=-0.0358)
+[skip] Tulu-3-8B / SFT: already scored (contrast=-0.1861)
+[skip] Tulu-3-8B / DPO: already scored (contrast=-0.3145)
+[skip] Tulu-3-8B / RLVR: already scored (contrast=-0.3038)
+[skip] Zephyr-7B / base: already scored (contrast=+0.0000)
+[skip] Zephyr-7B / SFT: already scored (contrast=+0.0000)
+[skip] Zephyr-7B / DPO: already scored (contrast=+0.0000)
+
+wrote outputs/experiments/checkpoint_dissection.csv  (11 checkpoints)
+wrote outputs/experiments/checkpoint_dissection.png
+
+=== Job 18962392 finished (exit 0) at Mon Jul 27 00:16:28 EDT 2026 ===

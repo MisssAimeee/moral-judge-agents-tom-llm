@@ -1,0 +1,46 @@
+=== Job 18962391 on node1622 at Sun Jul 26 23:56:38 EDT 2026 ===
+CMD: python -u code/experiments/22_within_cell_probes.py --csv dataset/master/moral_2x2_master.csv
+CPUS: 16
+
+  OLMo-2-1124-7B-Instruct    intent_noharm     peak=0.931 @L14  (chance 0.500, n=144)
+  OLMo-2-1124-7B-Instruct    intent_harm       peak=0.885 @L17  (chance 0.500, n=154)
+  OLMo-2-1124-7B-Instruct    outcome_innocent  peak=1.000 @L17  (chance 0.517, n=149)
+  OLMo-2-1124-7B-Instruct    outcome_guilty    peak=1.000 @L17  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/OLMo-2-1124-7B-Instruct_withincell.csv
+  OLMo-2-1124-7B             intent_noharm     peak=0.923 @L14  (chance 0.500, n=144)
+  OLMo-2-1124-7B             intent_harm       peak=0.833 @L15  (chance 0.500, n=154)
+  OLMo-2-1124-7B             outcome_innocent  peak=1.000 @L16  (chance 0.517, n=149)
+  OLMo-2-1124-7B             outcome_guilty    peak=1.000 @L15  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/OLMo-2-1124-7B_withincell.csv
+  Qwen2.5-0.5B-Instruct      intent_noharm     peak=0.763 @L11  (chance 0.500, n=144)
+  Qwen2.5-0.5B-Instruct      intent_harm       peak=0.675 @L21  (chance 0.500, n=154)
+  Qwen2.5-0.5B-Instruct      outcome_innocent  peak=0.980 @L11  (chance 0.517, n=149)
+  Qwen2.5-0.5B-Instruct      outcome_guilty    peak=0.993 @L15  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/Qwen2.5-0.5B-Instruct_withincell.csv
+  Qwen2.5-0.5B               intent_noharm     peak=0.765 @L11  (chance 0.500, n=144)
+  Qwen2.5-0.5B               intent_harm       peak=0.675 @L19  (chance 0.500, n=154)
+  Qwen2.5-0.5B               outcome_innocent  peak=0.993 @L12  (chance 0.517, n=149)
+  Qwen2.5-0.5B               outcome_guilty    peak=0.993 @L12  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/Qwen2.5-0.5B_withincell.csv
+  Qwen2.5-1.5B-Instruct      intent_noharm     peak=0.827 @L18  (chance 0.500, n=144)
+  Qwen2.5-1.5B-Instruct      intent_harm       peak=0.753 @L21  (chance 0.500, n=154)
+  Qwen2.5-1.5B-Instruct      outcome_innocent  peak=1.000 @L17  (chance 0.517, n=149)
+  Qwen2.5-1.5B-Instruct      outcome_guilty    peak=1.000 @L14  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/Qwen2.5-1.5B-Instruct_withincell.csv
+  Qwen2.5-1.5B               intent_noharm     peak=0.820 @L15  (chance 0.500, n=144)
+  Qwen2.5-1.5B               intent_harm       peak=0.761 @L18  (chance 0.500, n=154)
+  Qwen2.5-1.5B               outcome_innocent  peak=1.000 @L19  (chance 0.517, n=149)
+  Qwen2.5-1.5B               outcome_guilty    peak=1.000 @L17  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/Qwen2.5-1.5B_withincell.csv
+  Qwen2.5-7B-Instruct        intent_noharm     peak=0.929 @L18  (chance 0.500, n=144)
+  Qwen2.5-7B-Instruct        intent_harm       peak=0.889 @L17  (chance 0.500, n=154)
+  Qwen2.5-7B-Instruct        outcome_innocent  peak=1.000 @L14  (chance 0.517, n=149)
+  Qwen2.5-7B-Instruct        outcome_guilty    peak=1.000 @L15  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/Qwen2.5-7B-Instruct_withincell.csv
+  Qwen2.5-7B                 intent_noharm     peak=0.902 @L18  (chance 0.500, n=144)
+  Qwen2.5-7B                 intent_harm       peak=0.826 @L17  (chance 0.500, n=154)
+  Qwen2.5-7B                 outcome_innocent  peak=1.000 @L16  (chance 0.517, n=149)
+  Qwen2.5-7B                 outcome_guilty    peak=1.000 @L16  (chance 0.517, n=149)
+  -> /orcd/home/002/aimeeyu/tom_project/outputs/probe/Qwen2.5-7B_withincell.csv
+
+=== Job 18962391 finished (exit 0) at Sun Jul 26 23:59:05 EDT 2026 ===

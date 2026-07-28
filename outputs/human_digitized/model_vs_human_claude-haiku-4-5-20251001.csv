@@ -1,0 +1,46 @@
+model,claude-haiku-4-5-20251001
+template,human_verbatim
+
+MODEL condition profile (0-1 blame)
+neutral,0.2037
+accidental,0.4978
+attempted,0.4143
+intentional,0.5606
+model_intent_reliance_4cell,0.383
+model_intent_vs_outcome_contrast,-0.0835
+
+PROMPT-INVARIANCE of intent_vs_outcome_contrast (n_templates=3)
+contrast_template_mean,-0.137
+contrast_template_sd,0.0442
+contrast_template_min,-0.1917
+contrast_template_max,-0.0835
+contrast_template_range,0.1083
+  contrast[human_verbatim],-0.0835
+  contrast[para_wrong7],-0.1917
+  contrast[punish7],-0.1356
+contrast_sign_stable_across_prompts,yes
+
+vs adult
+rmse,0.3594
+profile_corr,0.664
+intent_reliance_4cell_diff,-0.4735
+intent_vs_outcome_contrast_human,0.666
+contrast_diff_model_minus_human,-0.7495
+
+vs child_4_5
+rmse,0.2007
+profile_corr,-1.0
+intent_vs_outcome_contrast_human,0.24
+contrast_diff_model_minus_human,-0.3235
+
+vs child_6_7
+rmse,0.2918
+profile_corr,-1.0
+intent_vs_outcome_contrast_human,0.5
+contrast_diff_model_minus_human,-0.5835
+
+vs child_8plus
+rmse,0.3658
+profile_corr,-1.0
+intent_vs_outcome_contrast_human,0.63
+contrast_diff_model_minus_human,-0.7135

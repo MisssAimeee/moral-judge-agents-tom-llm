@@ -1,0 +1,12 @@
+=== Job 18992773 on node1622 at Mon Jul 27 11:09:31 EDT 2026 ===
+CMD: python -u code/experiments/33_gap_dissociation_figure.py
+CPUS: 2
+
+within-model intent_gap > outcome_gap:
+  belief_last    8/8
+  action_last    8/8
+  mean           4/8
+  last           4/8
+wrote /orcd/home/002/aimeeyu/tom_project/outputs/probe/gap_over_surface_dissociation.png
+
+=== Job 18992773 finished (exit 0) at Mon Jul 27 11:09:33 EDT 2026 ===

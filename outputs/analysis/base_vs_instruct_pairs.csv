@@ -1,0 +1,7 @@
+family,size_B,base_model,instruct_model,contrast_base,contrast_instruct,delta_instruct_minus_base
+Mistral,7.0,Mistral-7B-v0-3,Mistral-7B-Instruct-v0-3,0.0,0.0,0.0
+Qwen2.5,0.5,Qwen2.5-0.5B,Qwen2.5-0.5B-Instruct,-0.0002,-0.0401,-0.0398
+Qwen2.5,1.5,Qwen2.5-1.5B,Qwen2.5-1.5B-Instruct,0.0069,-0.1205,-0.1274
+Qwen2.5,3.0,Qwen2.5-3B,Qwen2.5-3B-Instruct,0.0085,-0.2472,-0.2557
+Qwen2.5,7.0,Qwen2.5-7B,Qwen2.5-7B-Instruct,0.0217,-0.334,-0.3556
+Qwen2.5,14.0,Qwen2.5-14B,Qwen2.5-14B-Instruct,-0.0904,-0.394,-0.3035

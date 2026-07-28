@@ -1,0 +1,36 @@
+=== Job 18992760 on node4304 at Mon Jul 27 11:18:50 EDT 2026 ===
+CMD: python -u code/02_probe.py --acts outputs/acts --out outputs/probe --pooling belief_last --clause-offsets dataset/master/clause_offsets.csv --csv dataset/master/moral_2x2_master.csv
+
+Mon Jul 27 11:18:53 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:C9:00.0 Off |                    0 |
+| N/A   32C    P8             32W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+CUDA: True | NVIDIA L40S
+
+clause mask: 290 reliable rows for belief_last pooling
+OLMo-2-1124-7B-Instruct: peak intent acc=0.983 @ layer 16  -> outputs/probe/OLMo-2-1124-7B-Instruct_probe_belief_last.csv
+OLMo-2-1124-7B: peak intent acc=0.972 @ layer 15  -> outputs/probe/OLMo-2-1124-7B_probe_belief_last.csv
+Qwen2.5-0.5B-Instruct: peak intent acc=0.903 @ layer 12  -> outputs/probe/Qwen2.5-0.5B-Instruct_probe_belief_last.csv
+Qwen2.5-0.5B: peak intent acc=0.900 @ layer 14  -> outputs/probe/Qwen2.5-0.5B_probe_belief_last.csv
+Qwen2.5-1.5B-Instruct: peak intent acc=0.952 @ layer 14  -> outputs/probe/Qwen2.5-1.5B-Instruct_probe_belief_last.csv
+Qwen2.5-1.5B: peak intent acc=0.948 @ layer 14  -> outputs/probe/Qwen2.5-1.5B_probe_belief_last.csv
+Qwen2.5-7B-Instruct: peak intent acc=0.966 @ layer 20  -> outputs/probe/Qwen2.5-7B-Instruct_probe_belief_last.csv
+Qwen2.5-7B: peak intent acc=0.966 @ layer 19  -> outputs/probe/Qwen2.5-7B_probe_belief_last.csv
+
+=== Job 18992760 finished (exit 0) at Mon Jul 27 11:28:50 EDT 2026 ===

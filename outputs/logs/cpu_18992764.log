@@ -1,0 +1,78 @@
+=== Job 18992764 on node2704 at Mon Jul 27 11:37:18 EDT 2026 ===
+CMD: python -u code/02_probe.py --acts outputs/acts --out outputs/probe --pooling mean --permute 1000 --skip-probe --clause-offsets dataset/master/clause_offsets.csv --csv dataset/master/moral_2x2_master.csv
+CPUS: 16
+
+OLMo-2-1124-7B-Instruct: reusing outputs/probe/OLMo-2-1124-7B-Instruct_probe_mean.csv
+OLMo-2-1124-7B-Instruct: peak intent acc=0.869 @ layer 15  -> outputs/probe/OLMo-2-1124-7B-Instruct_probe_mean.csv
+    perm intent   L0   obs=0.550 null=0.499 p95=0.527 p=0.0020
+    perm intent   L15  obs=0.869 null=0.501 p95=0.534 p=0.0010
+    perm outcome  L0   obs=0.789 null=0.511 p95=0.540 p=0.0010
+/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:599: ConvergenceWarning: lbfgs failed to converge after 296 iteration(s) (status=2):
+ABNORMAL: 
+
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  n_iter_i = _check_optimize_result(
+    perm outcome  L15  obs=0.997 null=0.510 p95=0.544 p=0.0010
+    -> outputs/probe/OLMo-2-1124-7B-Instruct_permnull_mean.csv
+OLMo-2-1124-7B: reusing outputs/probe/OLMo-2-1124-7B_probe_mean.csv
+OLMo-2-1124-7B: peak intent acc=0.866 @ layer 15  -> outputs/probe/OLMo-2-1124-7B_probe_mean.csv
+    perm intent   L0   obs=0.550 null=0.499 p95=0.527 p=0.0030
+    perm intent   L15  obs=0.866 null=0.500 p95=0.533 p=0.0010
+    perm outcome  L0   obs=0.789 null=0.511 p95=0.540 p=0.0010
+    perm outcome  L13  obs=0.973 null=0.510 p95=0.540 p=0.0010
+    -> outputs/probe/OLMo-2-1124-7B_permnull_mean.csv
+Qwen2.5-0.5B-Instruct: reusing outputs/probe/Qwen2.5-0.5B-Instruct_probe_mean.csv
+Qwen2.5-0.5B-Instruct: peak intent acc=0.661 @ layer 14  -> outputs/probe/Qwen2.5-0.5B-Instruct_probe_mean.csv
+    perm intent   L0   obs=0.540 null=0.499 p95=0.527 p=0.0130
+    perm intent   L14  obs=0.661 null=0.499 p95=0.530 p=0.0010
+    perm outcome  L0   obs=0.739 null=0.514 p95=0.543 p=0.0010
+    perm outcome  L12  obs=0.947 null=0.511 p95=0.544 p=0.0010
+    -> outputs/probe/Qwen2.5-0.5B-Instruct_permnull_mean.csv
+Qwen2.5-0.5B: reusing outputs/probe/Qwen2.5-0.5B_probe_mean.csv
+Qwen2.5-0.5B: peak intent acc=0.654 @ layer 9  -> outputs/probe/Qwen2.5-0.5B_probe_mean.csv
+    perm intent   L0   obs=0.574 null=0.499 p95=0.527 p=0.0020
+    perm intent   L9   obs=0.654 null=0.501 p95=0.530 p=0.0010
+    perm outcome  L0   obs=0.739 null=0.514 p95=0.541 p=0.0010
+    perm outcome  L12  obs=0.943 null=0.512 p95=0.547 p=0.0010
+    -> outputs/probe/Qwen2.5-0.5B_permnull_mean.csv
+Qwen2.5-1.5B-Instruct: reusing outputs/probe/Qwen2.5-1.5B-Instruct_probe_mean.csv
+Qwen2.5-1.5B-Instruct: peak intent acc=0.719 @ layer 18  -> outputs/probe/Qwen2.5-1.5B-Instruct_probe_mean.csv
+    perm intent   L0   obs=0.577 null=0.500 p95=0.530 p=0.0010
+    perm intent   L18  obs=0.719 null=0.499 p95=0.531 p=0.0010
+    perm outcome  L0   obs=0.802 null=0.515 p95=0.544 p=0.0010
+    perm outcome  L15  obs=0.933 null=0.512 p95=0.543 p=0.0010
+    -> outputs/probe/Qwen2.5-1.5B-Instruct_permnull_mean.csv
+Qwen2.5-1.5B: reusing outputs/probe/Qwen2.5-1.5B_probe_mean.csv
+Qwen2.5-1.5B: peak intent acc=0.719 @ layer 20  -> outputs/probe/Qwen2.5-1.5B_probe_mean.csv
+    perm intent   L0   obs=0.580 null=0.500 p95=0.530 p=0.0010
+    perm intent   L20  obs=0.719 null=0.500 p95=0.530 p=0.0010
+/orcd/home/002/aimeeyu/tom_project/.venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:599: ConvergenceWarning: lbfgs failed to converge after 191 iteration(s) (status=2):
+ABNORMAL: 
+
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+Please also refer to the documentation for alternative solver options:
+    https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+  n_iter_i = _check_optimize_result(
+    perm outcome  L0   obs=0.802 null=0.515 p95=0.544 p=0.0010
+    perm outcome  L20  obs=0.923 null=0.510 p95=0.540 p=0.0010
+    -> outputs/probe/Qwen2.5-1.5B_permnull_mean.csv
+Qwen2.5-7B-Instruct: reusing outputs/probe/Qwen2.5-7B-Instruct_probe_mean.csv
+Qwen2.5-7B-Instruct: peak intent acc=0.846 @ layer 18  -> outputs/probe/Qwen2.5-7B-Instruct_probe_mean.csv
+    perm intent   L0   obs=0.564 null=0.500 p95=0.527 p=0.0010
+    perm intent   L18  obs=0.846 null=0.500 p95=0.533 p=0.0010
+    perm outcome  L0   obs=0.823 null=0.513 p95=0.544 p=0.0010
+    perm outcome  L18  obs=0.980 null=0.511 p95=0.544 p=0.0010
+    -> outputs/probe/Qwen2.5-7B-Instruct_permnull_mean.csv
+Qwen2.5-7B: reusing outputs/probe/Qwen2.5-7B_probe_mean.csv
+Qwen2.5-7B: peak intent acc=0.823 @ layer 18  -> outputs/probe/Qwen2.5-7B_probe_mean.csv
+    perm intent   L0   obs=0.557 null=0.500 p95=0.530 p=0.0010
+    perm intent   L18  obs=0.823 null=0.500 p95=0.530 p=0.0010
+    perm outcome  L0   obs=0.820 null=0.513 p95=0.544 p=0.0010
+    perm outcome  L18  obs=0.973 null=0.512 p95=0.547 p=0.0010
+    -> outputs/probe/Qwen2.5-7B_permnull_mean.csv
+
+=== Job 18992764 finished (exit 0) at Mon Jul 27 11:48:10 EDT 2026 ===

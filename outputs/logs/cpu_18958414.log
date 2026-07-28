@@ -1,0 +1,14 @@
+=== Job 18958414 on node1625 at Sun Jul 26 22:54:13 EDT 2026 ===
+CMD: python code/02_probe.py --csv dataset/master/moral_2x2_master_clean.csv --acts outputs/acts_clause --out outputs/probe_clause --pooling action_last
+CPUS: 16
+
+OLMo-2-1124-7B-Instruct: peak intent acc=0.926 @ layer 15  -> outputs/probe_clause/OLMo-2-1124-7B-Instruct_probe_action_last.csv
+OLMo-2-1124-7B: peak intent acc=0.950 @ layer 14  -> outputs/probe_clause/OLMo-2-1124-7B_probe_action_last.csv
+Qwen2.5-0.5B-Instruct: peak intent acc=0.798 @ layer 13  -> outputs/probe_clause/Qwen2.5-0.5B-Instruct_probe_action_last.csv
+Qwen2.5-0.5B: peak intent acc=0.819 @ layer 14  -> outputs/probe_clause/Qwen2.5-0.5B_probe_action_last.csv
+Qwen2.5-1.5B-Instruct: peak intent acc=0.852 @ layer 15  -> outputs/probe_clause/Qwen2.5-1.5B-Instruct_probe_action_last.csv
+Qwen2.5-1.5B: peak intent acc=0.869 @ layer 19  -> outputs/probe_clause/Qwen2.5-1.5B_probe_action_last.csv
+Qwen2.5-7B-Instruct: peak intent acc=0.946 @ layer 19  -> outputs/probe_clause/Qwen2.5-7B-Instruct_probe_action_last.csv
+Qwen2.5-7B: peak intent acc=0.946 @ layer 17  -> outputs/probe_clause/Qwen2.5-7B_probe_action_last.csv
+
+=== Job 18958414 finished (exit 0) at Sun Jul 26 22:57:04 EDT 2026 ===

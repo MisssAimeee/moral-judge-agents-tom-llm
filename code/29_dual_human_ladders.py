@@ -107,6 +107,14 @@ def render(rows, bands, out_png, out_csv, title_suffix):
                         else "no",
                         title_suffix])
 
+    # The CSV above keeps every model as the audit trail. The figure drops degenerate
+    # models: a near-constant rater produces a contrast that is not an estimate of
+    # anything, and plotting it invites the reader to compare it with a real one.
+    all_rows = rows
+    plot_rows = [r for r in rows if not r["degenerate"]]
+    n_dropped = len(all_rows) - len(plot_rows)
+    rows = plot_rows
+
     n = len(rows)
     fig, ax = plt.subplots(figsize=(11, 0.34 * n + 3.2))
     for g, c in bands.items():
@@ -132,7 +140,6 @@ def render(rows, bands, out_png, out_csv, title_suffix):
     ax.set_yticks(range(n))
     ax.set_yticklabels(
         [f"{r['model']}  ({'cloud' if r['study']=='cloud API' else 'local'}/{r['type']})"
-         + ("  [degenerate]" if r["degenerate"] else "")
          for r in rows], fontsize=8.5)
     ax.set_ylim(-1, n + 1.5)
     ax.set_xlabel("intent-vs-outcome contrast   =   blame(attempted) − blame(accidental)\n"
@@ -141,6 +148,12 @@ def render(rows, bands, out_png, out_csv, title_suffix):
                  f"(dot = cloud · square = local · bar = 95% CI)  "
                  f"youngest band = {bands['child_4_5']:+.2f}",
                  fontsize=11, fontweight="bold")
+    if n_dropped:
+        ax.text(0.0, -0.5, f"{n_dropped} degenerate model(s) omitted "
+                           f"(near-constant rater; no estimable contrast) — "
+                           f"listed in the companion CSV",
+                fontsize=7.5, color="#777", ha="left", va="top",
+                transform=ax.get_yaxis_transform())
     fam_present = list(dict.fromkeys(r["family"] for r in rows))
     handles = [Line2D([0], [0], marker="o", ls="", ms=8,
                       color=mf.FAMILY_COLORS[f], label=f) for f in fam_present]
@@ -150,9 +163,10 @@ def render(rows, bands, out_png, out_csv, title_suffix):
     fig.tight_layout()
     fig.savefig(out_png, dpi=150, bbox_inches="tight")
     plt.close(fig)
-    print(f"wrote {os.path.relpath(out_png, ROOT)}")
+    print(f"wrote {os.path.relpath(out_png, ROOT)}"
+          + (f"  ({n_dropped} degenerate omitted from plot)" if n_dropped else ""))
     print(f"wrote {os.path.relpath(out_csv, ROOT)}")
-    return rows
+    return all_rows
 
 
 def run_05(human_csv, out_dir, behavior_dirs):

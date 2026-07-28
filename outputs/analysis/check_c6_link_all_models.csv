@@ -1,0 +1,17 @@
+model,peak_intent_layer,peak_intent_acc,intent_reliance_index_no_floor,effect_magnitude,n_templates
+OLMo-2-1124-7B-Instruct,16,0.8495,0.0623,0.7189,13
+OLMo-2-1124-7B,16,0.8492,0.2508,0.014,13
+Qwen2.5-0.5B-Instruct,21,0.6951,0.0974,0.0499,13
+Qwen2.5-0.5B,12,0.6714,0.1498,0.0099,13
+Qwen2.5-1.5B-Instruct,20,0.7552,0.0882,0.2041,13
+Qwen2.5-1.5B,13,0.7387,0.4845,0.0084,13
+Qwen2.5-7B-Instruct,19,0.8795,0.1361,0.342,13
+Qwen2.5-7B,19,0.8828,0.0745,0.0583,13
+
+n_probed,8
+n_paired,8
+pearson_r,-0.2085
+ci_lo,-0.7962
+ci_hi,0.5817
+n,8
+label,"UNINFORMATIVE — the interval spans strong negative to strong positive, so no effect and a large effect in either direction are all consistent with these data. This is not evidence of absence."

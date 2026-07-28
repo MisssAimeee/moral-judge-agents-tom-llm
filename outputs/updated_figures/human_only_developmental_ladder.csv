@@ -1,0 +1,13 @@
+measure,group,intent_contrast_attempted_minus_accidental
+digitized,child_4_5,0.24
+digitized,child_6_7,0.5
+digitized,child_8plus,0.63
+digitized,adult,0.666
+punish,child_4_5,0.09
+punish,child_6_7,0.12
+punish,child_8plus,0.19
+punish,adult,0.666
+text_reported,child_4_5,-0.14
+text_reported,child_6_7,0.15
+text_reported,child_8plus,0.46
+text_reported,adult,0.666

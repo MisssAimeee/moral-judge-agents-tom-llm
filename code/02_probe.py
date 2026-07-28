@@ -179,14 +179,25 @@ if __name__ == "__main__":
                     default=os.path.join(here,"..","dataset","master","clause_offsets.csv"),
                     help="used only by the belief_last/action_last poolings, to drop rows whose "
                          "clause spans were position-guessed rather than pattern-matched")
+    ap.add_argument("--source", default=None,
+                    help="restrict to one stimulus source (YS2008 / YS2009 / YS2011). The "
+                         "sources differ in whether the outcome-determining sentence precedes "
+                         "the belief clause, so pre-outcome pooling claims must be checked per "
+                         "source. Output filenames gain a _src<SOURCE> suffix.")
     a = ap.parse_args()
     lab = load_labels(a.csv)
+    if a.source:
+        lab = {k: v for k, v in lab.items() if v.get("source") == a.source}
+        if not lab:
+            raise SystemExit(f"--source {a.source!r} matched no rows in {a.csv}")
+        print(f"source filter {a.source}: {len(lab)} items", flush=True)
     clause_ok = load_clause_mask(a.clause_offsets)
     if clause_ok is not None and a.pooling in ("belief_last", "action_last"):
         print(f"clause mask: {len(clause_ok)} reliable rows for {a.pooling} pooling", flush=True)
     os.makedirs(a.out, exist_ok=True)
     # keep the historical filename for last-token pooling so existing consumers still resolve
-    suffix = "" if a.pooling == "last" else f"_{a.pooling}"
+    suffix = ("" if a.pooling == "last" else f"_{a.pooling}") \
+        + (f"_src{a.source}" if a.source else "")
     npzs = sorted(glob.glob(os.path.join(a.acts, "*.npz")))
     if a.only:
         npzs = [n for n in npzs if a.only in os.path.basename(n)]

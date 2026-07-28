@@ -1,0 +1,27 @@
+model,mean_abs_contrast,max_abs_contrast,sign_flip,verdict
+OLMo-2-1124-7B-Instruct,0.7499,0.8627,False,sign-stable
+HuggingFaceH4-zephyr-7b-beta,0.5365,0.6457,False,sign-stable
+Mistral-7B-Instruct-v0-3,0.4709,0.5473,False,sign-stable
+Llama-3-1-Tulu-3-8B,0.4196,0.4851,False,sign-stable
+unsloth-gemma-2-9b-it,0.4111,0.5303,False,sign-stable
+Qwen2.5-14B-Instruct,0.382,0.4216,False,sign-stable
+Qwen2.5-3B-Instruct,0.2667,0.4597,False,sign-stable
+Qwen2.5-7B-Instruct,0.2215,0.3558,False,sign-stable
+Qwen2.5-1-5B-Instruct,0.2117,0.2545,False,sign-stable
+unsloth-Meta-Llama-3-1-8B-Instruct,0.2072,0.2458,False,sign-stable
+Qwen2.5-14B,0.1573,0.2911,False,sign-stable
+Qwen2.5-7B,0.0564,0.0753,False,sign-stable
+Qwen2.5-3B,0.0549,0.0838,False,sign-stable
+Qwen2.5-0-5B-Instruct,0.0295,0.0865,False,sign-stable
+Qwen2.5-1-5B,0.0122,0.0213,False,sign-stable
+Qwen2.5-0-5B,0.0057,0.0195,True,FRAGILE (sign flip)
+unsloth-Meta-Llama-3-1-8B,0.0022,0.0058,True,FRAGILE (sign flip)
+Mistral-7B-v0-3,0.0021,0.0098,True,FRAGILE (sign flip)
+OLMo-2-1124-7B,0.0013,0.0153,True,FRAGILE (sign flip)
+unsloth-gemma-2-9b,0.001,0.0033,True,FRAGILE (sign flip)
+
+null_threshold,n_non_null,flips_among_non_null,flip_rate_non_null,n_null,flips_among_null
+0.01,15,0,0/15,5,5
+0.02,14,0,0/14,6,5
+0.05,13,0,0/13,7,5
+0.1,11,0,0/11,9,5

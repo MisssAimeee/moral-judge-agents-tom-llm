@@ -1,0 +1,9 @@
+pooling,target,peak_acc,peak_model,peak_layer,tfidf,gap,perfect_sep,report_acc,perfect_fold_separation_note
+last,intent,0.8929,Qwen2.5-7B,19,0.5937,0.2992,False,0.893,
+last,outcome,1.0,OLMo-2-1124-7B,13,0.7548,0.24519999999999997,True,≥0.995,GroupKFold perfect test-fold separation; report as ≥0.995 not plain 1.000
+mean,intent,0.8828,OLMo-2-1124-7B-Instruct,15,0.5937,0.2891,False,0.883,
+mean,outcome,0.9967,OLMo-2-1124-7B-Instruct,15,0.7548,0.2419,True,≥0.995,GroupKFold perfect test-fold separation; report as ≥0.995 not plain 1.000
+belief_last,intent,0.9857,OLMo-2-1124-7B-Instruct,24,0.5937,0.392,False,0.986,
+belief_last,outcome,0.9042,OLMo-2-1124-7B-Instruct,13,0.7548,0.14939999999999998,False,0.904,
+action_last,intent,0.9216,Qwen2.5-7B-Instruct,18,0.5937,0.32789999999999997,False,0.922,
+action_last,outcome,0.8649,OLMo-2-1124-7B-Instruct,17,0.7548,0.11009999999999998,False,0.865,

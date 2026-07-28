@@ -275,11 +275,37 @@ class HFBackend:
         )
         self.mdl.eval()
         print(f"  Loaded on {next(self.mdl.parameters()).device}")
-        self._dig = {}
+        self._dig = self._digit_token_ids()
+
+    def _digit_token_ids(self):
+        """Map each rating digit to the token id that actually *decodes* to that digit.
+
+        Taking encode(str(d))[0] is wrong for SentencePiece tokenizers (Mistral, and any
+        Mistral derivative such as zephyr): they prepend a dummy-prefix token, so every
+        digit maps to the id for '▁'. The softmax then runs over ten copies of one logit,
+        comes out uniform, and every rating silently becomes the scale midpoint.
+        """
+        dig = {}
         for d in range(1, 11):
-            toks = self.tok.encode(str(d), add_special_tokens=False)
-            if toks:
-                self._dig[d] = toks[0]
+            s = str(d)
+            for variant in (s, " " + s):
+                found = None
+                for tid in self.tok.encode(variant, add_special_tokens=False):
+                    if self.tok.decode([tid]).strip() == s:
+                        found = tid
+                        break
+                if found is not None:
+                    dig[d] = found
+                    break
+        collapsed = len(dig) - len(set(dig.values()))
+        if collapsed:
+            raise RuntimeError(
+                f"{self.model_name}: digit tokens are not distinct "
+                f"({len(set(dig.values()))} unique ids for {len(dig)} digits). "
+                "Logprob scoring would return the scale midpoint for every item. "
+                "Use --scoring generate for this model, or add a tokenizer-specific mapping."
+            )
+        return dig
 
     def _fmt(self, prompt):
         if self.tok.chat_template:
@@ -299,9 +325,13 @@ class HFBackend:
                 if d in self._dig:
                     probs.append(logits[self._dig[d]].item())
                     vals.append(d)
-            if not probs:
-                mid = (s_min + s_max) / 2
-                return [mid], normalize(mid, s_min, s_max)
+            missing = [d for d in range(int(s_min), int(s_max) + 1) if d not in self._dig]
+            if missing:
+                raise RuntimeError(
+                    f"{self.model_name}: no single-token id for scale point(s) {missing} "
+                    f"on the {int(s_min)}–{int(s_max)} scale; logprob scoring cannot "
+                    "represent them. Returning a midpoint here would fabricate data."
+                )
             lp = torch.tensor(probs)
             p = torch.softmax(lp, dim=0).tolist()
             exp = sum(p[i] * vals[i] for i in range(len(vals)))

@@ -46,6 +46,6 @@ nvidia-smi --query-gpu=name,memory.total --format=csv
 
 echo ""
 echo "================ parity rescore (fixed parser) ================"
-python -u code/analysis/15_scoring_parity.py --run || echo "!! parity failed"
+python -u code/analysis/15_scoring_parity.py --run --rescore || echo "!! parity failed"
 
 echo "=== done at $(date) ==="

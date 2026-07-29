@@ -212,6 +212,10 @@ def main():
     ap.add_argument("--models", nargs="+", default=DEFAULT_MODELS)
     ap.add_argument("--template", default="human_verbatim",
                     help="single-digit scale recommended so EV isn't token-truncated")
+    ap.add_argument("--rescore", action="store_true",
+                    help="ignore cached sampled_*.csv and re-sample on the GPU. Needed after "
+                         "a parser change: the cache check only counts rows, so files written "
+                         "by the clamping parser look complete and are reused silently.")
     ap.add_argument("--n_samples", type=int, default=30)
     ap.add_argument("--temperature", type=float, default=1.0)
     ap.add_argument("--run", action="store_true",
@@ -267,7 +271,8 @@ def main():
 
         sampled_path = os.path.join(SAMPLED_DIR, f"sampled_{safe}.csv")
         have_sampled = (os.path.exists(sampled_path)
-                        and sum(1 for _ in open(sampled_path)) - 1 >= len(rows))
+                        and sum(1 for _ in open(sampled_path)) - 1 >= len(rows)
+                        and not a.rescore)
         if have_sampled:
             sm_map = {}
             for r in csv.DictReader(open(sampled_path)):

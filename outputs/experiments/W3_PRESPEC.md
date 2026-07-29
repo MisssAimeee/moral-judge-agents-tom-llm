@@ -66,3 +66,47 @@ perplexity. The three original thresholds (perplexity ratio 1.5x, refusal delta 
 degenerate fraction 0.10) are unchanged.
 
 P1-P4 themselves are unchanged and were not informed by any result.
+
+## Amendment 2, 2026-07-28 — three post-hoc additions (M1-M3) plus the prose/rating coding
+
+These were added AFTER the null in run 19094832 was seen, in response to the objection that
+a null effect on behaviour cannot distinguish "the representation is causally inert" from
+"that particular vector did nothing". They are therefore NOT pre-registered predictions, and
+they are numbered M1-M3 rather than P5-P7 so that distinction survives into the writeup.
+What IS stated before the fact is the bar each one has to clear: this section was written
+while the run was still executing, before any of its output existed.
+
+**M1 — manipulation check.** Probes fitted on unsteered activations are re-run on the
+steered activations at four depths (below the steering site, at it, downstream, final). The
+null is interpretable only if the intervention demonstrably moved what the probe reads. Bar,
+set now: a mean probe-margin displacement of at least **1 SD** of the unsteered margin
+distribution at a layer DOWNSTREAM of the steering site, together with |Δcontrast| <= 0.05.
+If the intent direction fails to move intent decodability downstream, the honest reading is
+that the intervention was too weak to test the hypothesis, and the null is withdrawn rather
+than reported as evidence. Layers below the site are an instrument check with a known
+answer: they cannot be affected and must read exactly unchanged; any deviation means the
+hook is mis-wired and the run is void.
+
+**M2 — layer sweep.** Intent, outcome and matched-norm random directions are re-fitted at
+five depths spanning the network, each with its own coefficient calibration. Claim under
+test: at depths where the positive control clears the random floor (peak-intent and deeper),
+intent fails to beat its controls while the outcome direction moves the contrast. Shallow
+depths are reported but marked uninformative when the control sits at the random floor.
+Falsifier: intent beats both controls at any depth where specificity is resolvable. That
+would make the original result an artifact of the layer chosen, and the causal claim would
+be live again at that depth.
+
+**M3 — sensitivity in control units.** The summary must state the largest coherent
+|Δcontrast| for the outcome control and for the probe-weight intent direction, and their
+ratio, so the null carries an explicit detectable-effect-size statement instead of leaving
+"underpowered" open.
+
+**Prose/rating coding (`51_w3_prose_rating.py`).** Behavioural, needs no probing. Stated
+before the coding was run: models mention the agent's belief or intent in a majority of
+explanations while `b_outcome` stays several times `b_intent` within exactly those items.
+Falsifier: a mention rate near zero (nothing is verbalised, so there is no dissociation to
+report), or `b_intent >= b_outcome` inside the mentioned subset.
+
+Unchanged: P1-P4, all four coherence thresholds, and the ceiling-compression caveat that any
+contrast movement accompanied by all four cell means rising is compression against the top
+of the scale rather than a change in intent-weighting.

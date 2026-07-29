@@ -1,0 +1,577 @@
+direction,alpha,coherent,probe_layer,position,target,acc_unsteered,acc_steered,d_acc,margin_shift_sd,margin_sd_ratio,dcontrast
+intent_dom,-0.3,False,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0737
+intent_dom,-0.3,False,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0737
+intent_dom,-0.3,False,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0737
+intent_dom,-0.3,False,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0737
+intent_dom,-0.3,False,24,downstream,intent,0.8926,0.5,-0.3926,-2.8265,0.5266,-0.0737
+intent_dom,-0.3,False,24,downstream,outcome,0.9966,0.9765,-0.0201,0.0119,0.5562,-0.0737
+intent_dom,-0.3,False,32,final layer,intent,0.8624,0.5,-0.3624,-2.6381,0.6513,-0.0737
+intent_dom,-0.3,False,32,final layer,outcome,0.9899,0.9631,-0.0268,-0.0787,0.5962,-0.0737
+intent_dom,-0.2,False,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0317
+intent_dom,-0.2,False,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0317
+intent_dom,-0.2,False,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0317
+intent_dom,-0.2,False,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0317
+intent_dom,-0.2,False,24,downstream,intent,0.8926,0.5034,-0.3893,-2.0348,0.7265,-0.0317
+intent_dom,-0.2,False,24,downstream,outcome,0.9966,0.9933,-0.0034,0.0347,0.7295,-0.0317
+intent_dom,-0.2,False,32,final layer,intent,0.8624,0.5101,-0.3523,-2.0127,0.7753,-0.0317
+intent_dom,-0.2,False,32,final layer,outcome,0.9899,0.9832,-0.0067,-0.04,0.7321,-0.0317
+intent_dom,-0.15,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0384
+intent_dom,-0.15,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0384
+intent_dom,-0.15,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0384
+intent_dom,-0.15,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0384
+intent_dom,-0.15,True,24,downstream,intent,0.8926,0.5201,-0.3725,-1.5898,0.794,-0.0384
+intent_dom,-0.15,True,24,downstream,outcome,0.9966,0.9933,-0.0034,0.0117,0.8256,-0.0384
+intent_dom,-0.15,True,32,final layer,intent,0.8624,0.5268,-0.3356,-1.5461,0.8241,-0.0384
+intent_dom,-0.15,True,32,final layer,outcome,0.9899,0.9899,0.0,-0.011,0.8565,-0.0384
+intent_dom,-0.1,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0245
+intent_dom,-0.1,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0245
+intent_dom,-0.1,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0245
+intent_dom,-0.1,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0245
+intent_dom,-0.1,True,24,downstream,intent,0.8926,0.6107,-0.2819,-1.1138,0.915,-0.0245
+intent_dom,-0.1,True,24,downstream,outcome,0.9966,0.9966,0.0,0.0124,0.9292,-0.0245
+intent_dom,-0.1,True,32,final layer,intent,0.8624,0.6342,-0.2282,-1.0609,0.9487,-0.0245
+intent_dom,-0.1,True,32,final layer,outcome,0.9899,0.9933,0.0034,-0.0175,0.958,-0.0245
+intent_dom,-0.05,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0144
+intent_dom,-0.05,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0144
+intent_dom,-0.05,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0144
+intent_dom,-0.05,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0144
+intent_dom,-0.05,True,24,downstream,intent,0.8926,0.8221,-0.0705,-0.5036,0.9887,-0.0144
+intent_dom,-0.05,True,24,downstream,outcome,0.9966,0.9966,0.0,-0.0257,0.9949,-0.0144
+intent_dom,-0.05,True,32,final layer,intent,0.8624,0.7919,-0.0705,-0.4615,0.9876,-0.0144
+intent_dom,-0.05,True,32,final layer,outcome,0.9899,0.9933,0.0034,-0.0265,0.9962,-0.0144
+intent_dom,-0.025,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0076
+intent_dom,-0.025,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0076
+intent_dom,-0.025,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0076
+intent_dom,-0.025,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0076
+intent_dom,-0.025,True,24,downstream,intent,0.8926,0.8624,-0.0302,-0.2491,0.9971,-0.0076
+intent_dom,-0.025,True,24,downstream,outcome,0.9966,0.9933,-0.0034,-0.0132,0.9997,-0.0076
+intent_dom,-0.025,True,32,final layer,intent,0.8624,0.8322,-0.0302,-0.2258,0.9968,-0.0076
+intent_dom,-0.025,True,32,final layer,outcome,0.9899,0.9899,0.0,-0.0136,1.0,-0.0076
+intent_dom,0.025,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0091
+intent_dom,0.025,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0091
+intent_dom,0.025,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0091
+intent_dom,0.025,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0091
+intent_dom,0.025,True,24,downstream,intent,0.8926,0.8926,0.0,0.2508,0.9979,0.0091
+intent_dom,0.025,True,24,downstream,outcome,0.9966,0.9966,0.0,0.0125,0.997,0.0091
+intent_dom,0.025,True,32,final layer,intent,0.8624,0.8591,-0.0034,0.2226,0.9978,0.0091
+intent_dom,0.025,True,32,final layer,outcome,0.9899,0.9899,0.0,0.0133,0.9968,0.0091
+intent_dom,0.05,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0192
+intent_dom,0.05,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0192
+intent_dom,0.05,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0192
+intent_dom,0.05,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0192
+intent_dom,0.05,True,24,downstream,intent,0.8926,0.8322,-0.0604,0.4998,0.9914,0.0192
+intent_dom,0.05,True,24,downstream,outcome,0.9966,0.9933,-0.0034,0.0248,0.9914,0.0192
+intent_dom,0.05,True,32,final layer,intent,0.8624,0.8255,-0.0369,0.4341,0.9919,0.0192
+intent_dom,0.05,True,32,final layer,outcome,0.9899,0.9866,-0.0034,0.0269,0.9918,0.0192
+intent_dom,0.1,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0454
+intent_dom,0.1,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0454
+intent_dom,0.1,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0454
+intent_dom,0.1,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0454
+intent_dom,0.1,True,24,downstream,intent,0.8926,0.6745,-0.2181,0.9266,0.9494,0.0454
+intent_dom,0.1,True,24,downstream,outcome,0.9966,0.9832,-0.0134,0.0778,0.9409,0.0454
+intent_dom,0.1,True,32,final layer,intent,0.8624,0.7081,-0.1544,0.771,0.9644,0.0454
+intent_dom,0.1,True,32,final layer,outcome,0.9899,0.9832,-0.0067,0.0699,0.9577,0.0454
+intent_dom,0.15,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.052
+intent_dom,0.15,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.052
+intent_dom,0.15,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.052
+intent_dom,0.15,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.052
+intent_dom,0.15,True,24,downstream,intent,0.8926,0.5604,-0.3322,1.2372,0.8542,0.052
+intent_dom,0.15,True,24,downstream,outcome,0.9966,0.9832,-0.0134,0.1104,0.8208,0.052
+intent_dom,0.15,True,32,final layer,intent,0.8624,0.6678,-0.1946,0.9036,0.9099,0.052
+intent_dom,0.15,True,32,final layer,outcome,0.9899,0.9799,-0.0101,0.1254,0.8461,0.052
+intent_dom,0.2,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0808
+intent_dom,0.2,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0808
+intent_dom,0.2,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0808
+intent_dom,0.2,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0808
+intent_dom,0.2,True,24,downstream,intent,0.8926,0.5168,-0.3758,1.4832,0.8336,0.0808
+intent_dom,0.2,True,24,downstream,outcome,0.9966,0.9765,-0.0201,0.1239,0.742,0.0808
+intent_dom,0.2,True,32,final layer,intent,0.8624,0.6007,-0.2617,1.118,0.9021,0.0808
+intent_dom,0.2,True,32,final layer,outcome,0.9899,0.9698,-0.0201,0.1577,0.7769,0.0808
+intent_dom,0.3,False,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.1852
+intent_dom,0.3,False,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.1852
+intent_dom,0.3,False,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.1852
+intent_dom,0.3,False,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.1852
+intent_dom,0.3,False,24,downstream,intent,0.8926,0.5101,-0.3826,1.5785,0.7489,0.1852
+intent_dom,0.3,False,24,downstream,outcome,0.9966,0.8993,-0.0973,0.2177,0.5266,0.1852
+intent_dom,0.3,False,32,final layer,intent,0.8624,0.5369,-0.3255,1.2704,0.7847,0.1852
+intent_dom,0.3,False,32,final layer,outcome,0.9899,0.9329,-0.057,0.1921,0.5461,0.1852
+outcome_dom,-0.3,False,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.1126
+outcome_dom,-0.3,False,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.1126
+outcome_dom,-0.3,False,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.1126
+outcome_dom,-0.3,False,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.1126
+outcome_dom,-0.3,False,24,downstream,intent,0.8926,0.6376,-0.255,-0.608,0.8019,0.1126
+outcome_dom,-0.3,False,24,downstream,outcome,0.9966,0.4866,-0.5101,-0.7497,0.2261,0.1126
+outcome_dom,-0.3,False,32,final layer,intent,0.8624,0.5503,-0.3121,-1.2235,0.7866,0.1126
+outcome_dom,-0.3,False,32,final layer,outcome,0.9899,0.4899,-0.5,-0.711,0.2427,0.1126
+outcome_dom,-0.2,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.1448
+outcome_dom,-0.2,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.1448
+outcome_dom,-0.2,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.1448
+outcome_dom,-0.2,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.1448
+outcome_dom,-0.2,True,24,downstream,intent,0.8926,0.745,-0.1477,-0.3965,0.9025,0.1448
+outcome_dom,-0.2,True,24,downstream,outcome,0.9966,0.6376,-0.3591,-0.5506,0.507,0.1448
+outcome_dom,-0.2,True,32,final layer,intent,0.8624,0.6913,-0.1711,-0.4344,0.9073,0.1448
+outcome_dom,-0.2,True,32,final layer,outcome,0.9899,0.7081,-0.2819,-0.4827,0.5119,0.1448
+outcome_dom,-0.15,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.1003
+outcome_dom,-0.15,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.1003
+outcome_dom,-0.15,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.1003
+outcome_dom,-0.15,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.1003
+outcome_dom,-0.15,True,24,downstream,intent,0.8926,0.7852,-0.1074,-0.2933,0.9442,0.1003
+outcome_dom,-0.15,True,24,downstream,outcome,0.9966,0.8691,-0.1275,-0.4063,0.6722,0.1003
+outcome_dom,-0.15,True,32,final layer,intent,0.8624,0.7651,-0.0973,-0.3882,0.9376,0.1003
+outcome_dom,-0.15,True,32,final layer,outcome,0.9899,0.8658,-0.1242,-0.4075,0.6804,0.1003
+outcome_dom,-0.1,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0256
+outcome_dom,-0.1,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0256
+outcome_dom,-0.1,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0256
+outcome_dom,-0.1,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0256
+outcome_dom,-0.1,True,24,downstream,intent,0.8926,0.8423,-0.0503,-0.1973,1.0183,0.0256
+outcome_dom,-0.1,True,24,downstream,outcome,0.9966,0.953,-0.0436,-0.2452,0.847,0.0256
+outcome_dom,-0.1,True,32,final layer,intent,0.8624,0.8322,-0.0302,-0.1514,1.0097,0.0256
+outcome_dom,-0.1,True,32,final layer,outcome,0.9899,0.953,-0.0369,-0.28,0.8586,0.0256
+outcome_dom,-0.05,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0049
+outcome_dom,-0.05,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0049
+outcome_dom,-0.05,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0049
+outcome_dom,-0.05,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0049
+outcome_dom,-0.05,True,24,downstream,intent,0.8926,0.8758,-0.0168,-0.0271,1.0394,0.0049
+outcome_dom,-0.05,True,24,downstream,outcome,0.9966,0.9933,-0.0034,-0.1545,0.9653,0.0049
+outcome_dom,-0.05,True,32,final layer,intent,0.8624,0.8557,-0.0067,0.0156,1.0257,0.0049
+outcome_dom,-0.05,True,32,final layer,outcome,0.9899,0.9866,-0.0034,-0.1494,0.9627,0.0049
+outcome_dom,-0.025,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0018
+outcome_dom,-0.025,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0018
+outcome_dom,-0.025,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0018
+outcome_dom,-0.025,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0018
+outcome_dom,-0.025,True,24,downstream,intent,0.8926,0.8826,-0.0101,-0.0119,1.0218,-0.0018
+outcome_dom,-0.025,True,24,downstream,outcome,0.9966,0.9966,0.0,-0.0798,0.9891,-0.0018
+outcome_dom,-0.025,True,32,final layer,intent,0.8624,0.8523,-0.0101,0.0097,1.0158,-0.0018
+outcome_dom,-0.025,True,32,final layer,outcome,0.9899,0.9933,0.0034,-0.0763,0.987,-0.0018
+outcome_dom,0.025,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0164
+outcome_dom,0.025,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0164
+outcome_dom,0.025,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0164
+outcome_dom,0.025,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0164
+outcome_dom,0.025,True,24,downstream,intent,0.8926,0.8926,0.0,0.0075,0.975,0.0164
+outcome_dom,0.025,True,24,downstream,outcome,0.9966,0.9832,-0.0134,0.0832,0.9993,0.0164
+outcome_dom,0.025,True,32,final layer,intent,0.8624,0.8557,-0.0067,-0.013,0.9798,0.0164
+outcome_dom,0.025,True,32,final layer,outcome,0.9899,0.9832,-0.0067,0.0789,1.0028,0.0164
+outcome_dom,0.05,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0421
+outcome_dom,0.05,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0421
+outcome_dom,0.05,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0421
+outcome_dom,0.05,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0421
+outcome_dom,0.05,True,24,downstream,intent,0.8926,0.8893,-0.0034,0.0094,0.9477,0.0421
+outcome_dom,0.05,True,24,downstream,outcome,0.9966,0.9832,-0.0134,0.1711,0.9882,0.0421
+outcome_dom,0.05,True,32,final layer,intent,0.8624,0.8523,-0.0101,-0.0354,0.9558,0.0421
+outcome_dom,0.05,True,32,final layer,outcome,0.9899,0.9799,-0.0101,0.1621,0.9972,0.0421
+outcome_dom,0.1,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.1192
+outcome_dom,0.1,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.1192
+outcome_dom,0.1,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.1192
+outcome_dom,0.1,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.1192
+outcome_dom,0.1,True,24,downstream,intent,0.8926,0.8456,-0.047,-0.0462,0.8795,0.1192
+outcome_dom,0.1,True,24,downstream,outcome,0.9966,0.9228,-0.0738,0.3697,0.9127,0.1192
+outcome_dom,0.1,True,32,final layer,intent,0.8624,0.7852,-0.0772,-0.143,0.9015,0.1192
+outcome_dom,0.1,True,32,final layer,outcome,0.9899,0.9362,-0.0537,0.3622,0.9511,0.1192
+outcome_dom,0.15,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.1557
+outcome_dom,0.15,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.1557
+outcome_dom,0.15,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.1557
+outcome_dom,0.15,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.1557
+outcome_dom,0.15,True,24,downstream,intent,0.8926,0.755,-0.1376,-0.1919,0.7689,0.1557
+outcome_dom,0.15,True,24,downstream,outcome,0.9966,0.7785,-0.2181,0.5566,0.7404,0.1557
+outcome_dom,0.15,True,32,final layer,intent,0.8624,0.7047,-0.1577,-0.3589,0.8299,0.1557
+outcome_dom,0.15,True,32,final layer,outcome,0.9899,0.7987,-0.1913,0.574,0.8106,0.1557
+outcome_dom,0.2,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.2319
+outcome_dom,0.2,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.2319
+outcome_dom,0.2,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.2319
+outcome_dom,0.2,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.2319
+outcome_dom,0.2,True,24,downstream,intent,0.8926,0.698,-0.1946,-0.2994,0.714,0.2319
+outcome_dom,0.2,True,24,downstream,outcome,0.9966,0.6678,-0.3289,0.7126,0.5969,0.2319
+outcome_dom,0.2,True,32,final layer,intent,0.8624,0.651,-0.2114,-0.4888,0.805,0.2319
+outcome_dom,0.2,True,32,final layer,outcome,0.9899,0.6946,-0.2953,0.7501,0.6745,0.2319
+outcome_dom,0.3,False,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.3961
+outcome_dom,0.3,False,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.3961
+outcome_dom,0.3,False,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.3961
+outcome_dom,0.3,False,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.3961
+outcome_dom,0.3,False,24,downstream,intent,0.8926,0.6141,-0.2785,-0.4493,0.6567,0.3961
+outcome_dom,0.3,False,24,downstream,outcome,0.9966,0.5168,-0.4799,0.902,0.3376,0.3961
+outcome_dom,0.3,False,32,final layer,intent,0.8624,0.5268,-0.3356,-1.1666,0.7408,0.3961
+outcome_dom,0.3,False,32,final layer,outcome,0.9899,0.5235,-0.4664,0.942,0.4222,0.3961
+intent_probe,-0.3,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0128
+intent_probe,-0.3,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0128
+intent_probe,-0.3,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0128
+intent_probe,-0.3,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0128
+intent_probe,-0.3,True,24,downstream,intent,0.8926,0.5,-0.3926,-3.183,0.6159,-0.0128
+intent_probe,-0.3,True,24,downstream,outcome,0.9966,0.9799,-0.0168,0.3363,0.8218,-0.0128
+intent_probe,-0.3,True,32,final layer,intent,0.8624,0.5,-0.3624,-3.0211,0.7657,-0.0128
+intent_probe,-0.3,True,32,final layer,outcome,0.9899,0.9832,-0.0067,0.3259,0.8099,-0.0128
+intent_probe,-0.2,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0059
+intent_probe,-0.2,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0059
+intent_probe,-0.2,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0059
+intent_probe,-0.2,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0059
+intent_probe,-0.2,True,24,downstream,intent,0.8926,0.5,-0.3926,-2.4409,0.7423,-0.0059
+intent_probe,-0.2,True,24,downstream,outcome,0.9966,0.9832,-0.0134,0.2385,0.906,-0.0059
+intent_probe,-0.2,True,32,final layer,intent,0.8624,0.5,-0.3624,-2.2696,0.8481,-0.0059
+intent_probe,-0.2,True,32,final layer,outcome,0.9899,0.9832,-0.0067,0.2456,0.9276,-0.0059
+intent_probe,-0.15,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.003
+intent_probe,-0.15,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.003
+intent_probe,-0.15,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.003
+intent_probe,-0.15,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.003
+intent_probe,-0.15,True,24,downstream,intent,0.8926,0.5067,-0.3859,-1.918,0.8225,0.003
+intent_probe,-0.15,True,24,downstream,outcome,0.9966,0.9899,-0.0067,0.1672,0.963,0.003
+intent_probe,-0.15,True,32,final layer,intent,0.8624,0.5201,-0.3423,-1.6709,0.8828,0.003
+intent_probe,-0.15,True,32,final layer,outcome,0.9899,0.9832,-0.0067,0.1653,0.9691,0.003
+intent_probe,-0.1,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0018
+intent_probe,-0.1,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0018
+intent_probe,-0.1,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0018
+intent_probe,-0.1,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0018
+intent_probe,-0.1,True,24,downstream,intent,0.8926,0.5906,-0.302,-1.2184,0.9072,-0.0018
+intent_probe,-0.1,True,24,downstream,outcome,0.9966,0.9966,0.0,0.0751,1.0122,-0.0018
+intent_probe,-0.1,True,32,final layer,intent,0.8624,0.6309,-0.2315,-1.0598,0.9244,-0.0018
+intent_probe,-0.1,True,32,final layer,outcome,0.9899,0.9866,-0.0034,0.0742,1.0074,-0.0018
+intent_probe,-0.05,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0005
+intent_probe,-0.05,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0005
+intent_probe,-0.05,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0005
+intent_probe,-0.05,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0005
+intent_probe,-0.05,True,24,downstream,intent,0.8926,0.7617,-0.1309,-0.6052,0.9592,0.0005
+intent_probe,-0.05,True,24,downstream,outcome,0.9966,0.9966,0.0,0.0392,1.0131,0.0005
+intent_probe,-0.05,True,32,final layer,intent,0.8624,0.7584,-0.104,-0.5198,0.9614,0.0005
+intent_probe,-0.05,True,32,final layer,outcome,0.9899,0.9866,-0.0034,0.0382,1.0086,0.0005
+intent_probe,-0.025,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0006
+intent_probe,-0.025,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0006
+intent_probe,-0.025,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0006
+intent_probe,-0.025,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0006
+intent_probe,-0.025,True,24,downstream,intent,0.8926,0.8591,-0.0336,-0.3032,0.9807,0.0006
+intent_probe,-0.025,True,24,downstream,outcome,0.9966,0.9966,0.0,0.0201,1.0073,0.0006
+intent_probe,-0.025,True,32,final layer,intent,0.8624,0.8389,-0.0235,-0.2603,0.981,0.0006
+intent_probe,-0.025,True,32,final layer,outcome,0.9899,0.9899,0.0,0.0193,1.0049,0.0006
+intent_probe,0.025,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0013
+intent_probe,0.025,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0013
+intent_probe,0.025,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0013
+intent_probe,0.025,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0013
+intent_probe,0.025,True,24,downstream,intent,0.8926,0.8725,-0.0201,0.3031,1.0173,-0.0013
+intent_probe,0.025,True,24,downstream,outcome,0.9966,0.9966,0.0,-0.02,0.9915,-0.0013
+intent_probe,0.025,True,32,final layer,intent,0.8624,0.8557,-0.0067,0.2605,1.0185,-0.0013
+intent_probe,0.025,True,32,final layer,outcome,0.9899,0.9899,0.0,-0.0191,0.9943,-0.0013
+intent_probe,0.05,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0026
+intent_probe,0.05,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0026
+intent_probe,0.05,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0026
+intent_probe,0.05,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0026
+intent_probe,0.05,True,24,downstream,intent,0.8926,0.8087,-0.0839,0.6033,1.032,-0.0026
+intent_probe,0.05,True,24,downstream,outcome,0.9966,0.9966,0.0,-0.0401,0.9816,-0.0026
+intent_probe,0.05,True,32,final layer,intent,0.8624,0.802,-0.0604,0.5206,1.0368,-0.0026
+intent_probe,0.05,True,32,final layer,outcome,0.9899,0.9866,-0.0034,-0.0386,0.988,-0.0026
+intent_probe,0.1,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0048
+intent_probe,0.1,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0048
+intent_probe,0.1,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0048
+intent_probe,0.1,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0048
+intent_probe,0.1,True,24,downstream,intent,0.8926,0.6242,-0.2685,1.1645,1.0499,-0.0048
+intent_probe,0.1,True,24,downstream,outcome,0.9966,0.9966,0.0,-0.0801,0.9538,-0.0048
+intent_probe,0.1,True,32,final layer,intent,0.8624,0.6913,-0.1711,1.0145,1.0706,-0.0048
+intent_probe,0.1,True,32,final layer,outcome,0.9899,0.9899,0.0,-0.0812,0.9729,-0.0048
+intent_probe,0.15,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0023
+intent_probe,0.15,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0023
+intent_probe,0.15,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0023
+intent_probe,0.15,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0023
+intent_probe,0.15,True,24,downstream,intent,0.8926,0.5604,-0.3322,1.5899,1.0291,0.0023
+intent_probe,0.15,True,24,downstream,outcome,0.9966,0.9966,0.0,-0.1077,0.8992,0.0023
+intent_probe,0.15,True,32,final layer,intent,0.8624,0.5772,-0.2852,1.4339,1.0781,0.0023
+intent_probe,0.15,True,32,final layer,outcome,0.9899,0.9899,0.0,-0.1295,0.9461,0.0023
+intent_probe,0.2,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.008
+intent_probe,0.2,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.008
+intent_probe,0.2,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.008
+intent_probe,0.2,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.008
+intent_probe,0.2,True,24,downstream,intent,0.8926,0.5134,-0.3792,1.815,0.949,0.008
+intent_probe,0.2,True,24,downstream,outcome,0.9966,0.9966,0.0,-0.1284,0.8231,0.008
+intent_probe,0.2,True,32,final layer,intent,0.8624,0.5369,-0.3255,1.7309,1.0345,0.008
+intent_probe,0.2,True,32,final layer,outcome,0.9899,0.9899,0.0,-0.1748,0.898,0.008
+intent_probe,0.3,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0069
+intent_probe,0.3,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0069
+intent_probe,0.3,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0069
+intent_probe,0.3,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0069
+intent_probe,0.3,True,24,downstream,intent,0.8926,0.5067,-0.3859,2.2939,0.8047,0.0069
+intent_probe,0.3,True,24,downstream,outcome,0.9966,0.9899,-0.0067,-0.1579,0.6922,0.0069
+intent_probe,0.3,True,32,final layer,intent,0.8624,0.5,-0.3624,2.1779,0.9169,0.0069
+intent_probe,0.3,True,32,final layer,outcome,0.9899,0.9765,-0.0134,-0.1615,0.766,0.0069
+outcome_probe,-0.3,False,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.1143
+outcome_probe,-0.3,False,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.1143
+outcome_probe,-0.3,False,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.1143
+outcome_probe,-0.3,False,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.1143
+outcome_probe,-0.3,False,24,downstream,intent,0.8926,0.7416,-0.151,-0.4924,0.8759,0.1143
+outcome_probe,-0.3,False,24,downstream,outcome,0.9966,0.5,-0.4966,-0.7986,0.4263,0.1143
+outcome_probe,-0.3,False,32,final layer,intent,0.8624,0.5906,-0.2718,-1.0746,0.844,0.1143
+outcome_probe,-0.3,False,32,final layer,outcome,0.9899,0.557,-0.4329,-0.6436,0.4184,0.1143
+outcome_probe,-0.2,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0806
+outcome_probe,-0.2,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0806
+outcome_probe,-0.2,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0806
+outcome_probe,-0.2,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0806
+outcome_probe,-0.2,True,24,downstream,intent,0.8926,0.8389,-0.0537,-0.285,0.9124,0.0806
+outcome_probe,-0.2,True,24,downstream,outcome,0.9966,0.7483,-0.2483,-0.5942,0.6672,0.0806
+outcome_probe,-0.2,True,32,final layer,intent,0.8624,0.7752,-0.0872,-0.4125,0.9042,0.0806
+outcome_probe,-0.2,True,32,final layer,outcome,0.9899,0.7953,-0.1946,-0.5323,0.671,0.0806
+outcome_probe,-0.15,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0042
+outcome_probe,-0.15,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0042
+outcome_probe,-0.15,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0042
+outcome_probe,-0.15,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0042
+outcome_probe,-0.15,True,24,downstream,intent,0.8926,0.849,-0.0436,-0.1434,0.9458,0.0042
+outcome_probe,-0.15,True,24,downstream,outcome,0.9966,0.9128,-0.0839,-0.4354,0.7814,0.0042
+outcome_probe,-0.15,True,32,final layer,intent,0.8624,0.8322,-0.0302,-0.1861,0.9452,0.0042
+outcome_probe,-0.15,True,32,final layer,outcome,0.9899,0.8926,-0.0973,-0.4572,0.7892,0.0042
+outcome_probe,-0.1,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0016
+outcome_probe,-0.1,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0016
+outcome_probe,-0.1,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0016
+outcome_probe,-0.1,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0016
+outcome_probe,-0.1,True,24,downstream,intent,0.8926,0.8758,-0.0168,0.0126,1.009,-0.0016
+outcome_probe,-0.1,True,24,downstream,outcome,0.9966,0.9564,-0.0403,-0.3372,0.8945,-0.0016
+outcome_probe,-0.1,True,32,final layer,intent,0.8624,0.8557,-0.0067,0.0195,1.0089,-0.0016
+outcome_probe,-0.1,True,32,final layer,outcome,0.9899,0.9732,-0.0168,-0.2968,0.9009,-0.0016
+outcome_probe,-0.05,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0031
+outcome_probe,-0.05,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0031
+outcome_probe,-0.05,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0031
+outcome_probe,-0.05,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0031
+outcome_probe,-0.05,True,24,downstream,intent,0.8926,0.8725,-0.0201,-0.0102,1.0139,-0.0031
+outcome_probe,-0.05,True,24,downstream,outcome,0.9966,0.9933,-0.0034,-0.183,0.9628,-0.0031
+outcome_probe,-0.05,True,32,final layer,intent,0.8624,0.8557,-0.0067,-0.002,1.0156,-0.0031
+outcome_probe,-0.05,True,32,final layer,outcome,0.9899,0.9899,0.0,-0.152,0.9629,-0.0031
+outcome_probe,-0.025,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0031
+outcome_probe,-0.025,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0031
+outcome_probe,-0.025,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0031
+outcome_probe,-0.025,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0031
+outcome_probe,-0.025,True,24,downstream,intent,0.8926,0.8893,-0.0034,-0.0084,1.0083,-0.0031
+outcome_probe,-0.025,True,24,downstream,outcome,0.9966,0.9966,0.0,-0.0922,0.9851,-0.0031
+outcome_probe,-0.025,True,32,final layer,intent,0.8624,0.8591,-0.0034,-0.0044,1.0088,-0.0031
+outcome_probe,-0.025,True,32,final layer,outcome,0.9899,0.9933,0.0034,-0.0764,0.9841,-0.0031
+outcome_probe,0.025,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0088
+outcome_probe,0.025,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0088
+outcome_probe,0.025,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0088
+outcome_probe,0.025,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0088
+outcome_probe,0.025,True,24,downstream,intent,0.8926,0.8993,0.0067,0.0107,0.9896,0.0088
+outcome_probe,0.025,True,24,downstream,outcome,0.9966,0.9866,-0.0101,0.0936,1.0082,0.0088
+outcome_probe,0.025,True,32,final layer,intent,0.8624,0.8591,-0.0034,0.0095,0.9893,0.0088
+outcome_probe,0.025,True,32,final layer,outcome,0.9899,0.9832,-0.0067,0.0781,1.0109,0.0088
+outcome_probe,0.05,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0233
+outcome_probe,0.05,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0233
+outcome_probe,0.05,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0233
+outcome_probe,0.05,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0233
+outcome_probe,0.05,True,24,downstream,intent,0.8926,0.8926,0.0,0.0191,0.9771,0.0233
+outcome_probe,0.05,True,24,downstream,outcome,0.9966,0.9832,-0.0134,0.189,1.0094,0.0233
+outcome_probe,0.05,True,32,final layer,intent,0.8624,0.8725,0.0101,0.0191,0.9767,0.0233
+outcome_probe,0.05,True,32,final layer,outcome,0.9899,0.9799,-0.0101,0.1582,1.017,0.0233
+outcome_probe,0.1,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0619
+outcome_probe,0.1,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0619
+outcome_probe,0.1,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0619
+outcome_probe,0.1,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0619
+outcome_probe,0.1,True,24,downstream,intent,0.8926,0.8826,-0.0101,-0.0092,0.9436,0.0619
+outcome_probe,0.1,True,24,downstream,outcome,0.9966,0.9497,-0.047,0.3919,0.9856,0.0619
+outcome_probe,0.1,True,32,final layer,intent,0.8624,0.8523,-0.0101,-0.0058,0.9464,0.0619
+outcome_probe,0.1,True,32,final layer,outcome,0.9899,0.9564,-0.0336,0.3202,1.0099,0.0619
+outcome_probe,0.15,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.1194
+outcome_probe,0.15,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.1194
+outcome_probe,0.15,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.1194
+outcome_probe,0.15,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.1194
+outcome_probe,0.15,True,24,downstream,intent,0.8926,0.8087,-0.0839,-0.224,0.8591,0.1194
+outcome_probe,0.15,True,24,downstream,outcome,0.9966,0.8624,-0.1342,0.6029,0.9004,0.1194
+outcome_probe,0.15,True,32,final layer,intent,0.8624,0.7785,-0.0839,-0.1554,0.8817,0.1194
+outcome_probe,0.15,True,32,final layer,outcome,0.9899,0.9094,-0.0805,0.4794,0.953,0.1194
+outcome_probe,0.2,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.1612
+outcome_probe,0.2,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.1612
+outcome_probe,0.2,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.1612
+outcome_probe,0.2,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.1612
+outcome_probe,0.2,True,24,downstream,intent,0.8926,0.7215,-0.1711,-0.4262,0.8012,0.1612
+outcome_probe,0.2,True,24,downstream,outcome,0.9966,0.755,-0.2416,0.7838,0.7857,0.1612
+outcome_probe,0.2,True,32,final layer,intent,0.8624,0.7315,-0.1309,-0.1125,0.859,0.1612
+outcome_probe,0.2,True,32,final layer,outcome,0.9899,0.8188,-0.1711,0.6443,0.8699,0.1612
+outcome_probe,0.3,False,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.2725
+outcome_probe,0.3,False,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.2725
+outcome_probe,0.3,False,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.2725
+outcome_probe,0.3,False,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.2725
+outcome_probe,0.3,False,24,downstream,intent,0.8926,0.6309,-0.2617,-0.7598,0.7469,0.2725
+outcome_probe,0.3,False,24,downstream,outcome,0.9966,0.5503,-0.4463,1.0871,0.5503,0.2725
+outcome_probe,0.3,False,32,final layer,intent,0.8624,0.6409,-0.2215,-0.5512,0.8101,0.2725
+outcome_probe,0.3,False,32,final layer,outcome,0.9899,0.6577,-0.3322,0.8962,0.6525,0.2725
+random0,-0.3,False,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.2082
+random0,-0.3,False,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.2082
+random0,-0.3,False,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.2082
+random0,-0.3,False,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.2082
+random0,-0.3,False,24,downstream,intent,0.8926,0.8691,-0.0235,0.0336,0.8883,0.2082
+random0,-0.3,False,24,downstream,outcome,0.9966,0.9866,-0.0101,0.1139,0.7362,0.2082
+random0,-0.3,False,32,final layer,intent,0.8624,0.7987,-0.0638,-0.0941,0.9072,0.2082
+random0,-0.3,False,32,final layer,outcome,0.9899,0.9866,-0.0034,0.0688,0.7703,0.2082
+random0,-0.2,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0727
+random0,-0.2,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0727
+random0,-0.2,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0727
+random0,-0.2,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0727
+random0,-0.2,True,24,downstream,intent,0.8926,0.8859,-0.0067,0.112,0.9589,0.0727
+random0,-0.2,True,24,downstream,outcome,0.9966,0.9899,-0.0067,0.0653,0.8566,0.0727
+random0,-0.2,True,32,final layer,intent,0.8624,0.8289,-0.0336,0.1626,0.9735,0.0727
+random0,-0.2,True,32,final layer,outcome,0.9899,0.9866,-0.0034,0.0096,0.9304,0.0727
+random0,-0.15,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0418
+random0,-0.15,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0418
+random0,-0.15,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0418
+random0,-0.15,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0418
+random0,-0.15,True,24,downstream,intent,0.8926,0.8826,-0.0101,0.1763,1.0179,0.0418
+random0,-0.15,True,24,downstream,outcome,0.9966,0.9933,-0.0034,0.014,0.9282,0.0418
+random0,-0.15,True,32,final layer,intent,0.8624,0.8523,-0.0101,0.2362,1.005,0.0418
+random0,-0.15,True,32,final layer,outcome,0.9899,0.9866,-0.0034,-0.014,0.9743,0.0418
+random0,-0.1,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0115
+random0,-0.1,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0115
+random0,-0.1,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0115
+random0,-0.1,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0115
+random0,-0.1,True,24,downstream,intent,0.8926,0.8859,-0.0067,0.2425,1.0424,0.0115
+random0,-0.1,True,24,downstream,outcome,0.9966,0.9933,-0.0034,-0.0024,0.9787,0.0115
+random0,-0.1,True,32,final layer,intent,0.8624,0.8557,-0.0067,0.2888,1.0225,0.0115
+random0,-0.1,True,32,final layer,outcome,0.9899,0.9866,-0.0034,-0.0179,0.9992,0.0115
+random0,-0.05,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0011
+random0,-0.05,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0011
+random0,-0.05,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0011
+random0,-0.05,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0011
+random0,-0.05,True,24,downstream,intent,0.8926,0.9027,0.0101,0.1256,1.025,0.0011
+random0,-0.05,True,24,downstream,outcome,0.9966,0.9966,0.0,-0.0016,0.9932,0.0011
+random0,-0.05,True,32,final layer,intent,0.8624,0.8624,0.0,0.1461,1.0173,0.0011
+random0,-0.05,True,32,final layer,outcome,0.9899,0.9866,-0.0034,-0.0088,1.0021,0.0011
+random0,-0.025,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0002
+random0,-0.025,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0002
+random0,-0.025,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0002
+random0,-0.025,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0002
+random0,-0.025,True,24,downstream,intent,0.8926,0.9027,0.0101,0.0639,1.0131,0.0002
+random0,-0.025,True,24,downstream,outcome,0.9966,0.9966,0.0,-0.0012,0.9973,0.0002
+random0,-0.025,True,32,final layer,intent,0.8624,0.8691,0.0067,0.0748,1.0097,0.0002
+random0,-0.025,True,32,final layer,outcome,0.9899,0.9866,-0.0034,-0.0043,1.0015,0.0002
+random0,0.025,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0004
+random0,0.025,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0004
+random0,0.025,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0004
+random0,0.025,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0004
+random0,0.025,True,24,downstream,intent,0.8926,0.8926,0.0,-0.067,0.9852,0.0004
+random0,0.025,True,24,downstream,outcome,0.9966,0.9966,0.0,0.0022,1.0014,0.0004
+random0,0.025,True,32,final layer,intent,0.8624,0.8624,0.0,-0.0793,0.9882,0.0004
+random0,0.025,True,32,final layer,outcome,0.9899,0.9899,0.0,0.0044,0.9976,0.0004
+random0,0.05,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0007
+random0,0.05,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0007
+random0,0.05,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0007
+random0,0.05,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0007
+random0,0.05,True,24,downstream,intent,0.8926,0.8792,-0.0134,-0.1383,0.9698,0.0007
+random0,0.05,True,24,downstream,outcome,0.9966,0.9966,0.0,0.0057,1.0014,0.0007
+random0,0.05,True,32,final layer,intent,0.8624,0.849,-0.0134,-0.1626,0.9752,0.0007
+random0,0.05,True,32,final layer,outcome,0.9899,0.9899,0.0,0.0092,0.9947,0.0007
+random0,0.1,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.001
+random0,0.1,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.001
+random0,0.1,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.001
+random0,0.1,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.001
+random0,0.1,True,24,downstream,intent,0.8926,0.8523,-0.0403,-0.3077,0.9359,0.001
+random0,0.1,True,24,downstream,outcome,0.9966,0.9966,0.0,0.0212,0.9967,0.001
+random0,0.1,True,32,final layer,intent,0.8624,0.8221,-0.0403,-0.3552,0.9487,0.001
+random0,0.1,True,32,final layer,outcome,0.9899,0.9899,0.0,0.0233,0.9888,0.001
+random0,0.15,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0083
+random0,0.15,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0083
+random0,0.15,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0083
+random0,0.15,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0083
+random0,0.15,True,24,downstream,intent,0.8926,0.7785,-0.1141,-0.5326,0.8846,-0.0083
+random0,0.15,True,24,downstream,outcome,0.9966,0.9966,0.0,0.0596,0.9728,-0.0083
+random0,0.15,True,32,final layer,intent,0.8624,0.7416,-0.1208,-0.5861,0.9201,-0.0083
+random0,0.15,True,32,final layer,outcome,0.9899,0.9899,0.0,0.0601,0.9808,-0.0083
+random0,0.2,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0221
+random0,0.2,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0221
+random0,0.2,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0221
+random0,0.2,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0221
+random0,0.2,True,24,downstream,intent,0.8926,0.6644,-0.2282,-0.7791,0.8137,-0.0221
+random0,0.2,True,24,downstream,outcome,0.9966,0.9866,-0.0101,0.1008,0.925,-0.0221
+random0,0.2,True,32,final layer,intent,0.8624,0.6779,-0.1846,-0.8019,0.878,-0.0221
+random0,0.2,True,32,final layer,outcome,0.9899,0.9899,0.0,0.1002,0.9424,-0.0221
+random0,0.3,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0134
+random0,0.3,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0134
+random0,0.3,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0134
+random0,0.3,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0134
+random0,0.3,True,24,downstream,intent,0.8926,0.5638,-0.3289,-1.0737,0.7231,-0.0134
+random0,0.3,True,24,downstream,outcome,0.9966,0.9866,-0.0101,0.1605,0.848,-0.0134
+random0,0.3,True,32,final layer,intent,0.8624,0.5705,-0.2919,-1.1968,0.8203,-0.0134
+random0,0.3,True,32,final layer,outcome,0.9899,0.9799,-0.0101,0.2215,0.8965,-0.0134
+random1,-0.3,False,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0345
+random1,-0.3,False,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0345
+random1,-0.3,False,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0345
+random1,-0.3,False,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0345
+random1,-0.3,False,24,downstream,intent,0.8926,0.8826,-0.0101,0.099,0.8387,0.0345
+random1,-0.3,False,24,downstream,outcome,0.9966,0.9899,-0.0067,0.088,0.802,0.0345
+random1,-0.3,False,32,final layer,intent,0.8624,0.8054,-0.057,-0.0901,0.8713,0.0345
+random1,-0.3,False,32,final layer,outcome,0.9899,0.9866,-0.0034,0.0657,0.8594,0.0345
+random1,-0.2,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0286
+random1,-0.2,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0286
+random1,-0.2,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0286
+random1,-0.2,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0286
+random1,-0.2,True,24,downstream,intent,0.8926,0.8893,-0.0034,0.0891,0.8883,-0.0286
+random1,-0.2,True,24,downstream,outcome,0.9966,0.9899,-0.0067,0.038,0.8941,-0.0286
+random1,-0.2,True,32,final layer,intent,0.8624,0.8356,-0.0268,0.0414,0.9244,-0.0286
+random1,-0.2,True,32,final layer,outcome,0.9899,0.9866,-0.0034,0.0133,0.937,-0.0286
+random1,-0.15,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0344
+random1,-0.15,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0344
+random1,-0.15,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0344
+random1,-0.15,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0344
+random1,-0.15,True,24,downstream,intent,0.8926,0.8893,-0.0034,0.1514,0.9525,-0.0344
+random1,-0.15,True,24,downstream,outcome,0.9966,0.9933,-0.0034,0.0171,0.947,-0.0344
+random1,-0.15,True,32,final layer,intent,0.8624,0.849,-0.0134,0.0202,0.9852,-0.0344
+random1,-0.15,True,32,final layer,outcome,0.9899,0.9866,-0.0034,-0.022,0.9854,-0.0344
+random1,-0.1,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0296
+random1,-0.1,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0296
+random1,-0.1,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0296
+random1,-0.1,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0296
+random1,-0.1,True,24,downstream,intent,0.8926,0.8859,-0.0067,0.1818,1.0062,-0.0296
+random1,-0.1,True,24,downstream,outcome,0.9966,0.9933,-0.0034,-0.0078,0.9937,-0.0296
+random1,-0.1,True,32,final layer,intent,0.8624,0.8691,0.0067,0.1188,1.0081,-0.0296
+random1,-0.1,True,32,final layer,outcome,0.9899,0.9866,-0.0034,-0.0153,1.0054,-0.0296
+random1,-0.05,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0178
+random1,-0.05,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0178
+random1,-0.05,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0178
+random1,-0.05,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0178
+random1,-0.05,True,24,downstream,intent,0.8926,0.906,0.0134,0.0883,1.0044,-0.0178
+random1,-0.05,True,24,downstream,outcome,0.9966,0.9966,0.0,-0.0059,0.9987,-0.0178
+random1,-0.05,True,32,final layer,intent,0.8624,0.8557,-0.0067,0.0619,1.0053,-0.0178
+random1,-0.05,True,32,final layer,outcome,0.9899,0.9866,-0.0034,-0.0063,1.003,-0.0178
+random1,-0.025,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,-0.0099
+random1,-0.025,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,-0.0099
+random1,-0.025,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,-0.0099
+random1,-0.025,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,-0.0099
+random1,-0.025,True,24,downstream,intent,0.8926,0.906,0.0134,0.0478,1.0024,-0.0099
+random1,-0.025,True,24,downstream,outcome,0.9966,0.9966,0.0,-0.0029,0.9994,-0.0099
+random1,-0.025,True,32,final layer,intent,0.8624,0.8658,0.0034,0.033,1.0027,-0.0099
+random1,-0.025,True,32,final layer,outcome,0.9899,0.9866,-0.0034,-0.0029,1.0015,-0.0099
+random1,0.025,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0112
+random1,0.025,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0112
+random1,0.025,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0112
+random1,0.025,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0112
+random1,0.025,True,24,downstream,intent,0.8926,0.8758,-0.0168,-0.0572,0.9973,0.0112
+random1,0.025,True,24,downstream,outcome,0.9966,0.9966,0.0,0.0029,1.0005,0.0112
+random1,0.025,True,32,final layer,intent,0.8624,0.8624,0.0,-0.0381,0.9975,0.0112
+random1,0.025,True,32,final layer,outcome,0.9899,0.9899,0.0,0.003,0.9985,0.0112
+random1,0.05,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0239
+random1,0.05,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0239
+random1,0.05,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0239
+random1,0.05,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0239
+random1,0.05,True,24,downstream,intent,0.8926,0.8893,-0.0034,-0.122,0.994,0.0239
+random1,0.05,True,24,downstream,outcome,0.9966,0.9966,0.0,0.0056,1.0008,0.0239
+random1,0.05,True,32,final layer,intent,0.8624,0.8423,-0.0201,-0.0811,0.9955,0.0239
+random1,0.05,True,32,final layer,outcome,0.9899,0.9899,0.0,0.006,0.9972,0.0239
+random1,0.1,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0499
+random1,0.1,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0499
+random1,0.1,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0499
+random1,0.1,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0499
+random1,0.1,True,24,downstream,intent,0.8926,0.849,-0.0436,-0.2707,0.987,0.0499
+random1,0.1,True,24,downstream,outcome,0.9966,0.9966,0.0,0.0117,0.9986,0.0499
+random1,0.1,True,32,final layer,intent,0.8624,0.849,-0.0134,-0.1867,0.9929,0.0499
+random1,0.1,True,32,final layer,outcome,0.9899,0.9899,0.0,0.0116,0.9934,0.0499
+random1,0.15,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0744
+random1,0.15,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0744
+random1,0.15,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0744
+random1,0.15,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0744
+random1,0.15,True,24,downstream,intent,0.8926,0.802,-0.0906,-0.4455,0.9697,0.0744
+random1,0.15,True,24,downstream,outcome,0.9966,0.9966,0.0,0.0272,0.9841,0.0744
+random1,0.15,True,32,final layer,intent,0.8624,0.8322,-0.0302,-0.282,0.98,0.0744
+random1,0.15,True,32,final layer,outcome,0.9899,0.9899,0.0,0.0239,0.9777,0.0744
+random1,0.2,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.0883
+random1,0.2,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.0883
+random1,0.2,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.0883
+random1,0.2,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.0883
+random1,0.2,True,24,downstream,intent,0.8926,0.7215,-0.1711,-0.6243,0.9062,0.0883
+random1,0.2,True,24,downstream,outcome,0.9966,0.9899,-0.0067,0.0563,0.9274,0.0883
+random1,0.2,True,32,final layer,intent,0.8624,0.802,-0.0604,-0.3223,0.9484,0.0883
+random1,0.2,True,32,final layer,outcome,0.9899,0.9899,0.0,0.0348,0.9315,0.0883
+random1,0.3,True,12,upstream (cannot be affected),intent,0.6846,0.6846,0.0,0.0,1.0,0.124
+random1,0.3,True,12,upstream (cannot be affected),outcome,0.9698,0.9698,0.0,0.0,1.0,0.124
+random1,0.3,True,16,steering site,intent,0.8456,0.8456,0.0,0.0,1.0,0.124
+random1,0.3,True,16,steering site,outcome,0.9933,0.9933,0.0,0.0,1.0,0.124
+random1,0.3,True,24,downstream,intent,0.8926,0.6275,-0.2651,-1.0197,0.8225,0.124
+random1,0.3,True,24,downstream,outcome,0.9966,0.9866,-0.0101,0.0749,0.8429,0.124
+random1,0.3,True,32,final layer,intent,0.8624,0.6544,-0.2081,-0.9349,0.9023,0.124
+random1,0.3,True,32,final layer,outcome,0.9899,0.9866,-0.0034,0.0753,0.8389,0.124

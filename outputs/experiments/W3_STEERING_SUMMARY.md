@@ -139,6 +139,12 @@ W3 does **not** convert the representation-behaviour correlation into a causal c
 
 Three limits to state with it. The intervention adds a fixed vector at one layer for all token positions; a per-position or multi-layer intervention, or one fitted on `belief_last` rather than the scoring prompt's final token, could still find an effect, so this bounds crude linear steering rather than all causal involvement. The intent and outcome diff-of-means directions are not orthogonal (cos OLMo-2-1124-7B-Instruct 0.3894, Qwen2.5-7B-Instruct 0.319), so part of what the intent diff-of-means direction does may be outcome leakage — another reason the probe-weight null is the cleaner evidence. And degrading a representation is not the same as re-writing it: this shows the judgment does not depend on the readable intent code, not that no encoding of intent anywhere in the network is used.
 
+### The companion result (W4)
+
+W4 runs the other end of the pipeline: escalating in-context instruction, no weight or activation edits. The two are **not** compared as a ratio — a residual-stream coefficient and a block of added prompt text have no common effect-size scale, and dividing one Δcontrast by the other would invent a quantity. The joint statement is qualitative: *the intent representation is inert to residual-stream intervention at the depths where intent is resolvable, while the same contrast moves substantially under in-context instruction.* That places the blockage downstream of the representation and upstream of the output — the judgment can be re-pointed by the input but not by editing the vector the probe reads.
+
+Two things to carry across with it. W4's largest in-context shift lands close to the range this experiment's *outcome* direction produced as a positive control; that is a coincidence of magnitude, flagged in `W4_CURRICULUM.md` and built on nowhere. And the ceiling-compression caveat in section 3 applies to W4 at least as strongly: every model's W4 contrast gain comes from blame for accidental harm falling rather than blame for attempted harm rising, so in-context instruction moves the judgment toward the adult pattern from the wrong side. Neither intervention has yet made a model condemn attempted harm more.
+
 ## Appendix: all four cell means at every coefficient
 
 Every measured cell, coherent or not, so the ceiling-compression reading in section 3 can be checked rather than taken on trust. `coh` marks rows inside the pre-specified coherence bounds.

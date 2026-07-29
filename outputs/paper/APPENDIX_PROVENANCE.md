@@ -1,6 +1,6 @@
 # Appendix: data provenance and the stimulus integrity audit
 
-Repository at `aff8aae`.
+Repository at `ac8a0e6`.
 
 This appendix documents a stimulus defect that invalidated an earlier round of results, the repair, and the audit that caught a second independent defect while checking the first. It is written as a contribution because that is what it is: the artefact is archived, the detector is a script, the repair is in the builder rather than a post-hoc filter, and every number below is reproducible from the two files named here. Published moral-ToM stimulus sets are parsed from PDF appendices by many groups; the failure mode described in §1 is a property of those appendices, not of this project, and it is silent — the automated quality gate that was in place stayed green throughout.
 

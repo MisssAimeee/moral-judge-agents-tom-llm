@@ -1,6 +1,6 @@
 # Limitations
 
-Repository at `aff8aae`. Each row states what the limitation forbids claiming, not merely that it exists — a limitations section that does not constrain any sentence in the paper is decoration. Where a constraint has already been applied to the wording of a result, the row says so.
+Repository at `ac8a0e6`. Each row states what the limitation forbids claiming, not merely that it exists — a limitations section that does not constrain any sentence in the paper is decoration. Where a constraint has already been applied to the wording of a result, the row says so.
 
 | # | limitation | what it forbids claiming | evidence | what would lift it |
 |---|---|---|---|---|

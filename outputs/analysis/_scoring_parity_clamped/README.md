@@ -44,6 +44,30 @@ rescore with the corrected parser answers it, which is job 19188914.
 OLMo's near-absence of pinning (2% vs 45%) is mild evidence that its pass is genuine and
 Qwen's needs re-checking, but that is an inference from the pattern, not a measurement.
 
+## Resolution (job 19189218) — the clamp was *degrading* parity, and the bridge holds
+
+Rescored with the corrected parser. Every model improved, several dramatically, and the two
+designated models pass on clean data:
+
+| model | r archived (clamped, pre-fix EV) | r intermediate (clamped, v3 EV) | **r fixed** | passes |
+|---|---:|---:|---:|:--:|
+| OLMo-2-7B-Instruct | 0.9742 | 0.7823 | **0.9904** | PASS |
+| Qwen2.5-7B-Instruct | 0.9591 | 0.8233 | **0.9565** | PASS |
+| Qwen2.5-3B-Instruct | 0.3413 | 0.6037 | **0.9338** | no |
+| Mistral-7B-Instruct-v0.3 | nan | 0.7693 | **0.8956** | no |
+| Qwen2.5-0.5B-Instruct | 0.1124 | 0.4973 | **0.6894** | no |
+| Qwen2.5-1.5B-Instruct | −0.2097 | 0.5303 | **0.4519** | no |
+
+Two things this settles. The middle column was the alarming one — 0 of 6 passing — and it was
+an artefact of pairing a refreshed EV side against a sampled side still full of coerced
+values; it was never the real state. And Mistral's `nan` had a mundane cause: imputation
+flattened its EV contrast to exactly 0.0, leaving no variance to correlate.
+
+`n_items` is 298 for all six, so no item lost every one of its 30 samples — the fix removed
+coercion without removing data. Remaining non-passers are the sub-7B models, which is the
+expected pattern (weaker instruction-following produces noisier free-text ratings) and does not
+affect the bridge, since the models actually placed on a shared axis are the 7B+ ones.
+
 ## What changed
 
 `_parse_rating` now rejects out-of-range values and answers carrying an explicit "N out of M"

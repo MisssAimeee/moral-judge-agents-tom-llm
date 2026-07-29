@@ -86,20 +86,52 @@ samples = 23,840 completions per cell, × 29 cells = 691,360 completions, ≈138
 
 ## What the configurations cost
 
-Thinking tokens charged at 50% budget utilisation; list rates as of ~2026-07, flagship
-reasoners assumed $5–10 in / $25–40 out. Order-of-magnitude, not a quote.
+**Every figure below is recomputed by `code/experiments/59_dose_cost_model.py`** — run it to
+re-derive, sweep the assumptions, or correct the rates. The roster, request counts and token
+counts are read from `52_closed_reasoning_dose.py`, so the arithmetic follows the config.
+
+Two inputs are assumptions rather than measurements, and they drive the total:
+
+- **Prices.** The 2026 roster (`claude-opus-5`, `gpt-5.5`, `o3`, `gemini-3.1-pro-preview`,
+  `kimi-k2.6`) has no verified rate card in this repository. The table at the top of this file
+  prices a *different, older* roster (Claude-Opus-4.6, GPT-4o, Gemini-2.5-Pro). The cost model
+  carries those tiers across by role and **guesses the o-series outright** ($10/$40 for o3,
+  $1.10/$4.40 for o4-mini), which matters because o3 is the single largest line item. Confirm
+  on the consoles before relying on any total.
+- **Thinking utilisation.** Cost depends on how much of each thinking budget a model actually
+  spends, which is unobservable before running. Default 50%. At 25% the approved config is
+  ~$297, at 100% ~$1,152 — so the figure is a band, not a point.
 
 | configuration | calls/cell | input | output | est. cost |
 |---|---:|---:|---:|---:|
 | as configured (n=20, 4 tmpl, no batch) | 23,840 | 138M | 1,324M | **~$23,300** |
 | n=2, 4 tmpl, no batch | 2,384 | 14M | 132M | ~$2,330 |
 | n=2, 4 tmpl, Batch API | 2,384 | 14M | 132M | ~$1,160 |
-| n=2, 2 tmpl, Batch API | 1,192 | 7M | 66M | **~$580** |
+| n=2, 2 tmpl, Batch API — **approved** | 1,192 | 7M | 66M | **~$580** |
 | n=2, 2 tmpl, Batch API, minus `claude-opus-5` + `o3` | 1,192 | 7M | 66M | **~$180** |
 
-Two cells dominate at every configuration: `claude-opus-5` at budget_high (16,384 thinking
-tokens at $25/MTok) and `o3` at high effort. Together the two flagship reasoners are ~69% of
-the bill.
+Where the request count comes from: 298 items × 2 templates × 2 samples = **1,192 calls per
+(model, condition) cell**, × **29 cells** over the 9-model roster = **34,568 requests**. The
+cells are 5 conditions each for `claude-opus-5`, `claude-sonnet-5`, `gemini-3.1-pro-preview`
+and `gemini-3.5-flash`; 3 each for `o3` and `o4-mini`; `direct` only for `gpt-5.5`,
+`gpt-5.4-mini` and `kimi-k2.6`.
+
+Per-model at the approved configuration:
+
+| model | cells | est. cost | share |
+|---|---:|---:|---:|
+| `o3` | 3 | $207 | 36% |
+| `claude-opus-5` | 5 | $194 | 33% |
+| `claude-sonnet-5` | 5 | $116 | 20% |
+| `gemini-3.1-pro-preview` | 5 | $39 | 7% |
+| `o4-mini` | 3 | $23 | 4% |
+| `gemini-3.5-flash` | 5 | $2 | 0% |
+| `gpt-5.5`, `gpt-5.4-mini`, `kimi-k2.6` | 1 each | <$1 | 0% |
+
+The two flagship reasoners are ~69% of the bill: `claude-opus-5` because budget_high is 16,384
+thinking tokens at an assumed $25/MTok output, `o3` because high effort is assumed to spend
+~12,000 at $40/MTok. **`o3`'s rate is the least reliable input in the whole model and it is
+the largest line item** — worth confirming before committing.
 
 ## Why `N_SAMPLES = 20` buys almost nothing here
 

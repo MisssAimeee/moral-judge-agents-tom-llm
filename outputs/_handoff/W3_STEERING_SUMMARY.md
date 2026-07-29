@@ -8,7 +8,7 @@ Pre-registration: `W3_PRESPEC.md` — P1-P4 written before the first run; amendm
 
 **Sensitivity, in control units (M3).** The outcome direction moves the contrast 0.232–0.259; the probe-weight intent direction moves it <=0.015. The design therefore resolves effects roughly **15x smaller than the positive control produces**, which is the detectable-effect-size statement a null needs in order not to read as underpowered.
 
-**Manipulation check (M1): the intervention really did move the representation.** Applying the intent direction drives intent decodability at downstream layers from ~0.89 to chance (0.500) — a probe-margin displacement of 3.2–7.2 SD — while the contrast moves at most 0.016. So the null is not "that vector did nothing"; the vector demolished the readable intent code and the judgment did not follow. Section 4.
+**Manipulation check (M1): the intervention really did move the representation.** Applying the intent direction drives intent decodability at downstream layers from ~0.89 to chance (0.500) — a probe-margin **displacement** of 3.2–7.2 SD in magnitude, signed −3.18 SD in OLMo and +7.21 SD in Qwen because the maximising coefficient is negative in one and positive in the other — while the contrast moves at most 0.016. Decodability collapses to chance under BOTH signs, so this is displacement off the probe's manifold, not amplification of the intent code in one model and suppression in the other (section 4a). The null is therefore not "that vector did nothing": the vector demolished the readable intent code and the judgment did not follow. Sections 4 and 4a.
 
 **Ceiling-compression caveat, up front.** The one place a large intent number appears is the difference-of-means estimator, and it is not intent re-weighting. It raises **all four cell means at once**, and the accidental cell starts nearest the top of the scale, so it has the least headroom and the negative attempted-minus-accidental gap shrinks arithmetically. Section 3 gives the cell means; the appendix gives them at every coefficient. Any contrast movement accompanied by all four cells rising should be read as compression against the ceiling, not as a change in how intent is weighted.
 
@@ -52,6 +52,21 @@ A flat contrast only says something about the representation if the intervention
 | Qwen2.5-7B-Instruct | random0 | L28 | final layer | -0.3 | 0.866 → 0.752 (-0.114) | -0.40 | -0.0089 | n/a (control) |
 
 **2 of 2 models meet the pre-registered bar on the probe-weight intent direction**: OLMo-2-1124-7B-Instruct margin -3.2 SD, decoding 0.893 → 0.500, Δcontrast -0.013; Qwen2.5-7B-Instruct margin +7.2 SD, decoding 0.899 → 0.500, Δcontrast +0.006.
+
+### 4a. Sign of the displacement, and probe polarity
+
+The two headline figures are OLMo-2-1124-7B-Instruct -3.18 SD; Qwen2.5-7B-Instruct +7.21 SD. **They point opposite ways, and that is an artefact of which coefficient happened to maximise |displacement| in each model, not a difference between the models.** The quoted row is the argmax over the α grid; it lands at α<0 for one model and α>0 for the other. At matched coefficients the two behave identically:
+
+| model | probe layer | α | margin shift (SD) | intent acc unsteered → steered |
+|---|---|---:|---:|---:|
+| OLMo-2-1124-7B-Instruct | L24 | -0.3 | -3.18 | 0.893 → 0.500 |
+| OLMo-2-1124-7B-Instruct | L24 | +0.3 | +2.29 | 0.893 → 0.507 |
+| Qwen2.5-7B-Instruct | L23 | -0.3 | -6.39 | 0.899 → 0.500 |
+| Qwen2.5-7B-Instruct | L23 | +0.3 | +7.21 | 0.899 → 0.500 |
+
+**Label polarity is identical across models by construction.** The probe target is `int(condition in {attempted, intentional})`, i.e. guilty = 1, set in one place in `48_w3_causal_steering.py` and used for every model; the direction is `clf.coef_[0]` rescaled out of the standardiser, so +α always pushes toward the guilty class for every model. Empirical confirmation: unsteered CV accuracy is well above chance for every model and layer, which it could not be if the coefficient sign were flipped for one of them, and the margin shift tracks the sign of α monotonically in both models.
+
+**M1 is displacement of intent decodability, not amplification.** Pushing toward guilty does not make intent easier to read: under both signs of α the held-out intent probe falls to chance (0.50). The intervention moves activations off the manifold the probe was fitted on, in whichever direction it is applied, and destroys the linear intent code either way. So the correct reading of the pair of numbers is "both models show a large displacement of the intent code, one measured at negative α and one at positive α" — not "one model's intent signal was strengthened and the other's weakened". A reader who sees only |3.18| and |7.21| would assume they went the same way; they did, but the signs alone do not show it.
 
 Steering the probe-weight intent direction drives intent decodability to **exactly chance** downstream. The representation the project's correlational evidence rests on is not merely nudged, it is destroyed — and the moral contrast moves by at most 0.016. That is the difference between an uninterpretable null and evidence that the readable intent code is not what the rating is computed from.
 
@@ -105,8 +120,8 @@ A behavioural version of the claim, taken from the models' own explanations (gen
 
 | model | N | named belief or intent | b_intent (those items) | b_outcome (those items) | contrast (those items) |
 |---|---:|---:|---:|---:|---:|
-| OLMo-2-1124-7B-Instruct | 298 | 0.638 | +0.044 | +0.432 | -0.336 |
-| Qwen2.5-7B-Instruct | 298 | 0.463 | +0.121 | +0.366 | -0.213 |
+| OLMo-2-1124-7B-Instruct | 298 | 0.859 | +0.084 | +0.453 | -0.346 |
+| Qwen2.5-7B-Instruct | 298 | 0.711 | +0.072 | +0.346 | -0.236 |
 
 Coding scheme, N, rater agreement, per-cell mention rates and the selection caveat: `W3_PROSE_RATING.md`.
 
@@ -123,6 +138,12 @@ Coding scheme, N, rater agreement, per-cell mention rates and the selection cave
 W3 does **not** convert the representation-behaviour correlation into a causal claim, and the honest reading is that it strengthens the existing one. The project's three nulls (RSA convergence, item-level, model-level) said the readable intent representation is not used. The intervention now says the same thing with a manipulation rather than a correlation: with a positive control that rules out insensitivity, a manipulation check showing the intent code was driven to chance downstream, and the same null at every depth where specificity is resolvable. A behavioural version needing no probing at all (section 6) says it again from the models' own explanations. Intent is represented, linearly readable, and causally inert for this judgment.
 
 Three limits to state with it. The intervention adds a fixed vector at one layer for all token positions; a per-position or multi-layer intervention, or one fitted on `belief_last` rather than the scoring prompt's final token, could still find an effect, so this bounds crude linear steering rather than all causal involvement. The intent and outcome diff-of-means directions are not orthogonal (cos OLMo-2-1124-7B-Instruct 0.3894, Qwen2.5-7B-Instruct 0.319), so part of what the intent diff-of-means direction does may be outcome leakage — another reason the probe-weight null is the cleaner evidence. And degrading a representation is not the same as re-writing it: this shows the judgment does not depend on the readable intent code, not that no encoding of intent anywhere in the network is used.
+
+### The companion result (W4)
+
+W4 runs the other end of the pipeline: escalating in-context instruction, no weight or activation edits. The two are **not** compared as a ratio — a residual-stream coefficient and a block of added prompt text have no common effect-size scale, and dividing one Δcontrast by the other would invent a quantity. The joint statement is qualitative: *the intent representation is inert to residual-stream intervention at the depths where intent is resolvable, while the same contrast moves substantially under in-context instruction.* That places the blockage downstream of the representation and upstream of the output — the judgment can be re-pointed by the input but not by editing the vector the probe reads.
+
+Two things to carry across with it. W4's largest in-context shift lands close to the range this experiment's *outcome* direction produced as a positive control; that is a coincidence of magnitude, flagged in `W4_CURRICULUM.md` and built on nowhere. And the ceiling-compression caveat in section 3 applies to W4 at least as strongly: every model's W4 contrast gain comes from blame for accidental harm falling rather than blame for attempted harm rising, so in-context instruction moves the judgment toward the adult pattern from the wrong side. Neither intervention has yet made a model condemn attempted harm more.
 
 ## Appendix: all four cell means at every coefficient
 

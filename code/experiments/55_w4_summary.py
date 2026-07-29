@@ -254,16 +254,55 @@ def main():
               f"**The mechanism is not the one the intervention was aimed at.** Of the "
               f"{len(gainers)} models whose contrast improves at the top level, "
               f"{len(acc_only)} improve entirely because blame for *accidental* harm falls, "
-              f"and {len(att_up)} add blame to *attempted* harm. "
+              f"and {len(att_up)} {'adds' if len(att_up) == 1 else 'add'} blame to "
+              "*attempted* harm"
+              + (f" ({tc.pretty(att_up[0])}, {fl(tops[att_up[0]]['d_attempted']):+.3f}, "
+                 "against a fall in accidental of "
+                 f"{fl(tops[att_up[0]]['d_accidental']):+.3f})" if len(att_up) == 1 else "")
+              + ". "
               + (f"In {len(uniform)} of them all four cell means move in the same "
                  "direction, which is compression of the rating range rather than a "
                  "re-weighting of either factor. "
                  if uniform else "")
-              + "So in-context instruction does move the judgment, but by making the model "
-                "less condemnatory about bad outcomes rather than more condemnatory about "
-                "bad intentions — the adult pattern is approached from the wrong side. This "
-                "is the same caveat that governs the W3 difference-of-means direction and "
-                "it applies to W4 at least as strongly."]
+              + "So at the top of the curriculum in-context instruction moves the judgment "
+                "by making the model less condemnatory about bad outcomes rather than more "
+                "condemnatory about bad intentions — the adult pattern is approached from "
+                "the wrong side. This is the same caveat that governs the W3 "
+                "difference-of-means direction."]
+    # The ablation contradicts that reading for one component, which is worth stating in the
+    # verdict rather than leaving in a secondary section.
+    # "attempted rises" is only the interesting reading when the rise is also the dominant
+    # term. A +0.027 rise beside a -0.224 fall in accidental is outcome suppression with a
+    # rounding error attached, and counting it as re-weighting would overstate the result.
+    abl_led, abl_any = [], []
+    for m, all_lv in by.items():
+        r8 = all_lv.get(8)
+        if not r8 or fl(r8["d_contrast"]) <= 0.02:
+            continue
+        da, dc = fl(r8["d_attempted"]), fl(r8["d_accidental"])
+        if da > 0.02:
+            abl_any.append((m, da, dc))
+            if da >= abs(dc):
+                abl_led.append((m, da, dc))
+    if abl_led:
+        L += ["",
+              "**But that is a property of the stack, not of instruction as such.** With the "
+              "intent principle stated *alone* (L8: no belief cue, no worked example, no "
+              f"labelled examples), {len(abl_led)} of {len(by)} models produce a gain in "
+              "which the *rise* in blame for attempted harm is the dominant term — "
+              + "; ".join(f"{tc.pretty(m)} Δattempted {a:+.3f} against Δaccidental {c:+.3f}"
+                          for m, a, c in sorted(abl_led, key=lambda t: -t[1]))
+              + (f" ({len(abl_any) - len(abl_led)} further model(s) raise attempted harm by a "
+                 "smaller amount than they lower accidental harm, which is still outcome "
+                 "suppression.)" if len(abl_any) > len(abl_led) else "")
+              + " That is the re-weighting the intervention was designed to produce, and it "
+                "appears where the prompt is *least* elaborate. The scaffolding is what "
+                "appears to convert intent re-weighting into blanket outcome-blame "
+                "suppression, which fits the additivity column: every model is sub-additive, "
+                "and in three the single best component beats the full stack. This is the "
+                "secondary, post-hoc arm — the pre-registered verdict remains the cumulative "
+                "L5 column, and two models are not a result on their own. It is the sharpest "
+                "thing to test next."]
     L += ["",
           "Reference points: adults sit at "
           f"{ADULT_CONTRAST:+.3f} on this measure (Young 2007 digitized); the W3 outcome "
@@ -378,8 +417,7 @@ def main():
             if np.isnan(l5):
                 note = "L5 missing"
             elif best[0] >= SHIFT_BAR and l5 < SHIFT_BAR:
-                note = (f"{ABL_LABEL[best[1]]} alone beats the full stack — escalation "
-                        "subtracts")
+                note = f"{ABL_LABEL[best[1]]} beats the full stack — escalation subtracts"
             elif tot > 0 and l5 > tot + 0.05:
                 note = "super-additive: the stack does more than its parts"
             elif tot > 0 and l5 < tot - 0.05:
@@ -392,7 +430,21 @@ def main():
                      + f" | {tot:+.3f} | {l5:+.3f} | {note} |")
         L += ["", "Δ vs L1, paired over scenario groups. Σ parts is the arithmetic sum of "
               "the four single-component shifts and is a descriptive additivity reference, "
-              "not a prediction any model of the effect entails."]
+              "not a prediction any model of the effect entails.", "",
+              "### Where the principle-alone gain comes from", "",
+              "The attribution differs between the stack and the principle on its own, which "
+              "is the most consequential thing the ablation shows. Same columns as the P6 "
+              "guard, restricted to L5 (full stack) against L8 (principle alone).", "",
+              "| model | L5 Δattempted | L5 Δaccidental | L8 Δattempted | L8 Δaccidental "
+              "| L8 mechanism |", "|---|---:|---:|---:|---:|---|"]
+        for m, lv in sorted(by.items()):
+            if 8 not in lv or 5 not in lv:
+                continue
+            head8, _ = attribute(lv[8])
+            L.append(f"| {tc.pretty(m)} | {fl(lv[5]['d_attempted']):+.3f} "
+                     f"| {fl(lv[5]['d_accidental']):+.3f} "
+                     f"| {fl(lv[8]['d_attempted']):+.3f} "
+                     f"| {fl(lv[8]['d_accidental']):+.3f} | {head8} |")
 
     # The W3 comparison, deliberately without a ratio.
     best_any = max((V[m]["max_d"] for m in V), default=float("nan"))

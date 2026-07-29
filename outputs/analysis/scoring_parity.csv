@@ -1,7 +1,7 @@
 model,n_items,pearson_r,ba_mean_diff,ba_loa_lo,ba_loa_hi,ev_contrast,sampled_contrast,contrast_diff,passes_r_gt_0p95,ev_source
-Qwen2.5-0-5B-Instruct,166,0.4973,0.0769,-0.0891,0.243,-0.0402,-0.0586,-0.0185,False,cached
-Qwen2.5-1-5B-Instruct,166,0.5303,-0.0634,-0.1953,0.0685,0.016,-0.0175,-0.0335,False,cached
-Qwen2.5-3B-Instruct,166,0.6037,-0.0458,-0.5719,0.4803,-0.4057,-0.164,0.2417,False,cached
-Qwen2.5-7B-Instruct,166,0.8233,-0.0234,-0.3776,0.3308,-0.2809,-0.2977,-0.0167,False,cached
-Mistral-7B-Instruct-v0-3,166,0.7693,-0.0296,-0.5458,0.4865,-0.4845,-0.3472,0.1373,False,cached
-OLMo-2-1124-7B-Instruct,166,0.7823,-0.0663,-0.4789,0.3463,-0.3653,-0.2782,0.0871,False,cached
+Qwen2.5-0-5B-Instruct,298,0.6894,0.0546,-0.1007,0.2098,-0.0402,-0.008,0.0321,False,cached
+Qwen2.5-1-5B-Instruct,298,0.4519,-0.0551,-0.212,0.1019,0.016,-0.0115,-0.0275,False,cached
+Qwen2.5-3B-Instruct,298,0.9338,0.0064,-0.2167,0.2295,-0.4057,-0.26,0.1457,False,cached
+Qwen2.5-7B-Instruct,298,0.9565,-0.0168,-0.1935,0.1599,-0.2809,-0.2905,-0.0096,True,cached
+Mistral-7B-Instruct-v0-3,298,0.8956,-0.0257,-0.3777,0.3263,-0.4845,-0.4613,0.0232,False,cached
+OLMo-2-1124-7B-Instruct,298,0.9904,0.0005,-0.0838,0.0848,-0.3653,-0.3602,0.005,True,cached

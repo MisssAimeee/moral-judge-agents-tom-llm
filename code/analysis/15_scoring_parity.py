@@ -180,14 +180,25 @@ def run_sampling(beh, model_name, rows, template, n_samples, temperature):
     backend = beh.HFBackend(model_name, scoring="sampling")
     verify_scoring_code(beh, tok=backend.tok, scale=(1, 7))
     story_map, saved = {}, []
+    n_unparsed = 0
     for i, row in enumerate(rows):
         prompt, s_min, s_max = beh.build_prompt(row["text"], template, row["source"])
         _, norm = backend.rate(prompt, s_min, s_max, n_samples, temperature)
+        if norm is None:
+            # No sample parsed on this item. It used to arrive here as the scale midpoint and
+            # enter the correlation as though the model had chosen it; now it is dropped and
+            # counted. Matters most on `human_verbatim`, whose native scales are 1-3 on the
+            # 192 YS2008 items and 1-4 on the 96 YS2009 items.
+            n_unparsed += 1
+            continue
         story_map[row["story_id"]] = (row["condition"], float(norm))
         saved.append(dict(story_id=row["story_id"], condition=row["condition"],
                           source=row["source"], sampled_norm=round(float(norm), 4)))
         if (i + 1) % 40 == 0:
             print(f"    sampled {i+1}/{len(rows)} items ...", flush=True)
+    if n_unparsed:
+        print(f"    {n_unparsed}/{len(rows)} items produced no parseable rating "
+              f"(dropped, not imputed)")
     try:
         import torch, gc
         del backend; gc.collect(); torch.cuda.empty_cache()

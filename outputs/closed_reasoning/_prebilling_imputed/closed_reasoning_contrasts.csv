@@ -1,0 +1,13 @@
+model,condition,provider,n_groups,contrast,cell_neutral,cell_accidental,cell_attempted,cell_intentional,raw_path
+claude-opus-5,direct,anthropic,22,0.4666,0.0201,0.2105,0.6771,0.8805,outputs/closed_reasoning/raw_claude-opus-5__direct.csv
+,,,0,nan,nan,nan,nan,nan,outputs/closed_reasoning/raw_gemini-3.1-pro-preview__budget_high.csv
+,,,0,nan,nan,nan,nan,nan,outputs/closed_reasoning/raw_gemini-3.1-pro-preview__budget_low.csv
+,,,0,nan,nan,nan,nan,nan,outputs/closed_reasoning/raw_gemini-3.1-pro-preview__budget_med.csv
+gemini-3.1-pro-preview,direct,google,1,0.9583,0.0,0.0,0.9583,nan,outputs/closed_reasoning/raw_gemini-3.1-pro-preview__direct.csv
+,,,0,nan,nan,nan,nan,nan,outputs/closed_reasoning/raw_gemini-3.1-pro-preview__think.csv
+gemini-3.5-flash,direct,google,8,0.624,0.0,0.2521,0.8761,0.9696,outputs/closed_reasoning/raw_gemini-3.5-flash__direct.csv
+gpt-5.4-mini,direct,openai,0,nan,0.0,nan,nan,nan,outputs/closed_reasoning/raw_gpt-5.4-mini__direct.csv
+gpt-5.5,direct,openai,34,0.1787,0.3682,0.4237,0.6023,0.6146,outputs/closed_reasoning/raw_gpt-5.5__direct.csv
+kimi-k2.6,direct,moonshot,3,0.0,0.5,0.5,0.5,0.5,outputs/closed_reasoning/raw_kimi-k2.6__direct.csv
+o3,budget_low,openai,0,nan,0.0021,nan,nan,nan,outputs/closed_reasoning/raw_o3__budget_low.csv
+,,,0,nan,nan,nan,nan,nan,outputs/closed_reasoning/raw_o3__budget_med.csv

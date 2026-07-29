@@ -42,9 +42,16 @@ import tom_common as tc  # noqa: E402
 OUT = os.path.join(tc.ROOT, "outputs", "closed_reasoning")
 SEL_MD = os.path.join(tc.ROOT, "outputs", "experiments", "CLOSED_MODEL_SELECTION.md")
 
-# Cost-forced cut: human anchor + one wording per construct (see SELECTION.md).
-TEMPLATES = ["human_verbatim", "blame_w1", "wrong_w1", "punish_w1"]
-N_SAMPLES = 20
+# Cost-forced cut: human anchor + one blame wording. Was 4 templates; cut to 2 with
+# N_SAMPLES after the first run's cost was reconstructed (see the addendum in
+# API_COST_ESTIMATE.md) — as originally configured this is a ~$23,000 job.
+TEMPLATES = ["human_verbatim", "blame_w1"]
+# Was 20, inherited from the behavioural sampling-parity config where per-item variance was
+# the object of study. Here the reported statistic is a cell mean over ~1,200 prompts, which
+# averages away per-prompt sampling noise regardless of how many samples each prompt
+# contributes — so n=20 multiplied the thinking-token bill by 10x for no gain in anything
+# the dose-response reads.
+N_SAMPLES = 2
 TEMPERATURE = 1.0   # required for several reasoning endpoints; matches sampling parity
 
 # Thinking budgets (provider-native units).
@@ -411,7 +418,8 @@ def run_cell(beh, rows, provider, model, condition, limit=None, skip_existing=Tr
     backend = BACKENDS[provider](model, condition)
     use_rows = rows[:limit] if limit else rows
     fieldnames = ["model", "condition", "provider", "story_id", "condition_cell",
-                  "template", "sample_i", "rating", "rating_norm", "s_min", "s_max"]
+                  "template", "sample_i", "rating", "rating_norm", "s_min", "s_max",
+                  "status"]
     new_file = not os.path.exists(raw_path)
     fout = open(raw_path, "a", newline="", encoding="utf-8")
     w = csv.DictWriter(fout, fieldnames=fieldnames)
@@ -440,15 +448,24 @@ def run_cell(beh, rows, provider, model, condition, limit=None, skip_existing=Tr
                     raise
                 print(f"    !! {e}")
                 ratings = []
+            common = dict(model=model, condition=condition, provider=provider,
+                          story_id=row["story_id"], condition_cell=row["condition"],
+                          template=tmpl, s_min=s_min, s_max=s_max)
             if not ratings:
-                ratings = [(s_min + s_max) / 2.0]
+                # Previously this wrote the scale midpoint, which turned an API failure into
+                # a datum indistinguishable from a genuinely indifferent judgment. It is how
+                # kimi-k2.6 came out at contrast exactly 0.0000 with all four cells at
+                # exactly 0.500: every request failed and every failure was imputed. A
+                # failure is missing data and is recorded as such.
+                w.writerow(dict(common, sample_i=0, rating="", rating_norm="",
+                                status="failed"))
+                fout.flush()
+                done_n += 1
+                continue
             for i, v in enumerate(ratings):
                 w.writerow(dict(
-                    model=model, condition=condition, provider=provider,
-                    story_id=row["story_id"], condition_cell=row["condition"],
-                    template=tmpl, sample_i=i, rating=v,
-                    rating_norm=round((v - s_min) / (s_max - s_min), 4),
-                    s_min=s_min, s_max=s_max))
+                    common, sample_i=i, rating=v,
+                    rating_norm=round((v - s_min) / (s_max - s_min), 4), status="ok"))
             fout.flush()
             done_n += 1
             if done_n % 25 == 0:
@@ -459,11 +476,23 @@ def run_cell(beh, rows, provider, model, condition, limit=None, skip_existing=Tr
 
 
 def contrast_from_raw(path):
-    """attempted − accidental, keyed on scenario_group, mean over templates."""
+    """attempted − accidental, keyed on scenario_group, mean over templates.
+
+    Rows marked `failed` are missing data and are excluded. `parse_rate` is reported beside
+    every contrast so a cell computed from a handful of surviving requests cannot be read as
+    a measurement: a contrast over 3 groups and one over 53 are not the same number.
+    """
     by = defaultdict(lambda: defaultdict(list))
     model = condition = provider = ""
+    n_ok = n_failed = 0
     for r in csv.DictReader(open(path)):
         model, condition, provider = r["model"], r["condition"], r["provider"]
+        # Files written before the status column existed imputed the midpoint on failure and
+        # cannot be repaired here; they are quarantined rather than read.
+        if r.get("status", "ok") != "ok" or r["rating_norm"] in ("", None):
+            n_failed += 1
+            continue
+        n_ok += 1
         g = tc.scenario_group_of(r["story_id"])
         by[g][r["condition_cell"]].append(float(r["rating_norm"]))
     # mean per cell per group, then contrast
@@ -478,7 +507,9 @@ def contrast_from_raw(path):
             diffs.append(means["attempted"] - means["accidental"])
     return dict(
         model=model, condition=condition, provider=provider,
-        n_groups=len(diffs),
+        n_groups=len(diffs), n_ok=n_ok, n_failed=n_failed,
+        parse_rate=round(n_ok / max(n_ok + n_failed, 1), 4),
+        usable=(len(diffs) >= 40),   # of 53 scenario groups
         contrast=round(float(np.mean(diffs)), 4) if diffs else float("nan"),
         **{f"cell_{c}": round(float(np.mean(v)), 4) if v else float("nan")
            for c, v in cells.items()},

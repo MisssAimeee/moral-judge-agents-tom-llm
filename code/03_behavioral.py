@@ -344,20 +344,55 @@ class HFBackend:
                     temperature=temperature, pad_token_id=self.tok.eos_token_id
                 )
             dec = self.tok.decode(gen[0][inp["input_ids"].shape[1]:], skip_special_tokens=True)
-            m = re.search(r'\b(\d+(?:\.\d+)?)\b', dec.strip())
-            if m:
-                ratings.append(max(s_min, min(s_max, float(m.group(1)))))
-        if not ratings:
-            ratings = [(s_min + s_max) / 2]
-        avg = sum(normalize(r, s_min, s_max) for r in ratings) / len(ratings)
-        return ratings, round(avg, 4)
+            v = _parse_rating(dec, s_min, s_max)
+            if v is not None:
+                ratings.append(v)
+        return _finish(ratings, s_min, s_max)
+
+
+def _finish(ratings, s_min, s_max):
+    """Package a backend's parsed ratings, or report nothing when nothing parsed.
+
+    Every sampling backend used to fall back to `[(s_min + s_max) / 2]` when no sample
+    parsed, which writes the exact centre of the scale as though the model had chosen it. It
+    is how the reasoning-dose run reported kimi-k2.6 at contrast 0.0000 with all four cells at
+    exactly 0.500 on the strength of 56 consecutive failed calls. An empty return leaves the
+    item out of the raw CSV, where the resume path will retry it and the analysis will treat
+    it as missing.
+    """
+    if not ratings:
+        return [], None
+    return ratings, round(sum(normalize(r, s_min, s_max) for r in ratings)
+                          / len(ratings), 4)
 
 
 def _parse_rating(text, s_min, s_max):
-    m = re.search(r'\b(\d+(?:\.\d+)?)\b', text or "")
+    """First integer in `text`, or None if it cannot be trusted as a rating on this scale.
+
+    Previously this clamped: `max(s_min, min(s_max, v))`. That silently converted a scale
+    mismatch into an extreme judgment, and it did so in one direction only — an over-range
+    answer always lands on the maximum, never the minimum. It matters most on the narrow
+    native scales: `human_verbatim` runs 1-3 on the 192 YS2008 items and 1-4 on the 96 YS2009
+    items, so a model that defaults to a 1-7 habit and answers "6" was recorded as maximum
+    condemnation rather than as having ignored the scale.
+
+    Two rejections, both returning None so the caller records missing data:
+      * an explicit "N out of M" / "N/M" whose M is not this scale's maximum, which is a
+        model answering on a scale it chose rather than the one it was given;
+      * a value outside [s_min, s_max].
+    """
+    text = text or ""
+    frac = re.search(r'\b(\d+(?:\.\d+)?)\s*(?:/|out\s+of)\s*(\d+)\b', text, re.I)
+    if frac:
+        v, denom = float(frac.group(1)), int(frac.group(2))
+        if denom != s_max:
+            return None
+        return v if s_min <= v <= s_max else None
+    m = re.search(r'\b(\d+(?:\.\d+)?)\b', text)
     if not m:
         return None
-    return max(s_min, min(s_max, float(m.group(1))))
+    v = float(m.group(1))
+    return v if s_min <= v <= s_max else None
 
 
 class OpenAIBackend:
@@ -389,9 +424,7 @@ class OpenAIBackend:
                 if attempt == 2:
                     print(f"    OpenAI error: {e}")
                 time.sleep(2 ** attempt)
-        if not ratings:
-            ratings = [(s_min + s_max) / 2]
-        return ratings, round(sum(normalize(r, s_min, s_max) for r in ratings) / len(ratings), 4)
+        return _finish(ratings, s_min, s_max)
 
 
 class AnthropicBackend:
@@ -432,9 +465,7 @@ class AnthropicBackend:
                     if attempt == 2:
                         print(f"    Anthropic error: {e}")
                     time.sleep(2 ** attempt)
-        if not ratings:
-            ratings = [(s_min + s_max) / 2]
-        return ratings, round(sum(normalize(r, s_min, s_max) for r in ratings) / len(ratings), 4)
+        return _finish(ratings, s_min, s_max)
 
 
 class GoogleBackend:
@@ -516,11 +547,10 @@ class GoogleBackend:
                 # last resort: one-at-a-time for this remainder
                 batch = 1
                 continue
-            ratings.extend(got[:batch] if got else [(s_min + s_max) / 2])
+            if got:
+                ratings.extend(got[:batch])
             remaining -= batch if got else 1
-        if not ratings:
-            ratings = [(s_min + s_max) / 2]
-        return ratings, round(sum(normalize(r, s_min, s_max) for r in ratings) / len(ratings), 4)
+        return _finish(ratings, s_min, s_max)
 
 
 class MistralBackend:
@@ -549,8 +579,7 @@ class MistralBackend:
                 except Exception as e:
                     if attempt == 2: print(f"    Mistral error: {e}")
                     time.sleep(2 ** attempt)
-        if not ratings: ratings = [(s_min+s_max)/2]
-        return ratings, round(sum(normalize(r,s_min,s_max) for r in ratings)/len(ratings), 4)
+        return _finish(ratings, s_min, s_max)
 
 
 class TogetherBackend:
@@ -580,9 +609,7 @@ class TogetherBackend:
                 if attempt == 2:
                     print(f"    Together error: {e}")
                 time.sleep(2 ** attempt)
-        if not ratings:
-            ratings = [(s_min + s_max) / 2]
-        return ratings, round(sum(normalize(r, s_min, s_max) for r in ratings) / len(ratings), 4)
+        return _finish(ratings, s_min, s_max)
 
 
 class MoonshotBackend:
@@ -646,9 +673,7 @@ class MoonshotBackend:
                 if attempt == 2:
                     print(f"    Moonshot/Kimi error: {e}")
                 time.sleep(2 ** attempt)
-        if not ratings:
-            ratings = [(s_min + s_max) / 2]
-        return ratings, round(sum(normalize(r, s_min, s_max) for r in ratings) / len(ratings), 4)
+        return _finish(ratings, s_min, s_max)
 
 
 BACKENDS = {

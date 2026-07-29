@@ -35,28 +35,34 @@ FIG_DIR = os.path.join(ROOT, "outputs", "mentor_packet_figures")
 # table is about, and it silently drops Qwen-14B-Instruct, whose contrast sits 0.0001 the
 # wrong side of a -0.37 cut.
 
+# Figures come from the canonical store only. Do not point at updated_figures/ or loose
+# root PNGs — those directories are deprecated (see outputs/figures_final/FIGURE_MANIFEST.md).
 FIGURES = [
-    ("outputs/experiments/checkpoint_dissection.png",
+    ("outputs/figures_final/checkpoint_dissection.png",
      "Checkpoint dissection, three families, rescored 7-template basis."),
-    ("outputs/tom_benchmarks/tom_vs_contrast.png",
+    ("outputs/figures_final/tom_vs_contrast.png",
      "BigToM false-belief x moral contrast, base/instruct by marker, no regression line."),
-    ("outputs/stats/mixed_effects_interaction.png",
+    ("outputs/figures_final/interaction_forest.png",
      "J3 interaction per model with 95% CI, human reference marked."),
-    ("outputs/updated_figures/human_only_developmental_ladder.png",
-     "Human-only ladder: three child series, one shared adult anchor."),
-    ("outputs/master_developmental_ladder_digitized_openonly.png",
+    ("outputs/figures_final/master_developmental_ladder_digitized_openonly.png",
      "Model ladder against the Naughty (pre-specified primary) child anchor."),
-    ("outputs/master_developmental_ladder_punish_openonly.png",
+    ("outputs/figures_final/master_developmental_ladder_punish_openonly.png",
      "Model ladder against the Punish (secondary, construct-matched) child anchor."),
-    ("outputs/probe/gap_over_surface_dissociation_span_matched.png",
+    ("outputs/figures_final/gap_over_surface_span_matched.png",
      "Probe gaps over span-matched TF-IDF (position dissociation, downgraded to "
      "supporting)."),
-    ("outputs/experiments/w3_steering_OLMo-2-1124-7B-Instruct.png",
+    ("outputs/figures_final/w3_steering_dose_OLMo.png",
      "W3 steering, OLMo-2-7B-Instruct: intent direction inside the random-direction noise "
      "floor, outcome direction well outside it."),
-    ("outputs/experiments/w3_steering_Qwen2.5-7B-Instruct.png",
+    ("outputs/figures_final/w3_steering_dose_Qwen.png",
      "W3 steering, Qwen2.5-7B-Instruct: same verdict, with the probe-weight intent "
      "direction flat across the whole coherent band."),
+    ("outputs/figures_final/w3_layersweep_OLMo.png",
+     "W3 M2 layer×direction grid (narrow claim: inert at peak and deeper)."),
+    ("outputs/figures_final/w3_manipulation_OLMo.png",
+     "W3 M1 manipulation check: probe-margin displacement vs flat contrast."),
+    ("outputs/figures_final/w3_prose_rating.png",
+     "Prose/rating dissociation: cell means among stories naming intent/belief."),
 ]
 
 
@@ -371,40 +377,36 @@ def anchor_section():
 
 
 def questions_section():
+    # Fixed set — methodological questions settled for the mentor meeting. Do not
+    # regenerate or swap back to the obsolete reconstructed list (Llama counterexample /
+    # degenerate-model framings are artifacts).
     return [
         "## 6. Six questions for you",
         "",
-        "> **Provenance flag:** `mentor_meeting_prep.md` is not in the repo, so these are "
-        "reconstructed from the current results and the earlier four-question list rather "
-        "than carried over verbatim. Please edit before the meeting.",
-        "",
-        "1. **Primary claim.** Is the paper's primary claim the **behavioral** one (model "
-        "ladder vs human developmental bands, 18/18 open-weight models at or below the "
-        "youngest child band under both digitized anchors), with representation as "
-        "supporting evidence? Or does a strong submission need the causal result (W3) "
-        "in the main claim?",
-        "2. **The anchor.** Naughty/presented-first (+0.24) was pre-specified on 2026-07-10 "
-        "and the claim holds under it and under the stricter Punish anchor (+0.09). Do you "
-        "want the primary to stay with the pre-spec, with Punish as permanent robustness?",
-        "3. **Recipe-dependence framing.** Zephyr puts 73% of its shift at DPO while OLMo-2 "
-        "puts 85% at SFT, and Llama-3.1-8B-Instruct moves the *other* way entirely. Should "
-        "we frame outcome-bias as **a default of many alignment recipes** rather than "
-        "\"instruction tuning causes outcome bias\"?",
-        "4. **The nulls, now including a causal one.** W3 steering came back negative for "
-        "intent with a working positive control (outcome direction moves the contrast up to "
-        "0.26; probe-weight intent direction moves it 0.016). Is \"intent is represented, "
-        "readable, and causally inert\" publishable as a positive contribution on the "
-        "strength of four converging tests, or do reviewers read a negative steering result "
-        "as a failed experiment however well controlled?",
-        "5. **Roster ceiling.** Our largest model is 14B and half the roster is one family; "
-        "recent ToM papers standardly test 2-3 frontier APIs plus 8B-70B open weights with "
-        "Llama-3.3-70B-Instruct as reference. Is the `gemma-3-27b` / `Qwen3-32B` mid-band "
-        "worth the compute, or do we spend it on W3/W4 depth instead? "
-        "(`ROSTER_70B_FEASIBILITY.md`)",
-        "6. **Degenerate and contaminated rows.** Closed-API models are still v1-contaminated "
-        "(reported standalone for ToM, never correlated against contrasts), and some open "
-        "models sit below the engagement floor. Exclude them, or report non-engagement as a "
-        "finding about rating elicitation?",
+        "1. **M1 manipulation check.** Steering the probe-weight intent direction displaces "
+        "downstream probe margin by −3.18 SD (OLMo) / +7.21 SD (Qwen) while |Δcontrast| stays "
+        "≤0.016 — the pre-registered bar (≥1 SD, |Δc|≤0.05) is met, so the null stands. Is "
+        "that enough for you to treat \"causally inert\" as a positive claim, or do you still "
+        "want a per-position / multi-layer intervention before the paper commits?",
+        "2. **M2 layer sweep (narrow form).** Intent is inert at depths where specificity is "
+        "resolvable (peak and deeper); shallow layers are uninformative because the positive "
+        "control sits at the random floor. Does the narrow claim survive review, or does "
+        "\"uninformative early\" read as underpowered?",
+        "3. **Detectable-effect size (M3).** Outcome moves contrast 0.232–0.259; intent-probe "
+        "≤0.015 (~15×). Is stating sensitivity in control units sufficient, or do you want a "
+        "formal power calculation against a pre-specified minimal interesting effect?",
+        "4. **Prose/rating dissociation.** Models name belief/intent in 46–64% of "
+        "explanations and still rate by outcome inside that subset (b_outcome/b_intent "
+        "3–10×; cell order inverted). Lexicon↔hand κ≈0.73–0.76; lexicon↔Haiku κ≈0.42–0.49. "
+        "Is this the most legible result in the paper, and should it lead the talk?",
+        "5. **Ceiling compression.** Where difference-of-means moves contrast it raises all "
+        "four cells; accidental has least headroom. Keep that as a permanent caveat beside "
+        "every intent_dom number, or demote intent_dom from the headline tables entirely?",
+        "6. **What replaces the obsolete framings.** The Llama \"counterexample\" and "
+        "degenerate-base issues were scoring artifacts (now resolved: Tülu base "
+        "rating_std 0.018→0.0966; all three families engaged). With those gone, is the "
+        "clean story \"SFT is sufficient, locus recipe-dependent; intent represented and "
+        "unused\" — or do you want a different headline?",
         "",
     ]
 

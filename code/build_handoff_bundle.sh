@@ -59,18 +59,54 @@ take outputs/experiments/checkpoint_stage_shares.csv
 # deleted it on every rebuild; its source of truth is now outside the bundle.
 take outputs/RUN_STATUS.md
 
-# W3 causal steering
+# W3 causal steering (+ M1/M2/M3 + prose)
 take outputs/experiments/W3_PRESPEC.md
 take outputs/experiments/W3_STEERING_SUMMARY.md
+take outputs/experiments/W3_PROSE_RATING.md
 for m in OLMo-2-1124-7B-Instruct Qwen2.5-7B-Instruct; do
   take "outputs/experiments/W3_STEERING_${m}.md"
+  take "outputs/experiments/W3_LAYERSWEEP_${m}.md"
   take "outputs/experiments/w3_steering_${m}.csv"
   take "outputs/experiments/w3_steering_${m}.png"
   take "outputs/experiments/w3_steering_directions_${m}.csv"
   take "outputs/experiments/w3_calibration_${m}.csv"
   take "outputs/experiments/w3_generations_${m}.txt"
+  take "outputs/experiments/w3_manipulation_${m}.csv"
+  take "outputs/experiments/w3_manipulation_${m}.png"
+  take "outputs/experiments/w3_layersweep_${m}.csv"
+  take "outputs/experiments/w3_layersweep_${m}.png"
+  take "outputs/experiments/w3_prose_items_${m}.csv"
 done
+take outputs/experiments/w3_prose_rating.png
+take outputs/experiments/CLOSED_MODEL_SELECTION.md
+take outputs/experiments/CLOSED_MODEL_CATALOG.md
+
+# W4 prompt curriculum (companion to W3: reachable from the input?)
+take outputs/experiments/W4_PRESPEC.md
+take outputs/experiments/W4_PROMPT_LEVELS.md
+take outputs/experiments/W4_CURRICULUM.md
+take outputs/experiments/w4_prompt_curriculum.csv
+take outputs/experiments/w4_curriculum_cells.csv
+
+# W7 Bruneau selectivity (appendix)
+take outputs/experiments/W7_PARSE_REPORT.md
+take outputs/experiments/W7_BRUNEAU.md
+take outputs/experiments/w7_bruneau_probes.csv
+take outputs/experiments/w7_bruneau_transfer.csv
+take outputs/experiments/w7_bruneau_interaction.csv
+take dataset/bruneau/bruneau_stimuli.csv
+
+# W8 paper assembly
+take outputs/paper/README.md
+take outputs/paper/LIMITATIONS.md
+take outputs/paper/APPENDIX_PROVENANCE.md
+take outputs/paper/REPRODUCIBILITY.md
+
 take outputs/MENTOR_PACKET.md
+take outputs/figures_final/FIGURE_MANIFEST.md
+# Only figures_final/ proper. The _pending_rescore/ subdirectory is deliberately not
+# globbed: those figures carry contaminated-era closed rows and must not reach a handoff.
+take_glob "outputs/figures_final/*.png" "fig_"
 take outputs/experiments/mini_dissection.csv
 take outputs/stats/mixed_effects_2x2.csv
 take outputs/stats/MIXED_EFFECTS_2x2.md

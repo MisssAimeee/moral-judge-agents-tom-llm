@@ -129,9 +129,14 @@ class OpenAIGen:
         self.name = model_name
 
     def generate(self, prompt: str) -> str:
-        r = self.client.chat.completions.create(
-            model=self.name, temperature=0, max_tokens=32,
-            messages=[{"role": "user", "content": prompt}])
+        kwargs = dict(model=self.name,
+                      messages=[{"role": "user", "content": prompt}],
+                      max_completion_tokens=256)
+        try:
+            r = self.client.chat.completions.create(**kwargs, temperature=0)
+        except Exception:
+            # gpt-5 / o-series: temperature deprecated; max_tokens renamed
+            r = self.client.chat.completions.create(**kwargs)
         return (r.choices[0].message.content or "").strip()
 
 
@@ -142,9 +147,15 @@ class AnthropicGen:
         self.name = model_name
 
     def generate(self, prompt: str) -> str:
-        r = self.client.messages.create(
-            model=self.name, max_tokens=32, temperature=0,
-            messages=[{"role": "user", "content": prompt}])
+        kwargs = dict(model=self.name, max_tokens=32,
+                      messages=[{"role": "user", "content": prompt}])
+        try:
+            r = self.client.messages.create(**kwargs, temperature=0)
+        except Exception as e:
+            # Claude 5.x: temperature deprecated
+            if "temperature" not in str(e).lower():
+                raise
+            r = self.client.messages.create(**kwargs)
         parts = [b.text for b in r.content if getattr(b, "type", "") == "text"]
         return "".join(parts).strip()
 

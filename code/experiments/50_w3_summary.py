@@ -123,10 +123,14 @@ def headline(V):
         f"underpowered.", "",
         "**Manipulation check (M1): the intervention really did move the representation.** "
         "Applying the intent direction drives intent decodability at downstream layers "
-        "from ~0.89 to chance (0.500) — a probe-margin displacement of 3.2–7.2 SD — while "
-        "the contrast moves at most 0.016. So the null is not \"that vector did nothing\"; "
-        "the vector demolished the readable intent code and the judgment did not follow. "
-        "Section 4.", "",
+        "from ~0.89 to chance (0.500) — a probe-margin **displacement** of 3.2–7.2 SD in "
+        "magnitude, signed −3.18 SD in OLMo and +7.21 SD in Qwen because the maximising "
+        "coefficient is negative in one and positive in the other — while the contrast "
+        "moves at most 0.016. Decodability collapses to chance under BOTH signs, so this is "
+        "displacement off the probe's manifold, not amplification of the intent code in one "
+        "model and suppression in the other (section 4a). The null is therefore not \"that "
+        "vector did nothing\": the vector demolished the readable intent code and the "
+        "judgment did not follow. Sections 4 and 4a.", "",
         "**Ceiling-compression caveat, up front.** The one place a large intent number "
         "appears is the difference-of-means estimator, and it is not intent re-weighting. "
         "It raises **all four cell means at once**, and the accidental cell starts nearest "
@@ -196,6 +200,75 @@ def ceiling_section(V):
     return out
 
 
+def sign_and_polarity(have, verdicts):
+    """The two M1 headline numbers carry opposite signs; explain why before a reader guesses.
+
+    The row quoted per model is the argmax of |margin shift| over the coefficient grid, and
+    that argmax lands on a different sign of alpha in the two models. Nothing about the
+    label convention or the direction construction differs between them, so the summary has
+    to show the matched-coefficient rows and the fact that decodability falls under BOTH
+    signs, or the asymmetry reads as a polarity bug.
+    """
+    out = ["### 4a. Sign of the displacement, and probe polarity", "",
+           "The two headline figures are "
+           + "; ".join(f"{t} {ms:+.2f} SD" for t, (m, ms, *_) in verdicts.items())
+           + ". **They point opposite ways, and that is an artefact of which coefficient "
+             "happened to maximise |displacement| in each model, not a difference between "
+             "the models.** The quoted row is the argmax over the α grid; it lands at α<0 "
+             "for one model and α>0 for the other. At matched coefficients the two behave "
+             "identically:", "",
+           "| model | probe layer | α | margin shift (SD) | intent acc unsteered → steered |",
+           "|---|---|---:|---:|---:|"]
+    monotone_ok, polarity_ok, chance_both = True, True, True
+    for tag, v in have.items():
+        rs = [r for r in v["manip"] if r["direction"] == "intent_probe"
+              and r["target"] == "intent" and r["position"] == "downstream"
+              and r["coherent"] == "True"]
+        if not rs:
+            continue
+        amax = max((abs(fl(r["alpha"])) for r in rs), default=0.0)
+        for r in sorted(rs, key=lambda r: fl(r["alpha"])):
+            if abs(abs(fl(r["alpha"])) - amax) > 1e-9:
+                continue
+            out.append(f"| {tag} | L{r['probe_layer']} | {fl(r['alpha']):+g} "
+                       f"| {fl(r['margin_shift_sd']):+.2f} "
+                       f"| {fl(r['acc_unsteered']):.3f} → {fl(r['acc_steered']):.3f} |")
+            if fl(r["acc_steered"]) > fl(r["acc_unsteered"]) - 0.05:
+                chance_both = False
+        for r in rs:  # sign of the shift must track the sign of the coefficient
+            if fl(r["margin_shift_sd"]) * fl(r["alpha"]) <= 0:
+                monotone_ok = False
+        if any(fl(r["acc_unsteered"]) <= 0.5 for r in rs):
+            polarity_ok = False
+    out += ["",
+            "**Label polarity is identical across models by construction.** The probe target "
+            "is `int(condition in {attempted, intentional})`, i.e. guilty = 1, set in one "
+            "place in `48_w3_causal_steering.py` and used for every model; the direction is "
+            "`clf.coef_[0]` rescaled out of the standardiser, so +α always pushes toward the "
+            "guilty class for every model. Empirical confirmation: unsteered CV accuracy is "
+            + ("well above chance for every model and layer, which it could not be if the "
+               "coefficient sign were flipped for one of them"
+               if polarity_ok else
+               "**NOT above chance somewhere — investigate before quoting M1**")
+            + ", and the margin shift "
+            + ("tracks the sign of α monotonically in both models"
+               if monotone_ok else
+               "**does not consistently track the sign of α — investigate**")
+            + ".", "",
+            "**M1 is displacement of intent decodability, not amplification.** Pushing "
+            "toward guilty does not make intent easier to read: under both signs of α the "
+            "held-out intent probe falls "
+            + ("to chance (0.50)" if chance_both else "sharply")
+            + ". The intervention moves activations off the manifold the probe was fitted "
+              "on, in whichever direction it is applied, and destroys the linear intent code "
+              "either way. So the correct reading of the pair of numbers is \"both models "
+              "show a large displacement of the intent code, one measured at negative α and "
+              "one at positive α\" — not \"one model's intent signal was strengthened and "
+              "the other's weakened\". A reader who sees only |3.18| and |7.21| would assume "
+              "they went the same way; they did, but the signs alone do not show it.", ""]
+    return out
+
+
 def manipulation_section(V):
     have = {t: v for t, v in V.items() if v["manip"]}
     if not have:
@@ -243,6 +316,7 @@ def manipulation_section(V):
             + "; ".join(f"{t} margin {ms:+.1f} SD, decoding {a0:.3f} → {a1:.3f}, "
                         f"Δcontrast {dc:+.3f}"
                         for t, (m, ms, dc, a0, a1) in verdicts.items()) + ".", ""]
+    out += sign_and_polarity(have, verdicts)
     if n_met == len(verdicts) and verdicts:
         out += ["Steering the probe-weight intent direction drives intent decodability to "
                 "**exactly chance** downstream. The representation the project's "

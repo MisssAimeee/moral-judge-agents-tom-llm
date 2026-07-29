@@ -407,19 +407,28 @@ class AnthropicBackend:
 
     def rate(self, prompt, s_min, s_max, n_samples=5, temperature=0.0):
         ratings = []
+        # Claude 5.x rejects temperature ("deprecated for this model"); omit on retry.
+        use_temp = True
         for _ in range(n_samples):
             for attempt in range(3):
                 try:
-                    resp = self.client.messages.create(
-                        model=self.model_name, max_tokens=16,
-                        temperature=temperature,
-                        messages=[{"role": "user", "content": prompt}],
-                    )
-                    v = _parse_rating(resp.content[0].text.strip(), s_min, s_max)
+                    kwargs = dict(model=self.model_name, max_tokens=16,
+                                  messages=[{"role": "user", "content": prompt}])
+                    if use_temp:
+                        kwargs["temperature"] = temperature
+                    resp = self.client.messages.create(**kwargs)
+                    text = ""
+                    for blk in resp.content:
+                        if getattr(blk, "type", "") == "text":
+                            text += blk.text
+                    v = _parse_rating(text.strip(), s_min, s_max)
                     if v is not None:
                         ratings.append(v)
                     break
                 except Exception as e:
+                    if "temperature" in str(e).lower() and use_temp:
+                        use_temp = False
+                        continue
                     if attempt == 2:
                         print(f"    Anthropic error: {e}")
                     time.sleep(2 ** attempt)

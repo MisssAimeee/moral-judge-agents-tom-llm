@@ -1,7 +1,7 @@
 direction,raw_norm,cos_with_intent_dom,cos_with_outcome_dom,probe_cv_acc
 intent_dom,3.9956,1.0,0.319,
-intent_probe,10.8582,0.3537,0.0072,0.8693
 outcome_dom,10.4968,0.319,1.0,
+intent_probe,10.8582,0.3537,0.0072,0.8693
 outcome_probe,3.5313,0.1185,0.6351,0.9867
 random0,59.8518,-0.0044,-0.0137,
 random1,59.8532,0.0189,-0.0079,

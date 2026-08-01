@@ -3,6 +3,9 @@ gemini-2_5-flash,Gemini-2.5-Flash,Google,google,gemini-2.5-flash,32,32,yes,MoE(e
 gemini-2_5-pro,Gemini-2.5-Pro,Google,google,gemini-2.5-pro,600,600,yes,MoE(est),2000,2025-05,closed,instruct,Thinking model; pro tier; param count not disclosed
 gpt-4o-mini,GPT-4o-mini,OpenAI,openai,gpt-4o-mini,8,8,yes,undisclosed,128,2024-07,closed,instruct,QUOTA EXCEEDED on current key
 gpt-4o,GPT-4o,OpenAI,openai,gpt-4o,200,200,yes,MoE(est),128,2024-05,closed,instruct,QUOTA EXCEEDED on current key
+gpt-5_4-mini,GPT-5.4-mini,OpenAI,openai,gpt-5.4-mini,20,20,yes,undisclosed,400,2026-03,closed,instruct,Param count not disclosed; community estimate; tag matches model_safe(gpt-5.4-mini)
+gpt-5_5,GPT-5.5,OpenAI,openai,gpt-5.5,300,300,yes,undisclosed,1000,2026,closed,instruct,Param count not disclosed; community estimate; tag matches model_safe(gpt-5.5)
+gemini-3_5-flash,Gemini-3.5-Flash,Google,google,gemini-3.5-flash,40,40,yes,MoE(est),1000,2026,closed,instruct,Param count not disclosed; community estimate; tag matches model_safe(gemini-3.5-flash)
 meta-llama_Meta-Llama-3_1-8B-Instruct-Turbo,Llama-3.1-8B,Meta,together,meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo,8,8,no,dense,128,2024-07,open,instruct,Needs paid Together plan
 meta-llama_Meta-Llama-3_1-70B-Instruct-Turbo,Llama-3.1-70B,Meta,together,meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo,70,70,no,dense,128,2024-07,open,instruct,Needs paid Together plan
 meta-llama_Meta-Llama-3_1-405B-Instruct-Turbo,Llama-3.1-405B,Meta,together,meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo,405,405,no,dense,128,2024-07,open,instruct,Needs paid Together plan
@@ -19,5 +22,18 @@ HuggingFaceH4_zephyr-7b-beta,Zephyr-7B-beta,HuggingFaceH4,hf,HuggingFaceH4/zephy
 unsloth_gemma-2-9b,Gemma-2-9B-base,Google,hf,unsloth/gemma-2-9b,9,9,no,dense,8,2024-06,open,base,Ungated re-upload of google/gemma-2-9b
 unsloth_gemma-2-9b-it,Gemma-2-9B-it,Google,hf,unsloth/gemma-2-9b-it,9,9,no,dense,8,2024-06,open,instruct,Ungated re-upload of google/gemma-2-9b-it
 meta-llama_Llama-3_1-8B,Llama-3.1-8B-base,Meta,hf,meta-llama/Llama-3.1-8B,8,8,no,dense,128,2024-07,open,base,Llama-3.1-8B base
+unsloth_Meta-Llama-3_1-8B,Llama-3.1-8B-base,Meta,hf,unsloth/Meta-Llama-3.1-8B,8,8,no,dense,128,2024-07,open,base,Ungated re-upload of meta-llama/Llama-3.1-8B
 unsloth_Meta-Llama-3_1-8B-Instruct,Llama-3.1-8B-Instruct,Meta,hf,unsloth/Meta-Llama-3.1-8B-Instruct,8,8,no,dense,128,2024-07,open,instruct,Ungated re-upload of meta-llama/Llama-3.1-8B-Instruct
-kimi-k3,Kimi-K3,Moonshot,moonshot,kimi-k3,,,yes,undisclosed,128,2026,closed,instruct,Kimi K3 via Moonshot OpenAI-compatible API; flagship, may require platform top-up
+Qwen_Qwen2_5-0_5B,Qwen2.5-0.5B-base,Alibaba,hf,Qwen/Qwen2.5-0.5B,0.5,0.5,no,dense,32,2024-09,open,base,Open size ladder; tag = model_safe
+Qwen_Qwen2_5-0_5B-Instruct,Qwen2.5-0.5B-Instruct,Alibaba,hf,Qwen/Qwen2.5-0.5B-Instruct,0.5,0.5,no,dense,32,2024-09,open,instruct,Open size ladder; tag = model_safe
+Qwen_Qwen2_5-1_5B,Qwen2.5-1.5B-base,Alibaba,hf,Qwen/Qwen2.5-1.5B,1.5,1.5,no,dense,32,2024-09,open,base,Open size ladder; tag = model_safe
+Qwen_Qwen2_5-1_5B-Instruct,Qwen2.5-1.5B-Instruct,Alibaba,hf,Qwen/Qwen2.5-1.5B-Instruct,1.5,1.5,no,dense,32,2024-09,open,instruct,Open size ladder; tag = model_safe
+Qwen_Qwen2_5-3B,Qwen2.5-3B-base,Alibaba,hf,Qwen/Qwen2.5-3B,3,3,no,dense,32,2024-09,open,base,Open size ladder; tag = model_safe
+Qwen_Qwen2_5-3B-Instruct,Qwen2.5-3B-Instruct,Alibaba,hf,Qwen/Qwen2.5-3B-Instruct,3,3,no,dense,32,2024-09,open,instruct,Open size ladder; tag = model_safe
+Qwen_Qwen2_5-7B,Qwen2.5-7B-base,Alibaba,hf,Qwen/Qwen2.5-7B,7,7,no,dense,128,2024-09,open,base,Open size ladder; tag = model_safe
+Qwen_Qwen2_5-7B-Instruct,Qwen2.5-7B-Instruct,Alibaba,hf,Qwen/Qwen2.5-7B-Instruct,7,7,no,dense,128,2024-09,open,instruct,Open size ladder; tag = model_safe
+Qwen_Qwen2_5-14B,Qwen2.5-14B-base,Alibaba,hf,Qwen/Qwen2.5-14B,14,14,no,dense,128,2024-09,open,base,Open size ladder; tag = model_safe
+Qwen_Qwen2_5-14B-Instruct,Qwen2.5-14B-Instruct,Alibaba,hf,Qwen/Qwen2.5-14B-Instruct,14,14,no,dense,128,2024-09,open,instruct,Open size ladder; tag = model_safe
+mistralai_Mistral-7B-v0_3,Mistral-7B-base,Mistral,hf,mistralai/Mistral-7B-v0.3,7,7,no,dense,32,2024-04,open,base,Open roster; tag = model_safe
+mistralai_Mistral-7B-Instruct-v0_3,Mistral-7B-Instruct,Mistral,hf,mistralai/Mistral-7B-Instruct-v0.3,7,7,no,dense,32,2024-04,open,instruct,Open roster; tag = model_safe
+kimi-k3,Kimi-K3,Moonshot,moonshot,kimi-k3,1000,1000,yes,MoE(est),128,2026,closed,instruct,Param count not disclosed; rough community MoE estimate for scale plot only

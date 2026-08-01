@@ -16,6 +16,12 @@ outputs/
 *.npz
 *.png
 
+# Presentation grab-bag (talk-safe copies; track under this folder)
+!presentation_figures/
+!presentation_figures/**
+!presentation_figures/**/*.png
+!presentation_figures/**/*.md
+
 # --- Python ---
 __pycache__/
 *.pyc

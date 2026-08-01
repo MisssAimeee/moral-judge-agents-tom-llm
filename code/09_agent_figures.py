@@ -35,10 +35,15 @@ CELL_LABELS = ["neutral\n(no intent,\nno harm)", "accidental\n(no intent,\nharm)
                "attempted\n(intent,\nno harm)", "intentional\n(intent,\nharm)"]
 
 PROVIDER_COLORS = {
-    "OpenAI":    "#10a37f",
+    "OpenAI":    "#10a37f",   # green — all GPT-*
     "Anthropic": "#cc785c",
-    "Google":    "#4285f4",
+    "Google":    "#4285f4",   # blue — all Gemini-* / Gemma-*
     "Meta":      "#a259ff",
+    "Alibaba":   "#ff6a00",   # Qwen
+    "Mistral":   "#5468ff",
+    "Moonshot":  "#5b5fc7",
+    "AllenAI":   "#555555",
+    "HuggingFaceH4": "#777777",
     "":          "#888888",
 }
 HUMAN_COLORS = {"adult": "#1a9850", "child_8plus": "#66bd63",
@@ -65,15 +70,78 @@ def load_registry(path):
     return reg
 
 
+def _infer_provider(tag):
+    """Provider from filename/tag when registry has no row (keeps colors consistent)."""
+    t = (tag or "").lower()
+    if t.startswith("gpt-") or t.startswith("o1") or t.startswith("o3") or t.startswith("o4"):
+        return "OpenAI"
+    if t.startswith("claude"):
+        return "Anthropic"
+    if t.startswith("gemini") or "gemma" in t:
+        return "Google"
+    if t.startswith("qwen") or "qwen" in t:
+        return "Alibaba"
+    if "mistral" in t:
+        return "Mistral"
+    if "llama" in t or t.startswith("meta-"):
+        return "Meta"
+    if t.startswith("kimi") or "moonshot" in t:
+        return "Moonshot"
+    if "olmo" in t or "tulu" in t or t.startswith("allenai"):
+        return "AllenAI"
+    if "zephyr" in t or t.startswith("huggingface"):
+        return "HuggingFaceH4"
+    return ""
+
+
+def collect_data_tags(*behavior_dirs, exclude=("mock_smoke",)):
+    """Tags with item_means_*.csv under any of the given behavior directories."""
+    tags = set()
+    for d in behavior_dirs:
+        if not d or not os.path.isdir(d):
+            continue
+        for f in glob.glob(os.path.join(d, "item_means_*.csv")):
+            tag = os.path.basename(f)[len("item_means_"):-4]
+            if tag and tag not in exclude:
+                tags.add(tag)
+    return tags
+
+
+def _pretty_tag(tag):
+    """Canonical display when registry missing: GPT-*, Gemini-*, Claude-*."""
+    t = tag or ""
+    # Underscores standing in for dots in model_safe names (gpt-5_5 -> GPT-5.5)
+    if t.lower().startswith("gpt-"):
+        body = t[4:].replace("_", ".")
+        return "GPT-" + body
+    if t.lower().startswith("gemini-"):
+        body = t[7:].replace("_", ".")
+        # Gemini-3.5-Flash style
+        parts = body.split("-")
+        parts = [p[:1].upper() + p[1:] if p else p for p in parts]
+        return "Gemini-" + "-".join(parts)
+    if t.lower().startswith("claude-"):
+        body = t[7:].replace("_", ".")
+        parts = body.split("-")
+        parts = [p[:1].upper() + p[1:] if p else p for p in parts]
+        return "Claude-" + "-".join(parts)
+    return (t.replace("meta-llama_", "")
+             .replace("Qwen_Qwen2.5-", "Qwen")
+             .replace("_", "-"))
+
+
 def disp(tag, registry):
     r = registry.get(tag)
-    if r: return r.get("display", tag)
-    return tag.replace("meta-llama_", "").replace("Qwen_Qwen2.5-", "Qwen")
+    if r and r.get("display"):
+        return r["display"]
+    return _pretty_tag(tag)
 
 
 def provider_of(tag, registry):
     r = registry.get(tag)
-    return r.get("provider", "") if r else ""
+    if r and r.get("provider"):
+        return r["provider"]
+    return _infer_provider(tag)
 
 
 def color_of(tag, registry):
@@ -121,25 +189,37 @@ def provider_legend(ax, providers):
 
 
 # ============================================================ 1. SCALE (NEW) ===
-def fig_scale(registry, out, only_tags=None):
+def fig_scale(registry, out, only_tags=None, title=None):
     rows = list(registry.values())
     if only_tags is not None:
-        rows = [r for r in rows if r["tag"] in only_tags]
-    rows = [r for r in rows if r.get("params_B", "").strip()]
+        # Keep tags that have data even if not yet in registry (synthetic row).
+        rows = []
+        for tag in only_tags:
+            r = registry.get(tag)
+            if r:
+                rows.append(r)
+            else:
+                rows.append({
+                    "tag": tag, "display": _pretty_tag(tag),
+                    "provider": _infer_provider(tag),
+                    "params_B": "", "params_estimated": "yes", "context_k": "",
+                })
+    rows = [r for r in rows if str(r.get("params_B", "")).strip()]
     if not rows:
-        print("skip agent_scale.png -> registry empty"); return
+        print("skip", os.path.basename(out), "-> registry empty"); return
     rows.sort(key=lambda r: float(r["params_B"]))
-    names   = [r["display"] for r in rows]
+    names   = [r.get("display") or _pretty_tag(r["tag"]) for r in rows]
     params  = [float(r["params_B"]) for r in rows]
-    provs   = [r["provider"] for r in rows]
+    provs   = [r.get("provider") or _infer_provider(r["tag"]) for r in rows]
     est     = [r.get("params_estimated", "no").lower() == "yes" for r in rows]
     ctx     = [r.get("context_k", "") for r in rows]
 
     fig, ax = plt.subplots(figsize=(11, 0.55 * len(rows) + 2.2))
     y = range(len(rows))
+    xmin = min(0.4, min(params) * 0.6)
     for i, (p, prov, e) in enumerate(zip(params, provs, est)):
         col = PROVIDER_COLORS.get(prov, "#888")
-        ax.hlines(i, 0.5, p, color=col, lw=2.2, alpha=0.55, zorder=1)
+        ax.hlines(i, xmin, p, color=col, lw=2.2, alpha=0.55, zorder=1)
         if e:  # estimated -> hollow marker
             ax.scatter(p, i, s=150, facecolors="white", edgecolors=col,
                        linewidths=2.2, zorder=3)
@@ -150,12 +230,13 @@ def fig_scale(registry, out, only_tags=None):
                     va="center", fontsize=9, fontweight="bold", color=col)
 
     ax.set_yticks(list(y))
+    label_fs = 9 if len(rows) > 18 else 10
     ax.set_yticklabels([f"{n}   ({c}K ctx)" if c else n
-                        for n, c in zip(names, ctx)], fontsize=10)
+                        for n, c in zip(names, ctx)], fontsize=label_fs)
     ax.set_xscale("log")
-    ax.set_xlim(1, max(params) * 3)
+    ax.set_xlim(xmin, max(params) * 3)
     ax.set_xlabel("model size  —  parameters (billions, log scale)")
-    ax.set_title("How large is each model?", pad=26)
+    ax.set_title(title or "How large is each model?", pad=26)
     ax.text(0.5, 1.012,
             "filled = disclosed (open weights)   ·   hollow = estimate (closed weights)",
             transform=ax.transAxes, ha="center", va="bottom",
@@ -168,7 +249,7 @@ def fig_scale(registry, out, only_tags=None):
     provider_legend(ax, providers)
     fig.tight_layout(rect=(0, 0.03, 1, 1))
     fig.savefig(out); plt.close(fig)
-    print("wrote", os.path.basename(out))
+    print("wrote", os.path.basename(out), f"({len(rows)} models)")
 
 
 # ==================================================== 2. CONTRAST FOREST =======
@@ -516,13 +597,26 @@ def main():
 
     registry = load_registry(a.registry)
     ladder, human_profiles = load_human_ladder(a.human)
+    rows = read_csv(os.path.join(a.stats, "contrast_by_model.csv"))
+    root = os.path.join(here, "..")
 
-    # Scale figure needs only the registry -> can run before any API call.
-    fig_scale(registry, os.path.join(a.out, "agent_scale.png"))
+    # Closed / current-stats roster (matches forest). None only if stats empty.
+    scale_tags = {r["model"] for r in rows} if rows else None
+    fig_scale(registry, os.path.join(a.out, "agent_scale.png"), only_tags=scale_tags,
+              title="How large is each model?  (closed / agent roster)")
+
+    # Separate figure: every model with behavioral item_means (open + closed).
+    all_tags = collect_data_tags(
+        os.path.join(root, "outputs", "behavior"),
+        os.path.join(root, "outputs", "agents", "behavior"),
+        os.path.join(root, "outputs", "agents", "behavior_v3"),
+        a.behavior,
+    )
+    fig_scale(registry, os.path.join(a.out, "agent_scale_all.png"), only_tags=all_tags,
+              title="How large is each model?  (all models with behavioral data)")
     if a.scale_only:
         print("scale_only: done. Figures in", a.out); return
 
-    rows = read_csv(os.path.join(a.stats, "contrast_by_model.csv"))
     profiles = pooled_profiles(a.behavior, a.template)
 
     jobs = [

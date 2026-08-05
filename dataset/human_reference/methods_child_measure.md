@@ -41,6 +41,14 @@ The contrast rises monotonically with age (age-4 ≈ 0 → age-8 ≈ +0.63 → a
 i.e. children increasingly discount accidental harm and weight intent — the expected
 developmental signature.
 
+**Adult anchor caveat (do not omit in talk/deck/paper):** the +0.67 adult contrast is
+Young, Cushman, Hauser & Saxe (2007) Exp. 1 — a **reference-shape estimate from a
+different, smaller item set** (12 scenarios × 4 conditions), **not a per-item match**
+to the 298-item master corpus. Confirmed in `ADULT_ANCHOR_MATCH_AUDIT.md` (2026-08-03):
+the 10 literal YS2011 appendix vignettes in the master are intentional/accidental only
+and cannot anchor `attempted − accidental`. Matched adult norms on the exact master
+items remain the highest-value open human-data request.
+
 ## Caveats (state these explicitly)
 
 1. **Approximate reads.** Values are calibrated reads of a published figure (gridline
@@ -51,7 +59,8 @@ developmental signature.
    the act naughty (binary → 0–1); the adult anchor is a **mean rating** normalized to
    0–1. Both are directionally comparable on the intent-vs-outcome contrast, but the
    absolute magnitudes are not strictly on the same metric — treat the child bands as an
-   ordinal developmental ladder, not an exact numeric scale.
+   ordinal developmental ladder, not an exact numeric scale. The adult line additionally
+   comes from a **different item set** than the model corpus (see above).
 3. **Presentation order / U-shape.** Cushman reports both "first story" and "second
    story"; the accidental-harm series in particular is order-sensitive and the
    developmental curve for accidental judgments is non-monotonic ("U-shaped") in some

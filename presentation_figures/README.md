@@ -28,3 +28,18 @@ bash code/pack_presentation_figures.sh
 - Gemini-* = blue (`#4285f4`)
 - `agent_scale.png` = closed/agent roster only
 - `agent_scale_all.png` = every model with behavioral `item_means`
+
+## Adult / child human reference (say this out loud)
+
+Ladder/forest figures (Aug 6 talk refresh) draw **both** child measures:
+
+- **Solid** = digitized Naughty presented-first (primary): 4–5 +0.24, 6–7 +0.50, 8+ +0.63
+- **Dotted** = text-reported naughty+punishable (superseded): 4–5 −0.14, 6–7 +0.15, 8+ +0.46
+- **Adult** (+0.67, Young et al. 2007) is shared — a reference-shape estimate from a
+  different item set, not a per-item match (`dataset/human_reference/ADULT_ANCHOR_MATCH_AUDIT.md`).
+
+Talk-safe open ladder: `master_ladders/master_developmental_ladder_talksafe.png` (11 models).
+RSA slide: prefer `mechanistic/rsa_vs_behavior_scatter.png` (28 pairs, r=+0.098 null) —
+do **not** use `rsa_convergence_scatter.png` (different analysis).
+
+Regenerate: `python code/60_talk_figures_aug6.py`

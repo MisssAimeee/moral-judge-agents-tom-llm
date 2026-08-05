@@ -35,9 +35,13 @@ Use the SAME normalized 0–1 space the model uses (03_behavioral.py normalizes
 identically), so model and human profiles are directly comparable.
 
 ## Verification status (checked against the papers)
-- **Adults — VERIFIED, exact.** Young et al. 2007 Exp.1 (n=10), permissibility scale
-  1 (forbidden) – 4 (permissible): neutral 3.9, accidental (unknowing harm) 3.2,
-  attempted 1.2, intentional 1.1. These are the actual reported cell means.
+- **Adults — cell means verified; item match not confirmed.** Young et al. 2007 Exp.1
+  (n=10), permissibility scale 1 (forbidden) – 4 (permissible): neutral 3.9,
+  accidental (unknowing harm) 3.2, attempted 1.2, intentional 1.1. These are the
+  actual reported cell means. They are a **reference-shape estimate from a different,
+  smaller item set** (12 scenarios × 4 conditions in SI Text — SI not recovered here),
+  **not a per-item match** to the 298-item master corpus. See
+  `ADULT_ANCHOR_MATCH_AUDIT.md` (2026-08-03).
 - **Children — derived from Cushman 2013, partly interpolated.** Age-4 values are
   directly reported (accidental 59%, attempted 45% judged naughty/punishable). The
   6–7 and 8+ values are interpolated from the paper's reported shift magnitudes
@@ -54,8 +58,14 @@ positive = intent-weighted (adult-like), negative = outcome-weighted (young-chil
 adult +0.67, age 8+ +0.46, age 6–7 +0.15, age 4–5 −0.14.
 
 ## Caveats to keep honest
-- The papers use different scales (7-pt, 4-pt) and slightly different vignettes than
-  your exact 2008/2009 items. Treat human values as the *reference shape* of the
-  intent/outcome pattern, not a perfectly matched per-item ground truth.
-- For a per-item matched comparison you'd need the raw human ratings on YOUR exact
-  stimuli — that is the data to request from Amrita/Fernanda.
+- **Adult line (canonical wording):** The adult reference is Young, Cushman, Hauser
+  & Saxe (2007) Exp. 1 cell means (n=10; permissibility 1–4), normalized to 0–1
+  blame. It is a **reference-shape estimate from a different, smaller item set**,
+  **not a per-item match** to the master corpus. The corpus includes 10 literal
+  Young & Saxe (2011) Exp. 1 intentional/accidental vignettes, but that study did
+  **not** rate an attempted/no-harm cell on those texts, so it cannot anchor
+  `attempted − accidental`. Matched adult norms on the exact master items remain
+  the highest-value outstanding human-data request (Saxe-lab / author norming).
+- Child bands use different scales/measures than adults; the shared metric is the
+  contrast, not absolute cell height.
+- Full audit: `ADULT_ANCHOR_MATCH_AUDIT.md`.
